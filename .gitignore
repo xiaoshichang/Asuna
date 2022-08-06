@@ -2,16 +2,16 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
-/[Ll]ibrary/
-/[Tt]emp/
-/[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
-/[Ll]ogs/
-/[Mm]emoryCaptures/
+/AsunaUnityDemo/[Ll]ibrary/
+/AsunaUnityDemo/[Tt]emp/
+/AsunaUnityDemo/[Oo]bj/
+/AsunaUnityDemo/[Bb]uild/
+/AsunaUnityDemo/[Bb]uilds/
+/AsunaUnityDemo/[Ll]ogs/
+/AsunaUnityDemo/[Mm]emoryCaptures/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
-!/[Aa]ssets/**/*.meta
+!/AsunaUnityDemo/[Aa]ssets/**/*.meta
 
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # /[Aa]ssets/AssetStoreTools*
@@ -57,4 +57,8 @@ sysinfo.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
+
+/AsunaUnityDemo/.idea
+/AsunaUnityDemo/UserSettings/
+/AsunaTools/.idea
 
