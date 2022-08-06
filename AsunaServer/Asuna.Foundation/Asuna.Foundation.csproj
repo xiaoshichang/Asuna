@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="..\..\AsunaUnityDemo\Assets\Scripts\BothSide\Foundation\**\*.*" 
+                 Exclude="..\..\AsunaUnityDemo\Assets\Scripts\BothSide\Foundation\**\*.meta;..\..\AsunaUnityDemo\Assets\Scripts\BothSide\Foundation\**\*.asmref">
+            <Link>BothSide\%(RecursiveDir)%(Filename)%(Extension)</Link>
+        </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    </ItemGroup>
+
+</Project>
