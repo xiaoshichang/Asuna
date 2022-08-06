@@ -6,8 +6,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="..\..\AsunaUnityDemo\Assets\Scripts\BothSide\GamePlayCore\**\*.*" 
-                 Exclude="..\..\AsunaUnityDemo\Assets\Scripts\BothSide\GamePlayCore\**\*.meta;..\..\AsunaUnityDemo\Assets\Scripts\BothSide\GamePlayCore\**\*.asmref">
+        <Compile Include="..\..\AsunaUnityDemo\Assets\Scripts\GamePlayCore\BothSide\**\*.*" 
+                 Exclude="..\..\AsunaUnityDemo\Assets\Scripts\GamePlayCore\BothSide\**\*.meta">
             <Link>BothSide\%(RecursiveDir)%(Filename)%(Extension)</Link>
         </Compile>
     </ItemGroup>

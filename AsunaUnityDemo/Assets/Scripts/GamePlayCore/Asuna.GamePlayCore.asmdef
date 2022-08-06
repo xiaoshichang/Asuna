@@ -1,0 +1,16 @@
+{
+    "name": "Asuna.GamePlayCore",
+    "rootNamespace": "",
+    "references": [
+        "GUID:aeb545b874d89b147a7e892966b454b0"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

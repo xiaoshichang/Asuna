@@ -1,0 +1,17 @@
+{
+    "name": "Asuna.GamePlay",
+    "rootNamespace": "",
+    "references": [
+        "GUID:9fcc434973fe85e4da64fa78b0aa6df6",
+        "GUID:aeb545b874d89b147a7e892966b454b0"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
