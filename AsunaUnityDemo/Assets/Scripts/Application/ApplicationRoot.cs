@@ -26,27 +26,27 @@ namespace Asuna.Application
             Logger.Init();
         }
 
-        private void _InitNetwork()
+        private void _InitNetworkManager()
         {
-            NetworkMgr.Instance.Init();
+            NetworkMgr.Init();
         }
         
         void Awake()
         {
             _InitGMManager();
             _InitLogManager();
-            _InitNetwork();
+            _InitNetworkManager();
         }
         
         void Start()
         {
-            NetworkMgr.Instance.ConnectToServer("127.0.0.1", 40001, ConnectCallback);
-            NetworkMgr.Instance.OnReceiveMsg = OnReceivePackage;
+            NetworkMgr.ConnectToServer("127.0.0.1", 40001, ConnectCallback);
+            NetworkMgr.OnReceiveMsg = OnReceivePackage;
         }
 
         void Update()
         {
-            NetworkMgr.Instance.Update();
+            NetworkMgr.Tick();
             TimerMgr.Tick();
         }
         

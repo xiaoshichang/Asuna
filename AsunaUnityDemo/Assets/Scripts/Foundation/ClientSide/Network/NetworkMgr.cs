@@ -34,11 +34,9 @@ namespace Asuna.Foundation
         public Exception OnDisconnectByRemoteException;
     }
 
-    public class NetworkMgr
+    public static class NetworkMgr
     {
-        public static readonly NetworkMgr Instance = new NetworkMgr();
-
-        public void Init()
+        public static void Init()
         {
             _Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
             {
@@ -50,7 +48,7 @@ namespace Asuna.Foundation
             _SendThread = new Thread(Sending);
         }
 
-        public void ConnectToServer(string ip, int port, Action<Exception> callback)
+        public static void ConnectToServer(string ip, int port, Action<Exception> callback)
         {
             if (_State != NetState.Ready)
             {
@@ -78,7 +76,7 @@ namespace Asuna.Foundation
             }
         }
 
-        private void DisconnectByException(Exception exception)
+        private static void DisconnectByException(Exception exception)
         {
             NetworkEvent evt = new NetworkEvent()
             {
@@ -92,7 +90,7 @@ namespace Asuna.Foundation
             }
         }
 
-        private bool ReceiveHeader(out PackageHeader header)
+        private static bool ReceiveHeader(out PackageHeader header)
         {
             header = null;
             var headerBuffer = new byte[PackageHeader.MsgHeaderSize];
@@ -118,7 +116,7 @@ namespace Asuna.Foundation
             return true;
         }
 
-        private PackageJson ReceiveJson(int dataSize)
+        private static PackageJson ReceiveJson(int dataSize)
         {
             PackageJson package = new PackageJson()
             {
@@ -147,7 +145,7 @@ namespace Asuna.Foundation
             return package;
         }
 
-        private bool ReceiveBody(PackageHeader header, out PackageBase package)
+        private static bool ReceiveBody(PackageHeader header, out PackageBase package)
         {
             package = null;
             if (header.PackageType == PackageType.Json)
@@ -164,7 +162,7 @@ namespace Asuna.Foundation
             return true;
         }
 
-        private void Receiving()
+        private static void Receiving()
         {
                 
             while(true)
@@ -190,7 +188,7 @@ namespace Asuna.Foundation
             }
         }
 
-        public void Send(PackageBase package)
+        public static void Send(PackageBase package)
         {
             lock(_SendQueue)
             {
@@ -199,7 +197,7 @@ namespace Asuna.Foundation
             _SendEvent.Set();
         }
 
-        private void SendJson(PackageBase package)
+        private static void SendJson(PackageBase package)
         {
             // prepare
             var json = package as PackageJson;
@@ -222,7 +220,7 @@ namespace Asuna.Foundation
             }
         }
 
-        private void Sending()
+        private static void Sending()
         {
             while(true)
             {
@@ -251,23 +249,23 @@ namespace Asuna.Foundation
             }
         }
 
-        public void Update()
+        public static void Tick()
         {
             ProcessNetworkEvents();
         }
 
-        public void Disconnect()
+        public static void Disconnect()
         {
            _Socket.Close();
         }
 
 
-        private void ProcessRecvMsg(PackageBase package)
+        private static void ProcessRecvMsg(PackageBase package)
         {
             OnReceiveMsg?.Invoke(package);
         }
 
-        private void ProcessNetworkEvents()
+        private static void ProcessNetworkEvents()
         {
             while(true)
             {
@@ -300,7 +298,7 @@ namespace Asuna.Foundation
             }
         }
 
-        public void OnApplicationQuit()
+        public static void OnApplicationQuit()
         {
             _ReceiveThread.Abort();
             _SendThread.Abort();
@@ -308,15 +306,15 @@ namespace Asuna.Foundation
         }
 
 
-        private Action<Exception> _OnConnectCallback; 
-        private NetState _State;
-        private Socket _Socket;
-        private Thread _ReceiveThread;
-        private Thread _SendThread;
-        private readonly Queue<NetworkEvent> _Events = new Queue<NetworkEvent>();
-        private readonly Queue<PackageBase> _SendQueue = new Queue<PackageBase>();
-        private readonly ManualResetEvent _SendEvent = new ManualResetEvent(false);
-        public Action<PackageBase> OnReceiveMsg;
+        private static Action<Exception> _OnConnectCallback; 
+        private static NetState _State;
+        private static Socket _Socket;
+        private static Thread _ReceiveThread;
+        private static Thread _SendThread;
+        private static readonly Queue<NetworkEvent> _Events = new Queue<NetworkEvent>();
+        private static readonly Queue<PackageBase> _SendQueue = new Queue<PackageBase>();
+        private static readonly ManualResetEvent _SendEvent = new ManualResetEvent(false);
+        public static Action<PackageBase> OnReceiveMsg;
 
 
     }
