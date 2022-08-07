@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asuna.GamePlayCore", "Asuna
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asuna.Foundation", "Asuna.Foundation\Asuna.Foundation.csproj", "{54263C58-4C79-4182-8F68-DC109E3E798B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asuan.GamePlay", "Asuan.GamePlay\Asuan.GamePlay.csproj", "{5820BFDB-9CBC-46D9-AC36-49017CCFFE65}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asuna.GamePlay", "Asuna.GamePlay\Asuna.GamePlay.csproj", "{5820BFDB-9CBC-46D9-AC36-49017CCFFE65}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

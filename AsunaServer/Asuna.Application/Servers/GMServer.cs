@@ -24,16 +24,16 @@ namespace Asuna.Application
             }
         }
         
-        protected override void OnInternalConnectTo(NetworkEvent evt)
+        protected override void _OnInternalConnectTo(NetworkEvent evt)
         {
             var msg = new ControlMsgHandShakeReq(_ServerGroupConfig.GMServer.Name);
             evt.Session.StartReceiving();
             evt.Session.SendMsg(msg);
         }
         
-        protected override void OnControlMsgHandShakeRsp(TcpSession session, MsgBase msg)
+        protected override void _OnControlMsgHandShakeRsp(TcpSession session, MsgBase msg)
         {
-            base.OnControlMsgHandShakeRsp(session, msg);
+            base._OnControlMsgHandShakeRsp(session, msg);
             if (_ServerToSession.Count >= _ServerGroupConfig.GetServerGroupNodesCount() - 1)
             {
                 Logger.LogInfo("all nodes connected!");

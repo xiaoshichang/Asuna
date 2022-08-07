@@ -8,7 +8,7 @@
 
 
     <ItemGroup>
-      <ProjectReference Include="..\Asuan.GamePlay\Asuan.GamePlay.csproj" />
+      <ProjectReference Include="..\Asuna.GamePlay\Asuna.GamePlay.csproj" />
     </ItemGroup>
 
 </Project>

@@ -23,22 +23,22 @@ namespace Asuna.Application
         {
             Logger.LogInfo($"Server {_ServerConfig.Name} Init!");
             _InternalNetwork.Init(_ServerConfig.InternalIP, _ServerConfig.InternalPort);
-            _InternalNetwork.OnAcceptConnectionCallback = OnInternalAcceptConnection;
-            _InternalNetwork.OnDisconnectCallback = OnInternalDisconnect;
-            _InternalNetwork.OnReceivePackageCallback = OnInternalReceivePackage;
-            _InternalNetwork.OnConnectToCallback = OnInternalConnectTo;
+            _InternalNetwork.OnAcceptConnectionCallback = _OnInternalAcceptConnection;
+            _InternalNetwork.OnDisconnectCallback = _OnInternalDisconnect;
+            _InternalNetwork.OnReceivePackageCallback = _OnInternalReceivePackage;
+            _InternalNetwork.OnConnectToCallback = _OnInternalConnectTo;
         }
 
         public virtual void Uninit()
         {
         }
 
-        protected virtual void ProcessNetworkEvents()
+        protected virtual void _ProcessNetworkEvents()
         {
             _InternalNetwork.ProcessNetworkEvents();
         }
 
-        protected virtual void ProcessTimerEvents()
+        protected virtual void _ProcessTimerEvents()
         {
             TimerMgr.Tick();
         }
@@ -46,19 +46,19 @@ namespace Asuna.Application
         /// <summary>
         /// callback when a internal node accepted
         /// </summary>
-        protected virtual void OnInternalAcceptConnection(NetworkEvent evt)
+        protected virtual void _OnInternalAcceptConnection(NetworkEvent evt)
         {
         }
 
         /// <summary>
         /// callback when a internal node disconnected
         /// </summary>
-        protected virtual void OnInternalDisconnect(NetworkEvent evt)
+        protected virtual void _OnInternalDisconnect(NetworkEvent evt)
         {
             Logger.LogInfo($"OnInternalDisconnect {evt.Session}");
         }
 
-        protected virtual void OnControlMsgHandShakeReq(TcpSession session, MsgBase msg)
+        protected virtual void _OnControlMsgHandShakeReq(TcpSession session, MsgBase msg)
         {
             var req = msg as ControlMsgHandShakeReq;
             _ServerToSession[req.ServerName] = session;
@@ -68,22 +68,22 @@ namespace Asuna.Application
 
         }
 
-        protected virtual void OnControlMsgHandShakeRsp(TcpSession session, MsgBase msg)
+        protected virtual void _OnControlMsgHandShakeRsp(TcpSession session, MsgBase msg)
         {
             var rsp = msg as ControlMsgHandShakeRsp;
             _ServerToSession[rsp.ServerName] = session;
             Logger.LogInfo($"OnControlMsgHandShakeRsp {rsp.ServerName}");
         }
 
-        private (Type, MsgHandler) GetMsgClassTypeAndHandlerByMsgType(int msgType)
+        private (Type, MsgHandler) _GetMsgClassTypeAndHandlerByMsgType(int msgType)
         {
             if (msgType == (int) ControlMsgType.HandShakeReq)
             {
-                return (typeof(ControlMsgHandShakeReq), OnControlMsgHandShakeReq);
+                return (typeof(ControlMsgHandShakeReq), _OnControlMsgHandShakeReq);
             }
             else if (msgType == (int) ControlMsgType.HandShakeRsp)
             {
-                return (typeof(ControlMsgHandShakeRsp), OnControlMsgHandShakeRsp);
+                return (typeof(ControlMsgHandShakeRsp), _OnControlMsgHandShakeRsp);
             }
             else
             {
@@ -93,10 +93,10 @@ namespace Asuna.Application
         
         private 
 
-        protected virtual void ProcessPackageJson(TcpSession session, PackageJson package)
+        protected virtual void _ProcessPackageJson(TcpSession session, PackageJson package)
         {
             var msgType = package.GetMsgType();
-            var (classType, handler) = GetMsgClassTypeAndHandlerByMsgType(msgType);
+            var (classType, handler) = _GetMsgClassTypeAndHandlerByMsgType(msgType);
             var msg = package.GetMsg(classType);
             if (msg == null)
             {
@@ -109,11 +109,11 @@ namespace Asuna.Application
         /// <summary>
         /// callback when receive a network package from internal network
         /// </summary>
-        protected virtual void OnInternalReceivePackage(NetworkEvent evt)
+        protected virtual void _OnInternalReceivePackage(NetworkEvent evt)
         {
             if (evt.ReceivedPackage.Header.PackageType == PackageType.Json)
             {
-                ProcessPackageJson(evt.Session, evt.ReceivedPackage as PackageJson);
+                _ProcessPackageJson(evt.Session, evt.ReceivedPackage as PackageJson);
             }
             else
             {
@@ -124,7 +124,7 @@ namespace Asuna.Application
         /// <summary>
         /// callback when connect to a internal node
         /// </summary>
-        protected virtual void OnInternalConnectTo(NetworkEvent evt)
+        protected virtual void _OnInternalConnectTo(NetworkEvent evt)
         {
             Logger.LogInfo($"OnInternalConnectTo session id:{evt.Session}");
         }
@@ -135,8 +135,8 @@ namespace Asuna.Application
             _InternalNetwork.StartListen();
             while (!_QuitFlag)
             {
-                ProcessNetworkEvents();
-                ProcessTimerEvents();
+                _ProcessNetworkEvents();
+                _ProcessTimerEvents();
                 _InternalNetwork.LoopEvent.Reset();
                 _InternalNetwork.LoopEvent.WaitOne(10);
             }
