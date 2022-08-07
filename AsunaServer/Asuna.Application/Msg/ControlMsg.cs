@@ -8,6 +8,8 @@ namespace Asuna.Application
     {
         HandShakeReq = 1,
         HandShakeRsp,
+        ConnectGamesNotify,
+        GamesConnectedNotify,
     }
 
     [DataContract]
@@ -42,6 +44,22 @@ namespace Asuna.Application
         
         [DataMember]
         public string ServerName;
+    }
+
+    [DataContract]
+    public class ControlMsgConnectGamesNotify : ControlMsg
+    {
+        public ControlMsgConnectGamesNotify() : base(ControlMsgType.ConnectGamesNotify)
+        {
+        }
+    }
+
+    [DataContract]
+    public class ControlMsgGamesConnectedNotify : ControlMsg
+    {
+        public ControlMsgGamesConnectedNotify() : base(ControlMsgType.GamesConnectedNotify)
+        {
+        }
     }
     
     

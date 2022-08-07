@@ -23,25 +23,47 @@ namespace Asuna.Application
                 _InternalNetwork.ConnectTo(config.InternalIP, config.InternalPort);
             }
         }
-        
-        protected override void _OnInternalConnectTo(NetworkEvent evt)
+
+        private void _NotifyDBConnectGames()
         {
-            var msg = new ControlMsgHandShakeReq(_ServerGroupConfig.GMServer.Name);
-            evt.Session.StartReceiving();
-            evt.Session.SendMsg(msg);
+            var session = _ServerToSession[_ServerGroupConfig.DBServer.Name];
+            var msg = new ControlMsgConnectGamesNotify();
+            session.SendMsg(msg);
+        }
+        
+        private void _NotifyGatesConnectGames()
+        {
+            var gates = _ServerGroupConfig.GateServers;
+            var msg = new ControlMsgConnectGamesNotify();
+            foreach (var gate in gates)
+            {
+                var session = _ServerToSession[gate.Name];
+                session.SendMsg(msg);
+            }
         }
         
         protected override void _OnControlMsgHandShakeRsp(TcpSession session, MsgBase msg)
         {
             base._OnControlMsgHandShakeRsp(session, msg);
-            if (_ServerToSession.Count >= _ServerGroupConfig.GetServerGroupNodesCount() - 1)
+            if (_ServerToSession.Count == _ServerGroupConfig.GetServerGroupNodesCount() - 1)
             {
                 Logger.LogInfo("all nodes connected!");
-                
+                _NotifyDBConnectGames();
+                _NotifyGatesConnectGames();
             }
         }
         
+        protected override void _OnControlMsgGamesConnectedNotify(TcpSession session, MsgBase msg)
+        {
+            _ReadyGateAndDBCount += 1;
+            if (_ReadyGateAndDBCount == _ServerGroupConfig.GateServers.Count + 1)
+            {
+                Logger.LogInfo("all gate and db servers ready");
+            }
+        }
 
+        
+        private int _ReadyGateAndDBCount;
     }
 }
 

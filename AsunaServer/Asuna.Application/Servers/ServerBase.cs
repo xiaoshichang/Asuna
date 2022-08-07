@@ -75,23 +75,36 @@ namespace Asuna.Application
             Logger.LogInfo($"OnControlMsgHandShakeRsp {rsp.ServerName}");
         }
 
-        private (Type, MsgHandler) _GetMsgClassTypeAndHandlerByMsgType(int msgType)
+        protected virtual void _OnControlMsgConnectGamesNotify(TcpSession session, MsgBase msg)
         {
-            if (msgType == (int) ControlMsgType.HandShakeReq)
+            var games = _ServerGroupConfig.GameServers;
+            foreach (var game in games)
             {
-                return (typeof(ControlMsgHandShakeReq), _OnControlMsgHandShakeReq);
-            }
-            else if (msgType == (int) ControlMsgType.HandShakeRsp)
-            {
-                return (typeof(ControlMsgHandShakeRsp), _OnControlMsgHandShakeRsp);
-            }
-            else
-            {
-                throw new NotImplementedException();
+                _InternalNetwork.ConnectTo(game.InternalIP, game.InternalPort);
             }
         }
+
+        protected virtual void _OnControlMsgGamesConnectedNotify(TcpSession session, MsgBase msg)
+        {
+            throw new NotImplementedException();
+        }
         
-        private 
+        protected (Type, MsgHandler) _GetMsgClassTypeAndHandlerByMsgType(int msgType)
+        {
+            switch (msgType)
+            {
+                case (int) ControlMsgType.HandShakeReq:
+                    return (typeof(ControlMsgHandShakeReq), _OnControlMsgHandShakeReq);
+                case (int) ControlMsgType.HandShakeRsp:
+                    return (typeof(ControlMsgHandShakeRsp), _OnControlMsgHandShakeRsp);
+                case (int) ControlMsgType.ConnectGamesNotify:
+                    return (typeof(ControlMsgConnectGamesNotify), _OnControlMsgConnectGamesNotify);
+                case (int) ControlMsgType.GamesConnectedNotify:
+                    return (typeof(ControlMsgGamesConnectedNotify), _OnControlMsgGamesConnectedNotify);
+                default:
+                    throw new NotImplementedException("unsupported message type!");
+            }
+        }
 
         protected virtual void _ProcessPackageJson(TcpSession session, PackageJson package)
         {
@@ -126,7 +139,8 @@ namespace Asuna.Application
         /// </summary>
         protected virtual void _OnInternalConnectTo(NetworkEvent evt)
         {
-            Logger.LogInfo($"OnInternalConnectTo session id:{evt.Session}");
+            evt.Session.StartReceiving();
+            evt.Session.SendMsg(new ControlMsgHandShakeReq(_ServerConfig.Name));
         }
 
 

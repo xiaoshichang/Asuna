@@ -51,13 +51,17 @@ def start_server_group(args):
     server_group_config = json.load(open(args.config))
     if os.name == "nt":
         run_server_process_nt(args, "GMServer")
+        time.sleep(0.1)
         run_server_process_nt(args, "DBServer")
+        time.sleep(0.1)
         game_server_configs = server_group_config.get("GameServers", [])
         for i, config in enumerate(game_server_configs):
             run_server_process_nt(args, "GameServer%d" % (i + 1))
+            time.sleep(0.1)
         gate_server_configs = server_group_config.get("GateServers", [])
         for i, config in enumerate(gate_server_configs):
             run_server_process_nt(args, "GateServer%d" % (i + 1))
+            time.sleep(0.1)
 
         # sleep a small interval, or we can not find these windows use above api
         time.sleep(1)
