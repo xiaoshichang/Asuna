@@ -6,14 +6,20 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="..\..\AsunaUnityDemo\Assets\Scripts\GamePlayCore\BothSide\**\*.*" 
-                 Exclude="..\..\AsunaUnityDemo\Assets\Scripts\GamePlayCore\BothSide\**\*.meta">
+        <Compile Include="..\..\AsunaUnityDemo\Assets\Scripts\GamePlayCore\BothSide\**\*.*" Exclude="..\..\AsunaUnityDemo\Assets\Scripts\GamePlayCore\BothSide\**\*.meta">
             <Link>BothSide\%(RecursiveDir)%(Filename)%(Extension)</Link>
         </Compile>
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Asuna.Foundation\Asuna.Foundation.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="..\..\AsunaUnityDemo\Assets\Scripts\GamePlayCore\BothSide">
+        <Link>BothSide</Link>
+      </Folder>
+      <Folder Include="ServerSide" />
     </ItemGroup>
     
 

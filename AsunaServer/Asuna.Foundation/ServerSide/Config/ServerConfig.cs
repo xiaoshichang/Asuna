@@ -3,7 +3,7 @@ using System.IO;
 using System.Text.Json;
 #pragma warning disable CS8618
 
-namespace Asuna.Application
+namespace Asuna.Foundation
 {
     public class CommonConfig
     {

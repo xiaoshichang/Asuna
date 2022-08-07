@@ -4,7 +4,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace Asuna.Application
 {
-    public class GMServer : ServerBase
+    public sealed class GMServer : ServerBase
     {
         public GMServer(ServerGroupConfig groupConfig, GMServerConfig serverConfig) : base(groupConfig, serverConfig)
         {
@@ -47,9 +47,25 @@ namespace Asuna.Application
             base._OnControlMsgHandShakeRsp(session, msg);
             if (_ServerToSession.Count == _ServerGroupConfig.GetServerGroupNodesCount() - 1)
             {
-                Logger.LogInfo("all nodes connected!");
+                Logger.LogInfo("all nodes connected");
                 _NotifyDBConnectGames();
                 _NotifyGatesConnectGames();
+            }
+        }
+
+        private void _StartupAllStubs()
+        {
+            var assemblyList = new List<string>()
+            {
+                "Asuna.GamePlay"
+            };
+            var table = ServerStubDistributeTable.Collect(assemblyList, _ServerGroupConfig.GameServers);
+            _StubCount = table.Items.Count;
+            var msg = new ControlMsgStartupStubsNotify(table);
+            foreach (var game in _ServerGroupConfig.GameServers)
+            {
+                var session = _ServerToSession[game.Name];
+                session.SendMsg(msg);
             }
         }
         
@@ -59,11 +75,25 @@ namespace Asuna.Application
             if (_ReadyGateAndDBCount == _ServerGroupConfig.GateServers.Count + 1)
             {
                 Logger.LogInfo("all gate and db servers ready");
+                _StartupAllStubs();
+            }
+        }
+        
+        protected override void _OnControlMsgStubReady(TcpSession session, MsgBase msg)
+        {
+            base._OnControlMsgStubReady(session, msg);
+            _ReadyStubCount += 1;
+            if (_ReadyStubCount == _StubCount)
+            {
+                Logger.LogInfo("all stubs are ready");
             }
         }
 
         
         private int _ReadyGateAndDBCount;
+        private int _StubCount;
+        private int _ReadyStubCount;
+
     }
 }
 

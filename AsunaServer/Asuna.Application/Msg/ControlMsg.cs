@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Asuna.Foundation;
 
 namespace Asuna.Application
@@ -10,6 +11,8 @@ namespace Asuna.Application
         HandShakeRsp,
         ConnectGamesNotify,
         GamesConnectedNotify,
+        StartupStubsNotify,
+        StubReadyNotify,
     }
 
     [DataContract]
@@ -60,6 +63,41 @@ namespace Asuna.Application
         public ControlMsgGamesConnectedNotify() : base(ControlMsgType.GamesConnectedNotify)
         {
         }
+    }
+
+    [DataContract]
+    public class ControlMsgStartupStubsNotify : ControlMsg
+    {
+        public ControlMsgStartupStubsNotify() : base(ControlMsgType.StartupStubsNotify)
+        {
+        }
+        
+        public ControlMsgStartupStubsNotify(ServerStubDistributeTable table) : base(ControlMsgType.StartupStubsNotify)
+        {
+            foreach (var (key, value) in table.Items)
+            {
+                if (key.AssemblyQualifiedName == null)
+                {
+                    Logger.LogError($"AssemblyQualifiedName of {key.Name} is null");
+                    continue;
+                }
+                Items.Add(new KeyValuePair<string, string>(key.AssemblyQualifiedName, value.Name));
+            }
+        }
+
+        [DataMember]
+        public List<KeyValuePair<string, string>> Items = new();
+    }
+
+    [DataContract]
+    public class ControlMsgStubReadyNotify : ControlMsg
+    {
+        public ControlMsgStubReadyNotify(string stubName) : base(ControlMsgType.StubReadyNotify)
+        {
+            StubName = stubName;
+        }
+        [DataMember] 
+        public string StubName;
     }
     
     

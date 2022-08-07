@@ -1,4 +1,4 @@
-﻿
+﻿using Asuna.Foundation;
 
 namespace Asuna.GamePlayCore
 {

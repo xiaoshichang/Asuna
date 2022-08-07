@@ -88,6 +88,27 @@ namespace Asuna.Application
         {
             throw new NotImplementedException();
         }
+
+        protected virtual void _OnControlMsgStartupStubs(TcpSession session, MsgBase msg)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected virtual void _OnControlMsgStubReady(TcpSession session, MsgBase msg)
+        {
+            var notify = msg as ControlMsgStubReadyNotify;
+            if (notify == null)
+            {
+                Logger.LogError("_OnControlMsgStubReady unknown error");
+                return;
+            }
+            if (_StubToSession.ContainsKey(notify.StubName))
+            {
+                Logger.LogError("_OnControlMsgStubReady duplicated stub register");
+                return;
+            }
+            _StubToSession[notify.StubName] = session;
+        }
         
         protected (Type, MsgHandler) _GetMsgClassTypeAndHandlerByMsgType(int msgType)
         {
@@ -101,6 +122,10 @@ namespace Asuna.Application
                     return (typeof(ControlMsgConnectGamesNotify), _OnControlMsgConnectGamesNotify);
                 case (int) ControlMsgType.GamesConnectedNotify:
                     return (typeof(ControlMsgGamesConnectedNotify), _OnControlMsgGamesConnectedNotify);
+                case (int) ControlMsgType.StartupStubsNotify:
+                    return (typeof(ControlMsgStartupStubsNotify), _OnControlMsgStartupStubs);
+                case (int) ControlMsgType.StubReadyNotify:
+                    return (typeof(ControlMsgStubReadyNotify), _OnControlMsgStubReady);
                 default:
                     throw new NotImplementedException("unsupported message type!");
             }
@@ -161,6 +186,7 @@ namespace Asuna.Application
         protected readonly ServerConfigBase _ServerConfig;
         protected readonly NetworkMgrBase _InternalNetwork = new NetworkMgrTcp();
         protected readonly Dictionary<string, TcpSession> _ServerToSession = new();
+        protected readonly Dictionary<string, TcpSession> _StubToSession = new();
 
     }
 }
