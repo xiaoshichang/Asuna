@@ -85,6 +85,9 @@ namespace Asuna.Application
             }
         }
 
+        /// <summary>
+        /// stub AssemblyQualifiedName - serverName pair
+        /// </summary>
         [DataMember]
         public List<KeyValuePair<string, string>> Items = new();
     }

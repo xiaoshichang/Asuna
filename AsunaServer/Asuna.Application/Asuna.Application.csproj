@@ -6,6 +6,14 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <DefineConstants> AsunaSide_Server </DefineConstants>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <DefineConstants> AsunaSide_Server </DefineConstants>
+    </PropertyGroup>
+
 
     <ItemGroup>
       <ProjectReference Include="..\Asuna.GamePlay\Asuna.GamePlay.csproj" />
