@@ -41,6 +41,7 @@ def run_server_process_nt(args, name):
     env = os.environ.copy()
     env["ConfigPath"] = args.config
     env["ServerName"] = name
+    print(cmd)
     p = subprocess.Popen(cmd, creationflags=flag, env=env)
     all_pid.append(p.pid)
 
@@ -72,6 +73,7 @@ def start_server_group(args):
 
 
 def stop_server_group_windows(args):
+    print(serverExecutable)
     os.system("taskkill /f /im  " + serverExecutable)
 
 

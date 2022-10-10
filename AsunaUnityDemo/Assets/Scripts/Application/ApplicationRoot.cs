@@ -14,8 +14,7 @@ namespace Asuna.Application
             var assemblyList = new List<string>()
             {
                 "Asuna.GamePlay",
-                "Asuna.GamePlayCore",
-                "Asuna.UI"
+                "Asuna.GamePlay.UI"
             };
             GMManager.Init(assemblyList);
             gameObject.AddComponent<GMTerminal>();

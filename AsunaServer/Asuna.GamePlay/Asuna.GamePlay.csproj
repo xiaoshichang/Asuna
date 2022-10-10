@@ -14,7 +14,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Asuna.GamePlayCore\Asuna.GamePlayCore.csproj" />
       <ProjectReference Include="..\Asuna.Foundation\Asuna.Foundation.csproj" />
     </ItemGroup>
 
