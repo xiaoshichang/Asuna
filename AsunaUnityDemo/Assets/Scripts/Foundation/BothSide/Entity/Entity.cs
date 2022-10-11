@@ -5,7 +5,7 @@
         protected Entity()
         {
 #if AsunaSide_Client
-            Logger.Error("Client entity");
+            ALogger.Error("Client entity");
 #endif
             
 #if AsunaSide_Server

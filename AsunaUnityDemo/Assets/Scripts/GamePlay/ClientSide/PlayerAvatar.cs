@@ -1,6 +1,6 @@
 ﻿using Asuna.Foundation;
 
-namespace Asuna.GamePlayCore
+namespace Asuna.GamePlay
 {
     public class PlayerAvatar : Entity
     {

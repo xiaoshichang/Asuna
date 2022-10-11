@@ -3,13 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using Asuna.Foundation;
 using UnityEngine;
-using Logger = Asuna.Foundation.Logger;
 
 namespace Asuna.Application
 {
     public class ApplicationRoot : MonoBehaviour
     {
-        private void _InitGMManager()
+        private IEnumerator _InitGMManagerCo()
         {
             var assemblyList = new List<string>()
             {
@@ -18,29 +17,47 @@ namespace Asuna.Application
             };
             GMManager.Init(assemblyList);
             gameObject.AddComponent<GMTerminal>();
+            yield return null;
         }
 
-        private void _InitLogManager()
+        private IEnumerator _InitLogManagerCo()
         {
-            Logger.Init();
+            ALogger.Init();
+            yield return null;
         }
 
-        private void _InitNetworkManager()
+        private IEnumerator _InitUIManagerCo()
+        {
+            UIManager.Init();
+            yield return null;
+        }
+
+        private IEnumerator _InitNetworkManagerCo()
         {
             NetworkMgr.Init();
+            yield return null;
+        }
+
+        private IEnumerator _EnterGameCo()
+        {
+            NetworkMgr.ConnectToServer("127.0.0.1", 40001, ConnectCallback);
+            NetworkMgr.OnReceiveMsg = OnReceivePackage;
+            yield return null;
+        }
+
+        private IEnumerator _ApplicationStartupCo()
+        {
+            yield return _InitLogManagerCo();
+            yield return _InitUIManagerCo();
+            yield return _InitNetworkManagerCo();
+            yield return _InitGMManagerCo();
+            yield return _EnterGameCo();
         }
         
         void Awake()
         {
-            _InitGMManager();
-            _InitLogManager();
-            _InitNetworkManager();
-        }
-        
-        void Start()
-        {
-            NetworkMgr.ConnectToServer("127.0.0.1", 40001, ConnectCallback);
-            NetworkMgr.OnReceiveMsg = OnReceivePackage;
+            DontDestroyOnLoad(gameObject);
+            StartCoroutine(_ApplicationStartupCo());
         }
 
         void Update()
@@ -48,7 +65,12 @@ namespace Asuna.Application
             NetworkMgr.Tick();
             TimerMgr.Tick();
         }
-        
+
+        private void OnDestroy()
+        {
+            UIManager.Release();
+        }
+
         private void ConnectCallback(Exception e)
         {
             if (e != null)

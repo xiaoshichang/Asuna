@@ -15,7 +15,7 @@ namespace Asuna.Foundation
         {
             if (_AllGMCommands.ContainsKey(method.Name))
             {
-                Logger.Error($"duplicated gm name {method.Name}");
+                ALogger.Error($"duplicated gm name {method.Name}");
                 return;
             }
 
@@ -80,7 +80,7 @@ namespace Asuna.Foundation
             }
             catch (Exception e)
             {
-                Logger.Error($"{e.Message}! Content:{item}), Type:{t.Name}");
+                ALogger.Error($"{e.Message}! Content:{item}), Type:{t.Name}");
             }
             return null;
         }
@@ -99,7 +99,7 @@ namespace Asuna.Foundation
                 }
             }
             sb.Append("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
-            Logger.Info(sb.ToString());
+            ALogger.Info(sb.ToString());
         }
         
         /// <summary>
@@ -122,13 +122,13 @@ namespace Asuna.Foundation
             var items = input.Split();
             if (items.Length <= 0)
             {
-                Logger.Error("gm input invalid!");
+                ALogger.Error("gm input invalid!");
                 return false;
             }
             var cmdName = items[0];
             if (!_AllGMCommands.TryGetValue(cmdName, out var cmd))
             {
-                Logger.Error($"command [{cmdName}] not found!");
+                ALogger.Error($"command [{cmdName}] not found!");
                 _PrintCandidates(cmdName);
                 return false;
             }
@@ -137,7 +137,7 @@ namespace Asuna.Foundation
             var count = infos.Length;
             if (count != items.Length - 1)
             {
-                Logger.Error("gm parameter count not match!");
+                ALogger.Error("gm parameter count not match!");
                 return false;
             }
 
@@ -161,7 +161,7 @@ namespace Asuna.Foundation
             }
             catch (Exception e)
             {
-                Logger.Error(e.Message);
+                ALogger.Error(e.Message);
                 return false;
             }
         }

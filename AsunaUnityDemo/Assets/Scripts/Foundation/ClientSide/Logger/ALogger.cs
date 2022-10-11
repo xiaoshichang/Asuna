@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Asuna.Foundation
 {
-    public static class Logger
+    public static class ALogger
     {
         private static string _RecordFormat = "[{0}][{1}] - {2}";
 
