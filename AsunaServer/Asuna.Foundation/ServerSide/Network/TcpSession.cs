@@ -57,7 +57,7 @@ namespace Asuna.Foundation
             }
             catch (Exception e)
             {
-                Logger.LogError($"OnReceiveHeader Exception {e.Message}");
+                ALogger.LogError($"OnReceiveHeader Exception {e.Message}");
                 DisconnectFromSession(DisconnectReason.UnknownError);
             }
         }
@@ -110,7 +110,7 @@ namespace Asuna.Foundation
             }
             catch (Exception e)
             {
-                Logger.LogError($"OnReceiveJsonMsg Exception {e.Message}");
+                ALogger.LogError($"OnReceiveJsonMsg Exception {e.Message}");
                 DisconnectFromSession(DisconnectReason.UnknownError);
             }
         }

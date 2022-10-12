@@ -6,7 +6,7 @@ using Asuna.Foundation;
 #pragma warning disable CS8602
 
 
-namespace Asuna.Application
+namespace Asuna.Foundation
 {
     public delegate void MsgHandler(TcpSession session, MsgBase msg);
     
@@ -18,15 +18,27 @@ namespace Asuna.Application
             _ServerGroupConfig = groupConfig;
             _ServerConfig = serverConfig;
         }
-        
-        public virtual void Init()
+
+
+        private void _InitNetworkCallback()
         {
-            Logger.LogInfo($"Server {_ServerConfig.Name} Init!");
             _InternalNetwork.Init(_ServerConfig.InternalIP, _ServerConfig.InternalPort);
             _InternalNetwork.OnAcceptConnectionCallback = _OnInternalAcceptConnection;
             _InternalNetwork.OnDisconnectCallback = _OnInternalDisconnect;
             _InternalNetwork.OnReceivePackageCallback = _OnInternalReceivePackage;
             _InternalNetwork.OnConnectToCallback = _OnInternalConnectTo;
+        }
+
+        private void _InitRpc()
+        {
+            RpcRegister.CollectRpc();
+        }
+        
+        public virtual void Init()
+        {
+            ALogger.LogInfo($"Server {_ServerConfig.Name} Init!");
+            _InitRpc();
+            _InitNetworkCallback();
         }
 
         public virtual void Uninit()
@@ -55,7 +67,7 @@ namespace Asuna.Application
         /// </summary>
         protected virtual void _OnInternalDisconnect(NetworkEvent evt)
         {
-            Logger.LogInfo($"OnInternalDisconnect {evt.Session}");
+            ALogger.LogInfo($"OnInternalDisconnect {evt.Session}");
         }
 
         protected virtual void _OnControlMsgHandShakeReq(TcpSession session, MsgBase msg)
@@ -64,7 +76,7 @@ namespace Asuna.Application
             _ServerToSession[req.ServerName] = session;
             var rsp = new ControlMsgHandShakeRsp(_ServerConfig.Name);
             session.SendMsg(rsp);
-            Logger.LogInfo($"OnControlMsgHandShakeReq {req.ServerName}");
+            ALogger.LogInfo($"OnControlMsgHandShakeReq {req.ServerName}");
 
         }
 
@@ -72,7 +84,7 @@ namespace Asuna.Application
         {
             var rsp = msg as ControlMsgHandShakeRsp;
             _ServerToSession[rsp.ServerName] = session;
-            Logger.LogInfo($"OnControlMsgHandShakeRsp {rsp.ServerName}");
+            ALogger.LogInfo($"OnControlMsgHandShakeRsp {rsp.ServerName}");
         }
 
         protected virtual void _OnControlMsgConnectGamesNotify(TcpSession session, MsgBase msg)
@@ -99,12 +111,12 @@ namespace Asuna.Application
             var notify = msg as ControlMsgStubReadyNotify;
             if (notify == null)
             {
-                Logger.LogError("_OnControlMsgStubReady unknown error");
+                ALogger.LogError("_OnControlMsgStubReady unknown error");
                 return;
             }
             if (_StubToSession.ContainsKey(notify.StubName))
             {
-                Logger.LogError("_OnControlMsgStubReady duplicated stub register");
+                ALogger.LogError("_OnControlMsgStubReady duplicated stub register");
                 return;
             }
             _StubToSession[notify.StubName] = session;
@@ -138,7 +150,7 @@ namespace Asuna.Application
             var msg = package.GetMsg(classType);
             if (msg == null)
             {
-                Logger.LogWarning("message is null");
+                ALogger.LogWarning("message is null");
                 return;
             }
             handler(session, msg);

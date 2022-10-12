@@ -14,7 +14,7 @@ namespace Asuna.Application
                 FileLogDir = groupConfig.Common.LogPath,
                 FileLogName = serverName
             };
-            Logger.InitLogger(config);
+            ALogger.InitLogger(config);
         }
         
         private static ServerBase CreateServerByServerConfig(ServerGroupConfig groupConfig, ServerConfigBase serverConfig)

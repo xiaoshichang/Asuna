@@ -9,7 +9,7 @@
 #endif
             
 #if AsunaSide_Server
-            Logger.LogError("Server entity");
+            ALogger.LogError("Server entity");
 #endif
         }
     }

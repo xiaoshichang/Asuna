@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using Asuna.Foundation;
 
-namespace Asuna.Application
+namespace Asuna.Foundation
 {
     
     public enum ControlMsgType
@@ -78,7 +78,7 @@ namespace Asuna.Application
             {
                 if (key.AssemblyQualifiedName == null)
                 {
-                    Logger.LogError($"AssemblyQualifiedName of {key.Name} is null");
+                    ALogger.LogError($"AssemblyQualifiedName of {key.Name} is null");
                     continue;
                 }
                 Items.Add(new KeyValuePair<string, string>(key.AssemblyQualifiedName, value.Name));

@@ -20,14 +20,14 @@ namespace Asuna.Foundation
             }
             catch (Exception e)
             {
-                Logger.LogError($"Parse IP Address fail: {e.Message}!");
+                ALogger.LogError($"Parse IP Address fail: {e.Message}!");
                 throw;
             }
         }
 
         public override void StartListen()
         {
-            Logger.LogInfo($"Start listening at {_ListenEndPoint}...");
+            ALogger.LogInfo($"Start listening at {_ListenEndPoint}...");
             _ListenSocket.Bind(_ListenEndPoint);
             _ListenSocket.Listen(10);
             _ListenSocket.BeginAccept(OnAsyncAccept, null);
@@ -38,7 +38,7 @@ namespace Asuna.Foundation
         /// </summary>
         public override void ConnectTo(string ip, int port)
         {
-            Logger.LogInfo($"ConnectTo {ip}:{port}");
+            ALogger.LogInfo($"ConnectTo {ip}:{port}");
             var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             IPEndPoint lep = new IPEndPoint(IPAddress.Parse(ip), port);
             socket.BeginConnect(lep, OnAsyncConnectTo, socket);
@@ -97,7 +97,7 @@ namespace Asuna.Foundation
         /// </summary>
         private void OnAcceptConnection(NetworkEvent evt)
         {
-            Logger.LogInfo($"accept new connection {evt.AcceptSocket.RemoteEndPoint}");
+            ALogger.LogInfo($"accept new connection {evt.AcceptSocket.RemoteEndPoint}");
             var session = new TcpSession(evt.AcceptSocket, AddEvent);
             _AllSessions.Add(session);
             OnAcceptConnectionCallback?.Invoke(evt);
@@ -166,7 +166,7 @@ namespace Asuna.Foundation
                     }
                     catch (Exception e)
                     {
-                        Logger.LogError($"Exception when ProcessNetworkEvents {e.StackTrace}");
+                        ALogger.LogError($"Exception when ProcessNetworkEvents {e.StackTrace}");
                     }
                     
                 }

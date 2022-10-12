@@ -25,8 +25,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="..\..\AsunaUnityDemo\Assets\Scripts\Gameplay\BothSide\Msg">
-        <Link>BothSide\Msg</Link>
+      <Folder Include="..\..\AsunaUnityDemo\Assets\Scripts\Gameplay\BothSide">
+        <Link>BothSide</Link>
       </Folder>
     </ItemGroup>
 

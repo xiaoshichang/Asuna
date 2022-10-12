@@ -2,7 +2,7 @@
 using Asuna.Foundation;
 using Newtonsoft.Json.Serialization;
 
-namespace Asuna.Application
+namespace Asuna.Foundation
 {
     public sealed class GMServer : ServerBase
     {
@@ -47,7 +47,7 @@ namespace Asuna.Application
             base._OnControlMsgHandShakeRsp(session, msg);
             if (_ServerToSession.Count == _ServerGroupConfig.GetServerGroupNodesCount() - 1)
             {
-                Logger.LogInfo("all nodes connected");
+                ALogger.LogInfo("all nodes connected");
                 _NotifyDBConnectGames();
                 _NotifyGatesConnectGames();
             }
@@ -74,7 +74,7 @@ namespace Asuna.Application
             _ReadyGateAndDBCount += 1;
             if (_ReadyGateAndDBCount == _ServerGroupConfig.GateServers.Count + 1)
             {
-                Logger.LogInfo("all gate and db servers ready");
+                ALogger.LogInfo("all gate and db servers ready");
                 _StartupAllStubs();
             }
         }
@@ -85,7 +85,7 @@ namespace Asuna.Application
             _ReadyStubCount += 1;
             if (_ReadyStubCount == _StubCount)
             {
-                Logger.LogInfo("all stubs are ready");
+                ALogger.LogInfo("all stubs are ready");
             }
         }
 

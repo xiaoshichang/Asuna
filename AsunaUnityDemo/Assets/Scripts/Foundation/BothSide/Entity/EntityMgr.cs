@@ -1,10 +1,9 @@
 
 using System;
 using System.Collections.Generic;
-using Asuna.Foundation;
 
 
-namespace Asuna.GamePlay
+namespace Asuna.Foundation
 {
     public static class EntityMgr
     {

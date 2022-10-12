@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Data.Common;
-using Asuna.Foundation;
-using Asuna.GamePlay;
 
 #pragma warning disable CS8602
 
-namespace Asuna.Application
+namespace Asuna.Foundation
 {
     public sealed class GameServer : ServerBase
     {
@@ -17,7 +14,7 @@ namespace Asuna.Application
         protected override void _OnControlMsgStartupStubs(TcpSession session, MsgBase msg)
         {
             var notify = msg as ControlMsgStartupStubsNotify;
-            Logger.LogInfo($"_OnControlMsgStartupStubs stubs count:{notify.Items.Count}");
+            ALogger.LogInfo($"_OnControlMsgStartupStubs stubs count:{notify.Items.Count}");
             foreach (var (key, value) in notify.Items)
             {
                 if (value != _ServerConfig.Name)
@@ -27,12 +24,13 @@ namespace Asuna.Application
                 var stubType = Type.GetType(key);
                 if (stubType == null)
                 {
-                    Logger.LogError("unknown type error!");
+                    ALogger.LogError("unknown type error!");
                     return;
                 }
                 var stub = EntityMgr.Create(stubType) as ServerStubEntity;
                 stub.Init(_OnStubReady);
             }
+            ServerStubCaller.Register(notify.Items);
         }
 
         private void _OnStubReady(string stubName)

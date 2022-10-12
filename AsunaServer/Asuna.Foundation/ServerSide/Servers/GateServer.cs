@@ -1,7 +1,7 @@
 ﻿
 using Asuna.Foundation;
 
-namespace Asuna.Application
+namespace Asuna.Foundation
 {
     public sealed class GateServer : ServerBase
     {
@@ -14,7 +14,7 @@ namespace Asuna.Application
             base._OnControlMsgHandShakeRsp(session, msg);
             if (_ServerToSession.Count == 1 + _ServerGroupConfig.GameServers.Count)
             {
-                Logger.LogInfo("All games connected!");
+                ALogger.LogInfo("All games connected!");
                 var gm = _ServerToSession[_ServerGroupConfig.GMServer.Name];
                 var notify = new ControlMsgGamesConnectedNotify();
                 gm.SendMsg(notify);

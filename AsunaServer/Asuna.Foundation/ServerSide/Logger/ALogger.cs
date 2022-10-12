@@ -26,7 +26,7 @@ namespace Asuna.Foundation
     }
 
 
-    public class Logger
+    public class ALogger
     {
 
         public static void InitLogger(LogConfig config)
