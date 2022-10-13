@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Asuna.Foundation;
+using Asuna.GamePlay.UI;
 using UnityEngine;
 
 namespace Asuna.Application

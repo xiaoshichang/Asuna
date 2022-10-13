@@ -3,11 +3,6 @@ using UnityEngine.UI;
 
 namespace Asuna.Foundation
 {
-    public enum UILayer
-    {
-        Page,
-        Popup
-    }
     
     public static partial class UIManager
     {

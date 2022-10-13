@@ -4,8 +4,16 @@ using UnityEngine;
 
 namespace Asuna.Foundation
 {
-    public class UIPage
+    public class ShowPageParam
     {
+    }
+    
+    public abstract class UIPage
+    {
+        public abstract string GetAssetPath();
+        public abstract void OnShow(ShowPageParam param);
+        public abstract void OnHide();
+        public abstract void BeforeDestroy();
     }
 
 }

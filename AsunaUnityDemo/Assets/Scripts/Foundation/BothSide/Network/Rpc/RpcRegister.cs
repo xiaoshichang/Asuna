@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 
 #pragma warning disable CS8618
+#pragma warning disable CS8632
 
 namespace Asuna.Foundation.Network.Rpc
 {
@@ -60,7 +61,7 @@ namespace Asuna.Foundation.Network.Rpc
 
         private static RpcParam[] _CollectRpcParams(MethodInfo methodInfo)
         {
-
+            return null;
         }
 
         private static RpcIndex _CalculateRpcIndex(Type entityType, MethodInfo methodInfo)

@@ -8,7 +8,7 @@ namespace Asuna.Foundation
     {
         public static void Init()
         {
-            _RegisterUIEntries();
+            _RegisterPages();
             _InitHierarchy();
         }
 

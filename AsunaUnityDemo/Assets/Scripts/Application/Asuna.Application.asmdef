@@ -3,9 +3,8 @@
     "rootNamespace": "",
     "references": [
         "Asuna.Foundation",
-        "Asuna.GamePlayCore",
         "Asuna.GamePlay",
-        "Asuna.UI"
+        "Asuna.GamePlay.UI"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
