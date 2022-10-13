@@ -25,22 +25,22 @@ namespace Asuna.Foundation.Servers
         private void _NotifyDBConnectGames()
         {
             var session = _ServerToSession[_ServerGroupConfig.DBServer.Name];
-            var msg = new ControlMsgConnectGamesNotify();
-            session.SendMsg(msg);
+            var notify = new PayloadMsgConnectGamesNotify();
+            session.SendPayloadMsg(PayloadMsgType.ConnectGamesNotify, notify);
         }
         
         private void _NotifyGatesConnectGames()
         {
             var gates = _ServerGroupConfig.GateServers;
-            var msg = new ControlMsgConnectGamesNotify();
+            var notify = new PayloadMsgConnectGamesNotify();
             foreach (var gate in gates)
             {
                 var session = _ServerToSession[gate.Name];
-                session.SendMsg(msg);
+                session.SendPayloadMsg(PayloadMsgType.ConnectGamesNotify, notify);
             }
         }
         
-        protected override void _OnControlMsgHandShakeRsp(TcpSession session, MsgBase msg)
+        protected override void _OnControlMsgHandShakeRsp(TcpSession session, PayloadMsg msg)
         {
             base._OnControlMsgHandShakeRsp(session, msg);
             if (_ServerToSession.Count == _ServerGroupConfig.GetServerGroupNodesCount() - 1)
@@ -59,15 +59,15 @@ namespace Asuna.Foundation.Servers
             };
             var table = ServerStubDistributeTable.Collect(assemblyList, _ServerGroupConfig.GameServers);
             _StubCount = table.Items.Count;
-            var msg = new ControlMsgStartupStubsNotify(table);
+            var msg = new PayloadMsgStartupStubsNotify(table);
             foreach (var game in _ServerGroupConfig.GameServers)
             {
                 var session = _ServerToSession[game.Name];
-                session.SendMsg(msg);
+                session.SendPayloadMsg(PayloadMsgType.StartupStubsNotify, msg);
             }
         }
         
-        protected override void _OnControlMsgGamesConnectedNotify(TcpSession session, MsgBase msg)
+        protected override void _OnControlMsgGamesConnectedNotify(TcpSession session, PayloadMsg msg)
         {
             _ReadyGateAndDBCount += 1;
             if (_ReadyGateAndDBCount == _ServerGroupConfig.GateServers.Count + 1)
@@ -77,7 +77,7 @@ namespace Asuna.Foundation.Servers
             }
         }
         
-        protected override void _OnControlMsgStubReady(TcpSession session, MsgBase msg)
+        protected override void _OnControlMsgStubReady(TcpSession session, PayloadMsg msg)
         {
             base._OnControlMsgStubReady(session, msg);
             _ReadyStubCount += 1;

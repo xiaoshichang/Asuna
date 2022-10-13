@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
+using Asuna.Foundation.Network;
+
 
 #pragma warning disable CS8602
+#pragma warning disable CS8618
 
 namespace Asuna.Foundation
 {
@@ -21,7 +24,7 @@ namespace Asuna.Foundation
 
         private void StartReceiveHeader()
         {
-            _Socket.BeginReceive(_HeaderBuffer, _HeaderOffset, PackageHeader.MsgHeaderSize, SocketFlags.None, OnReceiveHeader, null);
+            _Socket.BeginReceive(_HeaderBuffer, _HeaderOffset, PackageBase.PackageHeaderSize, SocketFlags.None, OnReceiveHeader, null);
         }
 
         /// <summary>
@@ -39,13 +42,13 @@ namespace Asuna.Foundation
                     return;
                 }
             
-                if (receiveSize == PackageHeader.MsgHeaderSize)
+                if (receiveSize == PackageBase.PackageHeaderSize)
                 {
-                    PackageHeader.ParseHeader(_HeaderBuffer, out PackageHeader header);
+                    PackageBase.ParseHeader(_HeaderBuffer, out PackageType packageType, out int payloadSize);
                     _HeaderOffset = 0;
-                    StartReceiveBody(header);
+                    StartReceivePayload(packageType, payloadSize);
                 }
-                else if (receiveSize < PackageHeader.MsgHeaderSize)
+                else if (receiveSize < PackageBase.PackageHeaderSize)
                 {
                     _HeaderOffset += receiveSize;
                     StartReceiveHeader();
@@ -62,16 +65,16 @@ namespace Asuna.Foundation
             }
         }
 
-        private void StartReceiveJsonPackage(PackageJson package)
+        private void StartReceivePayload(PackageBase package)
         {
-            _Socket.BeginReceive(package.Buffer, package.BufferOffset, (int)package.Header.MsgSize - package.BufferOffset, SocketFlags.None, OnReceiveJsonMsg, package);
+            _Socket.BeginReceive(package.Payload, package.PayloadOffset, package.PayloadSize - package.PayloadOffset, SocketFlags.None, OnReceivePayload, package);
         }
         
         /// <summary>
         /// callback when receive some bytes of json body.
         /// note that this is called by other thread than main thread.
         /// </summary>
-        private void OnReceiveJsonMsg(IAsyncResult ar)
+        private void OnReceivePayload(IAsyncResult ar)
         {
             try
             {
@@ -81,14 +84,14 @@ namespace Asuna.Foundation
                     DisconnectFromSession(DisconnectReason.CloseByRemote);
                     return;
                 }
-                var package = ar.AsyncState as PackageJson;
+                var package = ar.AsyncState as PackageBase;
                 if (package == null)
                 {
                     DisconnectFromSession(DisconnectReason.UnknownError);
                     return;
                 }
-                package.BufferOffset += receiveSize;
-                if (package.BufferOffset == package.Header.MsgSize)
+                package.PayloadOffset += receiveSize;
+                if (package.PayloadOffset == package.Payload.Length)
                 {
                     var evt = new NetworkEvent()
                     {
@@ -99,9 +102,9 @@ namespace Asuna.Foundation
                     _OnEventCallback?.Invoke(evt);
                     StartReceiveHeader();
                 }
-                else if (package.BufferOffset < package.Header.MsgSize)
+                else if (package.PayloadOffset < package.Payload.Length)
                 {
-                    StartReceiveJsonPackage(package);
+                    StartReceivePayload(package);
                 }
                 else
                 {
@@ -115,17 +118,18 @@ namespace Asuna.Foundation
             }
         }
         
-        private void StartReceiveBody(PackageHeader header)
+        private void StartReceivePayload(PackageType packageType, int payloadSize)
         {
-            if (header.PackageType == PackageType.Json)
+            if (packageType == PackageType.Json)
             {
-                var jsonMsg = new PackageJson()
+                var jsonPackage = new PackageJson()
                 {
-                    Header = header,
-                    Buffer = new byte[header.MsgSize],
-                    BufferOffset = 0
+                    PackageType = packageType,
+                    PayloadSize = payloadSize,
+                    Payload = new byte[payloadSize],
+                    PayloadOffset = 0
                 };
-                StartReceiveJsonPackage(jsonMsg);
+                StartReceivePayload(jsonPackage);
             }
             else
             {
@@ -154,36 +158,43 @@ namespace Asuna.Foundation
         /// send message to client side.
         /// note that this function must be called from main thread.
         /// </summary>
-        public void SendMsg(MsgBase msg)
+        public void SendPackage(PackageBase package)
         {
-            var package = new PackageJson()
-            {
-                obj = msg
-            };
-            
+
             lock (_SendQueue)
             {
                 _SendQueue.Enqueue(package);
                 if (_SendQueue.Count == 1)
                 {
                     var msgToSend = _SendQueue.Peek();
-                    msgToSend.DumpToBuffer();
-                    DoSendPackage(msgToSend);
+                    DoSend(msgToSend);
                 }
             }
         }
 
-        private void DoSendPackage(PackageBase package)
+        public void SendPayloadMsg(PayloadMsgType msgType, PayloadMsg msg)
         {
-            _Socket.BeginSend(package.Buffer, package.BufferOffset, package.Buffer.Length, SocketFlags.None, OnSend, package);
+            var package = new PackageJson
+            {
+                JsonObjectType = (int)msgType,
+                JsonObject = msg
+            };
+            SendPackage(package);
+        }
+
+        private void DoSend(PackageBase package)
+        {
+            _SendBuffer = package.DumpPackage();
+            _SendBufferOffset = 0;
+            _Socket.BeginSend(_SendBuffer, _SendBufferOffset, _SendBuffer.Length - _SendBufferOffset, SocketFlags.None, OnSend, package);
         }
 
         private void OnSend(IAsyncResult ar)
         {
             var sent = _Socket.EndSend(ar);
-            var msg = ar.AsyncState as PackageBase;
-            msg.BufferOffset += sent;
-            if (msg.BufferOffset == msg.Buffer.Length)
+            var package = ar.AsyncState as PackageBase;
+            _SendBufferOffset += sent;
+            if (_SendBufferOffset == _SendBuffer.Length)
             {
                 lock (_SendQueue)
                 {
@@ -191,14 +202,13 @@ namespace Asuna.Foundation
                     if (_SendQueue.Count > 0)
                     {
                         var msgToSend = _SendQueue.Peek();
-                        msgToSend.DumpToBuffer();
-                        DoSendPackage(msgToSend);
+                        DoSend(msgToSend);
                     }
                 }
             }
-            else if (msg.BufferOffset < msg.Buffer.Length)
+            else if (_SendBufferOffset < _SendBuffer.Length)
             {
-                DoSendPackage(msg);
+                _Socket.BeginSend(_SendBuffer, _SendBufferOffset, _SendBuffer.Length - _SendBufferOffset, SocketFlags.None, OnSend, package);
             }
             else
             {
@@ -207,8 +217,10 @@ namespace Asuna.Foundation
         }
 
         private readonly Socket _Socket;
-        private readonly byte[] _HeaderBuffer = new byte[PackageHeader.MsgHeaderSize];
+        private readonly byte[] _HeaderBuffer = new byte[PackageBase.PackageHeaderSize];
         private int _HeaderOffset = 0;
+        private byte[] _SendBuffer;
+        private int _SendBufferOffset;
         private readonly Queue<PackageBase> _SendQueue = new();
         private readonly NetworkEventHandler _OnEventCallback;
     }

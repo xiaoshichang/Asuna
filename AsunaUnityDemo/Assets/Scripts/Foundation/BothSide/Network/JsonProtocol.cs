@@ -1,48 +1,57 @@
 using System;
+using System.Text;
+using Newtonsoft.Json;
 
 #pragma warning disable CS8618
 #nullable enable
 
-namespace Asuna.Foundation
+namespace Asuna.Foundation.Network
 {
     /// <summary>
-    /// ++++++++++++++++++++++++++++++++++++++++++++
-    /// |  MsgType (4Byte)     |        body       |
-    /// ++++++++++++++++++++++++++++++++++++++++++++
+    /// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    /// |  Json Object Type(4Byte) |    json Object Data         |
+    /// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     /// </summary>
     public class PackageJson : PackageBase
     {
         public PackageJson()
         {
-            Header = new PackageHeader(){PackageType = PackageType.Json};
-        }
-        public MsgBase obj;
-        
-        public override void DumpToBuffer()
-        {
-            var bodyBuffer = Serializer.SerializeToJson(obj);
-            Header.MsgSize = (uint)bodyBuffer.Length + 4;
-            Buffer = new byte[Header.MsgSize + PackageHeader.MsgHeaderSize];
-            BufferOffset = 0;
-            var headerBuffer = PackageHeader.DumpHeader(Header);
-            var msgTypeBuffer = BitConverter.GetBytes((int)obj.MsgType);
-            headerBuffer.CopyTo(Buffer, 0);
-            msgTypeBuffer.CopyTo(Buffer, PackageHeader.MsgHeaderSize);
-            bodyBuffer.CopyTo(Buffer, PackageHeader.MsgHeaderSize + 4);
+            PackageType = PackageType.Json;
         }
 
-        public int GetMsgType()
+        public int JsonObjectType;
+        public object JsonObject;
+        
+        public override byte[] DumpPayload()
         {
-            return BitConverter.ToInt32(Buffer, 0);
+            if (JsonObject == null)
+            {
+                throw new Exception("empty Json Object");
+            }
+
+            var JsonObjectBuffer = Encoding.Default.GetBytes(JsonConvert.SerializeObject(JsonObject));
+            var JsonObjectTypeBuffer = BitConverter.GetBytes(JsonObjectType);
+            var payloadBuffer = new byte[JsonObjectTypeBuffer.Length + JsonObjectBuffer.Length];
+            JsonObjectTypeBuffer.CopyTo(payloadBuffer, 0);
+            JsonObjectBuffer.CopyTo(payloadBuffer, 4);
+            return payloadBuffer;
         }
 
-        public MsgBase? GetMsg(Type t)
+        public override int GetPayloadMsgType()
         {
-            var o = Serializer.DeserializeFromJson(Buffer, t, 4);
-            var msg = o as MsgBase;
-            return msg;
+            return BitConverter.ToInt32(Payload, 0);
         }
-        
+
+        public override T ParsePayload<T>()
+        {
+            var str = Encoding.Default.GetString(Payload, 4, Payload.Length - 4);
+            var obj = JsonConvert.DeserializeObject<T>(str);
+            if (obj == null)
+            {
+                throw new Exception("Parse payload fail");
+            }
+            return obj;
+        }
     }
 
 }

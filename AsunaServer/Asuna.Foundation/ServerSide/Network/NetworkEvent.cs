@@ -1,4 +1,5 @@
 ﻿using System.Net.Sockets;
+using Asuna.Foundation.Network;
 
 #pragma warning disable CS8618
 

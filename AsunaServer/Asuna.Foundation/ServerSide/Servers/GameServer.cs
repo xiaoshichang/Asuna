@@ -11,9 +11,9 @@ namespace Asuna.Foundation.Servers
             EntityMgr.Init();
         }
         
-        protected override void _OnControlMsgStartupStubs(TcpSession session, MsgBase msg)
+        protected override void _OnControlMsgStartupStubs(TcpSession session, PayloadMsg msg)
         {
-            var notify = msg as ControlMsgStartupStubsNotify;
+            var notify = msg as PayloadMsgStartupStubsNotify;
             ALogger.LogInfo($"_OnControlMsgStartupStubs stubs count:{notify.Items.Count}");
             foreach (var (key, value) in notify.Items)
             {
@@ -36,8 +36,8 @@ namespace Asuna.Foundation.Servers
         private void _OnStubReady(string stubName)
         {
             var gm = _ServerToSession[_ServerGroupConfig.GMServer.Name];
-            var msg = new ControlMsgStubReadyNotify(stubName);
-            gm.SendMsg(msg);
+            var msg = new PayloadMsgStubReadyNotify(stubName);
+            gm.SendPayloadMsg(PayloadMsgType.StubReadyNotify, msg);
         }
         
     }

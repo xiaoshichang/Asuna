@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Asuna.Foundation.Network;
 using Asuna.Foundation.Network.Rpc;
 
 #pragma warning disable CS8604
@@ -8,7 +9,7 @@ using Asuna.Foundation.Network.Rpc;
 
 namespace Asuna.Foundation.Servers
 {
-    public delegate void MsgHandler(TcpSession session, MsgBase msg);
+    public delegate void PayloadMsgHandler(TcpSession session, PayloadMsg msg);
     
     
     public abstract class ServerBase
@@ -70,24 +71,24 @@ namespace Asuna.Foundation.Servers
             ALogger.LogInfo($"OnInternalDisconnect {evt.Session}");
         }
 
-        protected virtual void _OnControlMsgHandShakeReq(TcpSession session, MsgBase msg)
+        protected virtual void _OnControlMsgHandShakeReq(TcpSession session, PayloadMsg msg)
         {
-            var req = msg as ControlMsgHandShakeReq;
+            var req = msg as PayloadMsgHandShakeReq;
             _ServerToSession[req.ServerName] = session;
-            var rsp = new ControlMsgHandShakeRsp(_ServerConfig.Name);
-            session.SendMsg(rsp);
+            var rsp = new PayloadMsgHandShakeRsp(_ServerConfig.Name);
+            session.SendPayloadMsg(PayloadMsgType.HandShakeRsp, rsp);
             ALogger.LogInfo($"OnControlMsgHandShakeReq {req.ServerName}");
 
         }
 
-        protected virtual void _OnControlMsgHandShakeRsp(TcpSession session, MsgBase msg)
+        protected virtual void _OnControlMsgHandShakeRsp(TcpSession session, PayloadMsg msg)
         {
-            var rsp = msg as ControlMsgHandShakeRsp;
+            var rsp = msg as PayloadMsgHandShakeRsp;
             _ServerToSession[rsp.ServerName] = session;
             ALogger.LogInfo($"OnControlMsgHandShakeRsp {rsp.ServerName}");
         }
 
-        protected virtual void _OnControlMsgConnectGamesNotify(TcpSession session, MsgBase msg)
+        protected virtual void _OnControlMsgConnectGamesNotify(TcpSession session, PayloadMsg msg)
         {
             var games = _ServerGroupConfig.GameServers;
             foreach (var game in games)
@@ -96,19 +97,19 @@ namespace Asuna.Foundation.Servers
             }
         }
 
-        protected virtual void _OnControlMsgGamesConnectedNotify(TcpSession session, MsgBase msg)
+        protected virtual void _OnControlMsgGamesConnectedNotify(TcpSession session, PayloadMsg msg)
         {
             throw new NotImplementedException();
         }
 
-        protected virtual void _OnControlMsgStartupStubs(TcpSession session, MsgBase msg)
+        protected virtual void _OnControlMsgStartupStubs(TcpSession session, PayloadMsg msg)
         {
             throw new NotImplementedException();
         }
 
-        protected virtual void _OnControlMsgStubReady(TcpSession session, MsgBase msg)
+        protected virtual void _OnControlMsgStubReady(TcpSession session, PayloadMsg msg)
         {
-            var notify = msg as ControlMsgStubReadyNotify;
+            var notify = msg as PayloadMsgStubReadyNotify;
             if (notify == null)
             {
                 ALogger.LogError("_OnControlMsgStubReady unknown error");
@@ -121,39 +122,41 @@ namespace Asuna.Foundation.Servers
             }
             _StubToSession[notify.StubName] = session;
         }
-        
-        protected (Type, MsgHandler) _GetMsgClassTypeAndHandlerByMsgType(int msgType)
+
+
+        protected virtual void _ProcessPackage(TcpSession session, PackageBase package)
         {
-            switch (msgType)
+            var msgType = package.GetPayloadMsgType();
+            PayloadMsg msg;
+            switch ((PayloadMsgType)msgType)
             {
-                case (int) ControlMsgType.HandShakeReq:
-                    return (typeof(ControlMsgHandShakeReq), _OnControlMsgHandShakeReq);
-                case (int) ControlMsgType.HandShakeRsp:
-                    return (typeof(ControlMsgHandShakeRsp), _OnControlMsgHandShakeRsp);
-                case (int) ControlMsgType.ConnectGamesNotify:
-                    return (typeof(ControlMsgConnectGamesNotify), _OnControlMsgConnectGamesNotify);
-                case (int) ControlMsgType.GamesConnectedNotify:
-                    return (typeof(ControlMsgGamesConnectedNotify), _OnControlMsgGamesConnectedNotify);
-                case (int) ControlMsgType.StartupStubsNotify:
-                    return (typeof(ControlMsgStartupStubsNotify), _OnControlMsgStartupStubs);
-                case (int) ControlMsgType.StubReadyNotify:
-                    return (typeof(ControlMsgStubReadyNotify), _OnControlMsgStubReady);
+                case PayloadMsgType.HandShakeReq:
+                    msg = package.ParsePayload<PayloadMsgHandShakeReq>();
+                    _OnControlMsgHandShakeReq(session, msg);
+                    return;
+                case PayloadMsgType.HandShakeRsp:
+                    msg = package.ParsePayload<PayloadMsgHandShakeRsp>();
+                    _OnControlMsgHandShakeRsp(session, msg);
+                    return;
+                case PayloadMsgType.ConnectGamesNotify:
+                    msg = package.ParsePayload<PayloadMsgConnectGamesNotify>();
+                    _OnControlMsgConnectGamesNotify(session, msg);
+                    return;
+                case PayloadMsgType.GamesConnectedNotify:
+                    msg = package.ParsePayload<PayloadMsgGamesConnectedNotify>();
+                    _OnControlMsgGamesConnectedNotify(session, msg);
+                    return;
+                case PayloadMsgType.StartupStubsNotify:
+                    msg = package.ParsePayload<PayloadMsgStartupStubsNotify>();
+                    _OnControlMsgStartupStubs(session, msg);
+                    return;
+                case PayloadMsgType.StubReadyNotify:
+                    msg = package.ParsePayload<PayloadMsgStubReadyNotify>();
+                    _OnControlMsgStubReady(session, msg);
+                    return;
                 default:
                     throw new NotImplementedException("unsupported message type!");
             }
-        }
-
-        protected virtual void _ProcessPackageJson(TcpSession session, PackageJson package)
-        {
-            var msgType = package.GetMsgType();
-            var (classType, handler) = _GetMsgClassTypeAndHandlerByMsgType(msgType);
-            var msg = package.GetMsg(classType);
-            if (msg == null)
-            {
-                ALogger.LogWarning("message is null");
-                return;
-            }
-            handler(session, msg);
         }
         
         /// <summary>
@@ -161,9 +164,9 @@ namespace Asuna.Foundation.Servers
         /// </summary>
         protected virtual void _OnInternalReceivePackage(NetworkEvent evt)
         {
-            if (evt.ReceivedPackage.Header.PackageType == PackageType.Json)
+            if (evt.ReceivedPackage.PackageType == PackageType.Json)
             {
-                _ProcessPackageJson(evt.Session, evt.ReceivedPackage as PackageJson);
+                _ProcessPackage(evt.Session, evt.ReceivedPackage);
             }
             else
             {
@@ -177,7 +180,8 @@ namespace Asuna.Foundation.Servers
         protected virtual void _OnInternalConnectTo(NetworkEvent evt)
         {
             evt.Session.StartReceiving();
-            evt.Session.SendMsg(new ControlMsgHandShakeReq(_ServerConfig.Name));
+            var req = new PayloadMsgHandShakeReq(_ServerConfig.Name);
+            evt.Session.SendPayloadMsg(PayloadMsgType.HandShakeReq, req);
         }
 
 

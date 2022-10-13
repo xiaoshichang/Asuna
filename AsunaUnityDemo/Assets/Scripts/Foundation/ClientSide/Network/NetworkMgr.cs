@@ -8,6 +8,7 @@ using System.Net.Sockets;
 using System.Threading;
 using UnityEngine;
 using Asuna.Foundation;
+using Asuna.Foundation.Network;
 
 namespace Asuna.Foundation
 {
@@ -90,19 +91,22 @@ namespace Asuna.Foundation
             }
         }
 
-        private static bool ReceiveHeader(out PackageHeader header)
+        private static bool ReceiveHeader(out int packageType, out int payloadSize)
         {
-            header = null;
-            var headerBuffer = new byte[PackageHeader.MsgHeaderSize];
+            packageType = 0;
+            payloadSize = 0;
+            
+            var headerBuffer = new byte[PackageBase.PackageHeaderSize];
             var bytesReceived = 0;
-            while (bytesReceived != PackageHeader.MsgHeaderSize)
+            while (bytesReceived != PackageBase.PackageHeaderSize)
             {
                 try
                 {
-                    bytesReceived += _Socket.Receive(headerBuffer, bytesReceived, PackageHeader.MsgHeaderSize - bytesReceived, SocketFlags.None);
+                    bytesReceived += _Socket.Receive(headerBuffer, bytesReceived, PackageBase.PackageHeaderSize - bytesReceived, SocketFlags.None);
                     if (bytesReceived == 0)
                     {
                         DisconnectByException(new EndOfStreamException());
+                        
                         return false;
                     }
                 }
@@ -112,29 +116,40 @@ namespace Asuna.Foundation
                     return false;
                 }
             }
-            PackageHeader.ParseHeader(headerBuffer, out header);
+
+            packageType = BitConverter.ToInt32(headerBuffer, 0);
+            payloadSize = BitConverter.ToInt32(headerBuffer, 4);
             return true;
         }
 
-        private static PackageJson ReceiveJson(int dataSize)
+        private static PackageBase ReceiveBody(int packageType, int payloadSize)
         {
-            PackageJson package = new PackageJson()
+            PackageBase package;
+            if ((PackageType) packageType == PackageType.Json)
             {
-                Buffer = new byte[dataSize],
-                BufferOffset = 0
-            };
+                package = new PackageJson()
+                {
+                    Payload = new byte[payloadSize],
+                    PayloadOffset = 0
+                };
+            }
+            else
+            {
+                throw new Exception("unknown package type");
+            }
             
-            while (package.BufferOffset != dataSize)
+            
+            while (package.PayloadOffset != payloadSize)
             {
                 try
                 {
-                    var bytesReceived = _Socket.Receive(package.Buffer, package.BufferOffset, dataSize - package.BufferOffset, SocketFlags.None);
+                    var bytesReceived = _Socket.Receive(package.Payload, package.PayloadOffset, payloadSize - package.PayloadOffset, SocketFlags.None);
                     if (bytesReceived == 0)
                     {
                         DisconnectByException(new EndOfStreamException());
                         break;
                     }
-                    package.BufferOffset += bytesReceived;
+                    package.PayloadOffset += bytesReceived;
                 }
                 catch(Exception exception)
                 {
@@ -145,20 +160,10 @@ namespace Asuna.Foundation
             return package;
         }
 
-        private static bool ReceiveBody(PackageHeader header, out PackageBase package)
+        private static bool ReceiveBody(int packageType, int payloadSize, out PackageBase package)
         {
             package = null;
-            if (header.PackageType == PackageType.Json)
-            {
-                package = ReceiveJson((int)header.MsgSize);
-            }
-            else
-            {
-                Debug.Log($"unknown msg type {header.PackageType}");
-                _Socket.Close();
-                return false;
-            }
-
+            package = ReceiveBody(packageType, payloadSize);
             return true;
         }
 
@@ -167,11 +172,11 @@ namespace Asuna.Foundation
                 
             while(true)
             {
-                if (!ReceiveHeader(out PackageHeader header))
+                if (!ReceiveHeader(out int packageType, out int payloadSize))
                 {
                     break;
                 }
-                if (!ReceiveBody(header, out PackageBase msg))
+                if (!ReceiveBody(packageType, payloadSize, out PackageBase msg))
                 {
                     break;
                 }
@@ -197,26 +202,13 @@ namespace Asuna.Foundation
             _SendEvent.Set();
         }
 
-        private static void SendJson(PackageBase package)
+        private static void SendPackage(PackageBase package)
         {
-            // prepare
-            var json = package as PackageJson;
-            var dataBuffer = Serializer.SerializeToJson(json.obj);
-            var jsonSize = dataBuffer.Length;
-            package.Header.MsgSize = (uint)jsonSize;
-            var headerBuffer = PackageHeader.DumpHeader(package.Header);
-            var bufferSize = jsonSize + PackageHeader.MsgHeaderSize;
-            
-            // copy to buffer
-            var buffer = new byte[bufferSize];
-            headerBuffer.CopyTo(buffer, 0);
-            dataBuffer.CopyTo(buffer, PackageHeader.MsgHeaderSize);
-            
-            // send buffer
+            var buffer = package.DumpPackage();
             int bytesSent = 0;
-            while (bytesSent != bufferSize)
+            while (bytesSent != buffer.Length)
             {
-                bytesSent += _Socket.Send(buffer, bytesSent, bufferSize - bytesSent, SocketFlags.None);
+                bytesSent += _Socket.Send(buffer, bytesSent, buffer.Length - bytesSent, SocketFlags.None);
             }
         }
 
@@ -237,14 +229,7 @@ namespace Asuna.Foundation
                 }
                 else
                 {
-                    if (package.Header.PackageType == PackageType.Json)
-                    {
-                        SendJson(package);
-                    }
-                    else
-                    {
-                        Debug.LogError("unknown msg type");
-                    }
+                    SendPackage(package);
                 }
             }
         }

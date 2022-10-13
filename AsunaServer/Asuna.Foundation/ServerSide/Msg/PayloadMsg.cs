@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
-using Asuna.Foundation;
+using Asuna.Foundation.Network;
 
 namespace Asuna.Foundation
 {
     
-    public enum ControlMsgType
+    public enum PayloadMsgType : int
     {
         HandShakeReq = 1,
         HandShakeRsp,
@@ -14,21 +14,17 @@ namespace Asuna.Foundation
         StartupStubsNotify,
         StubReadyNotify,
     }
-
-    [DataContract]
-    public class ControlMsg : MsgBase
-    {
-        public ControlMsg(ControlMsgType cmt)
-        {
-            MsgType = (int)cmt;
-        }
+    
         
+    [DataContract]
+    public class PayloadMsg
+    {
     }
 
     [DataContract]
-    public class ControlMsgHandShakeReq : ControlMsg
+    public class PayloadMsgHandShakeReq : PayloadMsg
     {
-        public ControlMsgHandShakeReq(string serverName) : base(ControlMsgType.HandShakeReq)
+        public PayloadMsgHandShakeReq(string serverName)
         {
             ServerName = serverName;
         }
@@ -38,9 +34,9 @@ namespace Asuna.Foundation
     }
 
     [DataContract]
-    public class ControlMsgHandShakeRsp : ControlMsg
+    public class PayloadMsgHandShakeRsp : PayloadMsg
     {
-        public ControlMsgHandShakeRsp(string serverName) : base(ControlMsgType.HandShakeRsp)
+        public PayloadMsgHandShakeRsp(string serverName)
         {
             ServerName = serverName;
         }
@@ -50,29 +46,29 @@ namespace Asuna.Foundation
     }
 
     [DataContract]
-    public class ControlMsgConnectGamesNotify : ControlMsg
+    public class PayloadMsgConnectGamesNotify : PayloadMsg
     {
-        public ControlMsgConnectGamesNotify() : base(ControlMsgType.ConnectGamesNotify)
+        public PayloadMsgConnectGamesNotify()
         {
         }
     }
 
     [DataContract]
-    public class ControlMsgGamesConnectedNotify : ControlMsg
+    public class PayloadMsgGamesConnectedNotify : PayloadMsg
     {
-        public ControlMsgGamesConnectedNotify() : base(ControlMsgType.GamesConnectedNotify)
+        public PayloadMsgGamesConnectedNotify()
         {
         }
     }
 
     [DataContract]
-    public class ControlMsgStartupStubsNotify : ControlMsg
+    public class PayloadMsgStartupStubsNotify : PayloadMsg
     {
-        public ControlMsgStartupStubsNotify() : base(ControlMsgType.StartupStubsNotify)
+        public PayloadMsgStartupStubsNotify()
         {
         }
         
-        public ControlMsgStartupStubsNotify(ServerStubDistributeTable table) : base(ControlMsgType.StartupStubsNotify)
+        public PayloadMsgStartupStubsNotify(ServerStubDistributeTable table)
         {
             foreach (var (key, value) in table.Items)
             {
@@ -93,9 +89,9 @@ namespace Asuna.Foundation
     }
 
     [DataContract]
-    public class ControlMsgStubReadyNotify : ControlMsg
+    public class PayloadMsgStubReadyNotify : PayloadMsg
     {
-        public ControlMsgStubReadyNotify(string stubName) : base(ControlMsgType.StubReadyNotify)
+        public PayloadMsgStubReadyNotify(string stubName)
         {
             StubName = stubName;
         }
