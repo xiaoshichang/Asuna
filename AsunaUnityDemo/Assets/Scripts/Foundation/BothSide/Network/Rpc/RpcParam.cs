@@ -1,37 +1,20 @@
 ﻿
+using System;
 using System.Collections.Generic;
 
-namespace Asuna.Foundation
+namespace Asuna.Foundation.Network.Rpc
 {
-    public enum RpcParamType
-    {
-        Int,
-        String,
-        Object
-    }
     
     public class RpcParam
     {
-        public RpcParam(int obj)
-        {
-            ParamType = RpcParamType.Int;
-            InternalParam = obj;
-        }
-
-        public RpcParam(string obj)
-        {
-            ParamType = RpcParamType.String;
-            InternalParam = obj;
-        }
-
         public RpcParam(object obj)
         {
-            ParamType = RpcParamType.Object;
             InternalParam = obj;
+            ParamType = obj.GetType();
         }
         
-        public RpcParamType ParamType;
         public object InternalParam;
+        public Type ParamType;
     }
 }
 

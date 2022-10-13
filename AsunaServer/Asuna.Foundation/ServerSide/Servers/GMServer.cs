@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using Asuna.Foundation;
-using Newtonsoft.Json.Serialization;
 
-namespace Asuna.Foundation
+namespace Asuna.Foundation.Servers
 {
     public sealed class GMServer : ServerBase
     {

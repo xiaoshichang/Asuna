@@ -1,6 +1,6 @@
 ﻿
 
-namespace Asuna.Foundation
+namespace Asuna.Foundation.Servers
 {
     public sealed class DBServer : ServerBase
     {

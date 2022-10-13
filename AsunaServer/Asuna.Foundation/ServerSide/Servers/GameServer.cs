@@ -2,7 +2,7 @@
 
 #pragma warning disable CS8602
 
-namespace Asuna.Foundation
+namespace Asuna.Foundation.Servers
 {
     public sealed class GameServer : ServerBase
     {

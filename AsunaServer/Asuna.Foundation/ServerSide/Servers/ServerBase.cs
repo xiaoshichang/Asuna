@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Asuna.Foundation;
+using Asuna.Foundation.Network.Rpc;
 
 #pragma warning disable CS8604
 #pragma warning disable CS8602
 
 
-namespace Asuna.Foundation
+namespace Asuna.Foundation.Servers
 {
     public delegate void MsgHandler(TcpSession session, MsgBase msg);
     

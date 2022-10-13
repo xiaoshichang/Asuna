@@ -1,5 +1,6 @@
 ﻿using System;
 using Asuna.Foundation;
+using Asuna.Foundation.Servers;
 
 namespace Asuna.Application
 {
