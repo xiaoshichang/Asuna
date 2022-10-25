@@ -17,8 +17,8 @@ field attributes:
 -->
 
 <rules>
-    <rule source_file="ExcelTable1.xlsx" rule_name="AvatarConfig" side="client_server">
-        <field field_name="f1" side="client_server" type="uint" />
+    <rule source_file="ExcelTable1.xlsx" rule_name="AvatarConfig" side="client_server"  desc="class desc">
+        <field field_name="f1" side="client_server" type="uint" desc="field desc"/>
         <field field_name="f2" side="server_only"   type="int" />
         <field field_name="f3" type="float" />
     </rule>

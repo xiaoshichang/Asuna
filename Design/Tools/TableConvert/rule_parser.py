@@ -9,6 +9,7 @@ class SingleRule(object):
         self.source_excel_path = None
         self.rule_name = None
         self.side = None
+        self.desc = None
         self.client_fields = None
         self.server_fields = None
 
@@ -68,6 +69,11 @@ class ConvertRuleParser(object):
         return rule_name
 
     @staticmethod
+    def get_rule_desc_from_rule_node(rule_node):
+        desc = rule_node.attrib.get("desc")
+        return desc
+
+    @staticmethod
     def parse_fields(rule_node, parent_side, target_side):
         fields = []
         for field_node in rule_node:
@@ -85,6 +91,7 @@ class ConvertRuleParser(object):
         rule.source_excel_path = ConvertRuleParser.get_source_file_path(excel_dir_path, node)
         rule.rule_name = ConvertRuleParser.get_rule_name_from_rule_node(node)
         rule.side = ConvertRuleParser.get_side_from_rule_node(node)
+        rule.desc = ConvertRuleParser.get_rule_desc_from_rule_node(node)
         rule.client_fields = ConvertRuleParser.parse_fields(node, rule.side, ConvertSide.client_only)
         rule.server_fields = ConvertRuleParser.parse_fields(node, rule.side, ConvertSide.server_only)
 

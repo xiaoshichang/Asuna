@@ -2,10 +2,13 @@ import os
 import argparse
 from converter import TableConverter
 from rule_parser import ConvertRuleParser
+from code_generator import CoderGenerator
+import utils
 
 parser = argparse.ArgumentParser(description="a tool to convert excel table to txt format data")
 parser.add_argument("--ExcelDir", required=True, help="directory of excel tables")
-parser.add_argument("--OutputDir", required=True,  help="director to output data")
+parser.add_argument("--DataExportDir", required=True,  help="directory to export data")
+parser.add_argument("--CodeExportDir", required=True, help="directory to export generated code")
 args = parser.parse_args()
 
 
@@ -27,6 +30,10 @@ def parse_rules():
     return rules
 
 
+def generate_code(rules):
+    CoderGenerator.generate_from_rules(rules, args.CodeExportDir)
+
+
 def do_convert_tasks(rules):
     tasks, errors = TableConverter.convert(rules)
     if len(errors) != 0:
@@ -45,13 +52,14 @@ def post_check(tasks):
 
 def export_data(tasks):
     print("export_data start")
-    TableConverter.ensure_output_dir(args.OutputDir)
+    utils.ensure_output_dir(args.DataExportDir)
     print("export_data finish")
 
 
 def main():
     check_excel_dir_exist()
     rules = parse_rules()
+    generate_code(rules)
     tasks = do_convert_tasks(rules)
     post_check(tasks)
     export_data(tasks)

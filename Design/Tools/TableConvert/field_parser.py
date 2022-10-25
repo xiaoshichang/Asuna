@@ -1,10 +1,33 @@
 from side import ConvertSide
 
+FieldType_Int = "int"
+FieldType_Uint = "uint"
+FieldType_Float = "float"
+FieldType_List_Int = "list[int]"
+FieldType_List_Uint = "list[uint]"
+FieldType_List_Float = "list[float]"
+FieldType_Map_Int_Int = "map[int,int]"
+FieldType_Map_Int_Float = "map[int,float]"
+
+
+FieldType_Available_Types = \
+    [
+        FieldType_Int,
+        FieldType_Uint,
+        FieldType_Float,
+        FieldType_List_Int,
+        FieldType_List_Uint,
+        FieldType_List_Float,
+        FieldType_Map_Int_Int,
+        FieldType_Map_Int_Float,
+    ]
+
 
 class FieldRule(object):
     def __init__(self):
         self.field_name = None
         self.field_type = None
+        self.field_desc = None
 
 
 class ConvertRuleFieldParser(object):
@@ -44,7 +67,14 @@ class ConvertRuleFieldParser(object):
         field_type = field_node.attrib.get("type")
         if field_type is None:
             raise Exception("field type is missing.")
+        if field_type not in FieldType_Available_Types:
+            raise Exception("field type is not supported")
         return field_type
+
+    @staticmethod
+    def get_field_desc_from_field_node(field_node):
+        field_desc = field_node.attrib.get("desc")
+        return field_desc
 
     @staticmethod
     def parse_single_field(field_node, parent_side, target_side):
@@ -64,4 +94,5 @@ class ConvertRuleFieldParser(object):
         field = FieldRule()
         field.field_name = ConvertRuleFieldParser.get_field_name_from_field_node(field_node)
         field.field_type = ConvertRuleFieldParser.get_field_type_from_field_node(field_node)
+        field.field_desc = ConvertRuleFieldParser.get_field_desc_from_field_node(field_node)
         return field

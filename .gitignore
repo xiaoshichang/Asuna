@@ -49,6 +49,7 @@
 **/obj
 **/bin
 **/logs
-**/cmake-build-debug
-**/cmake-build-release
+**/cmake-build-debug/
+**/cmake-build-release/
+**/__pycache__
 
