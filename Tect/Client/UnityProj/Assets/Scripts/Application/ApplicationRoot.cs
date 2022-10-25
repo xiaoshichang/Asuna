@@ -2,10 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Asuna.Foundation;
-using Asuna.Foundation.Network;
+using AsunaClient.Foundation;
 using UnityEngine;
 
-namespace Asuna.Application
+namespace AsunaClient.Application
 {
     public class ApplicationRoot : MonoBehaviour
     {
@@ -13,8 +13,6 @@ namespace Asuna.Application
         {
             var assemblyList = new List<string>()
             {
-                "Asuna.GamePlay",
-                "Asuna.GamePlay.UI"
             };
             GMManager.Init(assemblyList);
             gameObject.AddComponent<GMTerminal>();

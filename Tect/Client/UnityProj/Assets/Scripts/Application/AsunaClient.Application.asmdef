@@ -1,0 +1,16 @@
+{
+    "name": "AsunaClient.Application",
+    "rootNamespace": "",
+    "references": [
+        "AsunaClient.Foundation"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
