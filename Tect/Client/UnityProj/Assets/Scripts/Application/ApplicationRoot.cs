@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using Asuna.Foundation;
 using AsunaClient.Foundation;
 using UnityEngine;
+using Logger = AsunaClient.Foundation.Logger;
+
 
 namespace AsunaClient.Application
 {
@@ -21,7 +23,7 @@ namespace AsunaClient.Application
 
         private IEnumerator _InitLogManagerCo()
         {
-            ALogger.Init();
+            Logger.Init();
             yield return null;
         }
 
