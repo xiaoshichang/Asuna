@@ -7,7 +7,7 @@
 #include "../Network/TcpNetwork.h"
 #include "../Timer/TimerMgr.h"
 
-using namespace XServer;
+using namespace AsunaServer;
 
 boost::shared_ptr<boost::asio::io_context> Server::io_context_;
 

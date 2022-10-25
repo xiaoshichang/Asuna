@@ -9,7 +9,7 @@
 
 using boost::asio::ip::tcp;
 
-namespace XServer
+namespace AsunaServer
 {
     class TcpConnection : boost::enable_shared_from_this<TcpConnection>
     {

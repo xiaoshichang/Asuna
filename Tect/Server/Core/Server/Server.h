@@ -5,7 +5,7 @@
 #include <boost/asio.hpp>
 #include <boost/shared_ptr.hpp>
 
-namespace XServer
+namespace AsunaServer
 {
     class Server
     {

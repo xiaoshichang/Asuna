@@ -10,7 +10,7 @@
 #include "Timer.h"
 
 
-namespace XServer
+namespace AsunaServer
 {
 
     class TimerMgr

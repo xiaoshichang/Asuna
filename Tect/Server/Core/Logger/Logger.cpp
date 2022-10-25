@@ -9,20 +9,20 @@
 const char* TAG_ENGINE = "[Engine]";
 const char* TAG_SCRIPT = "[Script]";
 
-src::severity_logger<logging::trivial::severity_level> XServer::Logger::logger_;
+src::severity_logger<logging::trivial::severity_level> AsunaServer::Logger::logger_;
 
-void XServer::Logger::Init()
+void AsunaServer::Logger::Init()
 {
     InitLoggingCore();
     InitSink();
 }
 
-void XServer::Logger::InitLoggingCore()
+void AsunaServer::Logger::InitLoggingCore()
 {
     logging::add_common_attributes();
 }
 
-void XServer::Logger::InitSink()
+void AsunaServer::Logger::InitSink()
 {
     // formatter
     logging::formatter formatter = expr::format("[%1%][%2%] - %3%")
@@ -45,32 +45,32 @@ void XServer::Logger::InitSink()
     fileSink->set_filter(logging::trivial::severity >= logging::trivial::info);
 }
 
-void XServer::Logger::Finalize()
+void AsunaServer::Logger::Finalize()
 {
 
 }
 
-void XServer::Logger::Warning(const char* const message)
+void AsunaServer::Logger::Warning(const char* const message)
 {
     Log(logging::trivial::severity_level::warning, message);
 }
 
-void XServer::Logger::Error(const char* const message)
+void AsunaServer::Logger::Error(const char* const message)
 {
     Log(logging::trivial::severity_level::error, message);
 }
 
-void XServer::Logger::Info(const char* const message)
+void AsunaServer::Logger::Info(const char* const message)
 {
     Log(logging::trivial::severity_level::info, message);
 }
 
-void XServer::Logger::Debug(const char* const message)
+void AsunaServer::Logger::Debug(const char* const message)
 {
     Log(logging::trivial::severity_level::debug, message);
 }
 
-void XServer::Logger::Log(logging::trivial::severity_level severity, const char* message)
+void AsunaServer::Logger::Log(logging::trivial::severity_level severity, const char* message)
 {
     BOOST_LOG_SEV(logger_, severity) << message;
 }

@@ -6,7 +6,7 @@
 #include <boost/asio.hpp>
 #include "TcpConnection.h"
 
-namespace XServer
+namespace AsunaServer
 {
     class TcpNetwork
     {

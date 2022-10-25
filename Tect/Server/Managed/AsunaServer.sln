@@ -1,10 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XServer.Core", "XServer.Core\XServer.Core.csproj", "{8A5246F8-6B2C-4037-9E3B-20ADF7567C92}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsunaServer.Core", "AsunaServer.Core\AsunaServer.Core.csproj", "{8A5246F8-6B2C-4037-9E3B-20ADF7567C92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XServer.Application", "XServer.Application\XServer.Application.csproj", "{8A947D97-8BCE-4FE9-9CD7-31EE1719D7AF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsunaServer.Application", "AsunaServer.Application\AsunaServer.Application.csproj", "{8A947D97-8BCE-4FE9-9CD7-31EE1719D7AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XServer.Foundation", "XServer.Foundation\XServer.Foundation.csproj", "{64B8B62F-8DFE-42D5-816B-6F04F7E5F644}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsunaServer.Foundation", "AsunaServer.Foundation\AsunaServer.Foundation.csproj", "{64B8B62F-8DFE-42D5-816B-6F04F7E5F644}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

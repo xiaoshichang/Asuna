@@ -36,7 +36,7 @@ namespace attrs = boost::log::attributes;
 namespace keywords = boost::log::keywords;
 
 
-namespace XServer
+namespace AsunaServer
 {
     class Logger
     {

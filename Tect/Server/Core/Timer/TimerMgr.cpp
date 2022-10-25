@@ -8,7 +8,7 @@
 #include "../Logger/Logger.h"
 
 
-namespace XServer
+namespace AsunaServer
 {
     TimerID TimerMgr::global_timer_id = 0;
     boost::shared_ptr<boost::asio::io_context> TimerMgr::io_context_;

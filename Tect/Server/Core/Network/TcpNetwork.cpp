@@ -7,7 +7,7 @@
 #include "TcpNetwork.h"
 
 using boost::asio::ip::tcp;
-using namespace XServer;
+using namespace AsunaServer;
 
 boost::shared_ptr<boost::asio::io_context> TcpNetwork::io_context_;
 tcp::acceptor* TcpNetwork::acceptor_ = nullptr;

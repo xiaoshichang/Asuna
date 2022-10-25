@@ -3,15 +3,15 @@
 //
 
 #include "TcpConnection.h"
-using namespace XServer;
+using namespace AsunaServer;
 
-XServer::TcpConnection::TcpConnection(boost::asio::io_context &io_context)
+AsunaServer::TcpConnection::TcpConnection(boost::asio::io_context &io_context)
     : socket_(io_context)
 {
 
 }
 
-std::shared_ptr<TcpConnection> XServer::TcpConnection::Create(boost::asio::io_context &io_context)
+std::shared_ptr<TcpConnection> AsunaServer::TcpConnection::Create(boost::asio::io_context &io_context)
 {
     return std::make_shared<TcpConnection>(io_context);
 }

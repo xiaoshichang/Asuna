@@ -23,8 +23,8 @@ add_library(XServer MODULE
         Timer/Timer.h
         Timer/TimerMgr.cpp
         Timer/TimerMgr.h
-        ModuleExport/XServerAPI.cpp
-        ModuleExport/XServerAPI.h
+        ModuleExport/AsunaServerAPI.cpp
+        ModuleExport/AsunaServerAPI.h
         )
 
 target_link_directories(XServer PRIVATE  ${Boost_LIBRARY_DIRS})
