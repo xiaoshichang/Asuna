@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(XServer)
+project(AsunaServer)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -10,7 +10,7 @@ endif()
 
 find_package(Boost COMPONENTS log REQUIRED)
 
-add_library(XServer MODULE
+add_library(AsunaServer MODULE
         Network/TcpNetwork.cpp
         Network/TcpNetwork.h
         Network/TcpConnection.cpp
@@ -27,12 +27,12 @@ add_library(XServer MODULE
         ModuleExport/AsunaServerAPI.h
         )
 
-target_link_directories(XServer PRIVATE  ${Boost_LIBRARY_DIRS})
+target_link_directories(AsunaServer PRIVATE  ${Boost_LIBRARY_DIRS})
 
 if (WIN32)
-    target_link_libraries(XServer PRIVATE ws2_32 wsock32 ${Boost_LIBRARIES})
+    target_link_libraries(AsunaServer PRIVATE ws2_32 wsock32 ${Boost_LIBRARIES})
 else()
-    target_link_libraries(XServer PRIVATE ${Boost_LIBRARIES})
+    target_link_libraries(AsunaServer PRIVATE ${Boost_LIBRARIES})
 endif()
 
-target_include_directories(XServer PRIVATE ${Boost_INCLUDE_DIRS})
+target_include_directories(AsunaServer PRIVATE ${Boost_INCLUDE_DIRS})
