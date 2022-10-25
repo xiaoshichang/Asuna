@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace XServer.Core
+namespace AsunaServer.Core
 {
     public static partial class Interface
     {

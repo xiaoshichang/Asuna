@@ -1,6 +1,6 @@
-﻿using XServer.Core;
+﻿using AsunaServer.Core;
 
-namespace XServer.Foundation
+namespace AsunaServer.Foundation
 {
     public delegate void TimeoutCallback(object? param);
     

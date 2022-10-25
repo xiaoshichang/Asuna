@@ -1,5 +1,5 @@
 ﻿
-namespace XServer.Core
+namespace AsunaServer.Core
 {
     
     

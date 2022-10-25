@@ -1,4 +1,4 @@
-﻿namespace XServer.Foundation
+﻿namespace AsunaServer.Foundation
 {
     public static class Server
     {
