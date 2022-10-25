@@ -1,6 +1,6 @@
 ﻿using AsunaServer.Core;
 
-namespace AsunaServer.Foundation
+namespace AsunaServer.Foundation.Timer
 {
     public delegate void TimeoutCallback(object? param);
     

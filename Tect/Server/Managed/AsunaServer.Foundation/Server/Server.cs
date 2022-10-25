@@ -1,10 +1,13 @@
-﻿namespace AsunaServer.Foundation
+﻿using XServer.Foundation.Network;
+
+namespace AsunaServer.Foundation.Server
 {
     public static class Server
     {
         public static void Init()
         {
             Core.Interface.Server_Init();
+            Network.Init();
         }
 
         public static void Run()
