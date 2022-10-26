@@ -11,22 +11,35 @@ using boost::asio::ip::tcp;
 
 namespace AsunaServer
 {
-    class TcpConnection : boost::enable_shared_from_this<TcpConnection>
+    class TcpConnection
     {
 
     public:
 
         explicit TcpConnection(boost::asio::io_context& io_context);
+        ~TcpConnection();
+
         tcp::socket& socket()
         {
             return socket_;
         }
 
         void Start();
-        static std::shared_ptr<TcpConnection> Create(boost::asio::io_context& io_context);
+        void StartReadHeader();
+        void StartReadBody();
+        void HandleReadHeader(boost::system::error_code ec, std::size_t bytes_transferred);
+        void HandleReadBody(boost::system::error_code ec, std::size_t bytes_transferred);
+
+        void Disconnect();
 
     private:
         tcp::socket socket_;
+        unsigned int payload_size_;
+        unsigned int payload_type_;
+        unsigned char* read_buffer_;
+
+        const int HEADER_SIZE = 8;
+        const int BUFFER_SIZE = 2048;
     };
 }
 
