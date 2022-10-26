@@ -1,6 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using AsunaServer.Foundation.Logger;
+using AsunaServer.Foundation.Log;
 using AsunaServer.Foundation.Server;
 using AsunaServer.Foundation.Timer;
 
@@ -12,10 +12,10 @@ namespace AsunaServer.Application // Note: actual namespace depends on the proje
     {
         static void Main(string[] args)
         {
-            Server.Init();
+            var server = new GameServer();
             TimerMgr.AddTimer(1000, TestTimeout, null);
-            Server.Run();
-            Server.Release();
+            server.Run();
+            server.Release();
         }
 
         static void TestTimeout(object? param)

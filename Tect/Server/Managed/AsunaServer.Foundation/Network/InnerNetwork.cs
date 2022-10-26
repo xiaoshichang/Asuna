@@ -1,15 +1,16 @@
 ﻿using AsunaServer.Core;
-using AsunaServer.Foundation.Logger;
+using AsunaServer.Foundation.Log;
 
-namespace XServer.Foundation.Network
+namespace AsunaServer.Foundation.Network
 {
-    public static class Network
+    public static class InnerNetwork
     {
         public static void Init()
         {
-            Interface.TcpNetwork_SetAcceptHandler(OnAccept);
-            Interface.TcpNetwork_SetDisconnectHandler(OnDisconnect);
-            Interface.TcpNetwork_SetReceiveHandler(OnReceivePackage);
+            Interface.InnerNetwork_Init();
+            Interface.InnerNetwork_SetAcceptHandler(OnAccept);
+            Interface.InnerNetwork_SetReceiveHandler(OnReceivePackage);
+            Interface.InnerNetwork_SetDisconnectHandler(OnDisconnect);
         }
         
         private static void OnAccept(IntPtr session)

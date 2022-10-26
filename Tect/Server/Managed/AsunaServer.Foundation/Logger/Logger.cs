@@ -1,4 +1,4 @@
-﻿namespace AsunaServer.Foundation.Logger
+﻿namespace AsunaServer.Foundation.Log
 {
     public static class Logger
     {

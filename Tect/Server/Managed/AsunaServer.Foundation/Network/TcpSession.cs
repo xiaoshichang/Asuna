@@ -1,4 +1,4 @@
-﻿namespace XServer.Foundation.Network
+﻿namespace AsunaServer.Foundation.Network
 {
     public class TcpSession
     {
