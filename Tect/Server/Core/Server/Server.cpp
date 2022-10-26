@@ -10,18 +10,19 @@
 using namespace AsunaServer;
 
 boost::shared_ptr<boost::asio::io_context> Server::io_context_;
+boost::shared_ptr<AsunaServer::TcpNetwork> Server::inner_network_;
+boost::shared_ptr<AsunaServer::TcpNetwork> Server::outer_network_;
+
 
 void Server::Init()
 {
     io_context_ = boost::shared_ptr<boost::asio::io_context>(new boost::asio::io_context());
     InitLogger();
     InitTimerManager();
-    InitNetwork();
 }
 
 void Server::Finalize()
 {
-    FinalizeNetwork();
     FinalizeTimerManager();
 }
 
@@ -48,16 +49,28 @@ void Server::FinalizeTimerManager()
     TimerMgr::Finalize();
 }
 
-void Server::InitNetwork()
+void Server::InitInnerNetwork(const char* ip, int port)
 {
-    Logger::Info("InitNetwork");
-    TcpNetwork::InitNetwork(io_context_);
+    Logger::Info("InitInnerNetwork");
+    inner_network_ = boost::make_shared<TcpNetwork>();
+    inner_network_->InitNetwork(io_context_, ip, port);
 }
 
-void Server::FinalizeNetwork()
+void Server::FinalizeInnerNetwork()
 {
-    Logger::Info("FinalizeNetwork");
-    TcpNetwork::FinalizeNetwork();
+    inner_network_->FinalizeNetwork();
+}
+
+void Server::InitOuterNetwork(const char* ip, int port)
+{
+    Logger::Info("InitOuterNetwork");
+    outer_network_ = boost::make_shared<TcpNetwork>();
+    outer_network_->InitNetwork(io_context_, ip, port);
+}
+
+void Server::FinalizeOuterNetwork()
+{
+    outer_network_->FinalizeNetwork();
 }
 
 

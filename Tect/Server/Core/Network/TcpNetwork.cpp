@@ -9,16 +9,12 @@
 using boost::asio::ip::tcp;
 using namespace AsunaServer;
 
-boost::shared_ptr<boost::asio::io_context> TcpNetwork::io_context_;
-tcp::acceptor* TcpNetwork::acceptor_ = nullptr;
-std::set<std::shared_ptr<TcpConnection>> TcpNetwork::connections_;
 
 
-
-void TcpNetwork::InitNetwork(const boost::shared_ptr<boost::asio::io_context>& context)
+void TcpNetwork::InitNetwork(const boost::shared_ptr<boost::asio::io_context>& context, const char* ip, int port)
 {
     io_context_ = context;
-    InitAcceptor();
+    InitAcceptor(ip, port);
     StartAccept();
 }
 
@@ -32,11 +28,11 @@ void TcpNetwork::FinalizeNetwork()
 void TcpNetwork::StartAccept()
 {
     auto connection = TcpConnection::Create(*io_context_);
-    auto callback = boost::bind(&TcpNetwork::HandleAccept, connection, boost::asio::placeholders::error);
+    auto callback = boost::bind(&TcpNetwork::HandleAccept, this, connection, boost::asio::placeholders::error);
     acceptor_->async_accept(connection->socket(), callback);
 }
 
-void TcpNetwork::HandleAccept(std::shared_ptr<TcpConnection> connection, const boost::system::error_code& error)
+void TcpNetwork::HandleAccept(const std::shared_ptr<TcpConnection>& connection, const boost::system::error_code& error)
 {
     if (!error)
     {
@@ -47,10 +43,10 @@ void TcpNetwork::HandleAccept(std::shared_ptr<TcpConnection> connection, const b
     StartAccept();
 }
 
-void TcpNetwork::InitAcceptor()
+void TcpNetwork::InitAcceptor(const char* ip, int port)
 {
-    auto address = boost::asio::ip::address_v4::from_string("0.0.0.0");
-    auto endpoint = tcp::endpoint(address, 40001);
+    auto address = boost::asio::ip::address_v4::from_string(ip);
+    auto endpoint = tcp::endpoint(address, port);
     acceptor_ = new tcp::acceptor(*io_context_, endpoint);
 }
 

@@ -11,18 +11,18 @@ namespace AsunaServer
     class TcpNetwork
     {
     public:
-        static void InitNetwork(const boost::shared_ptr<boost::asio::io_context>& context);
-        static void FinalizeNetwork();
+        void InitNetwork(const boost::shared_ptr<boost::asio::io_context>& context, const char* ip, int port);
+        void FinalizeNetwork();
 
     private:
-        void static InitAcceptor();
-        void static StartAccept();
-        void static HandleAccept(std::shared_ptr<TcpConnection> connection, const boost::system::error_code& error);
+        void InitAcceptor(const char* ip, int port);
+        void StartAccept();
+        void HandleAccept(const std::shared_ptr<TcpConnection>& connection, const boost::system::error_code& error);
 
     private:
-        static boost::shared_ptr<boost::asio::io_context> io_context_;
-        static boost::asio::ip::tcp::acceptor* acceptor_;
-        static std::set<std::shared_ptr<TcpConnection>> connections_;
+        boost::shared_ptr<boost::asio::io_context> io_context_;
+        boost::asio::ip::tcp::acceptor* acceptor_;
+        std::set<std::shared_ptr<TcpConnection>> connections_;
 
     };
 }

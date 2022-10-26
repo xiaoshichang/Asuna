@@ -1,4 +1,5 @@
-﻿using AsunaServer.Foundation.Network;
+﻿using AsunaServer.Core;
+using AsunaServer.Foundation.Network;
 using AsunaServer.Foundation.Timer;
 
 namespace AsunaServer.Foundation.Server
@@ -7,7 +8,7 @@ namespace AsunaServer.Foundation.Server
     {
         public virtual void Init()
         {
-            InnerNetwork.Init();
+            Interface.Server_Init();
         }
 
         public void Run()
@@ -17,6 +18,7 @@ namespace AsunaServer.Foundation.Server
 
         public virtual void Release()
         {
+            Interface.Server_Finalize();
         }
         
     }

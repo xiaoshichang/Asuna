@@ -23,8 +23,8 @@ add_library(AsunaServer MODULE
         Timer/Timer.h
         Timer/TimerMgr.cpp
         Timer/TimerMgr.h
-        ModuleExport/AsunaServerAPI.cpp
-        ModuleExport/AsunaServerAPI.h
+        ModuleExport/CoreAPI.cpp
+        ModuleExport/CoreAPI.h
         )
 
 target_link_directories(AsunaServer PRIVATE  ${Boost_LIBRARY_DIRS})
