@@ -12,6 +12,9 @@
 
 
 #include "../Timer/TimerMgr.h"
+#include "../Network/TcpNetwork.h"
+
+using namespace AsunaServer;
 
 #ifdef __cplusplus
 extern "C"
@@ -29,10 +32,23 @@ XServerAPI void Logger_Warning(const char* message);
 XServerAPI void Logger_Error(const char* message);
 
 
-XServerAPI AsunaServer::TimerID Timer_AddTimer(unsigned int delay, AsunaServer::TimeoutCallback callback);
-XServerAPI AsunaServer::TimerID Timer_AddRepeatTimer(unsigned int delay, unsigned int interval, AsunaServer::TimeoutCallback callback);
-XServerAPI bool Timer_CancelTimer(AsunaServer::TimerID);
+XServerAPI TimerID Timer_AddTimer(unsigned int delay, TimeoutCallback callback);
+XServerAPI TimerID Timer_AddRepeatTimer(unsigned int delay, unsigned int interval, TimeoutCallback callback);
+XServerAPI bool Timer_CancelTimer(TimerID);
 XServerAPI unsigned int Timer_GetTimersCount();
+
+
+XServerAPI void InnerNetwork_Init(const char* ip, int port,
+                                  OnAcceptCallback on_accept,
+                                  OnDisconnectCallback on_disconnect,
+                                  OnReceiveCallback on_receive);
+XServerAPI void InnerNetwork_Send(TcpConnection* connection, unsigned char* data, unsigned int length);
+
+XServerAPI void OuterNetwork_Init(const char* ip, int port,
+                                  OnAcceptCallback on_accept,
+                                  OnDisconnectCallback on_disconnect,
+                                  OnReceiveCallback on_receive);
+XServerAPI void OuterNetwork_Send(TcpConnection* connection, unsigned char* data, unsigned int length);
 
 
 #ifdef __cplusplus

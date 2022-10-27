@@ -50,9 +50,9 @@ void Server::FinalizeTimerManager()
 }
 
 void Server::InitInnerNetwork(const char* ip, int port,
-                              AcceptCallback on_accept,
-                              DisconnectCallback on_disconnect,
-                              ReceiveCallback on_receive)
+                              OnAcceptCallback on_accept,
+                              OnDisconnectCallback on_disconnect,
+                              OnReceiveCallback on_receive)
 {
     Logger::Info("InitInnerNetwork");
     inner_network_ = boost::make_shared<TcpNetwork>();
@@ -65,9 +65,9 @@ void Server::FinalizeInnerNetwork()
 }
 
 void Server::InitOuterNetwork(const char* ip, int port,
-                              AcceptCallback on_accept,
-                              DisconnectCallback on_disconnect,
-                              ReceiveCallback on_receive)
+                              OnAcceptCallback on_accept,
+                              OnDisconnectCallback on_disconnect,
+                              OnReceiveCallback on_receive)
 {
     Logger::Info("InitOuterNetwork");
     outer_network_ = boost::make_shared<TcpNetwork>();
@@ -79,12 +79,12 @@ void Server::FinalizeOuterNetwork()
     outer_network_->FinalizeNetwork();
 }
 
-void Server::SendInner(TcpConnection *connection, char *data, int length)
+void Server::SendInner(TcpConnection *connection, unsigned char* data, unsigned int length)
 {
 
 }
 
-void Server::SendOuter(TcpConnection *connection, char *data, int length)
+void Server::SendOuter(TcpConnection *connection, unsigned char* data, unsigned int length)
 {
 
 }

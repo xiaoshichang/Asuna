@@ -16,17 +16,17 @@ namespace AsunaServer
         static void Finalize();
 
         static void InitInnerNetwork(const char* ip, int port,
-                                     AcceptCallback on_accept,
-                                     DisconnectCallback on_disconnect,
-                                     ReceiveCallback on_receive);
-        static void SendInner(TcpConnection* connection, char* data, int length);
+                                     OnAcceptCallback on_accept,
+                                     OnDisconnectCallback on_disconnect,
+                                     OnReceiveCallback on_receive);
+        static void SendInner(TcpConnection* connection, unsigned char* data, unsigned int length);
         static void FinalizeInnerNetwork();
 
         static void InitOuterNetwork(const char* ip, int port,
-                                     AcceptCallback on_accept,
-                                     DisconnectCallback on_disconnect,
-                                     ReceiveCallback on_receive);
-        static void SendOuter(TcpConnection* connection, char* data, int length);
+                                     OnAcceptCallback on_accept,
+                                     OnDisconnectCallback on_disconnect,
+                                     OnReceiveCallback on_receive);
+        static void SendOuter(TcpConnection* connection, unsigned char* data, unsigned int length);
         static void FinalizeOuterNetwork();
 
     private:

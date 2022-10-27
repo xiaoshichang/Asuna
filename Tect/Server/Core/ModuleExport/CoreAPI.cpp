@@ -66,3 +66,29 @@ unsigned int Timer_GetTimersCount()
 {
     return AsunaServer::TimerMgr::GetTimersCount();
 }
+
+void InnerNetwork_Init(const char* ip, int port,
+                       OnAcceptCallback on_accept,
+                       OnDisconnectCallback on_disconnect,
+                       OnReceiveCallback on_receive)
+{
+    AsunaServer::Server::InitInnerNetwork(ip, port, on_accept, on_disconnect, on_receive);
+}
+
+void InnerNetwork_Send(TcpConnection* connection, unsigned char* data, unsigned int length)
+{
+    AsunaServer::Server::SendInner(connection, data, length);
+}
+
+void OuterNetwork_Init(const char* ip, int port,
+                       OnAcceptCallback on_accept,
+                       OnDisconnectCallback on_disconnect,
+                       OnReceiveCallback on_receive)
+{
+    AsunaServer::Server::InitOuterNetwork(ip, port, on_accept, on_disconnect, on_receive);
+}
+
+void OuterNetwork_Send(TcpConnection* connection, unsigned char* data, unsigned int length)
+{
+    AsunaServer::Server::SendOuter(connection, data, length);
+}

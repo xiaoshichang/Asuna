@@ -8,36 +8,36 @@
 
 namespace AsunaServer
 {
-    typedef void (*AcceptCallback)(TcpConnection* connection);
-    typedef void (*DisconnectCallback)(TcpConnection* connection);
-    typedef void (*ReceiveCallback)(TcpConnection* connection, unsigned char *data, int length);
+    typedef void (*OnAcceptCallback)(TcpConnection* connection);
+    typedef void (*OnDisconnectCallback)(TcpConnection* connection);
+    typedef void (*OnReceiveCallback)(TcpConnection* connection, unsigned char *payload_data, unsigned int payload_size, unsigned int payload_type);
 
     class TcpNetwork
     {
     public:
         void InitNetwork(const boost::shared_ptr<boost::asio::io_context>& context,
                          const char* ip, int port,
-                         AcceptCallback on_accept,
-                         DisconnectCallback on_disconnect,
-                         ReceiveCallback on_receive);
+                         OnAcceptCallback on_accept,
+                         OnDisconnectCallback on_disconnect,
+                         OnReceiveCallback on_receive);
         void FinalizeNetwork();
 
     private:
         void InitAcceptor(const char* ip, int port);
         void StartAccept();
         void HandleAccept(TcpConnection* connection, const boost::system::error_code& error);
-
+        void OnReceive(TcpConnection* connection, unsigned char *payload_data, unsigned int payload_size, unsigned int payload_type);
         void Disconnect(TcpConnection* connection);
-        void OnDisconnectFromRemote(TcpConnection* connection);
+        void OnDisconnect(TcpConnection* connection);
 
     private:
         boost::shared_ptr<boost::asio::io_context> io_context_;
         boost::asio::ip::tcp::acceptor* acceptor_;
         std::set<TcpConnection*> connections_;
 
-        AcceptCallback accept_callback_;
-        DisconnectCallback disconnect_callback_;
-        ReceiveCallback receive_callback_;
+        OnAcceptCallback accept_callback_;
+        OnDisconnectCallback disconnect_callback_;
+        OnReceiveCallback receive_callback_;
 
 
     };
