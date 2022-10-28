@@ -1,23 +1,35 @@
 ﻿
+using System.Runtime.InteropServices;
+
 namespace AsunaServer.Core
 {
     public delegate void OnAcceptHandler(IntPtr session);
     public delegate void OnDisconnectHandler(IntPtr session);
-    public delegate void OnReceivePackageHandler(IntPtr session, byte[] data, int length);
+    public delegate void OnReceivePackageHandler(IntPtr session, IntPtr data, uint length, uint type);
     
     
     public static partial class Interface
     {
-        public static extern void InnerNetwork_Init();
-        public static extern void InnerNetwork_SetAcceptHandler(OnAcceptHandler handler);
-        public static extern void InnerNetwork_SetReceiveHandler(OnReceivePackageHandler handler);
-        public static extern void InnerNetwork_SetDisconnectHandler(OnDisconnectHandler handler);
-        public static extern void InnerNetwork_Send();
+        [DllImport(_DllPath, CallingConvention = _CallingConvention, CharSet = _CharSet)]
+        public static extern void InnerNetwork_Init(
+            string ip, 
+            int port, 
+            OnAcceptHandler onAccept,
+            OnReceivePackageHandler onReceive,
+            OnDisconnectHandler onDisconnect);
         
-        public static extern void OuterNetwork_Init();
-        public static extern void OuterNetwork_SetAcceptHandler(OnAcceptHandler handler);
-        public static extern void OuterNetwork_SetReceiveHandler(OnReceivePackageHandler handler);
-        public static extern void OuterNetwork_SetDisconnectHandler(OnDisconnectHandler handler);
-        public static extern void OuterNetwork_Send();
+        [DllImport(_DllPath, CallingConvention = _CallingConvention, CharSet = _CharSet)]
+        public static extern void InnerNetwork_Send(IntPtr session, IntPtr data, uint length);
+        
+        [DllImport(_DllPath, CallingConvention = _CallingConvention, CharSet = _CharSet)]
+        public static extern void OuterNetwork_Init(
+            string ip, 
+            int port, 
+            OnAcceptHandler onAccept,
+            OnReceivePackageHandler onReceive,
+            OnDisconnectHandler onDisconnect);
+        
+        [DllImport(_DllPath, CallingConvention = _CallingConvention, CharSet = _CharSet)]
+        public static extern void OuterNetwork_Send(IntPtr session, IntPtr data, uint length);
     }
 }

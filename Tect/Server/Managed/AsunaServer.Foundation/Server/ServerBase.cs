@@ -9,6 +9,7 @@ namespace AsunaServer.Foundation.Server
         public virtual void Init()
         {
             Interface.Server_Init();
+            InnerNetwork.Init("0.0.0.0", 40001);
         }
 
         public void Run()

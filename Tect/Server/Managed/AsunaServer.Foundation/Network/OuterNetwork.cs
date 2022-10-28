@@ -7,10 +7,6 @@ namespace AsunaServer.Foundation.Network
     {
         public static void Init()
         {
-            Interface.OuterNetwork_Init();
-            Interface.OuterNetwork_SetAcceptHandler(OnAccept);
-            Interface.OuterNetwork_SetReceiveHandler(OnReceivePackage);
-            Interface.OuterNetwork_SetDisconnectHandler(OnDisconnect);
         }
         
         private static void OnAccept(IntPtr session)
@@ -23,16 +19,9 @@ namespace AsunaServer.Foundation.Network
             
         }
 
-        private static void OnReceivePackage(IntPtr connection, byte[] data, int length)
+        private static void OnReceivePackage(IntPtr connection, IntPtr data, uint length, uint type)
         {
-            if (_Sessions.TryGetValue(connection, out var session))
-            {
-                session.OnReceive(data, length);
-            }
-            else
-            {
-                Logger.Warning("session not exist!");
-            }
+           
         }
 
         private static readonly Dictionary<IntPtr, TcpSession> _Sessions = new();

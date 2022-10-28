@@ -13,14 +13,9 @@ namespace AsunaServer.Application // Note: actual namespace depends on the proje
         static void Main(string[] args)
         {
             var server = new GameServer();
-            TimerMgr.AddTimer(1000, TestTimeout, null);
+            server.Init();
             server.Run();
             server.Release();
-        }
-
-        static void TestTimeout(object? param)
-        {
-            Logger.Info("timeout");
         }
     }
     

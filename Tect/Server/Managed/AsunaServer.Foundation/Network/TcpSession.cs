@@ -2,36 +2,22 @@
 {
     public class TcpSession
     {
-        public TcpSession(IntPtr session)
+        public TcpSession(IntPtr connection)
         {
-            _Session = session;
+            _Connection = connection;
         }
 
-        public void OnReceive(byte[] data, int length)
+        public void OnAccept()
         {
             
         }
 
-        public void Send()
-        {
-            Send(null, 0);
-        }
-        
-        private void Send(byte[] data, int length)
-        {
-        }
-
-        private void OnDisconnect()
-        {
-            
-        }
-
-        public void Disconnect()
+        public void OnDisconnect()
         {
             
         }
         
-        private IntPtr _Session;
+        private IntPtr _Connection;
     }
 }
 
