@@ -1,12 +1,6 @@
 from single_convert_task import SingleConvertTask
 
 
-class ConvertError(Exception):
-    def __init__(self, table_path, reason):
-        self.table_path = table_path
-        self.reason = reason
-
-
 class TableConverter(object):
 
     @staticmethod

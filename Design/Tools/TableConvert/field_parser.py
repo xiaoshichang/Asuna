@@ -29,6 +29,26 @@ class FieldRule(object):
         self.field_type = None
         self.field_desc = None
 
+    def convert_to_csharp_type(self):
+        if self.field_type == FieldType_Int:
+            return "int"
+        elif self.field_type == FieldType_Float:
+            return "float"
+        elif self.field_type == FieldType_Uint:
+            return "uint"
+        elif self.field_type == FieldType_List_Int:
+            return "int[]"
+        elif self.field_type == FieldType_List_Uint:
+            return "uint[]"
+        elif self.field_type == FieldType_List_Float:
+            return "float[]"
+        elif self.field_type == FieldType_Map_Int_Int:
+            return "Dictionary<int, int>"
+        elif self.field_type == FieldType_Map_Int_Float:
+            return "Dictionary<int, float>"
+        else:
+            raise Exception("known field_type %s" % self.field_type)
+
 
 class ConvertRuleFieldParser(object):
 

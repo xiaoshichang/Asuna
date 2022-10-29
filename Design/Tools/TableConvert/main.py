@@ -20,7 +20,7 @@ def check_excel_dir_exist():
 
 
 def parse_rules():
-    print("parse_rules start")
+    print("===== parse_rules start ======")
     rules = []
     try:
         rules = ConvertRuleParser.parse(args.ExcelDir)
@@ -28,28 +28,33 @@ def parse_rules():
         print(e)
         exit(1)
     print("parse_rules finish, %d rules found." % len(rules))
+    print("===== parse_rules end ======")
     return rules
 
 
 def check_convert_rules(rules):
-    print("check_convert_rules")
+    print("===== check_convert_rules start =====")
     exceptions = ConvertRuleChecker.check(rules)
     if len(exceptions) != 0:
         for exception in exceptions:
             print(exception)
             exit(1)
+    print("===== check_convert_rules end =====")
 
 
 def generate_code(rules):
-    print("generate_code")
+    print("===== generate_code start ===== ")
     CoderGenerator.generate_from_rules(rules, args.CodeExportDir)
+    print("===== generate_code end ===== ")
 
 
 def do_convert(rules):
+    print("===== do_convert start ===== ")
     tasks, errors = TableConverter.convert(rules)
     if len(errors) != 0:
         TableConverter.print_all_errors(errors)
         exit(1)
+    print("===== do_convert end ===== ")
     return tasks
 
 
