@@ -7,7 +7,6 @@ import time
 
 all_pid = []
 all_handlers = []
-serverExecutable = "Asuna.Application.exe"
 
 if os.name == "nt":
     user32 = ctypes.windll.user32
@@ -41,7 +40,7 @@ def run_server_process_nt(args, name):
     env = os.environ.copy()
     env["ConfigPath"] = args.config
     env["ServerName"] = name
-    print(cmd)
+    print("cmd: %s, config: %s, name:%s" % (cmd, args.config, name))
     p = subprocess.Popen(cmd, creationflags=flag, env=env)
     all_pid.append(p.pid)
 
@@ -52,8 +51,6 @@ def start_server_group(args):
     server_group_config = json.load(open(args.config))
     if os.name == "nt":
         run_server_process_nt(args, "GMServer")
-        time.sleep(0.1)
-        run_server_process_nt(args, "DBServer")
         time.sleep(0.1)
         game_server_configs = server_group_config.get("GameServers", [])
         for i, config in enumerate(game_server_configs):
@@ -73,8 +70,7 @@ def start_server_group(args):
 
 
 def stop_server_group_windows(args):
-    print(serverExecutable)
-    os.system("taskkill /f /im  " + serverExecutable)
+    os.system("taskkill /f /im  " + args.exe)
 
 
 def stop_server_group(args):
@@ -94,6 +90,7 @@ def parser_args():
     subparserStart.set_defaults(func=start_server_group)
 
     subparserStop = subparser.add_parser("stop", help="Stop server group")
+    subparserStop.add_argument("exe", help="server exe name")
     subparserStop.set_defaults(func=stop_server_group)
 
     return parser.parse_args()

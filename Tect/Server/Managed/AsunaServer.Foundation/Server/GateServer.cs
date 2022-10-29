@@ -1,10 +1,12 @@
-﻿using AsunaServer.Foundation.Config;
+﻿
+
+using AsunaServer.Foundation.Config;
 
 namespace AsunaServer.Foundation.Server
 {
-    public class GameServer : ServerBase
+    public class GateServer  : ServerBase
     {
-        public GameServer(ServerGroupConfig groupConfig, GameServerConfig serverConfig) : base(groupConfig, serverConfig)
+        public GateServer(ServerGroupConfig groupConfig, GateServerConfig serverConfig) : base(groupConfig, serverConfig)
         {
         }
         
@@ -19,4 +21,3 @@ namespace AsunaServer.Foundation.Server
         }
     }
 }
-

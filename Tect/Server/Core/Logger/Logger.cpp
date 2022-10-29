@@ -11,10 +11,10 @@ const char* TAG_SCRIPT = "[Script]";
 
 src::severity_logger<logging::trivial::severity_level> AsunaServer::Logger::logger_;
 
-void AsunaServer::Logger::Init()
+void AsunaServer::Logger::Init(const char* target, const char* fileName)
 {
     InitLoggingCore();
-    InitSink();
+    InitSink(target, fileName);
 }
 
 void AsunaServer::Logger::InitLoggingCore()
@@ -22,7 +22,7 @@ void AsunaServer::Logger::InitLoggingCore()
     logging::add_common_attributes();
 }
 
-void AsunaServer::Logger::InitSink()
+void AsunaServer::Logger::InitSink(const char* target, const char* fileName)
 {
     // formatter
     logging::formatter formatter = expr::format("[%1%][%2%] - %3%")
@@ -37,12 +37,14 @@ void AsunaServer::Logger::InitSink()
 
     // file
     auto fileSink = logging::add_file_log(
-        keywords::file_name = "sample_%N.log",
-        keywords::rotation_size = 10 * 1024 * 1024
+        keywords::open_mode = std::ios_base::app,
+        keywords::target = target,
+        keywords::file_name = fileName
     );
 
     fileSink->set_formatter(formatter);
-    fileSink->set_filter(logging::trivial::severity >= logging::trivial::info);
+    fileSink->set_filter(logging::trivial::severity >= logging::trivial::debug);
+    fileSink->locked_backend()->auto_flush();
 }
 
 void AsunaServer::Logger::Finalize()

@@ -9,12 +9,6 @@
     "InternalIP": "127.0.0.1",
     "InternalPort": 40000
   },
-  "DBServer":
-  {
-    "Name": "DBServer",
-    "InternalIP": "127.0.0.1",
-    "InternalPort": 40001
-  },
   "GameServers":
   [
     {

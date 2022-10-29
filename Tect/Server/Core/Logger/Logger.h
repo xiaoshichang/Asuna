@@ -41,12 +41,12 @@ namespace AsunaServer
     class Logger
     {
     public:
-        static void Init();
+        static void Init(const char* target, const char* fileName);
         static void Finalize();
 
     private:
         static void InitLoggingCore();
-        static void InitSink();
+        static void InitSink(const char* target, const char* fileName);
 
     public:
         static void Error(const char* message);

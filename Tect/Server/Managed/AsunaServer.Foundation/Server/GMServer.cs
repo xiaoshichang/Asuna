@@ -1,13 +1,14 @@
-﻿using AsunaServer.Foundation.Config;
+﻿
+using AsunaServer.Foundation.Config;
 
 namespace AsunaServer.Foundation.Server
 {
-    public class GameServer : ServerBase
+    public class GMServer  : ServerBase
     {
-        public GameServer(ServerGroupConfig groupConfig, GameServerConfig serverConfig) : base(groupConfig, serverConfig)
+        public GMServer(ServerGroupConfig groupConfig, GMServerConfig serverConfig) : base(groupConfig, serverConfig)
         {
         }
-        
+
         public override void Init()
         {
             base.Init();
@@ -19,4 +20,3 @@ namespace AsunaServer.Foundation.Server
         }
     }
 }
-

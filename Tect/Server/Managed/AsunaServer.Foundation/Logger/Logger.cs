@@ -2,6 +2,11 @@
 {
     public static class Logger
     {
+        public static void Init(string target, string fileName)
+        {
+            Core.Interface.Logger_Init(target, fileName);
+        }
+        
         public static void Debug(string format, params object[] args)
         {
             Core.Interface.Logger_Debug(string.Format(format, args));

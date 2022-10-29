@@ -22,9 +22,9 @@ void Server_Finalize()
     AsunaServer::Server::Finalize();
 }
 
-void Logger_Init()
+void Logger_Init(const char* target, const char* fileName)
 {
-    AsunaServer::Logger::Init();
+    AsunaServer::Logger::Init(target, fileName);
 }
 
 void Logger_Debug(const char* message)
@@ -80,6 +80,11 @@ void InnerNetwork_Send(TcpConnection* connection, unsigned char* data, unsigned 
     AsunaServer::Server::SendInner(connection, data, length);
 }
 
+void InnerNetwork_Finalize()
+{
+    AsunaServer::Server::FinalizeInnerNetwork();
+}
+
 void OuterNetwork_Init(const char* ip, int port,
                        OnAcceptCallback on_accept,
                        OnDisconnectCallback on_disconnect,
@@ -91,4 +96,9 @@ void OuterNetwork_Init(const char* ip, int port,
 void OuterNetwork_Send(TcpConnection* connection, unsigned char* data, unsigned int length)
 {
     AsunaServer::Server::SendOuter(connection, data, length);
+}
+
+void OuterNetwork_Finalize()
+{
+    AsunaServer::Server::FinalizeOuterNetwork();
 }

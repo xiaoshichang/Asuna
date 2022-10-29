@@ -17,7 +17,6 @@ boost::shared_ptr<AsunaServer::TcpNetwork> Server::outer_network_;
 void Server::Init()
 {
     io_context_ = boost::shared_ptr<boost::asio::io_context>(new boost::asio::io_context());
-    InitLogger();
     InitTimerManager();
 }
 
@@ -30,11 +29,6 @@ void Server::Run()
 {
     Logger::Info("Running ...");
     io_context_->run();
-}
-
-void Server::InitLogger()
-{
-    Logger::Init();
 }
 
 void Server::InitTimerManager()

@@ -30,7 +30,6 @@ namespace AsunaServer
         static void FinalizeOuterNetwork();
 
     private:
-        static void InitLogger();
         static void InitTimerManager();
         static void FinalizeTimerManager();
 

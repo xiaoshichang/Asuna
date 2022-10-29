@@ -1,1 +1,2 @@
-python GroupControl.py stop
+SET executable=AsunaServer.Application.exe
+python GroupControl.py stop %executable%
