@@ -3,7 +3,8 @@ import argparse
 from converter import TableConverter
 from rule_parser import ConvertRuleParser
 from code_generator import CoderGenerator
-import utils
+from rule_checker import ConvertRuleChecker
+
 
 parser = argparse.ArgumentParser(description="a tool to convert excel table to txt format data")
 parser.add_argument("--ExcelDir", required=True, help="directory of excel tables")
@@ -30,11 +31,21 @@ def parse_rules():
     return rules
 
 
+def check_convert_rules(rules):
+    print("check_convert_rules")
+    exceptions = ConvertRuleChecker.check(rules)
+    if len(exceptions) != 0:
+        for exception in exceptions:
+            print(exception)
+            exit(1)
+
+
 def generate_code(rules):
+    print("generate_code")
     CoderGenerator.generate_from_rules(rules, args.CodeExportDir)
 
 
-def do_convert_tasks(rules):
+def do_convert(rules):
     tasks, errors = TableConverter.convert(rules)
     if len(errors) != 0:
         TableConverter.print_all_errors(errors)
@@ -42,27 +53,12 @@ def do_convert_tasks(rules):
     return tasks
 
 
-def post_check(tasks):
-    """
-    导表规则验证
-    """
-    print("post_check start")
-    print("post_check finish")
-
-
-def export_data(tasks):
-    print("export_data start")
-    utils.ensure_output_dir(args.DataExportDir)
-    print("export_data finish")
-
-
 def main():
     check_excel_dir_exist()
     rules = parse_rules()
+    check_convert_rules(rules)
     generate_code(rules)
-    tasks = do_convert_tasks(rules)
-    post_check(tasks)
-    export_data(tasks)
+    tasks = do_convert(rules)
     return 0
 
 

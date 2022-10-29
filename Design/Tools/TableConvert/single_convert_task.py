@@ -7,4 +7,5 @@ class SingleConvertTask(object):
         self.data = None
 
     def convert(self):
+        print("start convert with rule(%s, %s)" % (self.convert_rule.source_excel_path, self.convert_rule.model_name))
         pass

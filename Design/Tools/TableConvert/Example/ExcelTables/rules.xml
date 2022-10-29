@@ -17,17 +17,17 @@ field attributes:
 -->
 
 <rules>
-    <rule source_file="ExcelTable1.xlsx" rule_name="AvatarConfig" side="client_server"  desc="class desc">
+    <rule source_file="ExcelTable1.xlsx" model_name="AvatarConfig" side="client_server" desc="class desc">
         <field field_name="f1" side="client_server" type="uint" desc="field desc"/>
         <field field_name="f2" side="server_only"   type="int" />
         <field field_name="f3" type="float" />
     </rule>
 
-    <rule source_file="ExcelTable2.xlsx" rule_name="NpcConfig" side="server_only">
+    <rule source_file="ExcelTable2.xlsx" model_name="NpcConfig" side="server_only">
         <field field_name="f1" side="server_only" type="float" />
     </rule>
 
-    <rule source_file="Mission/ExcelTable3.xlsx" rule_name="MissionConfig" side="client_only">
+    <rule source_file="Mission/ExcelTable3.xlsx" model_name="MissionConfig" side="client_only">
         <field field_name="f1" side="server_only" type="float" />
     </rule>>
 </rules>

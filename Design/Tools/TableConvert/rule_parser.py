@@ -7,7 +7,7 @@ from field_parser import ConvertRuleFieldParser
 class SingleRule(object):
     def __init__(self):
         self.source_excel_path = None
-        self.rule_name = None
+        self.model_name = None
         self.side = None
         self.desc = None
         self.client_fields = None
@@ -31,7 +31,7 @@ class ConvertRuleParser(object):
             rule = ConvertRuleParser.parse_single_rule_node(excel_dir_path, child)
 
             if not rule.need_export():
-                print("skip rule(%s), no export fields" % rule.rule_name)
+                print("skip rule(%s), no export fields" % rule.model_name)
                 continue
 
             rules.append(rule)
@@ -63,7 +63,7 @@ class ConvertRuleParser(object):
 
     @staticmethod
     def get_rule_name_from_rule_node(rule_node):
-        rule_name = rule_node.attrib.get("rule_name")
+        rule_name = rule_node.attrib.get("model_name")
         if not rule_name:
             raise Exception("rule_name is missing")
         return rule_name
@@ -89,7 +89,7 @@ class ConvertRuleParser(object):
 
         rule = SingleRule()
         rule.source_excel_path = ConvertRuleParser.get_source_file_path(excel_dir_path, node)
-        rule.rule_name = ConvertRuleParser.get_rule_name_from_rule_node(node)
+        rule.model_name = ConvertRuleParser.get_rule_name_from_rule_node(node)
         rule.side = ConvertRuleParser.get_side_from_rule_node(node)
         rule.desc = ConvertRuleParser.get_rule_desc_from_rule_node(node)
         rule.client_fields = ConvertRuleParser.parse_fields(node, rule.side, ConvertSide.client_only)
