@@ -41,16 +41,21 @@ XServerAPI unsigned int Timer_GetTimersCount();
 XServerAPI void InnerNetwork_Init(const char* ip, int port,
                                   OnAcceptCallback on_accept,
                                   OnDisconnectCallback on_disconnect,
-                                  OnReceiveCallback on_receive);
+                                  OnReceiveCallback on_receive,
+                                  OnSendCallback on_send);
 XServerAPI void InnerNetwork_Send(TcpConnection* connection, unsigned char* data, unsigned int length);
 XServerAPI void InnerNetwork_Finalize();
 
 XServerAPI void OuterNetwork_Init(const char* ip, int port,
                                   OnAcceptCallback on_accept,
                                   OnDisconnectCallback on_disconnect,
-                                  OnReceiveCallback on_receive);
+                                  OnReceiveCallback on_receive,
+                                  OnSendCallback OnSendCallback);
 XServerAPI void OuterNetwork_Send(TcpConnection* connection, unsigned char* data, unsigned int length);
 XServerAPI void OuterNetwork_Finalize();
+
+
+XServerAPI bool Connection_IsSending(TcpConnection* connection);
 
 #ifdef __cplusplus
 }

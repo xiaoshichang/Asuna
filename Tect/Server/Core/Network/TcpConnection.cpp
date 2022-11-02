@@ -10,18 +10,22 @@ using namespace AsunaServer;
 
 AsunaServer::TcpConnection::TcpConnection(boost::asio::io_context &io_context,
                                           boost::function<void(TcpConnection*, unsigned char *, unsigned int , unsigned int)> on_receive,
+                                          boost::function<void(TcpConnection*)> on_send,
                                           boost::function<void(TcpConnection*)> on_disconnect):
       socket_(io_context),
       on_receive_callback_(std::move(on_receive)),
+      on_send_callback_(std::move(on_send)),
       on_disconnect_callback_(std::move(on_disconnect))
 
 {
     read_buffer_ = new unsigned char [BUFFER_SIZE];
+    send_buffer_ = new unsigned char [BUFFER_SIZE];
 }
 
 TcpConnection::~TcpConnection()
 {
     delete read_buffer_;
+    delete send_buffer_;
 }
 
 void TcpConnection::Start()
@@ -93,5 +97,34 @@ void TcpConnection::Disconnect()
 void TcpConnection::OnDisconnect()
 {
     on_disconnect_callback_(this);
+}
+
+void TcpConnection::Send(unsigned char* data, unsigned int length, unsigned int type)
+{
+    if (sending_)
+    {
+        Logger::Error("previous send operation is not completed!");
+        return;
+    }
+
+    memcpy_s(send_buffer_, 4, &length, 4);
+    memcpy_s(send_buffer_ + 4, 4, &type, 4);
+    memcpy_s(send_buffer_ + 8, length, data, length);
+    auto buffer = boost::asio::buffer(send_buffer_, length + 8);
+    auto callback = boost::bind(&TcpConnection::OnSend, this, boost::asio::placeholders::error, boost::asio::placeholders::bytes_transferred);
+
+    sending_ = true;
+    boost::asio::async_write(socket_, buffer, callback);
+}
+
+void TcpConnection::OnSend(boost::system::error_code ec, std::size_t bytes_transferred)
+{
+    sending_ = false;
+    on_send_callback_(this);
+}
+
+bool TcpConnection::IsSending()
+{
+    return sending_;
 }
 

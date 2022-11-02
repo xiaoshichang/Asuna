@@ -19,6 +19,7 @@ namespace AsunaServer
 
         explicit TcpConnection(boost::asio::io_context& io_context,
                                boost::function<void(TcpConnection*, unsigned char *, unsigned int , unsigned int)> on_receive,
+                               boost::function<void(TcpConnection*)> on_send,
                                boost::function<void(TcpConnection*)> on_disconnect);
         ~TcpConnection();
 
@@ -36,15 +37,22 @@ namespace AsunaServer
         void Disconnect();
         void OnDisconnect();
 
+        void Send(unsigned char* data, unsigned int length, unsigned int type);
+        void OnSend(boost::system::error_code ec, std::size_t bytes_transferred);
+        bool IsSending();
+
     private:
 
         boost::function<void(TcpConnection*, unsigned char *, unsigned int , unsigned int)> on_receive_callback_;
+        boost::function<void(TcpConnection*)> on_send_callback_;
         boost::function<void(TcpConnection*)> on_disconnect_callback_;
 
         tcp::socket socket_;
         unsigned int payload_size_;
         unsigned int payload_type_;
         unsigned char* read_buffer_;
+        unsigned char* send_buffer_;
+        bool sending_;
 
         const int HEADER_SIZE = 8;
         const int BUFFER_SIZE = 2048;

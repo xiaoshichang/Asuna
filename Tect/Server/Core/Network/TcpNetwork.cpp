@@ -16,12 +16,14 @@ void TcpNetwork::InitNetwork(const boost::shared_ptr<boost::asio::io_context>& c
                              int port,
                              OnAcceptCallback on_accept,
                              OnDisconnectCallback on_disconnect,
-                             OnReceiveCallback on_receive)
+                             OnReceiveCallback on_receive,
+                             OnSendCallback on_send)
 {
     io_context_ = context;
     accept_callback_ = on_accept;
     disconnect_callback_ = on_disconnect;
     receive_callback_ = on_receive;
+    send_callback_ = on_send;
 
     InitAcceptor(ip, port);
     StartAccept();
@@ -45,7 +47,10 @@ void TcpNetwork::StartAccept()
     auto on_disconnect = boost::bind(&TcpNetwork::OnDisconnect, this,
                                      boost::placeholders::_1);
 
-    auto connection = new TcpConnection(*io_context_, on_receive, on_disconnect);
+    auto on_send = boost::bind(&TcpNetwork::OnSend, this,
+                               boost::placeholders::_1);
+
+    auto connection = new TcpConnection(*io_context_, on_receive, on_send, on_disconnect);
 
     auto on_accept = boost::bind(&TcpNetwork::HandleAccept, this, connection, boost::asio::placeholders::error);
     acceptor_->async_accept(connection->socket(), on_accept);
@@ -91,3 +96,8 @@ void TcpNetwork::OnReceive(TcpConnection *connection,
     receive_callback_(connection, payload_data, payload_size, payload_type);
 }
 
+
+void TcpNetwork::OnSend(TcpConnection* connection)
+{
+
+}

@@ -70,14 +70,15 @@ unsigned int Timer_GetTimersCount()
 void InnerNetwork_Init(const char* ip, int port,
                        OnAcceptCallback on_accept,
                        OnDisconnectCallback on_disconnect,
-                       OnReceiveCallback on_receive)
+                       OnReceiveCallback on_receive,
+                       OnSendCallback on_send)
 {
-    AsunaServer::Server::InitInnerNetwork(ip, port, on_accept, on_disconnect, on_receive);
+    AsunaServer::Server::InitInnerNetwork(ip, port, on_accept, on_disconnect, on_receive, on_send);
 }
 
-void InnerNetwork_Send(TcpConnection* connection, unsigned char* data, unsigned int length)
+void InnerNetwork_Send(TcpConnection* connection, unsigned char* data, unsigned int length, unsigned int type)
 {
-    AsunaServer::Server::SendInner(connection, data, length);
+    connection->Send(data, length, type);
 }
 
 void InnerNetwork_Finalize()
@@ -88,17 +89,23 @@ void InnerNetwork_Finalize()
 void OuterNetwork_Init(const char* ip, int port,
                        OnAcceptCallback on_accept,
                        OnDisconnectCallback on_disconnect,
-                       OnReceiveCallback on_receive)
+                       OnReceiveCallback on_receive,
+                       OnSendCallback on_send)
 {
-    AsunaServer::Server::InitOuterNetwork(ip, port, on_accept, on_disconnect, on_receive);
+    AsunaServer::Server::InitOuterNetwork(ip, port, on_accept, on_disconnect, on_receive, on_send);
 }
 
-void OuterNetwork_Send(TcpConnection* connection, unsigned char* data, unsigned int length)
+void OuterNetwork_Send(TcpConnection* connection, unsigned char* data, unsigned int length, unsigned int type)
 {
-    AsunaServer::Server::SendOuter(connection, data, length);
+    connection->Send(data, length, type);
 }
 
 void OuterNetwork_Finalize()
 {
     AsunaServer::Server::FinalizeOuterNetwork();
+}
+
+bool Connection_IsSending(TcpConnection* connection)
+{
+    return connection->IsSending();
 }
