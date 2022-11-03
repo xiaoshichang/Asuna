@@ -8,13 +8,8 @@
 #include "../Logger/Logger.h"
 using namespace AsunaServer;
 
-AsunaServer::TcpConnection::TcpConnection(boost::asio::io_context &io_context,
-                                          boost::function<void(TcpConnection*, unsigned char *, unsigned int , unsigned int)> on_receive,
-                                          boost::function<void(TcpConnection*)> on_send,
-                                          boost::function<void(TcpConnection*)> on_disconnect):
+AsunaServer::TcpConnection::TcpConnection(boost::asio::io_context &io_context, boost::function<void(TcpConnection*)> on_disconnect):
       socket_(io_context),
-      on_receive_callback_(std::move(on_receive)),
-      on_send_callback_(std::move(on_send)),
       on_disconnect_callback_(std::move(on_disconnect))
 
 {
@@ -86,7 +81,7 @@ void TcpConnection::HandleReadBody(boost::system::error_code ec, std::size_t byt
         OnDisconnect();
         return;
     }
-    on_receive_callback_(this, read_buffer_, payload_size_, payload_type_);
+    on_receive_callback_(read_buffer_, payload_size_, payload_type_);
 }
 
 void TcpConnection::Disconnect()
@@ -120,11 +115,21 @@ void TcpConnection::Send(unsigned char* data, unsigned int length, unsigned int 
 void TcpConnection::OnSend(boost::system::error_code ec, std::size_t bytes_transferred)
 {
     sending_ = false;
-    on_send_callback_(this);
+    on_send_callback_();
 }
 
-bool TcpConnection::IsSending()
+bool TcpConnection::IsSending() const
 {
     return sending_;
+}
+
+void TcpConnection::SetSendCallback(OnSendCallback on_send)
+{
+    on_send_callback_ = on_send;
+}
+
+void TcpConnection::SetReceiveCallback(OnReceiveCallback on_receive)
+{
+    on_receive_callback_ = on_receive;
 }
 

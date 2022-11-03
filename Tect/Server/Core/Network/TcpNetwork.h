@@ -10,8 +10,6 @@ namespace AsunaServer
 {
     typedef void (*OnAcceptCallback)(TcpConnection* connection);
     typedef void (*OnDisconnectCallback)(TcpConnection* connection);
-    typedef void (*OnReceiveCallback)(TcpConnection* connection, unsigned char *payload_data, unsigned int payload_size, unsigned int payload_type);
-    typedef void (*OnSendCallback)(TcpConnection* connection);
 
     class TcpNetwork
     {
@@ -19,17 +17,13 @@ namespace AsunaServer
         void InitNetwork(const boost::shared_ptr<boost::asio::io_context>& context,
                          const char* ip, int port,
                          OnAcceptCallback on_accept,
-                         OnDisconnectCallback on_disconnect,
-                         OnReceiveCallback on_receive,
-                         OnSendCallback on_send);
+                         OnDisconnectCallback on_disconnect);
         void FinalizeNetwork();
 
     private:
         void InitAcceptor(const char* ip, int port);
         void StartAccept();
         void HandleAccept(TcpConnection* connection, const boost::system::error_code& error);
-        void OnReceive(TcpConnection* connection, unsigned char *payload_data, unsigned int payload_size, unsigned int payload_type);
-        void OnSend(TcpConnection* connection);
         void Disconnect(TcpConnection* connection);
         void OnDisconnect(TcpConnection* connection);
 
@@ -40,9 +34,5 @@ namespace AsunaServer
 
         OnAcceptCallback accept_callback_;
         OnDisconnectCallback disconnect_callback_;
-        OnReceiveCallback receive_callback_;
-        OnSendCallback send_callback_;
-
-
     };
 }
