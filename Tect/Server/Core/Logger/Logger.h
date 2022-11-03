@@ -38,6 +38,13 @@ namespace keywords = boost::log::keywords;
 
 namespace AsunaServer
 {
+    enum LogTag
+    {
+        Core,
+        Managed
+    };
+
+
     class Logger
     {
     public:
@@ -49,13 +56,14 @@ namespace AsunaServer
         static void InitSink(const char* target, const char* fileName);
 
     public:
-        static void Error(const char* message);
-        static void Warning(const char* message);
-        static void Info(const char* message);
-        static void Debug(const char* message);
-        static void Log(logging::trivial::severity_level sensitive, const char* message);
+        static void Error(const char* message, LogTag tag=LogTag::Core);
+        static void Warning(const char* message, LogTag tag=LogTag::Core);
+        static void Info(const char* message, LogTag tag=LogTag::Core);
+        static void Debug(const char* message, LogTag tag=LogTag::Core);
+        static void Log(logging::trivial::severity_level sensitive, const char* message, LogTag tag);
 
     private:
-        static src::severity_logger<logging::trivial::severity_level> logger_;
+        static src::severity_logger<logging::trivial::severity_level> core_logger_;
+        static src::severity_logger<logging::trivial::severity_level> managed_logger_;
     };
 }
