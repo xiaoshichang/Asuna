@@ -12,14 +12,16 @@ using boost::asio::ip::tcp;
 
 namespace AsunaServer
 {
+    class TcpConnection;
+    typedef void (*OnReceiveCallback)( unsigned char *payload_data, unsigned int payload_size, unsigned int payload_type);
+    typedef void (*OnSendCallback)();
+
     class TcpConnection
     {
 
     public:
 
         explicit TcpConnection(boost::asio::io_context& io_context,
-                               boost::function<void(TcpConnection*, unsigned char *, unsigned int , unsigned int)> on_receive,
-                               boost::function<void(TcpConnection*)> on_send,
                                boost::function<void(TcpConnection*)> on_disconnect);
         ~TcpConnection();
 
@@ -27,6 +29,9 @@ namespace AsunaServer
         {
             return socket_;
         }
+
+        void SetReceiveCallback(OnReceiveCallback on_receive);
+        void SetSendCallback(OnSendCallback);
 
         void Start();
         void StartReadHeader();
@@ -39,12 +44,12 @@ namespace AsunaServer
 
         void Send(unsigned char* data, unsigned int length, unsigned int type);
         void OnSend(boost::system::error_code ec, std::size_t bytes_transferred);
-        bool IsSending();
+        bool IsSending() const;
 
     private:
 
-        boost::function<void(TcpConnection*, unsigned char *, unsigned int , unsigned int)> on_receive_callback_;
-        boost::function<void(TcpConnection*)> on_send_callback_;
+        OnReceiveCallback on_receive_callback_;
+        OnSendCallback on_send_callback_;
         boost::function<void(TcpConnection*)> on_disconnect_callback_;
 
         tcp::socket socket_;
@@ -56,6 +61,7 @@ namespace AsunaServer
 
         const int HEADER_SIZE = 8;
         const int BUFFER_SIZE = 2048;
+
     };
 }
 

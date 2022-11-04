@@ -38,23 +38,18 @@ XServerAPI bool Timer_CancelTimer(TimerID);
 XServerAPI unsigned int Timer_GetTimersCount();
 
 
-XServerAPI void InnerNetwork_Init(const char* ip, int port,
-                                  OnAcceptCallback on_accept,
-                                  OnDisconnectCallback on_disconnect,
-                                  OnReceiveCallback on_receive,
-                                  OnSendCallback on_send);
-XServerAPI void InnerNetwork_Send(TcpConnection* connection, unsigned char* data, unsigned int length);
+XServerAPI void InnerNetwork_Init(const char* ip, int port,OnAcceptCallback on_accept, OnDisconnectCallback on_disconnect);
+XServerAPI void InnerNetwork_ConnectTo(const char* ip, int port, OnConnectCallback callback);
+XServerAPI void InnerNetwork_Send(TcpConnection* connection, unsigned char* data, unsigned int length, unsigned int type);
 XServerAPI void InnerNetwork_Finalize();
 
-XServerAPI void OuterNetwork_Init(const char* ip, int port,
-                                  OnAcceptCallback on_accept,
-                                  OnDisconnectCallback on_disconnect,
-                                  OnReceiveCallback on_receive,
-                                  OnSendCallback OnSendCallback);
-XServerAPI void OuterNetwork_Send(TcpConnection* connection, unsigned char* data, unsigned int length);
+XServerAPI void OuterNetwork_Init(const char* ip, int port,OnAcceptCallback on_accept, OnDisconnectCallback on_disconnect);
+XServerAPI void OuterNetwork_Send(TcpConnection* connection, unsigned char* data, unsigned int length, unsigned int type);
 XServerAPI void OuterNetwork_Finalize();
 
 
+XServerAPI void Connection_SetReceiveCallback(TcpConnection* connection, OnReceiveCallback on_receive);
+XServerAPI void Connection_SetSendCallback(TcpConnection* connection, OnSendCallback on_send);
 XServerAPI bool Connection_IsSending(TcpConnection* connection);
 
 #ifdef __cplusplus
