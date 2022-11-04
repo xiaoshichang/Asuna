@@ -46,10 +46,13 @@
 /Tect/Client/UnityProj/UserSettings/
 
 **/.idea
+**/.vs
+
 **/obj
 **/bin
 **/logs
 **/cmake-build-debug/
 **/cmake-build-release/
 **/__pycache__
+**/out/
 
