@@ -34,8 +34,7 @@ void TcpNetwork::FinalizeNetwork()
 
 void TcpNetwork::StartAccept()
 {
-    auto on_disconnect = boost::bind(&TcpNetwork::OnDisconnect, this,
-                                     boost::placeholders::_1);
+    auto on_disconnect = boost::bind(&TcpNetwork::OnDisconnect, this,boost::placeholders::_1);
     auto connection = new TcpConnection(*io_context_,  on_disconnect);
 
     auto on_accept = boost::bind(&TcpNetwork::HandleAccept, this, connection, boost::asio::placeholders::error);
@@ -72,4 +71,23 @@ void TcpNetwork::Disconnect(TcpConnection *connection)
     connection->Disconnect();
     connections_.erase(connection);
     delete connection;
+}
+
+void TcpNetwork::ConnectTo(const char *ip, int port, OnConnectCallback callback)
+{
+    connect_callback_ = callback;
+    auto on_disconnect = boost::bind(&TcpNetwork::OnDisconnect, this,boost::placeholders::_1);
+    auto connection = new TcpConnection(*io_context_,  on_disconnect);
+    auto on_connect = boost::bind(&TcpNetwork::OnConnect, this, connection, boost::asio::placeholders::error);
+    auto address = boost::asio::ip::address_v4::from_string(ip);
+    auto endpoint = tcp::endpoint(address, port);
+    connection->socket().async_connect(endpoint, on_connect);
+}
+
+void TcpNetwork::OnConnect(TcpConnection* connection, const boost::system::error_code &ec)
+{
+    if (!ec)
+    {
+        connections_.insert(connection);
+    }
 }

@@ -9,6 +9,7 @@
 namespace AsunaServer
 {
     typedef void (*OnAcceptCallback)(TcpConnection* connection);
+    typedef void (*OnConnectCallback)(TcpConnection* connection);
     typedef void (*OnDisconnectCallback)(TcpConnection* connection);
 
     class TcpNetwork
@@ -18,12 +19,14 @@ namespace AsunaServer
                          const char* ip, int port,
                          OnAcceptCallback on_accept,
                          OnDisconnectCallback on_disconnect);
+        void ConnectTo(const char* ip, int port, OnConnectCallback callback);
         void FinalizeNetwork();
 
     private:
         void InitAcceptor(const char* ip, int port);
         void StartAccept();
         void HandleAccept(TcpConnection* connection, const boost::system::error_code& error);
+        void OnConnect(TcpConnection* connection, const boost::system::error_code& ec);
         void Disconnect(TcpConnection* connection);
         void OnDisconnect(TcpConnection* connection);
 
@@ -33,6 +36,7 @@ namespace AsunaServer
         std::set<TcpConnection*> connections_;
 
         OnAcceptCallback accept_callback_;
+        OnConnectCallback connect_callback_;
         OnDisconnectCallback disconnect_callback_;
     };
 }

@@ -71,5 +71,10 @@ void Server::FinalizeOuterNetwork()
     outer_network_->FinalizeNetwork();
 }
 
+void Server::ConnectTo(const char *ip, int port, OnDisconnectCallback on_connect)
+{
+    inner_network_->ConnectTo(ip, port, on_connect);
+}
+
 
 

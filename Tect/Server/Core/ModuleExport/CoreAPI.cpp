@@ -74,6 +74,11 @@ void InnerNetwork_Init(const char* ip, int port,
     AsunaServer::Server::InitInnerNetwork(ip, port, on_accept, on_disconnect);
 }
 
+void InnerNetwork_ConnectTo(const char* ip, int port, OnConnectCallback callback)
+{
+    AsunaServer::Server::ConnectTo(ip, port, callback);
+}
+
 void InnerNetwork_Send(TcpConnection* connection, unsigned char* data, unsigned int length, unsigned int type)
 {
     connection->Send(data, length, type);
@@ -115,3 +120,4 @@ bool Connection_IsSending(TcpConnection* connection)
 {
     return connection->IsSending();
 }
+

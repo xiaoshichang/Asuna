@@ -18,6 +18,7 @@ namespace AsunaServer
         static void InitInnerNetwork(const char* ip, int port,
                                      OnAcceptCallback on_accept,
                                      OnDisconnectCallback on_disconnect);
+        static void ConnectTo(const char* ip, int port, OnDisconnectCallback on_connect);
         static void FinalizeInnerNetwork();
 
         static void InitOuterNetwork(const char* ip, int port,
