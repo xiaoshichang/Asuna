@@ -8,7 +8,7 @@ public static partial class Interface
 #if Linux
     private const string _DllPath = @"/home/xiao/CLionProjects/XServer/Core/cmake-build-debug/libXServer.so";
 #elif Windows
-    private const string _DllPath = @"C:\Users\xiao\Documents\GitHub\Asuna\Tect\Server\Core\cmake-build-debug\AsunaServer.dll";
+    private const string _DllPath = @"C:\Users\xiao\Documents\GitHub\Asuna\Tect\Server\Core\out\build\x64-Debug\AsunaServer.dll";
 #endif
     
     

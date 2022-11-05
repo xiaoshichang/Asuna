@@ -1,6 +1,7 @@
 ﻿
-
+using AsunaServer.Foundation.Log;
 using AsunaServer.Foundation.Config;
+using AsunaServer.Foundation.Network;
 
 namespace AsunaServer.Foundation.Server
 {
@@ -13,6 +14,7 @@ namespace AsunaServer.Foundation.Server
         public override void Init()
         {
             base.Init();
+            _TryConnectGMSever();
         }
         
         public override void Release()

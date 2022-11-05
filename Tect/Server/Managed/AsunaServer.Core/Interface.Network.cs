@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 namespace AsunaServer.Core
 {
     public delegate void OnAcceptHandler(IntPtr session);
+    public delegate void OnConnectHandler(IntPtr session);
     public delegate void OnDisconnectHandler(IntPtr session);
     public delegate void OnReceivePackageHandler(IntPtr data, uint length, uint type);
     public delegate void OnSendHandler();
@@ -17,6 +18,9 @@ namespace AsunaServer.Core
             int port, 
             OnAcceptHandler onAccept,
             OnDisconnectHandler onDisconnect);
+
+        [DllImport(_DllPath, CallingConvention = _CallingConvention, CharSet = _CharSet)]
+        public static extern void InnerNetwork_ConnectTo(string ip, int port, OnConnectHandler callback);
         
         [DllImport(_DllPath, CallingConvention = _CallingConvention, CharSet = _CharSet)]
         public static extern void InnerNetwork_Send(IntPtr session, IntPtr data, uint length, uint type);

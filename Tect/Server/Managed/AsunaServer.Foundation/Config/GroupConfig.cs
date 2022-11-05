@@ -68,6 +68,11 @@ public class ServerGroupConfig
         var groupConfig = JsonSerializer.Deserialize<ServerGroupConfig>(content);
         return groupConfig;
     }
+    
+    public GMServerConfig GetGMConfig()
+    {
+        return GMServer;
+    }
 
     public int GetServerGroupNodesCount()
     {

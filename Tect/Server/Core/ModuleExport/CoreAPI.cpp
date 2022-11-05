@@ -89,9 +89,9 @@ void InnerNetwork_Finalize()
     AsunaServer::Server::FinalizeInnerNetwork();
 }
 
-void OuterNetwork_Init(const char* ip, int port,
-                       OnAcceptCallback on_accept,
-                       OnDisconnectCallback on_disconnect)
+void OuterNetwork_Init(const char* ip, int port, 
+                        OnAcceptCallback on_accept, 
+                        OnDisconnectCallback on_disconnect)
 {
     AsunaServer::Server::InitOuterNetwork(ip, port, on_accept, on_disconnect);
 }

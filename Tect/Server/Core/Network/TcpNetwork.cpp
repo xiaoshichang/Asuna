@@ -76,12 +76,10 @@ void TcpNetwork::Disconnect(TcpConnection *connection)
 void TcpNetwork::ConnectTo(const char *ip, int port, OnConnectCallback callback)
 {
     connect_callback_ = callback;
-    auto on_disconnect = boost::bind(&TcpNetwork::OnDisconnect, this,boost::placeholders::_1);
-    auto connection = new TcpConnection(*io_context_,  on_disconnect);
-    auto on_connect = boost::bind(&TcpNetwork::OnConnect, this, connection, boost::asio::placeholders::error);
+    auto connection = new TcpConnection(*io_context_, boost::bind(&TcpNetwork::OnDisconnect, this, boost::placeholders::_1));
     auto address = boost::asio::ip::address_v4::from_string(ip);
     auto endpoint = tcp::endpoint(address, port);
-    connection->socket().async_connect(endpoint, on_connect);
+    connection->socket().async_connect(endpoint, boost::bind(&TcpNetwork::OnConnect, this, connection, boost::asio::placeholders::error));
 }
 
 void TcpNetwork::OnConnect(TcpConnection* connection, const boost::system::error_code &ec)
@@ -90,4 +88,5 @@ void TcpNetwork::OnConnect(TcpConnection* connection, const boost::system::error
     {
         connections_.insert(connection);
     }
+    connect_callback_(connection);
 }

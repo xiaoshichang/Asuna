@@ -11,6 +11,7 @@ namespace AsunaServer.Foundation.Server
         public override void Init()
         {
             base.Init();
+            _TryConnectGMSever();
         }
         
         public override void Release()
