@@ -2,6 +2,7 @@
 using AsunaServer.Foundation.Config;
 using AsunaServer.Foundation.Log;
 using AsunaServer.Foundation.Network;
+using AsunaShared.Message.Indexer;
 
 namespace AsunaServer.Foundation.Server
 {
@@ -15,6 +16,9 @@ namespace AsunaServer.Foundation.Server
         
         public virtual void Init()
         {
+            AssemblyRegisterIndexer.Instance.Init();
+            AssemblyRegisterIndexer.Instance.DebugPrint();
+            
             Interface.Server_Init();
             InnerNetwork.Init(_ServerConfig.InternalIP, _ServerConfig.InternalPort, OnAccept);
             Logger.Info($"{_ServerConfig.Name} listen at {_ServerConfig.InternalIP}:{_ServerConfig.InternalPort}");

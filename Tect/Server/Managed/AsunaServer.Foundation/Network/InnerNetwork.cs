@@ -1,6 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using AsunaServer.Core;
 using AsunaServer.Foundation.Log;
+using AsunaShared.Message.Indexer;
 
 namespace AsunaServer.Foundation.Network
 {
@@ -42,7 +43,14 @@ namespace AsunaServer.Foundation.Network
 
         public static void ConnectTo(string ip, int port, OnConnectCallback callback)
         {
+            if (_Connecting)
+            {
+                Logger.Error("last connection not finish yet!");
+                return;
+            }
+            
             _OnConnectCallback = callback;
+            _Connecting = true;
             Interface.InnerNetwork_ConnectTo(ip, port, OnConnect);
         }
 
@@ -51,6 +59,8 @@ namespace AsunaServer.Foundation.Network
             var session = new TcpSession(connection, true);
             _Sessions.Add(connection, session);
             _OnConnectCallback?.Invoke(session);
+            _OnConnectCallback = null;
+            _Connecting = false;
         }
 
         public static int GetConnectionCount()
@@ -58,11 +68,15 @@ namespace AsunaServer.Foundation.Network
             return _Sessions.Count;
         }
 
-
         /// <summary>
         /// onAccept上层业务回调
         /// </summary>
         private static OnAcceptCallback? _onAcceptCallback;
+
+        /// <summary>
+        /// 连接状态
+        /// </summary>
+        private static bool _Connecting;
         
         /// <summary>
         /// onConnect上层业务回调

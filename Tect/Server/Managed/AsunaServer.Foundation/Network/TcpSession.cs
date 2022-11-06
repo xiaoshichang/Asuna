@@ -12,6 +12,7 @@ namespace AsunaServer.Foundation.Network
             _Connection = connection;
             _InnerNetwork = innerNetwork;
             _SendBuffer = Marshal.AllocHGlobal(SEND_BUFFER_SIZE);
+            _ReceiveBuffer = new byte[RECEIVE_BUFFER_SIZE];
             
             Interface.Connection_SetReceiveCallback(_Connection, OnReceive);
             Interface.Connection_SetSendCallback(_Connection, OnSend);
@@ -19,6 +20,7 @@ namespace AsunaServer.Foundation.Network
 
         public void OnReceive(IntPtr data, uint length, uint type)
         {
+            
         }
 
         public void OnSend()
@@ -40,8 +42,10 @@ namespace AsunaServer.Foundation.Network
         
         private readonly IntPtr _Connection;
         private readonly IntPtr _SendBuffer;
+        private readonly byte[] _ReceiveBuffer;
         private readonly bool _InnerNetwork;
 
+        private const int RECEIVE_BUFFER_SIZE = 2048;
         private const int SEND_BUFFER_SIZE = 2048;
     }
 }
