@@ -2,7 +2,7 @@
 using AsunaServer.Foundation.Config;
 using AsunaServer.Foundation.Log;
 using AsunaServer.Foundation.Network;
-using AsunaShared.Message.Indexer;
+using AsunaServer.Foundation.Network.Message.Indexer;
 
 namespace AsunaServer.Foundation.Server
 {

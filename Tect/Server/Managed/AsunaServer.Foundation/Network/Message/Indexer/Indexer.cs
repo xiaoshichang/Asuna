@@ -1,4 +1,4 @@
-namespace AsunaShared.Message.Indexer
+namespace AsunaServer.Foundation.Network.Message.Indexer
 {
     public abstract class Indexer
     {

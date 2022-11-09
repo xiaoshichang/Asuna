@@ -9,7 +9,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\AsunaServer.Core\AsunaServer.Core.csproj" />
-      <ProjectReference Include="..\AsunaShared.Message\AsunaShared.Message.csproj" />
     </ItemGroup>
 
 </Project>

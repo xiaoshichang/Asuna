@@ -9,10 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsunaServer.Application", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsunaServer.Foundation", "AsunaServer.Foundation\AsunaServer.Foundation.csproj", "{64B8B62F-8DFE-42D5-816B-6F04F7E5F644}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AsunaShared.Message", "AsunaShared.Message\AsunaShared.Message.csproj", "{BF39FD9F-33E0-4B62-880A-2C0A49BB2948}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsunaServer.InnerMessage", "AsunaServer.InnerMessage\AsunaServer.InnerMessage.csproj", "{17625622-548A-42A8-9673-CD9F36FA1615}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,14 +27,6 @@ Global
 		{64B8B62F-8DFE-42D5-816B-6F04F7E5F644}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{64B8B62F-8DFE-42D5-816B-6F04F7E5F644}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{64B8B62F-8DFE-42D5-816B-6F04F7E5F644}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BF39FD9F-33E0-4B62-880A-2C0A49BB2948}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BF39FD9F-33E0-4B62-880A-2C0A49BB2948}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BF39FD9F-33E0-4B62-880A-2C0A49BB2948}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BF39FD9F-33E0-4B62-880A-2C0A49BB2948}.Release|Any CPU.Build.0 = Release|Any CPU
-		{17625622-548A-42A8-9673-CD9F36FA1615}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{17625622-548A-42A8-9673-CD9F36FA1615}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{17625622-548A-42A8-9673-CD9F36FA1615}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{17625622-548A-42A8-9673-CD9F36FA1615}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

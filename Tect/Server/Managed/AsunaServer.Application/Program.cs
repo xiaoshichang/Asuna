@@ -1,6 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using AsunaServer.Foundation.Config;
+﻿using AsunaServer.Foundation.Config;
 using AsunaServer.Foundation.Log;
 using AsunaServer.Foundation.Server;
 
