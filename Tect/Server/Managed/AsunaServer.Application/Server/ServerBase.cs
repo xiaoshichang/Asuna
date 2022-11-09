@@ -1,10 +1,10 @@
 ﻿using AsunaServer.Core;
-using AsunaServer.Foundation.Config;
+using AsunaServer.Application.Config;
 using AsunaServer.Foundation.Log;
 using AsunaServer.Foundation.Network;
 using AsunaServer.Foundation.Network.Message.Indexer;
 
-namespace AsunaServer.Foundation.Server
+namespace AsunaServer.Application.Server
 {
     public abstract partial class ServerBase
     {

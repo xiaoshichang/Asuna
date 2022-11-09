@@ -3,7 +3,7 @@ using AsunaServer.Foundation.Network;
 using AsunaServer.Foundation.Timer;
 
 
-namespace AsunaServer.Foundation.Server;
+namespace AsunaServer.Application.Server;
 
 
 public abstract partial class ServerBase

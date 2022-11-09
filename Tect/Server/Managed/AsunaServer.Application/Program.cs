@@ -1,6 +1,6 @@
-﻿using AsunaServer.Foundation.Config;
+﻿using AsunaServer.Application.Config;
 using AsunaServer.Foundation.Log;
-using AsunaServer.Foundation.Server;
+using AsunaServer.Application.Server;
 
 
 namespace AsunaServer.Application // Note: actual namespace depends on the project name.

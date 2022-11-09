@@ -1,9 +1,9 @@
 ﻿
 using AsunaServer.Foundation.Log;
-using AsunaServer.Foundation.Config;
+using AsunaServer.Application.Config;
 using AsunaServer.Foundation.Network;
 
-namespace AsunaServer.Foundation.Server
+namespace AsunaServer.Application.Server
 {
     public class GateServer  : ServerBase
     {

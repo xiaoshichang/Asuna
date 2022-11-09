@@ -1,7 +1,7 @@
 ﻿
-using AsunaServer.Foundation.Config;
+using AsunaServer.Application.Config;
 
-namespace AsunaServer.Foundation.Server
+namespace AsunaServer.Application.Server
 {
     public class GMServer  : ServerBase
     {

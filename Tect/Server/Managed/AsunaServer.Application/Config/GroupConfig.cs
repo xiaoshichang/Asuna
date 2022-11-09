@@ -5,7 +5,7 @@ using System.Text.Json;
 
 #pragma warning disable CS8618
 
-namespace AsunaServer.Foundation.Config;
+namespace AsunaServer.Application.Config;
 
 public class CommonConfig
 {
