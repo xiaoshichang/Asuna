@@ -14,9 +14,9 @@ namespace AsunaClient.Foundation
     }
     
     
-    public static class Logger
+    public static class ALogger
     {
-        private static string _RecordFormat = "[{0}][{1}] - {2}";
+        private static readonly string _RecordFormat = "[{0}][{1}] - {2}";
        
         public static void Init()
         {

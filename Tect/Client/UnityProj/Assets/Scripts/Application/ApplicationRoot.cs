@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Asuna.Foundation;
 using AsunaClient.Foundation;
 using UnityEngine;
-using Logger = AsunaClient.Foundation.Logger;
 
 
 namespace AsunaClient.Application
@@ -23,7 +22,7 @@ namespace AsunaClient.Application
 
         private IEnumerator _InitLogManagerCo()
         {
-            Logger.Init();
+            ALogger.Init();
             yield return null;
         }
 
@@ -41,8 +40,8 @@ namespace AsunaClient.Application
 
         private IEnumerator _EnterGameCo()
         {
-            NetworkMgr.ConnectToServer("127.0.0.1", 40001, ConnectCallback);
-            NetworkMgr.OnReceiveMsg = OnReceivePackage;
+            // NetworkMgr.ConnectToServer("127.0.0.1", 40001, _ConnectCallback);
+            // NetworkMgr.OnReceiveMsg = _OnReceivePackage;
             yield return null;
         }
 
@@ -72,7 +71,7 @@ namespace AsunaClient.Application
             UIManager.Release();
         }
 
-        private void ConnectCallback(Exception e)
+        private void _ConnectCallback(Exception e)
         {
             if (e != null)
             {
@@ -82,7 +81,7 @@ namespace AsunaClient.Application
             Debug.Log("Connect to server ok!");
         }
 
-        private void OnReceivePackage(PackageBase package)
+        private void _OnReceivePackage(PackageBase package)
         {
         }
     }
