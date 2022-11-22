@@ -40,11 +40,11 @@ XServerAPI unsigned int Timer_GetTimersCount();
 
 XServerAPI void InnerNetwork_Init(const char* ip, int port,OnAcceptCallback on_accept, OnDisconnectCallback on_disconnect);
 XServerAPI void InnerNetwork_ConnectTo(const char* ip, int port, OnConnectCallback callback);
-XServerAPI void InnerNetwork_Send(TcpConnection* connection, unsigned char* data, unsigned int length, unsigned int type);
+XServerAPI void InnerNetwork_Send(TcpConnection* connection, unsigned char* data, int length, unsigned int type);
 XServerAPI void InnerNetwork_Finalize();
 
 XServerAPI void OuterNetwork_Init(const char* ip, int port,OnAcceptCallback on_accept, OnDisconnectCallback on_disconnect);
-XServerAPI void OuterNetwork_Send(TcpConnection* connection, unsigned char* data, unsigned int length, unsigned int type);
+XServerAPI void OuterNetwork_Send(TcpConnection* connection, unsigned char* data, int length, unsigned int type);
 XServerAPI void OuterNetwork_Finalize();
 
 

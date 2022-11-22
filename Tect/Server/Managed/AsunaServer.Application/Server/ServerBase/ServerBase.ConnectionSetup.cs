@@ -22,14 +22,17 @@ public abstract partial class ServerBase
 
     private void _DoConnectGMServer(object? param)
     {
-        Logger.Debug($"_DoConnectGMServer");
         var config = _GroupConfig.GetGMConfig();
-        InnerNetwork.ConnectTo(config.InternalIP, config.InternalPort, _OnConnectToGMServer);
+        InnerNetwork.ConnectTo(config.InternalIP, config.InternalPort, _ConnectToGMServer);
     }
 
-    protected virtual void _OnConnectToGMServer(TcpSession session)
+    protected virtual void _ConnectToGMServer(TcpSession session)
     {
-        Logger.Debug("_OnConnectToGMServer");
+        var message = new InnerPingReq()
+        {
+            ServerName = _ServerConfig.Name
+        };
+        session.Send(message);
     }
     
 }

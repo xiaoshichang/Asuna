@@ -12,7 +12,7 @@ using boost::asio::ip::tcp;
 namespace AsunaServer
 {
     class TcpConnection;
-    typedef void (*OnReceiveCallback)( unsigned char *payload_data, unsigned int payload_size, unsigned int payload_type);
+    typedef void (*OnReceiveCallback)(TcpConnection* connection, unsigned char *payload_data, unsigned int payload_size, unsigned int payload_type);
     typedef void (*OnSendCallback)();
 
     class TcpConnection
@@ -41,15 +41,11 @@ namespace AsunaServer
         void Disconnect();
         void OnDisconnect();
 
-        void Send(unsigned char* data, unsigned int length, unsigned int type);
+        void Send(unsigned char* data, int length, unsigned int type);
         void OnSend(boost::system::error_code ec, std::size_t bytes_transferred);
         bool IsSending() const;
 
     private:
-
-        OnReceiveCallback on_receive_callback_;
-        OnSendCallback on_send_callback_;
-        boost::function<void(TcpConnection*)> on_disconnect_callback_;
 
         tcp::socket socket_;
         unsigned int payload_size_;
@@ -58,8 +54,12 @@ namespace AsunaServer
         unsigned char* send_buffer_;
         bool sending_;
 
+        OnReceiveCallback on_receive_callback_;
+        OnSendCallback on_send_callback_;
+        boost::function<void(TcpConnection*)> on_disconnect_callback_;
+
         const int HEADER_SIZE = 8;
-        const int BUFFER_SIZE = 2048;
+        const int BUFFER_SIZE = 4096;
 
     };
 }

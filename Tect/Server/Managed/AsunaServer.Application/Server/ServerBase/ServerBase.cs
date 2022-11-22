@@ -1,4 +1,5 @@
-﻿using AsunaServer.Core;
+﻿using System.Reflection;
+using AsunaServer.Core;
 using AsunaServer.Application.Config;
 using AsunaServer.Foundation.Log;
 using AsunaServer.Foundation.Network;
@@ -16,16 +17,22 @@ namespace AsunaServer.Application.Server
         
         public virtual void Init()
         {
-            AssemblyRegisterIndexer.Instance.Init();
-            AssemblyRegisterIndexer.Instance.DebugPrint();
+            var assemblyList = new List<Assembly>();
+            assemblyList.Add(Assembly.GetExecutingAssembly());
+            AssemblyRegisterIndexer.Instance.Init(assemblyList);
             
             Interface.Server_Init();
-            InnerNetwork.Init(_ServerConfig.InternalIP, _ServerConfig.InternalPort, OnAccept);
+            InnerNetwork.Init(_ServerConfig.InternalIP, _ServerConfig.InternalPort, null, _OnReceiveMessage);
             Logger.Info($"{_ServerConfig.Name} listen at {_ServerConfig.InternalIP}:{_ServerConfig.InternalPort}");
         }
 
-        public virtual void OnAccept(TcpSession session)
+        protected void _OnReceiveMessage(TcpSession session, object message, Type type)
         {
+            if (type == typeof(InnerPingReq))
+            {
+                var req = message as InnerPingReq;
+                Logger.Debug($"hello from {req.ServerName}");
+            }
         }
 
         public void Run()

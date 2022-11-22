@@ -13,10 +13,9 @@ namespace AsunaServer.Foundation.Network.Message.Serializer
             return data;
         }
 
-        public object Deserialize(byte[] data, uint typeIndex)
+        public object Deserialize(byte[] data, int length, Type type)
         {
-            var str = System.Text.Encoding.UTF8.GetString(data);
-            var type = AssemblyRegisterIndexer.Instance.GetType(typeIndex);
+            var str = System.Text.Encoding.UTF8.GetString(data, 0, length);
             var obj = System.Text.Json.JsonSerializer.Deserialize(str, type);
             if (obj == null)
             {
@@ -26,6 +25,7 @@ namespace AsunaServer.Foundation.Network.Message.Serializer
             return obj;
         }
 
+        public static JsonSerializer Instance = new();
     }
 }
 

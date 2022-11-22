@@ -45,7 +45,6 @@ void TcpNetwork::HandleAccept(TcpConnection* connection, const boost::system::er
 {
     if (!error)
     {
-        Logger::Info("HandleAccept");
         connections_.insert(connection);
         accept_callback_(connection);
         connection->Start();

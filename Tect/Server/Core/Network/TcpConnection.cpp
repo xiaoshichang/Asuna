@@ -8,8 +8,15 @@
 #include "../Logger/Logger.h"
 using namespace AsunaServer;
 
-AsunaServer::TcpConnection::TcpConnection(boost::asio::io_context &io_context, boost::function<void(TcpConnection*)> on_disconnect):
+AsunaServer::TcpConnection::TcpConnection(
+    boost::asio::io_context &io_context, 
+    boost::function<void(TcpConnection*)> on_disconnect):
       socket_(io_context),
+      payload_size_(0),
+      payload_type_(0),
+      sending_(false),
+      on_receive_callback_(nullptr),
+      on_send_callback_(nullptr),
       on_disconnect_callback_(std::move(on_disconnect))
 
 {
@@ -49,8 +56,9 @@ void TcpConnection::HandleReadHeader(boost::system::error_code ec, std::size_t b
         OnDisconnect();
         return;
     }
-    payload_size_ = (unsigned int)*read_buffer_;
-    payload_type_ = (unsigned int)*(read_buffer_ + 4);
+    payload_size_ = *(int*)(read_buffer_);
+    payload_type_ = *(int*)(read_buffer_ + 4);
+
     StartReadBody();
 }
 
@@ -58,6 +66,7 @@ void TcpConnection::StartReadBody()
 {
     if (payload_size_ > BUFFER_SIZE)
     {
+        Logger::Error("payload size is too large.");
         OnDisconnect();
         return;
     }
@@ -81,7 +90,8 @@ void TcpConnection::HandleReadBody(boost::system::error_code ec, std::size_t byt
         OnDisconnect();
         return;
     }
-    on_receive_callback_(read_buffer_, payload_size_, payload_type_);
+
+    on_receive_callback_(this, read_buffer_, payload_size_, payload_type_);
 }
 
 void TcpConnection::Disconnect()
@@ -94,7 +104,7 @@ void TcpConnection::OnDisconnect()
     on_disconnect_callback_(this);
 }
 
-void TcpConnection::Send(unsigned char* data, unsigned int length, unsigned int type)
+void TcpConnection::Send(unsigned char* data, int length, unsigned int type)
 {
     if (sending_)
     {

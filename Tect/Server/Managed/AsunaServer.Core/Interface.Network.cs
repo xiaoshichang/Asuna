@@ -6,7 +6,7 @@ namespace AsunaServer.Core
     public delegate void OnAcceptHandler(IntPtr session);
     public delegate void OnConnectHandler(IntPtr session);
     public delegate void OnDisconnectHandler(IntPtr session);
-    public delegate void OnReceivePackageHandler(IntPtr data, uint length, uint type);
+    public delegate void OnReceivePackageHandler(IntPtr session, IntPtr data, int length, uint type);
     public delegate void OnSendHandler();
     
     
@@ -23,7 +23,7 @@ namespace AsunaServer.Core
         public static extern void InnerNetwork_ConnectTo(string ip, int port, OnConnectHandler callback);
         
         [DllImport(_DllPath, CallingConvention = _CallingConvention, CharSet = _CharSet)]
-        public static extern void InnerNetwork_Send(IntPtr session, IntPtr data, uint length, uint type);
+        public static extern void InnerNetwork_Send(IntPtr session, IntPtr data, int length, uint type);
         
         [DllImport(_DllPath, CallingConvention = _CallingConvention, CharSet = _CharSet)]
         public static extern void OuterNetwork_Init(
@@ -33,7 +33,7 @@ namespace AsunaServer.Core
             OnDisconnectHandler onDisconnect);
         
         [DllImport(_DllPath, CallingConvention = _CallingConvention, CharSet = _CharSet)]
-        public static extern void OuterNetwork_Send(IntPtr session, IntPtr data, uint length, uint type);
+        public static extern void OuterNetwork_Send(IntPtr session, IntPtr data, int length, uint type);
         
         [DllImport(_DllPath, CallingConvention = _CallingConvention, CharSet = _CharSet)]
         public static extern bool Connection_IsSending(IntPtr session);

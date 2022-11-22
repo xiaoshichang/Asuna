@@ -4,15 +4,25 @@ using System.Security.Cryptography;
 
 namespace AsunaServer.Foundation.Network.Message.Indexer
 {
-    public class AssemblyRegisterIndexer : Indexer
+    public class AssemblyRegisterIndexer : IIndexer
     {
-        public void Init()
+        public void Init(List<Assembly> assemblies)
         {
-            var assembly = Assembly.GetExecutingAssembly();
-            var types = assembly.GetTypes();
-            foreach (var type in types)
+            foreach (var assembly in assemblies)
             {
-                _Register(type);
+                var types = assembly.GetTypes();
+                foreach (var type in types)
+                {
+                    var attributes = type.GetCustomAttributes();
+                    foreach (var attribute in attributes)
+                    {
+                        if (attribute.GetType() == typeof(NetworkMessageAttribute))
+                        {
+                            _Register(type);
+                            break;
+                        }
+                    }
+                }
             }
         }
 
@@ -43,7 +53,7 @@ namespace AsunaServer.Foundation.Network.Message.Indexer
             _Index2Type[index] = type;
         }
 
-        public override uint GetIndex(Type type)
+        public uint GetIndex(Type type)
         {
             if (_Type2Index.TryGetValue(type, out var index))
             {
@@ -53,7 +63,7 @@ namespace AsunaServer.Foundation.Network.Message.Indexer
             throw new Exception($"index not found!{type.FullName}");
         }
 
-        public override Type GetType(uint index)
+        public Type GetType(uint index)
         {
             if (_Index2Type.TryGetValue(index, out var type))
             {
@@ -76,7 +86,6 @@ namespace AsunaServer.Foundation.Network.Message.Indexer
         private readonly Dictionary<uint, Type> _Index2Type = new();
 
         public static AssemblyRegisterIndexer Instance = new();
-
     }
 }
 
