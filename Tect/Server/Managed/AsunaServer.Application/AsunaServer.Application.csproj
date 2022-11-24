@@ -8,6 +8,14 @@
         <RootNamespace>AsunaServer.Application</RootNamespace>
     </PropertyGroup>
 
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <OutputPath>..\..\Bin\</OutputPath>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <OutputPath>..\..\Bin\</OutputPath>
+    </PropertyGroup>
+
     <ItemGroup>
       <ProjectReference Include="..\AsunaServer.Foundation\AsunaServer.Foundation.csproj" />
     </ItemGroup>

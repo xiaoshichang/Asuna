@@ -31,6 +31,10 @@ namespace AsunaServer.Application.Server
             if (type == typeof(InnerPingReq))
             {
                 var req = message as InnerPingReq;
+                if (req is null)
+                {
+                    return;
+                }
                 Logger.Debug($"hello from {req.ServerName}");
             }
         }

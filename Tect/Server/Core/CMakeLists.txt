@@ -36,3 +36,4 @@ else()
 endif()
 
 target_include_directories(AsunaServer PRIVATE ${Boost_INCLUDE_DIRS})
+install(TARGETS AsunaServer DESTINATION ${CMAKE_SOURCE_DIR}/../Bin)
