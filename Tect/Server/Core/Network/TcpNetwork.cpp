@@ -86,6 +86,7 @@ void TcpNetwork::OnConnect(TcpConnection* connection, const boost::system::error
     if (!ec)
     {
         connections_.insert(connection);
+        connection->Start();
     }
     connect_callback_(connection);
 }

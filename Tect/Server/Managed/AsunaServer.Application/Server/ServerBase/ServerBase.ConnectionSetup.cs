@@ -34,5 +34,34 @@ public abstract partial class ServerBase
         };
         session.Send(message);
     }
+
+    private void _OnInnerPing(TcpSession session, InnerPingReq req)
+    {
+        if (_ServerToSession.ContainsKey(req.ServerName))
+        {
+            Logger.Error($"server {req.ServerName} exist!");
+            return;
+        }
+        _ServerToSession[req.ServerName] = session;
+        var pong = new InnerPongRsp()
+        {
+            ServerName = _ServerConfig.Name
+        };
+        session.Send(pong);
+        Logger.Debug("_OnInnerPing");
+    }
+
+    private void _OnInnerPong(TcpSession session, InnerPongRsp rsp)
+    {
+        if (_ServerToSession.ContainsKey(rsp.ServerName))
+        {
+            Logger.Error($"server {rsp.ServerName} exist!");
+            return;
+        }
+        _ServerToSession[rsp.ServerName] = session;
+        Logger.Debug("_OnInnerPong");
+    }
+    
+    protected readonly Dictionary<string, TcpSession> _ServerToSession = new();
     
 }
