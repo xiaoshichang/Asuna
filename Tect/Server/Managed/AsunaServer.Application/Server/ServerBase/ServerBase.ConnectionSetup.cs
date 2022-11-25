@@ -10,23 +10,16 @@ public abstract partial class ServerBase
 {
     protected void _TryConnectGMSever()
     {
-        if (IsGMServer())
-        {
-            Logger.Warning("gm try connect to self.");
-            return;
-        }
-
-        uint delay = 1000;
-        TimerMgr.AddTimer(delay, _DoConnectGMServer, null);
+        TimerMgr.AddTimer((uint)Random.Shared.Next(1000, 2000), _DoConnectGMServer, null);
     }
 
     private void _DoConnectGMServer(object? param)
     {
         var config = _GroupConfig.GetGMConfig();
-        InnerNetwork.ConnectTo(config.InternalIP, config.InternalPort, _ConnectToGMServer);
+        InnerNetwork.ConnectTo(config.InternalIP, config.InternalPort);
     }
-
-    protected virtual void _ConnectToGMServer(TcpSession session)
+    
+    protected virtual void _OnConnect(TcpSession session)
     {
         var message = new InnerPingReq()
         {
@@ -35,7 +28,7 @@ public abstract partial class ServerBase
         session.Send(message);
     }
 
-    private void _OnInnerPing(TcpSession session, InnerPingReq req)
+    protected virtual void _OnInnerPing(TcpSession session, InnerPingReq req)
     {
         if (_ServerToSession.ContainsKey(req.ServerName))
         {
@@ -48,10 +41,9 @@ public abstract partial class ServerBase
             ServerName = _ServerConfig.Name
         };
         session.Send(pong);
-        Logger.Debug("_OnInnerPing");
     }
 
-    private void _OnInnerPong(TcpSession session, InnerPongRsp rsp)
+    protected virtual void _OnInnerPong(TcpSession session, InnerPongRsp rsp)
     {
         if (_ServerToSession.ContainsKey(rsp.ServerName))
         {
@@ -59,7 +51,6 @@ public abstract partial class ServerBase
             return;
         }
         _ServerToSession[rsp.ServerName] = session;
-        Logger.Debug("_OnInnerPong");
     }
     
     protected readonly Dictionary<string, TcpSession> _ServerToSession = new();

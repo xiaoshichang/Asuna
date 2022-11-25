@@ -11,9 +11,10 @@ namespace AsunaServer.Foundation.Network
     
     public static class InnerNetwork
     {
-        public static void Init(string ip, int port, OnAcceptCallback? onAccept, OnReceiveCallback? onReceive)
+        public static void Init(string ip, int port, OnAcceptCallback? onAccept, OnConnectCallback? onConnect, OnReceiveCallback? onReceive)
         {
             _onAcceptCallback = onAccept;
+            _OnConnectCallback = onConnect;
             _onReceiveCallback = onReceive;
             Interface.InnerNetwork_Init(ip, port, OnAccept, OnDisconnect);
         }
@@ -53,16 +54,9 @@ namespace AsunaServer.Foundation.Network
             }
         }
 
-        public static void ConnectTo(string ip, int port, OnConnectCallback callback)
+        public static void ConnectTo(string ip, int port)
         {
-            if (_Connecting)
-            {
-                Logger.Error("last connection not finish yet!");
-                return;
-            }
-            
-            _OnConnectCallback = callback;
-            _Connecting = true;
+            Logger.Info($"connect to {ip} {port}");
             Interface.InnerNetwork_ConnectTo(ip, port, OnConnect);
         }
 
@@ -71,8 +65,6 @@ namespace AsunaServer.Foundation.Network
             var session = new TcpSession(connection, true, OnReceiveMessage);
             _Sessions.Add(connection, session);
             _OnConnectCallback?.Invoke(session);
-            _OnConnectCallback = null;
-            _Connecting = false;
         }
 
         public static int GetConnectionCount()
@@ -90,11 +82,6 @@ namespace AsunaServer.Foundation.Network
         /// </summary>
         private static OnReceiveCallback? _onReceiveCallback;
 
-        /// <summary>
-        /// 连接状态
-        /// </summary>
-        private static bool _Connecting;
-        
         /// <summary>
         /// onConnect上层业务回调
         /// </summary>

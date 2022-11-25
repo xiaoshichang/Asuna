@@ -48,7 +48,7 @@ namespace AsunaServer.Application // Note: actual namespace depends on the proje
             {
                 throw new Exception($"ServerName not found in EnvironmentVariable!");
             }
-            var serverConfig = groupConfig.GetCurrentServerConfigByName(serverName);
+            var serverConfig = groupConfig.GetServerConfigByName(serverName);
             if (serverConfig == null)
             {
                 throw new Exception($"{serverName} config not found in group config!");

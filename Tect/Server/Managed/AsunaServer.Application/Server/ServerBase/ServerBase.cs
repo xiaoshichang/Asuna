@@ -21,7 +21,7 @@ namespace AsunaServer.Application.Server
             AssemblyRegisterIndexer.Instance.Init(assemblyList);
             
             Interface.Server_Init();
-            InnerNetwork.Init(_ServerConfig.InternalIP, _ServerConfig.InternalPort, null, _OnReceiveMessage);
+            InnerNetwork.Init(_ServerConfig.InternalIP, _ServerConfig.InternalPort, null, _OnConnect, _OnReceiveMessage);
             Logger.Info($"{_ServerConfig.Name} listen at {_ServerConfig.InternalIP}:{_ServerConfig.InternalPort}");
         }
 

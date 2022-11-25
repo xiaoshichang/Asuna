@@ -39,7 +39,7 @@ public class ServerGroupConfig
     public List<GateServerConfig> GateServers { get; set; }
 
     
-    public ServerConfigBase? GetCurrentServerConfigByName(string servername)
+    public ServerConfigBase? GetServerConfigByName(string servername)
     {
         if (GMServer.Name == servername)
         {
