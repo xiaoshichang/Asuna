@@ -5,7 +5,7 @@ using AsunaServer.Foundation.Timer;
 
 namespace AsunaServer.Application.Server
 {
-    public class GameServer : ServerBase
+    public partial class GameServer : ServerBase
     {
         public GameServer(ServerGroupConfig groupConfig, GameServerConfig serverConfig) : base(groupConfig, serverConfig)
         {
@@ -16,19 +16,6 @@ namespace AsunaServer.Application.Server
             base.Init();
             _TryConnectGMSever();
             _TryConnectGateServer();
-        }
-        
-        protected void _TryConnectGateServer()
-        {
-            TimerMgr.AddTimer((uint)Random.Shared.Next(2000, 3000), _DoConnectGateServer, null);
-        }
-        
-        private void _DoConnectGateServer(object? param)
-        {
-            foreach (var gate in _GroupConfig.GateServers)
-            {
-                InnerNetwork.ConnectTo(gate.InternalIP, gate.InternalPort);
-            }
         }
 
         protected override void _OnInnerPong(TcpSession session, InnerPongRsp rsp)
