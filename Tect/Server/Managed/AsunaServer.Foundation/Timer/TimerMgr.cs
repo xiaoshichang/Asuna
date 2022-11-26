@@ -12,6 +12,11 @@ namespace AsunaServer.Foundation.Timer
             _Timers[timer.TimerID] = timer;
             return timer.TimerID;
         }
+
+        public static uint AddTimer(uint delayMs, TimeoutCallback callback)
+        {
+            return TimerMgr.AddTimer(delayMs, callback, null);
+        }
     
         public static uint AddRepeatTimer(uint delayMs, uint intervalMs, TimeoutCallback callback, object param)
         {

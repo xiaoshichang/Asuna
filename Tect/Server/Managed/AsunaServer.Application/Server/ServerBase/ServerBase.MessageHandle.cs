@@ -1,4 +1,5 @@
-﻿using AsunaServer.Foundation.Log;
+﻿using AsunaServer.Application.Server.InnerMessage;
+using AsunaServer.Foundation.Log;
 using AsunaServer.Foundation.Network;
 
 #pragma warning disable CS8604

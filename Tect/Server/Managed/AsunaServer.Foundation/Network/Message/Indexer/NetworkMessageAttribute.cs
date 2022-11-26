@@ -1,7 +1,7 @@
 namespace AsunaServer.Foundation.Network.Message.Indexer
 {
     
-    [AttributeUsage(AttributeTargets.Class, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Class)]
     public class NetworkMessageAttribute : Attribute
     {
     }

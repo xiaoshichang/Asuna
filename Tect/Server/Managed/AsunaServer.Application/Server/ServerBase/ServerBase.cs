@@ -19,6 +19,7 @@ namespace AsunaServer.Application.Server
         {
             var assemblyList = new List<Assembly> { Assembly.GetExecutingAssembly() };
             AssemblyRegisterIndexer.Instance.Init(assemblyList);
+            AssemblyRegisterIndexer.Instance.DebugPrint();
             
             Interface.Server_Init();
             InnerNetwork.Init(_ServerConfig.InternalIP, _ServerConfig.InternalPort, null, _OnConnect, _OnReceiveMessage);

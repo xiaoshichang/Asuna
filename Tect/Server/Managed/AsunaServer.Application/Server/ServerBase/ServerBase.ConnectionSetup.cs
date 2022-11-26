@@ -1,6 +1,6 @@
 using AsunaServer.Foundation.Log;
 using AsunaServer.Foundation.Network;
-using AsunaServer.Foundation.Timer;
+using AsunaServer.Application.Server.InnerMessage;
 
 
 namespace AsunaServer.Application.Server;
@@ -8,7 +8,6 @@ namespace AsunaServer.Application.Server;
 
 public abstract partial class ServerBase
 {
-    
     
     protected virtual void _OnConnect(TcpSession session)
     {

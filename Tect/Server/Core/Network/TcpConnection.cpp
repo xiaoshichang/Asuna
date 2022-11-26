@@ -92,6 +92,7 @@ void TcpConnection::HandleReadBody(boost::system::error_code ec, std::size_t byt
     }
 
     on_receive_callback_(this, read_buffer_, payload_size_, payload_type_);
+    StartReadHeader();
 }
 
 void TcpConnection::Disconnect()
