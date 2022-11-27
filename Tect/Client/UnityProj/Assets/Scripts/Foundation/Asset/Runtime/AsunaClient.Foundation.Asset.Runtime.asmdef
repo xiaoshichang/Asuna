@@ -1,18 +1,15 @@
 {
-    "name": "AsunaClient.Application",
+    "name": "AsunaClient.Foundation.Asset.Runtime",
     "rootNamespace": "",
     "references": [
-        "AsunaClient.Foundation",
-        "AsunaClient.Foundation.Asset.Runtime",
-        "AsunaClient.Foundation.UI.Runtime",
-        "AsunaClient.Foundation.GM"
+        "GUID:aeb545b874d89b147a7e892966b454b0"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
-    "autoReferenced": true,
+    "autoReferenced": false,
     "defineConstraints": [],
     "versionDefines": [],
     "noEngineReferences": false

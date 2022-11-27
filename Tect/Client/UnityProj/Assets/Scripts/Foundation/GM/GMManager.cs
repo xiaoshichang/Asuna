@@ -15,7 +15,7 @@ namespace AsunaClient.Foundation
         {
             if (_AllGMCommands.ContainsKey(method.Name))
             {
-                ALogger.Error($"duplicated gm name {method.Name}");
+                XDebug.Error($"duplicated gm name {method.Name}");
                 return;
             }
 
@@ -80,7 +80,7 @@ namespace AsunaClient.Foundation
             }
             catch (Exception e)
             {
-                ALogger.Error($"{e.Message}! Content:{item}), Type:{t.Name}");
+                XDebug.Error($"{e.Message}! Content:{item}), Type:{t.Name}");
             }
             return null;
         }
@@ -99,7 +99,7 @@ namespace AsunaClient.Foundation
                 }
             }
             sb.Append("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
-            ALogger.Info(sb.ToString());
+            XDebug.Info(sb.ToString());
         }
         
         /// <summary>
@@ -122,13 +122,13 @@ namespace AsunaClient.Foundation
             var items = input.Split();
             if (items.Length <= 0)
             {
-                ALogger.Error("gm input invalid!");
+                XDebug.Error("gm input invalid!");
                 return false;
             }
             var cmdName = items[0];
             if (!_AllGMCommands.TryGetValue(cmdName, out var cmd))
             {
-                ALogger.Error($"command [{cmdName}] not found!");
+                XDebug.Error($"command [{cmdName}] not found!");
                 _PrintCandidates(cmdName);
                 return false;
             }
@@ -137,7 +137,7 @@ namespace AsunaClient.Foundation
             var count = infos.Length;
             if (count != items.Length - 1)
             {
-                ALogger.Error("gm parameter count not match!");
+                XDebug.Error("gm parameter count not match!");
                 return false;
             }
 
@@ -161,7 +161,7 @@ namespace AsunaClient.Foundation
             }
             catch (Exception e)
             {
-                ALogger.Error(e.Message);
+                XDebug.Error(e.Message);
                 return false;
             }
         }
