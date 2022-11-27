@@ -17,7 +17,6 @@ namespace AsunaServer.Application.Server
             _ServerStubsRegister();
 
             _TryConnectGMSever();
-            _TryConnectGateServer();
         }
 
 

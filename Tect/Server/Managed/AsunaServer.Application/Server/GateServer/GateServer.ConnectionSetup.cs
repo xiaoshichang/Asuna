@@ -33,10 +33,7 @@ public partial class GateServer : ServerBase
         if (config is GameServerConfig)
         {
             _ConnectedGames += 1;
-            if (_ConnectedGames == _GroupConfig.GameServers.Count)
-            {
-                _OnAllGamesConnected();
-            }
+            _CheckServerReady();
         }
     }
 
@@ -53,12 +50,23 @@ public partial class GateServer : ServerBase
         if (config is GMServerConfig)
         {
             _GMSession = session;
+            _CheckServerReady();
         }
     }
 
-    private void _OnAllGamesConnected()
+    private void _CheckServerReady()
     {
-        Logger.Info("_OnAllGamesConnected");
+        if (_GMSession == null)
+        {
+            return;
+        }
+
+        if (_ConnectedGames < _GroupConfig.GameServers.Count)
+        {
+            return;
+        }
+        
+        Logger.Info($"gate is ready! {_ServerConfig.Name}");
         var ntf = new ServerReadyNtf()
         {
             ServerName = _ServerConfig.Name
