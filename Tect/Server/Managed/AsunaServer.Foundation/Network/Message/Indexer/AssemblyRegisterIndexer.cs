@@ -13,14 +13,9 @@ namespace AsunaServer.Foundation.Network.Message.Indexer
                 var types = assembly.GetTypes();
                 foreach (var type in types)
                 {
-                    var attributes = type.GetCustomAttributes();
-                    foreach (var attribute in attributes)
+                    if (type.IsSubclassOf(typeof(INetworkMessage)))
                     {
-                        if (attribute.GetType() == typeof(NetworkMessageAttribute))
-                        {
-                            _Register(type);
-                            break;
-                        }
+                        _Register(type);
                     }
                 }
             }

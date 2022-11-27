@@ -4,8 +4,49 @@ using AsunaServer.Foundation.Log;
 
 namespace AsunaServer.Foundation.Timer
 {
+    public delegate void TimeoutCallback(object? param);
+
+    
     public static class TimerMgr
     {
+        internal class Timer
+        {
+            public Timer(uint delayMS, TimeoutCallback callback, object? param)
+            {
+                IsRepeat = false;
+                _TimeoutCallback = callback;
+                _Param = param;
+                TimerID = Interface.Timer_AddTimer(delayMS, OnTimeout);
+            }
+
+            public Timer(uint delayMS, uint intervalMS, TimeoutCallback callback, object? param)
+            {
+                IsRepeat = true;
+                _TimeoutCallback = callback;
+                _Param = param;
+                TimerID = Interface.Timer_AddRepeatTimer(delayMS, intervalMS, OnTimeout);
+            }
+
+            private void OnTimeout()
+            {
+                _TimeoutCallback.Invoke(_Param);
+                TimerMgr.OnTimeout(this);
+            }
+
+            public bool Cancel()
+            {
+                return Interface.Timer_CancelTimer(TimerID);
+            }
+
+
+            public readonly uint TimerID;
+            public readonly bool IsRepeat;
+            private readonly TimeoutCallback _TimeoutCallback;
+            private readonly object? _Param;
+
+        }
+        
+        
         public static uint AddTimer(uint delayMs, TimeoutCallback callback, object? param)
         {
             var timer = new Timer(delayMs, callback, param);
@@ -39,7 +80,7 @@ namespace AsunaServer.Foundation.Timer
             return true;
         }
     
-        public static void OnTimeout(Timer timer)
+        internal static void OnTimeout(Timer timer)
         {
             if (!timer.IsRepeat)
             {

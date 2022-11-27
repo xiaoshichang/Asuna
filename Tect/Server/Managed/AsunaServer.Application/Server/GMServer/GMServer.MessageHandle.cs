@@ -22,6 +22,13 @@ public partial class GMServer  : ServerBase
             return true;
         }
 
+        if (type == typeof(StubReadyNtf))
+        {
+            var ntf = message as StubReadyNtf;
+            _OnStubReady(session, ntf);
+            return true;
+        }
+
         return false;
 
     }

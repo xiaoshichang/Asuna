@@ -42,7 +42,7 @@ namespace AsunaServer.Foundation.Network
             Send(message);
         }
         
-        public void Send(object message)
+        public void Send(INetworkMessage message)
         {
             if (Interface.Connection_IsSending(_Connection))
             {
@@ -64,7 +64,7 @@ namespace AsunaServer.Foundation.Network
         
         private readonly IntPtr _Connection;
         private readonly IntPtr _SendBuffer;
-        private readonly Queue<object> _SendQueue = new();
+        private readonly Queue<INetworkMessage> _SendQueue = new();
 
         private readonly byte[] _ReceiveBuffer;
         private readonly bool _InnerNetwork;

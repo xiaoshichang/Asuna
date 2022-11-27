@@ -67,6 +67,11 @@ public partial class GameServer : ServerBase
         _GMSession.Send(ntf);
     }
     
+    private void _CallGM(INetworkMessage message)
+    {
+        _GMSession.Send(message);
+    }
+    
     private TcpSession? _GMSession;
     private int _ConnectedGates = 0;
 

@@ -9,6 +9,11 @@ namespace AsunaServer.Application.Server
         {
         }
 
+        public override void Init()
+        {
+            base.Init();
+            _ServerStubsRegister();
+        }
 
     }
 }
