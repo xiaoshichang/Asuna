@@ -15,8 +15,8 @@ public class CommonConfig
 public class ServerConfigBase
 {
     public string Name { get; set; } = string.Empty;
-    public string InternalIP { get; set; } = string.Empty;
-    public int InternalPort { get; set; }
+    public string InnerIp { get; set; } = string.Empty;
+    public int InnerPort { get; set; }
 }
 
 public class GMServerConfig : ServerConfigBase
@@ -29,6 +29,9 @@ public class GameServerConfig : ServerConfigBase
 
 public class GateServerConfig : ServerConfigBase
 {
+    public string OuterIp { get; set; } = string.Empty;
+    public int OuterPort { get; set; }
+    
 }
 
 public class ServerGroupConfig

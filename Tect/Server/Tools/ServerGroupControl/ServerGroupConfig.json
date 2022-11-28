@@ -3,36 +3,39 @@
   {
     "LogPath": "Logs"
   },
-  "GMServer":
-  {
+  "GMServer": {
     "Name": "GMServer",
-    "InternalIP": "127.0.0.1",
-    "InternalPort": 40000
+    "InnerIp": "127.0.0.1",
+    "InnerPort": 40000
   },
   "GameServers":
   [
     {
       "Name": "GameServer1",
-      "InternalIP": "127.0.0.1",
-      "InternalPort": 40002
+      "InnerIp": "127.0.0.1",
+      "InnerPort": 40002
     },
     {
       "Name": "GameServer2",
-      "InternalIP": "127.0.0.1",
-      "InternalPort": 40003
+      "InnerIp": "127.0.0.1",
+      "InnerPort": 40003
     }
   ],
   "GateServers":
   [
     {
       "Name": "GateServer1",
-      "InternalIP": "127.0.0.1",
-      "InternalPort": 40004
+      "InnerIp": "127.0.0.1",
+      "InnerPort": 40004,
+      "OuterIp": "127.0.0.1",
+      "OuterPort": 50001
     },
     {
       "Name": "GateServer2",
-      "InternalIP": "127.0.0.1",
-      "InternalPort": 40005
+      "InnerIp": "127.0.0.1",
+      "InnerPort": 40005,
+      "OuterIp": "127.0.0.1",
+      "OuterPort": 50002
     }
   ]
 }

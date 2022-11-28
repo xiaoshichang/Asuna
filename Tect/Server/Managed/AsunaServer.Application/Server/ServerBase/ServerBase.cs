@@ -31,8 +31,8 @@ namespace AsunaServer.Application.Server
         private void _InitCoreAndNetwork()
         {
             Interface.Server_Init();
-            InnerNetwork.Init(_ServerConfig.InternalIP, _ServerConfig.InternalPort, null, _OnConnect, _OnReceiveMessage);
-            Logger.Info($"{_ServerConfig.Name} listen at {_ServerConfig.InternalIP}:{_ServerConfig.InternalPort}");
+            InnerNetwork.Init(_ServerConfig.InnerIp, _ServerConfig.InnerPort, null, _OnConnect, _OnReceiveMessage);
+            Logger.Info($"{_ServerConfig.Name} listen at {_ServerConfig.InnerIp}:{_ServerConfig.InnerPort}");
         }
         
         public virtual void Init()

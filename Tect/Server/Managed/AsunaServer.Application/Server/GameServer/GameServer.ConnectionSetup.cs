@@ -18,7 +18,7 @@ public partial class GameServer : ServerBase
     private void _DoConnectGMServer(object? param)
     {
         var config = _GroupConfig.GetGMConfig();
-        InnerNetwork.ConnectTo(config.InternalIP, config.InternalPort);
+        InnerNetwork.ConnectTo(config.InnerIp, config.InnerPort);
     }
     
     protected void _TryConnectGateServer()
@@ -30,7 +30,7 @@ public partial class GameServer : ServerBase
     {
         foreach (var gate in _GroupConfig.GateServers)
         {
-            InnerNetwork.ConnectTo(gate.InternalIP, gate.InternalPort);
+            InnerNetwork.ConnectTo(gate.InnerIp, gate.InnerPort);
         }
     }
     

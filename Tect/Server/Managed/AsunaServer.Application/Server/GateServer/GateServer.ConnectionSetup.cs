@@ -18,7 +18,7 @@ public partial class GateServer : ServerBase
     private void _DoConnectGMServer(object? param)
     {
         var config = _GroupConfig.GetGMConfig();
-        InnerNetwork.ConnectTo(config.InternalIP, config.InternalPort);
+        InnerNetwork.ConnectTo(config.InnerIp, config.InnerPort);
     }
     
     protected override void _OnInnerPing(TcpSession session, InnerPingReq req)
