@@ -55,8 +55,17 @@ public partial class GMServer  : ServerBase
         }
         
         Logger.Info($"All Stubs is Ready! count: {_ReadyStubs}");
+        _OnAllStubReady();
 
-        
+    }
+
+    private void _OnAllStubReady()
+    {
+        var ntf = new OpenGateNtf();
+        foreach (var gate in _AllGates)
+        {
+            gate.Send(ntf);
+        }
     }
 
     private Dictionary<string, string>? _StubsDistributeTable;

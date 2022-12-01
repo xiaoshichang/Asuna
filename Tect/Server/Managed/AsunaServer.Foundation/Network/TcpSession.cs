@@ -23,6 +23,11 @@ namespace AsunaServer.Foundation.Network
             Interface.Connection_SetSendCallback(_Connection, OnSend);
         }
 
+        public IntPtr GetConnectionID()
+        {
+            return _Connection;
+        }
+
         public void OnReceive(IntPtr connection, IntPtr rawData, int length, uint index)
         {
             Marshal.Copy(rawData, _ReceiveBuffer, 0, length);
