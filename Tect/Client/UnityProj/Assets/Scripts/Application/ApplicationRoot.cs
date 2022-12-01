@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using AsunaClient.Foundation;
+using AsunaClient.Foundation.GM;
+using AsunaClient.Foundation.Network;
 using AsunaClient.Foundation.UI;
 using UnityEngine;
 
@@ -17,6 +19,7 @@ namespace AsunaClient.Application
             };
             GMManager.Init(assemblyList);
             gameObject.AddComponent<GMTerminal>();
+            XDebug.Info("Init GM Ok!");
             yield return null;
         }
 
@@ -29,6 +32,18 @@ namespace AsunaClient.Application
         private IEnumerator _InitUIManagerCo()
         {
             UIManager.Init();
+            XDebug.Info("Init UI Ok!");
+            yield return null;
+        }
+        
+        private void _OnReceiveNetworkMessage(NetworkMessage message)
+        {
+        }
+        
+        private IEnumerator _InitNetworkCo()
+        {
+            NetworkMgr.Init(_OnReceiveNetworkMessage);
+            XDebug.Info("Init Network Ok!");
             yield return null;
         }
 
@@ -37,9 +52,11 @@ namespace AsunaClient.Application
             yield return null;
         }
 
+
         private IEnumerator _ApplicationStartupCo()
         {
             yield return _InitLogManagerCo();
+            yield return _InitNetworkCo();
             yield return _InitUIManagerCo();
             yield return _InitGMManagerCo();
             yield return _EnterGameCo();
@@ -54,6 +71,7 @@ namespace AsunaClient.Application
         void Update()
         {
             TimerMgr.Tick();
+            NetworkMgr.Tick();
         }
 
         private void OnDestroy()
@@ -61,15 +79,7 @@ namespace AsunaClient.Application
             UIManager.Release();
         }
 
-        private void _ConnectCallback(Exception e)
-        {
-            if (e != null)
-            {
-                Debug.Log(e.Message);
-                return;
-            }
-            Debug.Log("Connect to server ok!");
-        }
+
     }
 }
 

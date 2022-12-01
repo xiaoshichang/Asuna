@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace AsunaClient.Foundation
+namespace AsunaClient.Foundation.GM
 {
     public class GMCommand
     {

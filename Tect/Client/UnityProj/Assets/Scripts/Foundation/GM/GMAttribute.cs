@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AsunaClient.Foundation
+namespace AsunaClient.Foundation.GM
 {
     [AttributeUsage(AttributeTargets.Method, Inherited = false)]
     public class GMAttribute : Attribute

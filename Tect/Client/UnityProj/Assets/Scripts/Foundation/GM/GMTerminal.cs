@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace AsunaClient.Foundation
+namespace AsunaClient.Foundation.GM
 {
     public delegate void RunCommandCallback(string command);
 

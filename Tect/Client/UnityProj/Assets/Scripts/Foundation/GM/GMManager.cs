@@ -6,7 +6,7 @@ using System.Text;
 using UnityEngine;
 
 
-namespace AsunaClient.Foundation
+namespace AsunaClient.Foundation.GM
 {
     
     public static class GMManager

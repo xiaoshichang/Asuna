@@ -100,6 +100,11 @@ namespace AsunaClient.Foundation
             while (true)
             {
                 var timer = _Timers.Min;
+                if (timer == null)
+                {
+                    return;
+                }
+                
                 if (!timer.IsTimeout(now))
                 {
                     break;
