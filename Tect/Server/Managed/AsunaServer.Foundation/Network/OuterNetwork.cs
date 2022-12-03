@@ -10,7 +10,7 @@ namespace AsunaServer.Foundation.Network
             _onAcceptCallback = onAccept;
             _OnConnectCallback = onConnect;
             _onReceiveCallback = onReceive;
-            Interface.InnerNetwork_Init(ip, port, OnAccept, OnDisconnect);
+            Interface.OuterNetwork_Init(ip, port, OnAccept, OnDisconnect);
         }
         
         private static void OnReceiveMessage(IntPtr connection, object message, Type type)
@@ -25,6 +25,7 @@ namespace AsunaServer.Foundation.Network
         
         private static void OnAccept(IntPtr connection)
         {
+            Logger.Debug($"Outer Network OnAccept {connection}");
             if (_Sessions.ContainsKey(connection))
             {
                 Logger.Error($"session({connection}) already exist.");
@@ -36,9 +37,18 @@ namespace AsunaServer.Foundation.Network
             _onAcceptCallback?.Invoke(session);
         }
 
-        private static void OnDisconnect(IntPtr session)
+        private static void OnDisconnect(IntPtr connection)
         {
-            
+            Logger.Debug($"Outer Network OnDisconnect {connection}");
+            if (_Sessions.TryGetValue(connection, out var session))
+            {
+                session.OnDisconnect();
+                _Sessions.Remove(connection);
+            }
+            else
+            {
+                Logger.Warning("session not exist.");
+            }
         }
 
         /// <summary>

@@ -61,13 +61,10 @@ void TcpNetwork::InitAcceptor(const char* ip, int port)
 
 void TcpNetwork::OnDisconnect(TcpConnection *connection)
 {
-    connections_.erase(connection);
-    delete connection;
-}
-
-void TcpNetwork::Disconnect(TcpConnection *connection)
-{
-    connection->Disconnect();
+    if (disconnect_callback_ != nullptr)
+    {
+        disconnect_callback_(connection);
+    }
     connections_.erase(connection);
     delete connection;
 }

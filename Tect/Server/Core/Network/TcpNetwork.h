@@ -27,7 +27,6 @@ namespace AsunaServer
         void StartAccept();
         void HandleAccept(TcpConnection* connection, const boost::system::error_code& error);
         void OnConnect(TcpConnection* connection, const boost::system::error_code& ec);
-        void Disconnect(TcpConnection* connection);
         void OnDisconnect(TcpConnection* connection);
 
     private:

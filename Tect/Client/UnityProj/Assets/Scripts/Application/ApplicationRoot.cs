@@ -50,8 +50,13 @@ namespace AsunaClient.Application
         private IEnumerator _EnterGameCo()
         {
             yield return null;
+            NetworkMgr.ConnectToAsync("127.0.0.1", 50001, OnConnected);
         }
 
+        private void OnConnected(OnConnectResult cr)
+        {
+            XDebug.Info($"OnConnected {cr}");
+        }
 
         private IEnumerator _ApplicationStartupCo()
         {
@@ -74,8 +79,9 @@ namespace AsunaClient.Application
             NetworkMgr.Tick();
         }
 
-        private void OnDestroy()
+        private void OnApplicationQuit()
         {
+            NetworkMgr.Release();
             UIManager.Release();
         }
 

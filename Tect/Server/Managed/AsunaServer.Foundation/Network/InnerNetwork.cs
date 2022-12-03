@@ -11,7 +11,10 @@ namespace AsunaServer.Foundation.Network
     
     public static class InnerNetwork
     {
-        public static void Init(string ip, int port, OnAcceptCallback? onAccept, OnConnectCallback? onConnect, OnReceiveCallback? onReceive)
+        public static void Init(string ip, int port, 
+            OnAcceptCallback? onAccept, 
+            OnConnectCallback? onConnect, 
+            OnReceiveCallback? onReceive)
         {
             _onAcceptCallback = onAccept;
             _OnConnectCallback = onConnect;
@@ -21,6 +24,7 @@ namespace AsunaServer.Foundation.Network
         
         private static void OnAccept(IntPtr connection)
         {
+            Logger.Debug($"Inner Network OnAccept {connection}");
             if (_Sessions.ContainsKey(connection))
             {
                 Logger.Error($"session({connection}) already exist.");
@@ -44,8 +48,10 @@ namespace AsunaServer.Foundation.Network
         
         private static void OnDisconnect(IntPtr connection)
         {
+            Logger.Debug($"Inner Network OnDisconnect {connection}");
             if (_Sessions.TryGetValue(connection, out var session))
             {
+                session.OnDisconnect();
                 _Sessions.Remove(connection);
             }
             else

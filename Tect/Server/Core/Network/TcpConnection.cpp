@@ -95,10 +95,6 @@ void TcpConnection::HandleReadBody(boost::system::error_code ec, std::size_t byt
     StartReadHeader();
 }
 
-void TcpConnection::Disconnect()
-{
-    socket_.shutdown(boost::asio::socket_base::shutdown_both);
-}
 
 void TcpConnection::OnDisconnect()
 {

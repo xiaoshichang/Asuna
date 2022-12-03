@@ -57,6 +57,7 @@ namespace AsunaClient.Foundation.Network
             {
                 IPAddress address = IPAddress.Parse(ip);
                 IPEndPoint endPoint = new IPEndPoint(address, port);
+                _OnConnectCallback = onConnect;
                 _Socket.BeginConnect(endPoint, _OnConnect, null);
                 _State = NetState.Connecting;
             }
@@ -85,16 +86,16 @@ namespace AsunaClient.Foundation.Network
         }
 
 
-        public static void Disconnect()
+        private static void Disconnect()
         {
+            XDebug.Info("Disconnect");
             _State = NetState.Disconnected;
             _ReceiveThread.Abort();
             _ReceiveThread = null;
             _SendThread.Abort();
             _SendThread = null;
-            _Socket.Shutdown(SocketShutdown.Both);
             _Socket.Close();
-            
+            _Socket = null;
         }
 
         public static void Reset()
@@ -155,7 +156,6 @@ namespace AsunaClient.Foundation.Network
         
         private static readonly Queue<NetworkEvent> _Events = new Queue<NetworkEvent>();
         #endregion
-
 
         #region Receiving
 
@@ -253,7 +253,6 @@ namespace AsunaClient.Foundation.Network
         private static readonly byte[] _HeaderBuffer = new byte[HeaderSize];
         private static readonly byte[] _BodyBuffer = new byte[BodySize];
         #endregion
-        
 
         #region Sending
 
@@ -323,10 +322,11 @@ namespace AsunaClient.Foundation.Network
         private static readonly ManualResetEvent _SendEvent = new ManualResetEvent(false);
         private static readonly Queue<NetworkMessage> _SendQueue = new Queue<NetworkMessage>();
         #endregion
-        
 
-
-
+        public static void Release()
+        {
+            Disconnect();
+        }
         
 
     }

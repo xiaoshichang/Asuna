@@ -38,7 +38,6 @@ namespace AsunaServer
         void HandleReadHeader(boost::system::error_code ec, std::size_t bytes_transferred);
         void HandleReadBody(boost::system::error_code ec, std::size_t bytes_transferred);
 
-        void Disconnect();
         void OnDisconnect();
 
         void Send(unsigned char* data, int length, unsigned int type);

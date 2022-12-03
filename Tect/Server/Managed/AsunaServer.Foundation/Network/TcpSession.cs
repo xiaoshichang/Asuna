@@ -66,6 +66,11 @@ namespace AsunaServer.Foundation.Network
                 Interface.OuterNetwork_Send(_Connection, _SendBuffer, data.Length, index);
             }
         }
+
+        public void OnDisconnect()
+        {
+            
+        }
         
         private readonly IntPtr _Connection;
         private readonly IntPtr _SendBuffer;
@@ -74,7 +79,7 @@ namespace AsunaServer.Foundation.Network
         private readonly byte[] _ReceiveBuffer;
         private readonly bool _InnerNetwork;
 
-        private ReceiveMessageHandler _OnReceiveHandler;
+        private readonly ReceiveMessageHandler _OnReceiveHandler;
         
         private const int RECEIVE_BUFFER_SIZE = 2048;
         private const int SEND_BUFFER_SIZE = 2048;
