@@ -1,16 +1,18 @@
+using AsunaServer.Foundation.Network.Message;
+
+
 namespace AsunaServer.Application.Server.InnerMessage;
-
-public class InnerPingReq : INetworkMessage
+public class InnerPingReq : NetworkMessage
 {
     public string ServerName { get; set; } = string.Empty;
 }
 
-public class InnerPongRsp : INetworkMessage
+public class InnerPongRsp : NetworkMessage
 {
     public string ServerName { get; set; } = string.Empty;
 }
 
-public class ServerReadyNtf : INetworkMessage
+public class ServerReadyNtf : NetworkMessage
 {
     public string ServerName { get; set; } = string.Empty;
 }

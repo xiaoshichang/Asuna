@@ -1,6 +1,8 @@
-﻿namespace AsunaServer.Application.Server.InnerMessage;
+﻿using AsunaServer.Foundation.Network.Message;
 
-public class OpenGateNtf : INetworkMessage
+namespace AsunaServer.Application.Server.InnerMessage;
+
+public class OpenGateNtf : NetworkMessage
 {
 }
 

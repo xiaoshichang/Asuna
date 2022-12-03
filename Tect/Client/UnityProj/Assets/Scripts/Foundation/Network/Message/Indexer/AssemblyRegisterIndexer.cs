@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Security.Cryptography;
 using PlasticPipe.PlasticProtocol.Messages;
 
-namespace AsunaClient.Foundation.Network
+namespace AsunaClient.Foundation.Network.Message.Indexer
 {
     public class AssemblyRegisterIndexer : IIndexer
     {

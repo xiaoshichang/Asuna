@@ -1,6 +1,6 @@
 using System;
 
-namespace AsunaClient.Foundation.Network
+namespace AsunaClient.Foundation.Network.Message.Indexer
 {
     public interface  IIndexer
     {

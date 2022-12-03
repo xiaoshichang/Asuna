@@ -1,11 +1,12 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using UnityEngine;
+using AsunaClient.Foundation.Network.Message;
+using AsunaClient.Foundation.Network.Message.Indexer;
+using AsunaClient.Foundation.Network.Message.Serializer;
 
 namespace AsunaClient.Foundation.Network
 {
@@ -325,7 +326,10 @@ namespace AsunaClient.Foundation.Network
 
         public static void Release()
         {
-            Disconnect();
+            if (_State == NetState.Connected)
+            {
+                Disconnect();
+            }
         }
         
 

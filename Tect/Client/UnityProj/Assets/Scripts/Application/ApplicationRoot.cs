@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using AsunaClient.Foundation;
 using AsunaClient.Foundation.GM;
 using AsunaClient.Foundation.Network;
+using AsunaClient.Foundation.Network.Message;
 using AsunaClient.Foundation.UI;
 using UnityEngine;
 

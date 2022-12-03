@@ -1,7 +1,7 @@
 
 using System;
 
-namespace AsunaClient.Foundation.Network
+namespace AsunaClient.Foundation.Network.Message.Serializer
 {
     public class JsonSerializer : ISerializer
     {

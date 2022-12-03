@@ -13,7 +13,7 @@ namespace AsunaServer.Foundation.Network.Message.Indexer
                 var types = assembly.GetTypes();
                 foreach (var type in types)
                 {
-                    if (type.IsSubclassOf(typeof(INetworkMessage)))
+                    if (type.IsSubclassOf(typeof(NetworkMessage)))
                     {
                         _Register(type);
                     }

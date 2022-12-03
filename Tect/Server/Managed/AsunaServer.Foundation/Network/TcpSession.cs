@@ -1,6 +1,7 @@
 ﻿using System.Runtime.InteropServices;
 using AsunaServer.Core;
 using AsunaServer.Foundation.Log;
+using AsunaServer.Foundation.Network.Message;
 using AsunaServer.Foundation.Network.Message.Indexer;
 using AsunaServer.Foundation.Network.Message.Serializer;
 
@@ -47,7 +48,7 @@ namespace AsunaServer.Foundation.Network
             Send(message);
         }
         
-        public void Send(INetworkMessage message)
+        public void Send(NetworkMessage message)
         {
             if (Interface.Connection_IsSending(_Connection))
             {
@@ -74,7 +75,7 @@ namespace AsunaServer.Foundation.Network
         
         private readonly IntPtr _Connection;
         private readonly IntPtr _SendBuffer;
-        private readonly Queue<INetworkMessage> _SendQueue = new();
+        private readonly Queue<NetworkMessage> _SendQueue = new();
 
         private readonly byte[] _ReceiveBuffer;
         private readonly bool _InnerNetwork;

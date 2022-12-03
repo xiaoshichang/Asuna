@@ -2,6 +2,7 @@
 using AsunaServer.Application.Server.InnerMessage;
 using AsunaServer.Foundation.Log;
 using AsunaServer.Foundation.Network;
+using AsunaServer.Foundation.Network.Message;
 using AsunaServer.Foundation.Timer;
 
 namespace AsunaServer.Application.Server;
@@ -74,7 +75,7 @@ public partial class GateServer : ServerBase
         _GMSession.Send(ntf);
     }
     
-    private void _CallGM(INetworkMessage message)
+    private void _CallGM(NetworkMessage message)
     {
         _GMSession.Send(message);
     }

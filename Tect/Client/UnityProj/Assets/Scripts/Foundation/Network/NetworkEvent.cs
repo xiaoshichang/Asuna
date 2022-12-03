@@ -1,4 +1,6 @@
-﻿namespace AsunaClient.Foundation.Network
+﻿using AsunaClient.Foundation.Network.Message;
+
+namespace AsunaClient.Foundation.Network
 {
     public abstract class NetworkEvent
     {
