@@ -1,5 +1,4 @@
-using AsunaServer.Application.Server.InnerMessage;
-using AsunaServer.Foundation.Log;
+using AsunaServer.Application.Message;
 using AsunaServer.Foundation.Network;
 
 namespace AsunaServer.Application.Server;

@@ -1,5 +1,5 @@
 using AsunaServer.Application.Config;
-using AsunaServer.Application.Server.InnerMessage;
+using AsunaServer.Application.Message;
 using AsunaServer.Foundation.Log;
 using AsunaServer.Foundation.Network;
 

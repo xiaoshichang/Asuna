@@ -1,4 +1,4 @@
-using AsunaServer.Application.Server.InnerMessage;
+using AsunaServer.Application.Message;
 using AsunaServer.Foundation.Entity;
 using AsunaServer.Foundation.Log;
 using AsunaServer.Foundation.Network;
