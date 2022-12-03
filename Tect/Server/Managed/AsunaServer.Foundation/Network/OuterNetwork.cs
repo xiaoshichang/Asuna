@@ -33,7 +33,7 @@ namespace AsunaServer.Foundation.Network
                 return;
             }
             
-            var session = new TcpSession(connection, true, OnReceiveMessage);
+            var session = new TcpSession(connection, false, OnReceiveMessage);
             _Sessions.Add(connection, session);
             _onAcceptCallback?.Invoke(session);
         }

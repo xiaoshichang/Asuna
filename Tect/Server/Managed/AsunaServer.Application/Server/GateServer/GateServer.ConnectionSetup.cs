@@ -75,7 +75,7 @@ public partial class GateServer : ServerBase
         _GMSession.Send(ntf);
     }
     
-    private void _CallGM(NetworkMessage message)
+    private void _CallGM(object message)
     {
         _GMSession.Send(message);
     }
