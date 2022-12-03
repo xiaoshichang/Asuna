@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+option csharp_namespace = "AsunaServer.Application.Message";
+
+message InnerPingReq 
+{
+  string ServerName = 1;
+}
+
+message InnerPongRsp
+{
+  string ServerName = 1;
+}
+
+message ServerReadyNtf
+{
+  string ServerName = 1;
+}
+
+message StubsDistributeNtf
+{
+  map<string, string> StubsDistributeTable = 1;
+}
+
+message StubReadyNtf
+{
+  string StubName = 1;
+}
+
+message OpenGateNtf
+{
+}
+
+
+
+
