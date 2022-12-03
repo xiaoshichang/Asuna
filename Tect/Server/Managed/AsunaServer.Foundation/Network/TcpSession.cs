@@ -33,8 +33,18 @@ namespace AsunaServer.Foundation.Network
         {
             Marshal.Copy(rawData, _ReceiveBuffer, 0, length);
             Type type = AssemblyRegisterIndexer.Instance.GetType(index);
-            var message = JsonSerializer.Instance.Deserialize(_ReceiveBuffer, length, type);
-            _OnReceiveHandler?.Invoke(connection, message, type);
+
+            if (_InnerNetwork)
+            {
+                var message = InnerNetwork.Serializer.Deserialize(_ReceiveBuffer, length, type);
+                _OnReceiveHandler?.Invoke(connection, message, type);
+
+            }
+            else
+            {
+                var message = OuterNetwork.Serializer.Deserialize(_ReceiveBuffer, length, type);
+                _OnReceiveHandler?.Invoke(connection, message, type);
+            }
         }
 
         public void OnSend()
@@ -55,7 +65,8 @@ namespace AsunaServer.Foundation.Network
                 _SendQueue.Enqueue(message);
                 return;
             }
-            var data = JsonSerializer.Instance.Serialize(message);
+
+            var data = _InnerNetwork ? InnerNetwork.Serializer.Serialize(message) : OuterNetwork.Serializer.Serialize(message);
             var index = AssemblyRegisterIndexer.Instance.GetIndex(message.GetType());
             Marshal.Copy(data, 0, _SendBuffer, data.Length);
             if (_InnerNetwork)

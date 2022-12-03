@@ -1,5 +1,6 @@
 ﻿using AsunaServer.Core;
 using AsunaServer.Foundation.Log;
+using AsunaServer.Foundation.Network.Message.Serializer;
 
 namespace AsunaServer.Foundation.Network
 {
@@ -70,6 +71,11 @@ namespace AsunaServer.Foundation.Network
         /// 维护所有有效链接
         /// </summary>
         private static readonly Dictionary<IntPtr, TcpSession> _Sessions = new();
+
+        /// <summary>
+        /// 使用的序列化器
+        /// </summary>
+        public static ISerializer Serializer = new JsonSerializer();
     }
 }
 

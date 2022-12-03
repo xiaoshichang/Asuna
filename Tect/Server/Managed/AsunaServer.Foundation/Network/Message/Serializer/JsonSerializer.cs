@@ -24,8 +24,6 @@ namespace AsunaServer.Foundation.Network.Message.Serializer
 
             return obj;
         }
-
-        public static JsonSerializer Instance = new();
     }
 }
 
