@@ -1,4 +1,4 @@
-namespace AsunaServer.Foundation.Network.Message.Indexer
+namespace AsunaServer.Foundation.Message.Indexer
 {
     public interface  IIndexer
     {

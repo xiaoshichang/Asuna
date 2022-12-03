@@ -1,8 +1,8 @@
 
 
-using AsunaServer.Foundation.Network.Message.Indexer;
+using AsunaServer.Foundation.Message.Indexer;
 
-namespace AsunaServer.Foundation.Network.Message.Serializer
+namespace AsunaServer.Foundation.Message.Serializer
 {
     public class JsonSerializer : ISerializer
     {

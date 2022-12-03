@@ -1,7 +1,7 @@
 ﻿
 using AsunaServer.Core;
 using AsunaServer.Foundation.Log;
-using AsunaServer.Foundation.Network.Message.Serializer;
+using AsunaServer.Foundation.Message.Serializer;
 
 
 namespace AsunaServer.Foundation.Network

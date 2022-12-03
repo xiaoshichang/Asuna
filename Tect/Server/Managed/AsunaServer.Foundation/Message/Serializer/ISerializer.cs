@@ -1,5 +1,5 @@
 
-namespace AsunaServer.Foundation.Network.Message.Serializer
+namespace AsunaServer.Foundation.Message.Serializer
 {
     public interface ISerializer
     {

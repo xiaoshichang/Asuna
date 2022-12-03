@@ -2,7 +2,7 @@
 using System.Reflection;
 using System.Security.Cryptography;
 
-namespace AsunaServer.Foundation.Network.Message.Indexer
+namespace AsunaServer.Foundation.Message.Indexer
 {
     public class AssemblyRegisterIndexer : IIndexer
     {
