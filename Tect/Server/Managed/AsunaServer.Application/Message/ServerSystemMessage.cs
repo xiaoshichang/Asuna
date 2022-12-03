@@ -1,4 +1,4 @@
-using AsunaServer.Foundation.Network.Message;
+using AsunaServer.Foundation.Message;
 
 namespace AsunaServer.Application.Message;
 

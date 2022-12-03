@@ -4,8 +4,8 @@ using AsunaServer.Application.Config;
 using AsunaServer.Foundation.Entity;
 using AsunaServer.Foundation.Log;
 using AsunaServer.Foundation.Network;
-using AsunaServer.Foundation.Network.Message;
-using AsunaServer.Foundation.Network.Message.Indexer;
+using AsunaServer.Foundation.Message;
+using AsunaServer.Foundation.Message.Indexer;
 
 namespace AsunaServer.Application.Server
 {

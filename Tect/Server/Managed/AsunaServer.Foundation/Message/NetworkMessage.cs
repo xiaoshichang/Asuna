@@ -1,5 +1,5 @@
 
-namespace AsunaServer.Foundation.Network.Message
+namespace AsunaServer.Foundation.Message
 {
     public abstract class NetworkMessage
     {

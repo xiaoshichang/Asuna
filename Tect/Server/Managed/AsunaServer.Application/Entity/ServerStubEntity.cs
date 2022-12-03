@@ -1,6 +1,6 @@
 using AsunaServer.Application.Message;
 using AsunaServer.Foundation.Log;
-using AsunaServer.Foundation.Network.Message;
+using AsunaServer.Foundation.Message;
 
 #pragma warning disable CS8602
 
