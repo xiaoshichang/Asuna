@@ -7,14 +7,14 @@ namespace AsunaServer.Application.Server;
 
 public partial class GateServer : ServerBase
 {
-    protected override bool _HandleMessage(TcpSession session, object message, Type type)
+    protected override bool _HandleMessage(TcpSession session, object message)
     {
-        if (base._HandleMessage(session, message, type))
+        if (base._HandleMessage(session, message))
         {
             return true;
         }
 
-        if (type == typeof(OpenGateNtf))
+        if (message.GetType() == typeof(OpenGateNtf))
         {
             var ntf = message as OpenGateNtf;
             _OnOpenGateNtf(session, ntf);

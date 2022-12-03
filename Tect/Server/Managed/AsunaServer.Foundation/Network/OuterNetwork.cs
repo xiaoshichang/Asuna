@@ -14,11 +14,11 @@ namespace AsunaServer.Foundation.Network
             Interface.OuterNetwork_Init(ip, port, OnAccept, OnDisconnect);
         }
         
-        private static void OnReceiveMessage(IntPtr connection, object message, Type type)
+        private static void OnReceiveMessage(IntPtr connection, object message)
         {
             if (_Sessions.TryGetValue(connection, out var session))
             {
-                _onReceiveCallback?.Invoke(session, message, type);
+                _onReceiveCallback?.Invoke(session, message);
                 return;
             }
             Logger.Warning("OnReceiveMessage connection does not exist!");

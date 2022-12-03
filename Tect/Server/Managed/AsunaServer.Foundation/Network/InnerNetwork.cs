@@ -8,7 +8,7 @@ namespace AsunaServer.Foundation.Network
 {
     public delegate void OnAcceptCallback(TcpSession session);
     public delegate void OnConnectCallback(TcpSession session);
-    public delegate void OnReceiveCallback(TcpSession session, object message, Type type);
+    public delegate void OnReceiveCallback(TcpSession session, object message);
     
     public static class InnerNetwork
     {
@@ -37,11 +37,11 @@ namespace AsunaServer.Foundation.Network
             _onAcceptCallback?.Invoke(session);
         }
 
-        private static void OnReceiveMessage(IntPtr connection, object message, Type type)
+        private static void OnReceiveMessage(IntPtr connection, object message)
         {
             if (_Sessions.TryGetValue(connection, out var session))
             {
-                _onReceiveCallback?.Invoke(session, message, type);
+                _onReceiveCallback?.Invoke(session, message);
                 return;
             }
             Logger.Warning("OnReceiveMessage connection does not exist!");

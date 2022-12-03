@@ -13,17 +13,17 @@ namespace AsunaServer.Application.Server
         /// </summary>
         /// <param name="session"> the session </param>
         /// <param name="message"> the message </param>
-        /// <param name="type"> the message type </param>
-        private void _OnReceiveMessage(TcpSession session, object message, Type type)
+        private void _OnReceiveMessage(TcpSession session, object message)
         {
-            if (!_HandleMessage(session, message, type))
+            if (!_HandleMessage(session, message))
             {
-                Logger.Error($"message unhandled! {type}");
+                Logger.Error($"message unhandled! {message.GetType()}");
             }
         }
 
-        protected virtual bool _HandleMessage(TcpSession session, object message, Type type)
+        protected virtual bool _HandleMessage(TcpSession session, object message)
         {
+            var type = message.GetType();
             if (type == typeof(InnerPingReq))
             {
                 var req = message as InnerPingReq;

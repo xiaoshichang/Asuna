@@ -1,10 +1,9 @@
 ﻿using System.Runtime.InteropServices;
 using AsunaServer.Core;
-using AsunaServer.Foundation.Message.Indexer;
 
 namespace AsunaServer.Foundation.Network
 {
-    public delegate void ReceiveMessageHandler(IntPtr connection, object message, Type type);
+    public delegate void ReceiveMessageHandler(IntPtr connection, object message);
     
     
     public class TcpSession
@@ -29,18 +28,16 @@ namespace AsunaServer.Foundation.Network
         public void OnReceive(IntPtr connection, IntPtr rawData, int length, uint index)
         {
             Marshal.Copy(rawData, _ReceiveBuffer, 0, length);
-            Type type = AssemblyRegisterIndexer.Instance.GetType(index);
-
             if (_InnerNetwork)
             {
-                var message = InnerNetwork.Serializer.Deserialize(_ReceiveBuffer, length, type);
-                _OnReceiveHandler?.Invoke(connection, message, type);
+                var message = InnerNetwork.Serializer.Deserialize(_ReceiveBuffer, length, index);
+                _OnReceiveHandler?.Invoke(connection, message);
 
             }
             else
             {
-                var message = OuterNetwork.Serializer.Deserialize(_ReceiveBuffer, length, type);
-                _OnReceiveHandler?.Invoke(connection, message, type);
+                var message = OuterNetwork.Serializer.Deserialize(_ReceiveBuffer, length, index);
+                _OnReceiveHandler?.Invoke(connection, message);
             }
         }
 
@@ -64,7 +61,7 @@ namespace AsunaServer.Foundation.Network
             }
 
             var data = _InnerNetwork ? InnerNetwork.Serializer.Serialize(message) : OuterNetwork.Serializer.Serialize(message);
-            var index = AssemblyRegisterIndexer.Instance.GetIndex(message.GetType());
+            var index = _InnerNetwork ? InnerNetwork.Serializer.GetIndexByType(message.GetType()) : OuterNetwork.Serializer.GetIndexByType(message.GetType());
             Marshal.Copy(data, 0, _SendBuffer, data.Length);
             if (_InnerNetwork)
             {

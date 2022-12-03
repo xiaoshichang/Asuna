@@ -26,11 +26,11 @@ public partial class GateServer : ServerBase
         Logger.Debug($"on client connected! {session.GetConnectionID()}");
     }
     
-    private void _OnReceiveClientMessage(TcpSession session, object message, Type type)
+    private void _OnReceiveClientMessage(TcpSession session, object message)
     {
-        if (!_HandleMessage(session, message, type))
+        if (!_HandleMessage(session, message))
         {
-            Logger.Error($"message unhandled! {type}");
+            Logger.Error($"message unhandled! {message.GetType()}");
         }
     }
     

@@ -5,7 +5,7 @@ using AsunaServer.Foundation.Entity;
 using AsunaServer.Foundation.Log;
 using AsunaServer.Foundation.Network;
 using AsunaServer.Foundation.Message;
-using AsunaServer.Foundation.Message.Indexer;
+using AsunaServer.Foundation.Message.Serializer;
 
 namespace AsunaServer.Application.Server
 {
@@ -17,10 +17,17 @@ namespace AsunaServer.Application.Server
             _ServerConfig = serverConfig;
         }
 
-        private void _TypeIndexRegister()
+        private void _RegisterNetworkMessage()
         {
             var assemblyList = new List<Assembly> { Assembly.GetExecutingAssembly() };
-            AssemblyRegisterIndexer.Instance.Collect(assemblyList, typeof(NetworkMessage));
+            if (InnerNetwork.Serializer is JsonSerializer s)
+            {
+                s.Collect(assemblyList);
+            }
+            else
+            {
+                Logger.Error("unknown serializer");
+            }
         }
 
         protected void _ServerStubsRegister()
@@ -38,7 +45,7 @@ namespace AsunaServer.Application.Server
         
         public virtual void Init()
         {
-            _TypeIndexRegister();
+            _RegisterNetworkMessage();
             _InitCoreAndNetwork();
         }
 
