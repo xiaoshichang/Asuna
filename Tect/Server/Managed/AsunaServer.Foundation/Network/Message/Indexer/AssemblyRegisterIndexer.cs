@@ -6,14 +6,14 @@ namespace AsunaServer.Foundation.Network.Message.Indexer
 {
     public class AssemblyRegisterIndexer : IIndexer
     {
-        public void Init(List<Assembly> assemblies)
+        public void Collect(List<Assembly> assemblies, Type targetType)
         {
             foreach (var assembly in assemblies)
             {
                 var types = assembly.GetTypes();
                 foreach (var type in types)
                 {
-                    if (type.IsSubclassOf(typeof(NetworkMessage)))
+                    if (type.IsSubclassOf(targetType))
                     {
                         _Register(type);
                     }

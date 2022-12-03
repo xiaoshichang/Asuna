@@ -4,6 +4,7 @@ using AsunaServer.Application.Config;
 using AsunaServer.Foundation.Entity;
 using AsunaServer.Foundation.Log;
 using AsunaServer.Foundation.Network;
+using AsunaServer.Foundation.Network.Message;
 using AsunaServer.Foundation.Network.Message.Indexer;
 
 namespace AsunaServer.Application.Server
@@ -19,7 +20,7 @@ namespace AsunaServer.Application.Server
         private void _TypeIndexRegister()
         {
             var assemblyList = new List<Assembly> { Assembly.GetExecutingAssembly() };
-            AssemblyRegisterIndexer.Instance.Init(assemblyList);
+            AssemblyRegisterIndexer.Instance.Collect(assemblyList, typeof(NetworkMessage));
         }
 
         protected void _ServerStubsRegister()

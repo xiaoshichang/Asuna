@@ -1,10 +1,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using AsunaClient.Foundation;
 using AsunaClient.Foundation.GM;
 using AsunaClient.Foundation.Network;
 using AsunaClient.Foundation.Network.Message;
+using AsunaClient.Foundation.Network.Message.Indexer;
 using AsunaClient.Foundation.UI;
 using UnityEngine;
 
@@ -43,6 +45,9 @@ namespace AsunaClient.Application
         
         private IEnumerator _InitNetworkCo()
         {
+            List<Assembly> assemblies = new List<Assembly>();
+            AssemblyRegisterIndexer.Instance.Collect(assemblies, typeof(NetworkMessage));
+            
             NetworkMgr.Init(_OnReceiveNetworkMessage);
             XDebug.Info("Init Network Ok!");
             yield return null;

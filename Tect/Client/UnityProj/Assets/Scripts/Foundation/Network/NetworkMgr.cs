@@ -78,12 +78,14 @@ namespace AsunaClient.Foundation.Network
             {
                 XDebug.Error(e.Message);
                 _OnConnectCallback?.Invoke(OnConnectResult.Error);
-                return;
             }
-            _State = NetState.Connected;
-            _OnConnectCallback?.Invoke(OnConnectResult.OK);
-            _ReceiveThread.Start();
-            _SendThread.Start();
+            finally
+            {
+                _State = NetState.Connected;
+                _OnConnectCallback?.Invoke(OnConnectResult.OK);
+                _ReceiveThread.Start();
+                _SendThread.Start();
+            }
         }
 
 
@@ -108,7 +110,10 @@ namespace AsunaClient.Foundation.Network
             }
             _State = NetState.Ready;
             _SendEvent.Reset();
-            _SendQueue.Clear();
+            lock (_SendQueue)
+            {
+                _SendQueue.Clear();
+            }
             _ReceiveThread = new Thread(_Receiving);
             _SendThread = new Thread(_Sending);
         }
