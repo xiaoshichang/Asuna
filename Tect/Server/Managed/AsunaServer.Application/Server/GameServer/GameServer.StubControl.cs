@@ -2,6 +2,7 @@ using AsunaServer.Application.Message;
 using AsunaServer.Foundation.Entity;
 using AsunaServer.Foundation.Log;
 using AsunaServer.Foundation.Network;
+using Google.Protobuf.Collections;
 
 #pragma warning disable CS8602
 
@@ -42,5 +43,5 @@ public partial class GameServer : ServerBase
         }
     }
 
-    private Dictionary<string, string> _StubsDistributeTable = new();
+    private MapField<string, string> _StubsDistributeTable = new();
 }

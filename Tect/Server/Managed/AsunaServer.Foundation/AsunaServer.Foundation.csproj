@@ -11,4 +11,8 @@
       <ProjectReference Include="..\AsunaServer.Core\AsunaServer.Core.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Google.Protobuf" Version="3.21.10" />
+    </ItemGroup>
+
 </Project>

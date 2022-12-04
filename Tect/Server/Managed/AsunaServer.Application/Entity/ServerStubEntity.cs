@@ -1,12 +1,12 @@
 using AsunaServer.Application.Message;
 using AsunaServer.Foundation.Log;
-using AsunaServer.Foundation.Message;
+using Google.Protobuf;
 
 #pragma warning disable CS8602
 
 namespace AsunaServer.Foundation.Entity;
 
-public delegate void NetworkDelegate(NetworkMessage message);
+public delegate void NetworkDelegate(IMessage message);
 
 public abstract class ServerStubEntity : ServerEntity
 {

@@ -59,16 +59,19 @@ namespace AsunaServer.Foundation.Network
                 _SendQueue.Enqueue(message);
                 return;
             }
-
-            var data = _InnerNetwork ? InnerNetwork.Serializer.Serialize(message) : OuterNetwork.Serializer.Serialize(message);
-            var index = _InnerNetwork ? InnerNetwork.Serializer.GetIndexByType(message.GetType()) : OuterNetwork.Serializer.GetIndexByType(message.GetType());
-            Marshal.Copy(data, 0, _SendBuffer, data.Length);
+            
             if (_InnerNetwork)
             {
+                var data = InnerNetwork.Serializer.Serialize(message);
+                Marshal.Copy(data, 0, _SendBuffer, data.Length);
+                var index = InnerNetwork.Serializer.GetIndexByType(message.GetType());
                 Interface.InnerNetwork_Send(_Connection, _SendBuffer, data.Length, index);
             }
             else
             {
+                var data = OuterNetwork.Serializer.Serialize(message);
+                Marshal.Copy(data, 0, _SendBuffer, data.Length);
+                var index = OuterNetwork.Serializer.GetIndexByType(message.GetType());
                 Interface.OuterNetwork_Send(_Connection, _SendBuffer, data.Length, index);
             }
         }

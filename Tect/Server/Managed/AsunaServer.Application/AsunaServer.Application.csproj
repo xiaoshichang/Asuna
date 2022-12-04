@@ -20,4 +20,8 @@
       <ProjectReference Include="..\AsunaServer.Foundation\AsunaServer.Foundation.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Message\Protobuf" />
+    </ItemGroup>
+
 </Project>

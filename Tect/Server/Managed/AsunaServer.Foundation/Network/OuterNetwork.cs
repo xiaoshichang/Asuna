@@ -75,7 +75,7 @@ namespace AsunaServer.Foundation.Network
         /// <summary>
         /// 使用的序列化器
         /// </summary>
-        public static SerializerBase Serializer = new JsonSerializer();
+        public static SerializerBase Serializer = new ProtobufSerializer();
     }
 }
 

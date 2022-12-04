@@ -29,6 +29,7 @@ message StubReadyNtf
 
 message OpenGateNtf
 {
+  int32 Dummy = 1;
 }
 
 

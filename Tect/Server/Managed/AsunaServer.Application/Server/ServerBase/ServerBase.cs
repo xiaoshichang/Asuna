@@ -20,14 +20,8 @@ namespace AsunaServer.Application.Server
         private void _RegisterNetworkMessage()
         {
             var assemblyList = new List<Assembly> { Assembly.GetExecutingAssembly() };
-            if (InnerNetwork.Serializer is JsonSerializer s)
-            {
-                s.Collect(assemblyList);
-            }
-            else
-            {
-                Logger.Error("unknown serializer");
-            }
+            InnerNetwork.Serializer.Collect(assemblyList);
+            InnerNetwork.Serializer.DebugPrint();
         }
 
         protected void _ServerStubsRegister()

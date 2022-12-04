@@ -2,6 +2,7 @@ using AsunaServer.Application.Message;
 using AsunaServer.Foundation.Entity;
 using AsunaServer.Foundation.Log;
 using AsunaServer.Foundation.Network;
+using Google.Protobuf.Collections;
 
 namespace AsunaServer.Application.Server;
 
@@ -61,14 +62,17 @@ public partial class GMServer  : ServerBase
 
     private void _OnAllStubReady()
     {
-        var ntf = new OpenGateNtf();
+        var ntf = new OpenGateNtf()
+        {
+            Dummy = 0
+        };
         foreach (var gate in _AllGates)
         {
             gate.Send(ntf);
         }
     }
 
-    private Dictionary<string, string>? _StubsDistributeTable;
+    private MapField<string, string>? _StubsDistributeTable;
     private int _ReadyStubs = 0;
 
 }

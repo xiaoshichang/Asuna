@@ -23,8 +23,23 @@ namespace AsunaServer.Foundation.Message.Serializer
 
             return obj;
         }
-        
-        
+
+        public override void Collect(List<Assembly> assemblies)
+        {
+            var baseType = typeof(NetworkMessage);
+            foreach (var assembly in assemblies)
+            {
+                var types = assembly.GetTypes();
+                foreach (var type in types)
+                {
+                    if (type.IsSubclassOf(baseType))
+                    {
+                        _Register(type);
+                    }
+                }
+            }
+        }
+
     }
 }
 
