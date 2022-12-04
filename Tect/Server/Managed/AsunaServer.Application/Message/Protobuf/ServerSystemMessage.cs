@@ -31,9 +31,8 @@ namespace AsunaServer.Application.Message {
             "YWJsZRgBIAMoCzItLlN0dWJzRGlzdHJpYnV0ZU50Zi5TdHVic0Rpc3RyaWJ1",
             "dGVUYWJsZUVudHJ5GjsKGVN0dWJzRGlzdHJpYnV0ZVRhYmxlRW50cnkSCwoD",
             "a2V5GAEgASgJEg0KBXZhbHVlGAIgASgJOgI4ASIgCgxTdHViUmVhZHlOdGYS",
-            "EAoIU3R1Yk5hbWUYASABKAkiHAoLT3BlbkdhdGVOdGYSDQoFRHVtbXkYASAB",
-            "KAVCIqoCH0FzdW5hU2VydmVyLkFwcGxpY2F0aW9uLk1lc3NhZ2ViBnByb3Rv",
-            "Mw=="));
+            "EAoIU3R1Yk5hbWUYASABKAkiDQoLT3BlbkdhdGVOdGZCIqoCH0FzdW5hU2Vy",
+            "dmVyLkFwcGxpY2F0aW9uLk1lc3NhZ2ViBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -42,7 +41,7 @@ namespace AsunaServer.Application.Message {
             new pbr::GeneratedClrTypeInfo(typeof(global::AsunaServer.Application.Message.ServerReadyNtf), global::AsunaServer.Application.Message.ServerReadyNtf.Parser, new[]{ "ServerName" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AsunaServer.Application.Message.StubsDistributeNtf), global::AsunaServer.Application.Message.StubsDistributeNtf.Parser, new[]{ "StubsDistributeTable" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, }),
             new pbr::GeneratedClrTypeInfo(typeof(global::AsunaServer.Application.Message.StubReadyNtf), global::AsunaServer.Application.Message.StubReadyNtf.Parser, new[]{ "StubName" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AsunaServer.Application.Message.OpenGateNtf), global::AsunaServer.Application.Message.OpenGateNtf.Parser, new[]{ "Dummy" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AsunaServer.Application.Message.OpenGateNtf), global::AsunaServer.Application.Message.OpenGateNtf.Parser, null, null, null, null, null)
           }));
     }
     #endregion
@@ -1017,7 +1016,6 @@ namespace AsunaServer.Application.Message {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public OpenGateNtf(OpenGateNtf other) : this() {
-      dummy_ = other.dummy_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1025,18 +1023,6 @@ namespace AsunaServer.Application.Message {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public OpenGateNtf Clone() {
       return new OpenGateNtf(this);
-    }
-
-    /// <summary>Field number for the "Dummy" field.</summary>
-    public const int DummyFieldNumber = 1;
-    private int dummy_;
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int Dummy {
-      get { return dummy_; }
-      set {
-        dummy_ = value;
-      }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1054,7 +1040,6 @@ namespace AsunaServer.Application.Message {
       if (ReferenceEquals(other, this)) {
         return true;
       }
-      if (Dummy != other.Dummy) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1062,7 +1047,6 @@ namespace AsunaServer.Application.Message {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
-      if (Dummy != 0) hash ^= Dummy.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1081,10 +1065,6 @@ namespace AsunaServer.Application.Message {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
-      if (Dummy != 0) {
-        output.WriteRawTag(8);
-        output.WriteInt32(Dummy);
-      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1095,10 +1075,6 @@ namespace AsunaServer.Application.Message {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-      if (Dummy != 0) {
-        output.WriteRawTag(8);
-        output.WriteInt32(Dummy);
-      }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -1109,9 +1085,6 @@ namespace AsunaServer.Application.Message {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
-      if (Dummy != 0) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Dummy);
-      }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -1123,9 +1096,6 @@ namespace AsunaServer.Application.Message {
     public void MergeFrom(OpenGateNtf other) {
       if (other == null) {
         return;
-      }
-      if (other.Dummy != 0) {
-        Dummy = other.Dummy;
       }
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
@@ -1142,10 +1112,6 @@ namespace AsunaServer.Application.Message {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 8: {
-            Dummy = input.ReadInt32();
-            break;
-          }
         }
       }
     #endif
@@ -1161,10 +1127,6 @@ namespace AsunaServer.Application.Message {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 8: {
-            Dummy = input.ReadInt32();
-            break;
-          }
         }
       }
     }

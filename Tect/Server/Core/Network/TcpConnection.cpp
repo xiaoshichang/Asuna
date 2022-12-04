@@ -57,7 +57,7 @@ void TcpConnection::HandleReadHeader(boost::system::error_code ec, std::size_t b
         return;
     }
     payload_size_ = *(int*)(read_buffer_);
-    payload_type_ = *(int*)(read_buffer_ + 4);
+    payload_type_ = *(unsigned int*)(read_buffer_ + 4);
 
     StartReadBody();
 }
@@ -68,6 +68,13 @@ void TcpConnection::StartReadBody()
     {
         Logger::Error("payload size is too large.");
         OnDisconnect();
+        return;
+    }
+
+    if (payload_size_ == 0)
+    {
+        on_receive_callback_(this, read_buffer_, payload_size_, payload_type_);
+        StartReadHeader();
         return;
     }
 

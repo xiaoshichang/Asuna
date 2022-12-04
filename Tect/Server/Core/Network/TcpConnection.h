@@ -12,7 +12,7 @@ using boost::asio::ip::tcp;
 namespace AsunaServer
 {
     class TcpConnection;
-    typedef void (*OnReceiveCallback)(TcpConnection* connection, unsigned char *payload_data, unsigned int payload_size, unsigned int payload_type);
+    typedef void (*OnReceiveCallback)(TcpConnection* connection, unsigned char *payload_data, int payload_size, unsigned int payload_type);
     typedef void (*OnSendCallback)();
 
     class TcpConnection

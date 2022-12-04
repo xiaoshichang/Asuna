@@ -62,10 +62,7 @@ public partial class GMServer  : ServerBase
 
     private void _OnAllStubReady()
     {
-        var ntf = new OpenGateNtf()
-        {
-            Dummy = 0
-        };
+        var ntf = new OpenGateNtf();
         foreach (var gate in _AllGates)
         {
             gate.Send(ntf);
