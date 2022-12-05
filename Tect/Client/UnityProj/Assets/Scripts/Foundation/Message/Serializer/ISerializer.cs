@@ -2,29 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Security.Cryptography;
-using PlasticPipe.PlasticProtocol.Messages;
 
-namespace AsunaClient.Foundation.Network.Message.Indexer
+namespace AsunaClient.Foundation.Message.Serializer
 {
-    public class AssemblyRegisterIndexer : IIndexer
+    public abstract class SerializerBase
     {
-        public void Collect(List<Assembly> assemblies, Type targetType)
-        {
-            foreach (var assembly in assemblies)
-            {
-                var types = assembly.GetTypes();
-                foreach (var type in types)
-                {
-                    if (type.IsSubclassOf(targetType))
-                    {
-                        _Register(type);
-                    }
-                }
-            }
-        }
+        public abstract byte[] Serialize(object obj);
+        public abstract object Deserialize(byte[] data, int length, uint typeIndex);
+        public abstract void Collect(List<Assembly> assemblies);
 
-        private uint _ConvertTypeToHash(Type type)
+        protected uint _ConvertTypeToHash(Type type)
         {
             var name = type.Name;
             uint hashedValue = 0;
@@ -39,7 +26,7 @@ namespace AsunaClient.Foundation.Network.Message.Indexer
             return hashedValue;
         }
         
-        private void _Register(Type type)
+        protected virtual void _Register(Type type)
         {
             uint index = _ConvertTypeToHash(type);
             if (_Index2Type.ContainsKey(index))
@@ -61,7 +48,7 @@ namespace AsunaClient.Foundation.Network.Message.Indexer
             throw new Exception($"index not found!{type.FullName}");
         }
 
-        public Type GetTypeByIndex(uint index)
+        protected Type _GetTypeByIndex(uint index)
         {
             if (_Index2Type.TryGetValue(index, out var type))
             {
@@ -80,10 +67,11 @@ namespace AsunaClient.Foundation.Network.Message.Indexer
             }
         }
         
-        private readonly Dictionary<Type, uint> _Type2Index = new();
-        private readonly Dictionary<uint, Type> _Index2Type = new();
-
-        public static AssemblyRegisterIndexer Instance = new();
+        protected readonly Dictionary<Type, uint> _Type2Index = new();
+        protected readonly Dictionary<uint, Type> _Index2Type = new();
     }
+
+
+
 }
 

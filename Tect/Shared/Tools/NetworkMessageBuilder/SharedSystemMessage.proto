@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+import "google.protobuf.tools/3.21.10/tools/google/protobuf/timestamp.proto";
+
+option csharp_namespace = "AsunaShared.Message";
+
+message OuterPing
+{
+  google.protobuf.Timestamp SendTime = 1;
+}
+
+message OuterPong
+{
+  google.protobuf.Timestamp SendTime = 1;
+  google.protobuf.Timestamp ReceiveTime = 2;
+}
+
+message LoginReq
+{
+  string username = 1;
+  string password = 2;
+}
+
+enum LoginRetCode
+{
+  OK = 0;
+  Fail = 1;
+}
+
+message LoginRsp
+{
+  LoginRetCode RetCode = 1;
+}

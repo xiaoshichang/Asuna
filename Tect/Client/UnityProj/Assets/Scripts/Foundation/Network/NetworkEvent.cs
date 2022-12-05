@@ -1,5 +1,4 @@
-﻿using AsunaClient.Foundation.Network.Message;
-
+﻿
 namespace AsunaClient.Foundation.Network
 {
     public abstract class NetworkEvent
@@ -7,9 +6,15 @@ namespace AsunaClient.Foundation.Network
         
     }
 
+    public class NetworkEventOnConnect : NetworkEvent
+    {
+        public OnConnectResult Result { set; get; }
+        public string Message { set; get; }
+    }
+
     public class NetworkEventReceiveMessage : NetworkEvent
     {
-        public NetworkMessage Message { set; get; }
+        public object Message { set; get; }
     }
 
     public class NetworkEventReceiveException : NetworkEvent

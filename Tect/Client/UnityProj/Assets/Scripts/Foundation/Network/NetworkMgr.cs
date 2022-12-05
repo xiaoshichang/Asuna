@@ -4,14 +4,12 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using AsunaClient.Foundation.Network.Message;
-using AsunaClient.Foundation.Network.Message.Indexer;
-using AsunaClient.Foundation.Network.Message.Serializer;
+using AsunaClient.Foundation.Message.Serializer;
 
 namespace AsunaClient.Foundation.Network
 {
     public delegate void OnConnectCallbackDelegate(OnConnectResult cr);
-    public delegate void OnReceiveNetworkMessageDelegate(NetworkMessage message);
+    public delegate void OnReceiveNetworkMessageDelegate(object message);
     
     
     public enum NetState
@@ -73,18 +71,26 @@ namespace AsunaClient.Foundation.Network
             try
             {
                 _Socket.EndConnect(ar);
+                var evt = new NetworkEventOnConnect()
+                {
+                    Result = OnConnectResult.OK
+                };
+                lock (_Events)
+                {
+                    _Events.Enqueue(evt);
+                }
             }
             catch (Exception e)
             {
-                XDebug.Error(e.Message);
-                _OnConnectCallback?.Invoke(OnConnectResult.Error);
-            }
-            finally
-            {
-                _State = NetState.Connected;
-                _OnConnectCallback?.Invoke(OnConnectResult.OK);
-                _ReceiveThread.Start();
-                _SendThread.Start();
+                var evt = new NetworkEventOnConnect()
+                {
+                    Result = OnConnectResult.Error,
+                    Message = e.Message
+                };
+                lock (_Events)
+                {
+                    _Events.Enqueue(evt);
+                }
             }
         }
 
@@ -148,9 +154,30 @@ namespace AsunaClient.Foundation.Network
                 {
                     _OnReceiveNetworkMessageCallback?.Invoke(evt.Message);
                 }
-                else if (e is NetworkEventReceiveException || e is NetworkEventSendException)
+                else if (e is NetworkEventReceiveException receiveException)
                 {
+                    XDebug.Error(receiveException.Message);
                     Disconnect();
+                }
+                else if (e is NetworkEventSendException sendException)
+                {
+                    XDebug.Error(sendException.Message);
+                    Disconnect();
+                }
+                else if (e is NetworkEventOnConnect evtOnConnect)
+                {
+                    if (evtOnConnect.Result == OnConnectResult.OK)
+                    {
+                        _State = NetState.Connected;
+                        _OnConnectCallback?.Invoke(OnConnectResult.OK);
+                        _ReceiveThread.Start();
+                        _SendThread.Start();
+                    }
+                    else if (evtOnConnect.Result == OnConnectResult.Error)
+                    {
+                        XDebug.Error(evtOnConnect.Message);
+                        _OnConnectCallback?.Invoke(OnConnectResult.Error);
+                    }
                 }
                 else
                 {
@@ -204,7 +231,7 @@ namespace AsunaClient.Foundation.Network
             return true;
         }
 
-        private static NetworkMessage _ReceiveBody()
+        private static object _ReceiveBody()
         {
             try
             {
@@ -221,8 +248,7 @@ namespace AsunaClient.Foundation.Network
                 return null;
             }
 
-            var msgType = AssemblyRegisterIndexer.Instance.GetTypeByIndex(_BodyType);
-            var message = JsonSerializer.Instance.Deserialize(_BodyBuffer, _BodySize, msgType) as NetworkMessage;
+            var message = Serializer.Deserialize(_BodyBuffer, _BodySize, _BodyType);
             return message;
         }
 
@@ -274,7 +300,7 @@ namespace AsunaClient.Foundation.Network
             }
         }
         
-        public static void Send(NetworkMessage message)
+        public static void Send(object message)
         {
             lock(_SendQueue)
             {
@@ -283,12 +309,12 @@ namespace AsunaClient.Foundation.Network
             _SendEvent.Set();
         }
 
-        private static void _DoSend(NetworkMessage message)
+        private static void _DoSend(object message)
         {
-            var data = JsonSerializer.Instance.Serialize(message);
+            var data = Serializer.Serialize(message);
             var buffer = new byte[data.Length + HeaderSize];
             var bodySize = data.Length;
-            var typeIndex = AssemblyRegisterIndexer.Instance.GetIndexByType(message.GetType());
+            var typeIndex = Serializer.GetIndexByType(message.GetType());
             BitConverter.GetBytes(bodySize).CopyTo(buffer, 0);
             BitConverter.GetBytes(typeIndex).CopyTo(buffer, 4);
             data.CopyTo(buffer, HeaderSize);
@@ -306,7 +332,7 @@ namespace AsunaClient.Foundation.Network
         {
             while(true)
             {
-                NetworkMessage message;
+                object message;
                 lock(_SendQueue)
                 {
                     message = _SendQueue.Count == 0 ? null : _SendQueue.Dequeue();
@@ -326,7 +352,7 @@ namespace AsunaClient.Foundation.Network
         
         private static Thread _SendThread;
         private static readonly ManualResetEvent _SendEvent = new ManualResetEvent(false);
-        private static readonly Queue<NetworkMessage> _SendQueue = new Queue<NetworkMessage>();
+        private static readonly Queue<object> _SendQueue = new Queue<object>();
         #endregion
 
         public static void Release()
@@ -336,8 +362,8 @@ namespace AsunaClient.Foundation.Network
                 Disconnect();
             }
         }
-        
 
+        public static readonly SerializerBase Serializer = new ProtobufSerializer();
     }
 }
 
