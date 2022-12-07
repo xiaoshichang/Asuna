@@ -2,21 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace AsunaClient.Foundation.Asset
 {
-    public class AssetManager : MonoBehaviour
+    public static class AssetManager
     {
-        // Start is called before the first frame update
-        void Start()
+        public static void Init()
         {
-        
+            
         }
 
-        // Update is called once per frame
-        void Update()
+
+        public static void Release()
         {
-        
+            
         }
+        
     }
 }
 
