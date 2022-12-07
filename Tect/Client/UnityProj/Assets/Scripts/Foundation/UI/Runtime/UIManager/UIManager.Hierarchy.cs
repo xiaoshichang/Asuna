@@ -4,21 +4,21 @@ using UnityEngine.UI;
 namespace AsunaClient.Foundation.UI
 {
     
-    public static partial class UIManager
+    public partial class UIManager
     {
-        private static void _InitHierarchy()
+        private void _InitHierarchy()
         {
             _InitRoot();
             _InitPopupRoot();
             _InitPageRoot();
         }
 
-        private static void _ReleaseHierarchy()
+        private void _ReleaseHierarchy()
         {
             Object.DestroyImmediate(_Root);
         }
 
-        private static void _InitRoot()
+        private void _InitRoot()
         {
             _Root = new GameObject("UIRoot");
             Object.DontDestroyOnLoad(_Root);
@@ -30,26 +30,26 @@ namespace AsunaClient.Foundation.UI
             _RootGraphicRaycaster = _Root.AddComponent<GraphicRaycaster>();
         }
 
-        private static void _InitPageRoot()
+        private void _InitPageRoot()
         {
             _PageRoot = new GameObject("PageRoot");
             _PageRoot.transform.parent = _Root.transform;
         }
 
-        private static void _InitPopupRoot()
+        private void _InitPopupRoot()
         {
             _PopupRoot = new GameObject("PopupRoot");
             _PopupRoot.transform.parent = _Root.transform;
 
         }
 
-        private static GameObject _Root;
-        private static Canvas _RootCanvas;
-        private static CanvasScaler _RootCanvasScaler;
-        private static GraphicRaycaster _RootGraphicRaycaster;
+        private GameObject _Root;
+        private Canvas _RootCanvas;
+        private CanvasScaler _RootCanvasScaler;
+        private GraphicRaycaster _RootGraphicRaycaster;
         
-        private static GameObject _PageRoot;
-        private static GameObject _PopupRoot;
+        private GameObject _PageRoot;
+        private GameObject _PopupRoot;
         
     }
 }

@@ -4,15 +4,15 @@ using UnityEngine;
 
 namespace AsunaClient.Foundation.UI
 {
-    public static partial class UIManager
+    public partial class UIManager
     {
-        public static void Init()
+        public void Init()
         {
             _RegisterPages();
             _InitHierarchy();
         }
 
-        public static void Release()
+        public void Release()
         {
             _ReleaseHierarchy();
         }

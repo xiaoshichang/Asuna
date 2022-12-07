@@ -26,10 +26,10 @@ namespace AsunaClient.Foundation.Network
         Error
     }
 
-    public static class NetworkMgr 
+    public class NetworkManager 
     {
         #region State
-        public static void Init(OnReceiveNetworkMessageDelegate onReceive)
+        public void Init(OnReceiveNetworkMessageDelegate onReceive)
         {
             _Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
             {
@@ -41,7 +41,7 @@ namespace AsunaClient.Foundation.Network
             _OnReceiveNetworkMessageCallback = onReceive;
         }
 
-        public static void ConnectToAsync(
+        public void ConnectToAsync(
             string ip, 
             int port, 
             OnConnectCallbackDelegate onConnect)
@@ -66,7 +66,7 @@ namespace AsunaClient.Foundation.Network
             }
         }
 
-        private static void _OnConnect(IAsyncResult ar)
+        private void _OnConnect(IAsyncResult ar)
         {
             try
             {
@@ -95,7 +95,7 @@ namespace AsunaClient.Foundation.Network
         }
 
 
-        private static void Disconnect()
+        private void Disconnect()
         {
             XDebug.Info("Disconnect");
             _State = NetState.Disconnected;
@@ -107,7 +107,7 @@ namespace AsunaClient.Foundation.Network
             _Socket = null;
         }
 
-        public static void Reset()
+        public void Reset()
         {
             if (_State != NetState.Disconnected)
             {
@@ -131,12 +131,12 @@ namespace AsunaClient.Foundation.Network
         #endregion
 
         #region Sync
-        public static void Tick()
+        public void Tick()
         {
             _ProcessEvents();
         }
 
-        private static void _ProcessEvents()
+        private void _ProcessEvents()
         {
             while(true)
             {
@@ -187,12 +187,12 @@ namespace AsunaClient.Foundation.Network
             
         }
         
-        private static readonly Queue<NetworkEvent> _Events = new Queue<NetworkEvent>();
+        private readonly Queue<NetworkEvent> _Events = new Queue<NetworkEvent>();
         #endregion
 
         #region Receiving
 
-        private static void _OnReceiveException(Exception exception)
+        private void _OnReceiveException(Exception exception)
         {
             var e = new NetworkEventReceiveException()
             {
@@ -204,7 +204,7 @@ namespace AsunaClient.Foundation.Network
             }
         }
         
-        private static bool _ReceiveHeader()
+        private bool _ReceiveHeader()
         {
             
             _BodySize = 0;
@@ -231,7 +231,7 @@ namespace AsunaClient.Foundation.Network
             return true;
         }
 
-        private static object _ReceiveBody()
+        private object _ReceiveBody()
         {
             try
             {
@@ -252,7 +252,7 @@ namespace AsunaClient.Foundation.Network
             return message;
         }
 
-        private static void _Receiving()
+        private void _Receiving()
         {
             while(true)
             {
@@ -278,17 +278,17 @@ namespace AsunaClient.Foundation.Network
         
         private const int HeaderSize = 8;
         private const int BodySize = 2048;
-        private static Thread _ReceiveThread;
-        private static OnReceiveNetworkMessageDelegate _OnReceiveNetworkMessageCallback;
-        private static int _BodySize;
-        private static uint _BodyType;
-        private static readonly byte[] _HeaderBuffer = new byte[HeaderSize];
-        private static readonly byte[] _BodyBuffer = new byte[BodySize];
+        private Thread _ReceiveThread;
+        private OnReceiveNetworkMessageDelegate _OnReceiveNetworkMessageCallback;
+        private int _BodySize;
+        private uint _BodyType;
+        private readonly byte[] _HeaderBuffer = new byte[HeaderSize];
+        private readonly byte[] _BodyBuffer = new byte[BodySize];
         #endregion
 
         #region Sending
 
-        private static void _OnSendException(Exception exception)
+        private void _OnSendException(Exception exception)
         {
             var e = new NetworkEventSendException()
             {
@@ -300,7 +300,7 @@ namespace AsunaClient.Foundation.Network
             }
         }
         
-        public static void Send(object message)
+        public void Send(object message)
         {
             lock(_SendQueue)
             {
@@ -309,7 +309,7 @@ namespace AsunaClient.Foundation.Network
             _SendEvent.Set();
         }
 
-        private static void _DoSend(object message)
+        private void _DoSend(object message)
         {
             var data = Serializer.Serialize(message);
             var buffer = new byte[data.Length + HeaderSize];
@@ -328,7 +328,7 @@ namespace AsunaClient.Foundation.Network
             }
         }
 
-        private static void _Sending()
+        private void _Sending()
         {
             while(true)
             {
@@ -350,12 +350,12 @@ namespace AsunaClient.Foundation.Network
             }
         }
         
-        private static Thread _SendThread;
-        private static readonly ManualResetEvent _SendEvent = new ManualResetEvent(false);
-        private static readonly Queue<object> _SendQueue = new Queue<object>();
+        private Thread _SendThread;
+        private readonly ManualResetEvent _SendEvent = new ManualResetEvent(false);
+        private readonly Queue<object> _SendQueue = new Queue<object>();
         #endregion
 
-        public static void Release()
+        public void Release()
         {
             if (_State == NetState.Connected)
             {
@@ -363,7 +363,7 @@ namespace AsunaClient.Foundation.Network
             }
         }
 
-        public static readonly SerializerBase Serializer = new ProtobufSerializer();
+        public readonly SerializerBase Serializer = new ProtobufSerializer();
     }
 }
 

@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using AsunaClient.Application;
 using UnityEngine;
 
-namespace AsunaClient.Foundation.GM
+namespace AsunaClient.Application.GM
 {
     public delegate void RunCommandCallback(string command);
 
@@ -54,14 +55,13 @@ namespace AsunaClient.Foundation.GM
             _InitStyles();
             _state = TerminalState.Close;
             
-            Application.logMessageReceived += _OnUnityMessage;
-            
+            UnityEngine.Application.logMessageReceived += _OnUnityMessage;
 
         }
 
         private void OnDisable()
         {
-            Application.logMessageReceived -= _OnUnityMessage;
+            UnityEngine.Application.logMessageReceived -= _OnUnityMessage;
         }
 
         void OnGUI()
@@ -316,7 +316,7 @@ namespace AsunaClient.Foundation.GM
             _AppendLog(TerminalLogItemType.Shell, $"executing [{_CommandText}]");
             if (!string.IsNullOrEmpty(_CommandText))
             {
-                if (GMManager.Execute(_CommandText))
+                if (G.GMManager.Execute(_CommandText))
                 {
                     _AppendHistoryCmd(_CommandText);
                     _ResetHistoryCmdIndexToLast();

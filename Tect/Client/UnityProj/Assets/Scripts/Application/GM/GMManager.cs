@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using AsunaClient.Foundation;
 using UnityEngine;
 
 
-namespace AsunaClient.Foundation.GM
+namespace AsunaClient.Application.GM
 {
     
-    public static class GMManager
+    public class GMManager
     {
-        private static void _RegisterGMCommand(GMAttribute attr, MethodInfo method)
+        private void _RegisterGMCommand(GMAttribute attr, MethodInfo method)
         {
             if (_AllGMCommands.ContainsKey(method.Name))
             {
@@ -30,7 +31,7 @@ namespace AsunaClient.Foundation.GM
         /// <summary>
         /// 从Assembly中搜集GM指令
         /// </summary>
-        private static void _CollectGMCommandsByReflection(string assemblyName)
+        private void _CollectGMCommandsByReflection(string assemblyName)
         {
             var assembly = Assembly.Load(assemblyName);
             foreach (var t in assembly.GetTypes())
@@ -49,7 +50,7 @@ namespace AsunaClient.Foundation.GM
             }
         }
 
-        private static object _ConvertParameter(string item, Type t)
+        private object _ConvertParameter(string item, Type t)
         {
             try
             {
@@ -85,7 +86,7 @@ namespace AsunaClient.Foundation.GM
             return null;
         }
 
-        private static void _PrintCandidates(string prefix)
+        private void _PrintCandidates(string prefix)
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("\n");
@@ -106,7 +107,7 @@ namespace AsunaClient.Foundation.GM
         /// 初始化GM系统
         /// </summary>
         /// <param name="assemblyList"> 包含GM指令的Assembly列表 </param>
-        public static void Init(List<string> assemblyList)
+        public void Init(List<string> assemblyList)
         {
             foreach (var assemblyName in assemblyList)
             {
@@ -117,7 +118,7 @@ namespace AsunaClient.Foundation.GM
         /// <summary>
         /// 执行GM命令
         /// </summary>
-        public static bool Execute(string input)
+        public bool Execute(string input)
         {
             var items = input.Split();
             if (items.Length <= 0)
@@ -166,7 +167,7 @@ namespace AsunaClient.Foundation.GM
             }
         }
 
-        private static readonly Dictionary<string, GMCommand> _AllGMCommands = new();
+        private readonly Dictionary<string, GMCommand> _AllGMCommands = new();
 
     }
 }
