@@ -17,6 +17,6 @@ namespace AsunaClient.Application
             UIManager.Release();
         }
 
-        private UIManager UIManager;
+        public readonly UIManager UIManager = new UIManager();
     }
 }
