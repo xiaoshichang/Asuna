@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using AsunaClient.Application;
 using UnityEngine;
 
 namespace AsunaClient.Application.GM
@@ -57,6 +56,13 @@ namespace AsunaClient.Application.GM
             
             UnityEngine.Application.logMessageReceived += _OnUnityMessage;
 
+        }
+
+        [RuntimeInitializeOnLoadMethod]
+        private static void InitOnLoad()
+        {
+            UnityEngine.Application.logMessageReceived -= _OnUnityMessage;
+            _items.Clear();
         }
 
         private void OnDisable()
@@ -212,13 +218,13 @@ namespace AsunaClient.Application.GM
             _styles[TerminalLogItemType.Shell] = terminalStyle;
         }
 
-        private void _OnUnityMessage(string condition, string stackTrace, LogType type)
+        private static void _OnUnityMessage(string condition, string stackTrace, LogType type)
         {
             TerminalLogItemType logType = (TerminalLogItemType) type;
             _AppendLog(logType, condition);
         }
 
-        private void _AppendLog(TerminalLogItemType logType, string message)
+        private static void _AppendLog(TerminalLogItemType logType, string message)
         {
             var item = new TerminalLogItem(logType, message);
             _items.Add(item);
@@ -356,7 +362,7 @@ namespace AsunaClient.Application.GM
         /// <summary>
         /// 最大日志条目数量
         /// </summary>
-        private readonly int MaxLogCount = 256;
+        private const int MaxLogCount = 256;
 
         /// <summary>
         /// 唤起命令行的热键
@@ -416,7 +422,7 @@ namespace AsunaClient.Application.GM
         /// <summary>
         /// 所以日志条目
         /// </summary>
-        private readonly List<TerminalLogItem> _items = new();
+        private static readonly List<TerminalLogItem> _items = new();
 
         /// <summary>
         /// 显示日志的scroll view当前的位置

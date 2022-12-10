@@ -5,17 +5,23 @@ using UnityEngine;
 
 namespace AsunaClient.Foundation.Asset
 {
-    public static class AssetManager
+    public class AssetManager
     {
-        public static void Init()
+        public void Init()
+        {
+        }
+
+        public void Release()
+        {
+        }
+
+        public void LoadAsset(string assetPath)
         {
             
         }
 
-
-        public static void Release()
+        public void ReleaseAsset(GameObject asset)
         {
-            
         }
         
     }

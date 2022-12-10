@@ -1,8 +1,8 @@
 ﻿using AsunaClient.Application.Entity;
 using AsunaClient.Application.GM;
+using AsunaClient.Foundation.Asset;
 using AsunaClient.Foundation.Network;
 using AsunaClient.Foundation.UI;
-using UnityEditor.SceneManagement;
 
 namespace AsunaClient.Application
 {
@@ -10,15 +10,18 @@ namespace AsunaClient.Application
     {
         public static void Setup(ApplicationRoot root)
         {
-            EntityManager = root.EntityManager;
+            AssetManager = root.AssetManager;
             NetworkManager = root.NetworkManager;
-            GMManager = root.GMManager;
             UIManager = root.UIManager;
+            GMManager = root.GMManager;
+            EntityManager = root.EntityManager;
         }
         
-        public static EntityManager EntityManager;
+        public static AssetManager AssetManager;
         public static NetworkManager NetworkManager;
-        public static GMManager GMManager;
         public static UIManager UIManager;
+        public static GMManager GMManager;
+        public static EntityManager EntityManager;
+
     }
 }
