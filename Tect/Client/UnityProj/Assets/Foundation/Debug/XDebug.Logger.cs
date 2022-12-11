@@ -78,7 +78,7 @@ namespace AsunaClient.Foundation
             }
             else
             {
-                throw new NotImplementedException("unknown log level");
+                throw new Exception("unknown log level");
             }
         }
     }

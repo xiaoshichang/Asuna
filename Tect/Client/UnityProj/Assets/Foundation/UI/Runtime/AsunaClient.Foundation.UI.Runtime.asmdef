@@ -2,14 +2,15 @@
     "name": "AsunaClient.Foundation.UI.Runtime",
     "rootNamespace": "",
     "references": [
-        "GUID:aeb545b874d89b147a7e892966b454b0"
+        "GUID:aeb545b874d89b147a7e892966b454b0",
+        "GUID:e217284493a9dbb4d96928d1a71d25dc"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
-    "autoReferenced": true,
+    "autoReferenced": false,
     "defineConstraints": [],
     "versionDefines": [],
     "noEngineReferences": false

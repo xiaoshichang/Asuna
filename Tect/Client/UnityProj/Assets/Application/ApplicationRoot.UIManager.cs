@@ -11,6 +11,7 @@ namespace AsunaClient.Application
             UIManager = new UIManager();
             var param = new UIManagerInitParam()
             {
+                AssetManager = AssetManager,
                 PageRegisterItems = ApplicationSetting.UIPageRegisterItems
             };
             UIManager.Init(param);

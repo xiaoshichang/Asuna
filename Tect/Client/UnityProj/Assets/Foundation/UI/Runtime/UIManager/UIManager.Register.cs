@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using log4net.Repository.Hierarchy;
 using UnityEngine;
 
 namespace AsunaClient.Foundation.UI
@@ -55,6 +54,16 @@ namespace AsunaClient.Foundation.UI
         private void _UnRegisterPages()
         {
             _Items.Clear();
+        }
+
+        private UIPageRegisterItem _GetRegisterItem(string pageID)
+        {
+            if (_Items.TryGetValue(pageID, out var item))
+            {
+                return item;
+            }
+
+            return null;
         }
 
         private readonly Dictionary<string, UIPageRegisterItem> _Items = new Dictionary<string, UIPageRegisterItem>();

@@ -12,9 +12,9 @@ namespace AsunaClient.Foundation.UI
     {
     }
     
-    public abstract class UIPage
+    public abstract class UIPage : MonoBehaviour
     {
-        protected UIPage(string id, Object Root)
+        protected UIPage(string id, GameObject Root)
         {
             _PageID = id;
             _Root = Root;
@@ -29,7 +29,7 @@ namespace AsunaClient.Foundation.UI
         public abstract void OnDestroy();
 
         private string _PageID;
-        private Object _Root;
+        private GameObject _Root;
     }
 
 }

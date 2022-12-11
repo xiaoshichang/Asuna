@@ -16,9 +16,9 @@ namespace AsunaClient.Foundation.Asset
         {
         }
 
-        public void LoadAsset(string assetPath)
+        public T LoadAsset<T>(string assetPath) where T : class
         {
-            
+            return null;
         }
 
         public void ReleaseAsset(GameObject asset)

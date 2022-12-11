@@ -194,7 +194,7 @@ namespace AsunaClient.Foundation.Network
                 }
                 else
                 {
-                    throw new NotImplementedException();
+                    throw new Exception();
                 }
             }
             

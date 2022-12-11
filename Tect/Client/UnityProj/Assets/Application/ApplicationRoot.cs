@@ -60,7 +60,6 @@ namespace AsunaClient.Application
             DontDestroyOnLoad(gameObject);
             _State = ApplicationState.Initializing;
             _ApplicationStartup();
-            _State = ApplicationState.Running;
         }
 
         void Update()
@@ -69,6 +68,15 @@ namespace AsunaClient.Application
             {
                 TimerMgr.Tick();
                 NetworkManager.Tick();
+            }
+
+            if (_State == ApplicationState.Initializing)
+            {
+                // todo: check all managers and systems are initialized
+                if (true)
+                {
+                    _State = ApplicationState.Running;
+                }
             }
         }
 
