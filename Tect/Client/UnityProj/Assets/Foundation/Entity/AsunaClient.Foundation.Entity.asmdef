@@ -1,5 +1,5 @@
 {
-    "name": "AsuuaClient.Foundation.Entity",
+    "name": "AsunaClient.Foundation.Entity",
     "rootNamespace": "",
     "references": [
         "GUID:aeb545b874d89b147a7e892966b454b0"

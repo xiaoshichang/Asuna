@@ -1,12 +1,13 @@
 {
-    "name": "AsunaClient.Application",
+    "name": "AsunaDemo",
     "rootNamespace": "",
     "references": [
-        "AsunaClient.Foundation",
-        "AsunaClient.Foundation.Asset.Runtime",
-        "AsunaClient.Foundation.UI.Runtime",
-        "AsunaClient.Foundation.Network",
-        "AsuuaClient.Foundation.Entity"
+        "GUID:aeb545b874d89b147a7e892966b454b0",
+        "GUID:e217284493a9dbb4d96928d1a71d25dc",
+        "GUID:014408bbaced8fe46bd33f9c63a9d286",
+        "GUID:03cfadb7299c0cd46a822f8f00e5ced2",
+        "GUID:3a25da53ff8f7b142bab0728bfed4473",
+        "GUID:2f968f3ddd0f2624b87e2163f51f3815"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
