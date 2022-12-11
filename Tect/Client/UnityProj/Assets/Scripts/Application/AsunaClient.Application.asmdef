@@ -5,8 +5,8 @@
         "AsunaClient.Foundation",
         "AsunaClient.Foundation.Asset.Runtime",
         "AsunaClient.Foundation.UI.Runtime",
-        "AsunaClient.Foundation.GM",
-        "AsunaClient.Foundation.Network"
+        "AsunaClient.Foundation.Network",
+        "AsuuaClient.Foundation.Entity"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

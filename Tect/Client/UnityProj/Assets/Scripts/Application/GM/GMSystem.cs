@@ -10,7 +10,7 @@ using UnityEngine;
 namespace AsunaClient.Application.GM
 {
     
-    public class GMManager
+    public class GMSystem
     {
         private void _RegisterGMCommand(GMAttribute attr, MethodInfo method)
         {
@@ -89,7 +89,6 @@ namespace AsunaClient.Application.GM
         private void _PrintCandidates(string prefix)
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("\n");
             sb.Append(">>>>>>>>>> relative commands >>>>>>>>>>\n");
             foreach (var kv in _AllGMCommands)
             {

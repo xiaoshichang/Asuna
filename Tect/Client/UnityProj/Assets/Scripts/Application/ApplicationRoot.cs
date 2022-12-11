@@ -27,8 +27,9 @@ namespace AsunaClient.Application
             _InitAssetManager();
             _InitNetwork();
             _InitUIManager();
-            _InitGMManager();
             _InitEntityManager();
+            
+            _InitGMSystem();
             G.Setup(this);
             
             _EnterGame();
@@ -48,8 +49,9 @@ namespace AsunaClient.Application
 
         private void OnApplicationQuit()
         {
+            _ReleaseGMSystem();
+
             _ReleaseEntityManager();
-            _ReleaseGMManager();
             _ReleaseUIManager();
             _ReleaseNetworkManager();
             _ReleaseAssetManager();

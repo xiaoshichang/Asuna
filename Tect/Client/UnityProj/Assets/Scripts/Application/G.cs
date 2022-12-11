@@ -1,8 +1,9 @@
-﻿using AsunaClient.Application.Entity;
-using AsunaClient.Application.GM;
+﻿using AsunaClient.Application.GM;
 using AsunaClient.Foundation.Asset;
 using AsunaClient.Foundation.Network;
 using AsunaClient.Foundation.UI;
+using AsunaClient.Foundation.Entity;
+
 
 namespace AsunaClient.Application
 {
@@ -13,15 +14,17 @@ namespace AsunaClient.Application
             AssetManager = root.AssetManager;
             NetworkManager = root.NetworkManager;
             UIManager = root.UIManager;
-            GMManager = root.GMManager;
             EntityManager = root.EntityManager;
+            
+            GmSystem = root.GmSystem;
         }
         
         public static AssetManager AssetManager;
         public static NetworkManager NetworkManager;
         public static UIManager UIManager;
-        public static GMManager GMManager;
         public static EntityManager EntityManager;
+        
+        public static GMSystem GmSystem;
 
     }
 }

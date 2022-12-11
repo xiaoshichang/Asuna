@@ -6,21 +6,21 @@ namespace AsunaClient.Application
 {
     public partial class ApplicationRoot
     {
-        private void _InitGMManager()
+        private void _InitGMSystem()
         {
             var assemblyList = new List<string>()
             {
             };
-            GMManager.Init(assemblyList);
+            GmSystem.Init(assemblyList);
             gameObject.AddComponent<GMTerminal>();
             XDebug.Info("Init GM Ok!");
         }
 
-        private void _ReleaseGMManager()
+        private void _ReleaseGMSystem()
         {
             
         }
 
-        public GMManager GMManager = new GMManager();
+        public GMSystem GmSystem = new GMSystem();
     }
 }

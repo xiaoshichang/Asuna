@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace AsunaClient.Application.Entity
+namespace AsunaClient.Foundation.Entity
 {
     public class Entity
     {

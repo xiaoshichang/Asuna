@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using AsunaClient.Application.Entity;
+using AsunaClient.Foundation.Entity;
 using AsunaClient.Foundation;
 using UnityEngine;
 

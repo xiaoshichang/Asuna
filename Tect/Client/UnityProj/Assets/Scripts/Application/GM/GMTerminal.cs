@@ -322,7 +322,7 @@ namespace AsunaClient.Application.GM
             _AppendLog(TerminalLogItemType.Shell, $"executing [{_CommandText}]");
             if (!string.IsNullOrEmpty(_CommandText))
             {
-                if (G.GMManager.Execute(_CommandText))
+                if (G.GmSystem.Execute(_CommandText))
                 {
                     _AppendHistoryCmd(_CommandText);
                     _ResetHistoryCmdIndexToLast();
