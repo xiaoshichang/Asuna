@@ -14,13 +14,22 @@ namespace AsunaClient.Foundation.UI
     
     public abstract class UIPage
     {
-        public abstract string GetAssetPath();
+        protected UIPage(string id, Object Root)
+        {
+            _PageID = id;
+            _Root = Root;
+        }
+        
+        public abstract string GetPageID();
         public abstract void SetupView();
         public abstract void SetupModel();
         public abstract void SetupController();
         public abstract void OnShow(ShowPageParam param);
         public abstract void OnHide();
         public abstract void OnDestroy();
+
+        private string _PageID;
+        private Object _Root;
     }
 
 }

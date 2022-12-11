@@ -1,4 +1,5 @@
 ﻿using System;
+using Codice.CM.Common;
 using UnityEngine;
 
 namespace AsunaClient.Foundation
@@ -32,7 +33,22 @@ namespace AsunaClient.Foundation
         public static void Error(string format, params object[] args)
         {
             _Log(LogLevel.Error, string.Format(format, args));
+        }
 
+        public static void Asset(bool condition, string message)
+        {
+            if (!condition)
+            {
+                throw new Exception(message);
+            }
+        }
+
+        public static void Asset(bool condition)
+        {
+            if (!condition)
+            {
+                throw new Exception();
+            }
         }
         
         private static void _Log(LogLevel level, string message)

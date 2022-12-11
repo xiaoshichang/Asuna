@@ -8,6 +8,7 @@ namespace AsunaClient.Application
         
         private void _InitEntityManager()
         {
+            EntityManager = new EntityManager();
             EntityManager.Init(null);
             XDebug.Info("Init EntityManager Ok!");
         }
@@ -15,10 +16,11 @@ namespace AsunaClient.Application
         private void _ReleaseEntityManager()
         {
             EntityManager.Release();
+            EntityManager = null;
             XDebug.Info("Release EntityManager Ok!");
         }
 
-        public readonly EntityManager EntityManager = new EntityManager();
+        public EntityManager EntityManager;
 
     }
 }

@@ -14,6 +14,7 @@ namespace AsunaClient.Application
     {
         private void _InitNetwork()
         {
+            NetworkManager = new NetworkManager();
             List<Assembly> assemblies = new List<Assembly>()
             {
                 Assembly.GetExecutingAssembly()
@@ -31,6 +32,7 @@ namespace AsunaClient.Application
         private void _ReleaseNetworkManager()
         {
             NetworkManager.Release();
+            NetworkManager = null;
             XDebug.Info("Release Network Manager Ok!");
         }
         
@@ -60,6 +62,6 @@ namespace AsunaClient.Application
             }
         }
 
-        public readonly NetworkManager NetworkManager = new NetworkManager();
+        public NetworkManager NetworkManager;
     }
 }

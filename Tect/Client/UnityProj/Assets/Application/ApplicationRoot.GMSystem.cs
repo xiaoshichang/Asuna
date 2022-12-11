@@ -8,6 +8,7 @@ namespace AsunaClient.Application
     {
         private void _InitGMSystem()
         {
+            GMSystem = new GMSystem();
             var assemblyList = new List<string>()
             {
             };
@@ -19,9 +20,10 @@ namespace AsunaClient.Application
         private void _ReleaseGMSystem()
         {
             GMSystem.Release();
+            GMSystem = null;
             XDebug.Info("Release GM system Ok!");
         }
 
-        public GMSystem GMSystem = new GMSystem();
+        public GMSystem GMSystem;
     }
 }

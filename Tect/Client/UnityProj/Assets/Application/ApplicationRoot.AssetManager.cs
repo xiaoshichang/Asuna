@@ -8,6 +8,7 @@ namespace AsunaClient.Application
     {
         private void _InitAssetManager()
         {
+            AssetManager = new AssetManager();
             AssetManager.Init(null);
             XDebug.Info("Init Asset Manager Ok!");
         }
@@ -15,9 +16,10 @@ namespace AsunaClient.Application
         private void _ReleaseAssetManager()
         {
             AssetManager.Release();
+            AssetManager = null;
             XDebug.Info("Release Asset Manager Ok!");
         }
 
-        public readonly AssetManager AssetManager = new AssetManager();
+        public AssetManager AssetManager;
     }
 }

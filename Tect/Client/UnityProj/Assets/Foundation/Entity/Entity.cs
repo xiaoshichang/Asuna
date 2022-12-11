@@ -14,6 +14,11 @@ namespace AsunaClient.Foundation.Entity
         {
             Guid = Guid.NewGuid();
         }
+
+        public virtual void Destroy()
+        {
+            
+        }
         
         public Guid Guid;
     }

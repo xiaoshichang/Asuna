@@ -8,16 +8,22 @@ namespace AsunaClient.Application
     {
         private void _InitUIManager()
         {
-            UIManager.Init(null);
+            UIManager = new UIManager();
+            var param = new UIManagerInitParam()
+            {
+                PageRegisterItems = ApplicationSetting.UIPageRegisterItems
+            };
+            UIManager.Init(param);
             XDebug.Info("Init UI Manager Ok!");
         }
 
         private void _ReleaseUIManager()
         {
             UIManager.Release();
+            UIManager = null;
             XDebug.Info("Release UI Manager Ok!");
         }
 
-        public readonly UIManager UIManager = new UIManager();
+        public UIManager UIManager;
     }
 }
