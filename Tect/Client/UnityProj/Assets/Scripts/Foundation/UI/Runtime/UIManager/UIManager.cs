@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using AsunaClient.Foundation.Interface;
 using UnityEngine;
 
 namespace AsunaClient.Foundation.UI
 {
-    public partial class UIManager
+    public partial class UIManager : IManager
     {
-        public void Init()
+        public void Init(object param)
         {
             _RegisterPages();
             _InitHierarchy();

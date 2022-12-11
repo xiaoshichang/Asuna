@@ -16,7 +16,7 @@ namespace AsunaClient.Application
             UIManager = root.UIManager;
             EntityManager = root.EntityManager;
             
-            GmSystem = root.GmSystem;
+            GmSystem = root.GMSystem;
         }
         
         public static AssetManager AssetManager;

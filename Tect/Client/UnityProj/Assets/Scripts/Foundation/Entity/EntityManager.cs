@@ -1,8 +1,10 @@
-﻿namespace AsunaClient.Foundation.Entity
+﻿using AsunaClient.Foundation.Interface;
+
+namespace AsunaClient.Foundation.Entity
 {
-    public class EntityManager
+    public class EntityManager : IManager
     {
-        public void Init()
+        public void Init(object param)
         {
             
         }

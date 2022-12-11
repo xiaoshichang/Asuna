@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using AsunaClient.Foundation.Interface;
 using UnityEngine;
 
 
 namespace AsunaClient.Foundation.Asset
 {
-    public class AssetManager
+    public class AssetManager : IManager
     {
-        public void Init()
+        public void Init(object param)
         {
         }
 

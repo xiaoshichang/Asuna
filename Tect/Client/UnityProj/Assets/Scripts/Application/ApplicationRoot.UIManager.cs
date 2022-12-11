@@ -8,13 +8,14 @@ namespace AsunaClient.Application
     {
         private void _InitUIManager()
         {
-            UIManager.Init();
-            XDebug.Info("Init UI Ok!");
+            UIManager.Init(null);
+            XDebug.Info("Init UI Manager Ok!");
         }
 
         private void _ReleaseUIManager()
         {
             UIManager.Release();
+            XDebug.Info("Release UI Manager Ok!");
         }
 
         public readonly UIManager UIManager = new UIManager();

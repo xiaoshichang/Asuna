@@ -11,16 +11,17 @@ namespace AsunaClient.Application
             var assemblyList = new List<string>()
             {
             };
-            GmSystem.Init(assemblyList);
+            GMSystem.Init(assemblyList);
             gameObject.AddComponent<GMTerminal>();
-            XDebug.Info("Init GM Ok!");
+            XDebug.Info("Init GM system Ok!");
         }
 
         private void _ReleaseGMSystem()
         {
-            
+            GMSystem.Release();
+            XDebug.Info("Release GM system Ok!");
         }
 
-        public GMSystem GmSystem = new GMSystem();
+        public GMSystem GMSystem = new GMSystem();
     }
 }

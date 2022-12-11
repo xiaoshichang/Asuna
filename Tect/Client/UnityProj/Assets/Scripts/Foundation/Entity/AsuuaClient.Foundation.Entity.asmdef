@@ -1,7 +1,9 @@
 {
     "name": "AsuuaClient.Foundation.Entity",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:aeb545b874d89b147a7e892966b454b0"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

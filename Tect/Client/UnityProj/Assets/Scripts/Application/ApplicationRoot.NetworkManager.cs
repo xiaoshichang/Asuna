@@ -19,15 +19,19 @@ namespace AsunaClient.Application
                 Assembly.GetExecutingAssembly()
             };
             NetworkManager.Serializer.Collect(assemblies);
-            
-            NetworkManager.Init(_OnReceiveNetworkMessage);
-            XDebug.Info("Init Network Ok!");
+            var param = new NetworkManagerInitParam()
+            {
+                OnReceive = _OnReceiveNetworkMessage
+            };
+            NetworkManager.Init(param);
+            XDebug.Info("Init Network Manager Ok!");
         }
 
 
         private void _ReleaseNetworkManager()
         {
             NetworkManager.Release();
+            XDebug.Info("Release Network Manager Ok!");
         }
         
         private void _OnReceiveNetworkMessage(object message)

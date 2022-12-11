@@ -4,14 +4,39 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using AsunaClient.Foundation;
+using AsunaClient.Foundation.Interface;
 using UnityEngine;
 
 
 namespace AsunaClient.Application.GM
 {
     
-    public class GMSystem
+    public class GMSystem : ISystem
     {
+        /// <summary>
+        /// 初始化系统
+        /// </summary>
+        /// <param name="param">包含GM指令的Assembly列表</param>
+        public void Init(object param)
+        {
+            var assemblyList = param as List<string>;
+            if (assemblyList is null)
+            {
+                return;
+            }
+            
+            foreach (var assemblyName in assemblyList)
+            {
+                _CollectGMCommandsByReflection(assemblyName);
+            }
+        }
+        
+        public void Release()
+        {
+            _AllGMCommands.Clear();
+        }
+        
+        
         private void _RegisterGMCommand(GMAttribute attr, MethodInfo method)
         {
             if (_AllGMCommands.ContainsKey(method.Name))
@@ -101,18 +126,6 @@ namespace AsunaClient.Application.GM
             sb.Append("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
             XDebug.Info(sb.ToString());
         }
-        
-        /// <summary>
-        /// 初始化GM系统
-        /// </summary>
-        /// <param name="assemblyList"> 包含GM指令的Assembly列表 </param>
-        public void Init(List<string> assemblyList)
-        {
-            foreach (var assemblyName in assemblyList)
-            {
-                _CollectGMCommandsByReflection(assemblyName);
-            }
-        }
 
         /// <summary>
         /// 执行GM命令
@@ -167,6 +180,6 @@ namespace AsunaClient.Application.GM
         }
 
         private readonly Dictionary<string, GMCommand> _AllGMCommands = new();
-
+        
     }
 }

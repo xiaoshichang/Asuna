@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using AsunaClient.Foundation.Message.Serializer;
+using AsunaClient.Foundation.Interface;
 
 namespace AsunaClient.Foundation.Network
 {
@@ -26,11 +27,23 @@ namespace AsunaClient.Foundation.Network
         Error
     }
 
-    public class NetworkManager 
+    public class NetworkManagerInitParam
+    {
+        public OnReceiveNetworkMessageDelegate OnReceive;
+    }
+
+    public class NetworkManager : IManager
     {
         #region State
-        public void Init(OnReceiveNetworkMessageDelegate onReceive)
+
+        public void Init(object param)
         {
+            var initParam = param as NetworkManagerInitParam;
+            if (initParam is null)
+            {
+                throw new Exception("init param is null");
+            }
+            
             _Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
             {
                 Blocking = true
@@ -38,7 +51,7 @@ namespace AsunaClient.Foundation.Network
             _State = NetState.Ready;
             _ReceiveThread = new Thread(_Receiving);
             _SendThread = new Thread(_Sending);
-            _OnReceiveNetworkMessageCallback = onReceive;
+            _OnReceiveNetworkMessageCallback = initParam.OnReceive;
         }
 
         public void ConnectToAsync(
