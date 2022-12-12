@@ -9,8 +9,8 @@ namespace AsunaClient.Foundation.UI
         private void _InitHierarchy()
         {
             _InitRoot();
-            _InitPopupRoot();
             _InitPageRoot();
+            _InitPopupRoot();
         }
 
         private void _ReleaseHierarchy()
@@ -21,6 +21,7 @@ namespace AsunaClient.Foundation.UI
         private void _InitRoot()
         {
             _Root = new GameObject("UIRoot");
+            _Root.layer = LayerMask.NameToLayer("UI");
             Object.DontDestroyOnLoad(_Root);
 
             _RootCanvas = _Root.AddComponent<Canvas>();
@@ -33,14 +34,27 @@ namespace AsunaClient.Foundation.UI
         private void _InitPageRoot()
         {
             _PageRoot = new GameObject("PageRoot");
-            _PageRoot.transform.parent = _Root.transform;
+            _PageRoot.layer = LayerMask.NameToLayer("UI");
+            var rect = _PageRoot.AddComponent<RectTransform>();
+            _PageRoot.transform.SetParent(_Root.transform);
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.anchorMin = new Vector2(0, 0);
+            rect.anchorMax = new Vector2(1, 1);
+            rect.offsetMin = new Vector2(0, 0);
+            rect.offsetMax = new Vector2(0, 0);
         }
 
         private void _InitPopupRoot()
         {
             _PopupRoot = new GameObject("PopupRoot");
-            _PopupRoot.transform.parent = _Root.transform;
-
+            _PopupRoot.layer = LayerMask.NameToLayer("UI");
+            var rect = _PopupRoot.AddComponent<RectTransform>();
+            _PopupRoot.transform.SetParent(_Root.transform);
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.anchorMin = new Vector2(0, 0);
+            rect.anchorMax = new Vector2(1, 1);
+            rect.offsetMin = new Vector2(0, 0);
+            rect.offsetMax = new Vector2(0, 0);
         }
 
         private GameObject _Root;

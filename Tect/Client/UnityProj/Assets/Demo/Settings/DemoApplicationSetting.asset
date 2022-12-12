@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: DemoApplicationSetting
   m_EditorClassIdentifier: 
   UIPageRegisterItems:
-  - PageID: SDKMain
-    AssetPath: Assets/Demo/Res/UI/SKDMainPage.prefab
+  - PageID: DemoMainPage
+    AssetPath: Assets/Demo/Res/UI/DemoMainPage.prefab

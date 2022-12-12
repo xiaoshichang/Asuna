@@ -30,6 +30,7 @@ namespace AsunaClient.Application
         private void _EnterGameplay()
         {
             //NetworkMgr.ConnectToAsync("127.0.0.1", 50001, OnConnected);
+            G.UIManager.ShowPage("DemoMainPage", null);
         }
 
         private void _ApplicationStartup()

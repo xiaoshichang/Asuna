@@ -8,13 +8,21 @@ namespace AsunaClient.Foundation.UI
     {
         private UIPage _CreatePage(UIPageRegisterItem item)
         {
-            var root = AssetManager.LoadAsset<GameObject>(item.AssetPath);
+            var asset = AssetManager.LoadAssetSync<GameObject>(item.AssetPath);
+            var root = GameObject.Instantiate(asset, _PageRoot.transform);
+            
             var page = root.GetComponent<UIPage>();
             if (page == null)
             {
                 XDebug.Error("root node must contains a UIPage script!");
                 return null;
             }
+            
+            page.SetPageID(item.PageID);
+            page.SetAsset(asset);
+            page.SetRoot(root);
+            page.SetupController();
+            
             return page;
         }
 
@@ -88,7 +96,9 @@ namespace AsunaClient.Foundation.UI
 
             var page = _PageStack.Pop();
             page.OnHide();
-            page.OnDestroy();
+
+            var asset = page.GetAsset();
+            AssetManager.ReleaseAsset(asset);
         }
 
         private void _ReleaseStack()
@@ -97,7 +107,9 @@ namespace AsunaClient.Foundation.UI
             {
                 var page = _PageStack.Pop();
                 page.OnHide();
-                page.OnDestroy();
+                
+                var asset = page.GetAsset();
+                AssetManager.ReleaseAsset(asset);
             }
         }
 

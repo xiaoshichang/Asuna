@@ -14,22 +14,39 @@ namespace AsunaClient.Foundation.UI
     
     public abstract class UIPage : MonoBehaviour
     {
-        protected UIPage(string id, GameObject Root)
-        {
-            _PageID = id;
-            _Root = Root;
-        }
-        
-        public abstract string GetPageID();
-        public abstract void SetupView();
-        public abstract void SetupModel();
         public abstract void SetupController();
         public abstract void OnShow(ShowPageParam param);
         public abstract void OnHide();
-        public abstract void OnDestroy();
+
+
+        public void SetPageID(string pid)
+        {
+            _PageID = pid;
+        }
+        
+        public string GetPageID()
+        {
+            return _PageID;
+        }
+        
+        public void SetRoot(GameObject root)
+        {
+            _Root = root;
+        }
+
+        public void SetAsset(GameObject asset)
+        {
+            _Asset = asset;
+        }
+
+        public GameObject GetAsset()
+        {
+            return _Asset;
+        }
 
         private string _PageID;
-        private GameObject _Root;
+        private GameObject _Asset;
+        protected GameObject _Root;
     }
 
 }
