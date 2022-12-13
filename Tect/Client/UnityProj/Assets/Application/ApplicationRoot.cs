@@ -56,6 +56,7 @@ namespace AsunaClient.Application
             
             _InitNetwork();
             _InitUIManager();
+            _InitSceneManager();
             _InitEntityManager();
             G.SetupOtherManagers(this);
             
@@ -108,6 +109,7 @@ namespace AsunaClient.Application
             G.ResetGameplay();
 
             _ReleaseEntityManager();
+            _ReleaseSceneManager();
             _ReleaseUIManager();
             _ReleaseNetworkManager();
             G.ResetOtherManagers();

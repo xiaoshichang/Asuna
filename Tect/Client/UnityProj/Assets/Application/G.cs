@@ -5,6 +5,7 @@ using AsunaClient.Foundation.Asset;
 using AsunaClient.Foundation.Network;
 using AsunaClient.Foundation.UI;
 using AsunaClient.Foundation.Entity;
+using AsunaClient.Foundation.Scene;
 
 
 namespace AsunaClient.Application
@@ -34,6 +35,7 @@ namespace AsunaClient.Application
         {
             NetworkManager = root.NetworkManager;
             UIManager = root.UIManager;
+            SceneManager = root._SceneManager;
             EntityManager = root.EntityManager;
         }
 
@@ -71,6 +73,7 @@ namespace AsunaClient.Application
         public static AssetManager AssetManager;
         public static NetworkManager NetworkManager;
         public static UIManager UIManager;
+        public static SceneManager SceneManager;
         public static EntityManager EntityManager;
         public static GameplayInstance GameplayInstance;
         
