@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace AsunaClient.Foundation.UI
 {
@@ -34,18 +35,18 @@ namespace AsunaClient.Foundation.UI
             _Root = root;
         }
 
-        public void SetAsset(GameObject asset)
+        public void SetOperationHandler(AsyncOperationHandle handler)
         {
-            _Asset = asset;
+            _Handler = handler;
         }
 
-        public GameObject GetAsset()
+        public AsyncOperationHandle GetOperationHandler()
         {
-            return _Asset;
+            return _Handler;
         }
 
         private string _PageID;
-        private GameObject _Asset;
+        private AsyncOperationHandle _Handler;
         protected GameObject _Root;
     }
 

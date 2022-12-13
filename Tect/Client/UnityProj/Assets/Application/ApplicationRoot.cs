@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using AsunaClient.Application.Config;
 using AsunaClient.Foundation;
 using CodiceApp;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 
 namespace AsunaClient.Application
@@ -30,11 +28,28 @@ namespace AsunaClient.Application
         private void _EnterGameplay()
         {
             //NetworkMgr.ConnectToAsync("127.0.0.1", 50001, OnConnected);
-            G.UIManager.ShowPage("DemoMainPage", null);
+            _GameplayInstance.EntryGameplay();
         }
 
+        private void _CheckConfig()
+        {
+            if (ApplicationSetting is null)
+            {
+                throw new Exception("application config is empty");
+            }
+
+            if (ApplicationSetting.GameplayAssemblies is null || ApplicationSetting.GameplayAssemblies.Count == 0)
+            {
+                throw new Exception("GameplayAssemblies is empty");
+            }
+            
+        }
+        
         private void _ApplicationStartup()
         {
+            _CheckConfig();
+            G.SetupConfig(this);
+            
             _InitLogManager();
             _InitAssetManager();
             G.SetupCoreManagers(this);
@@ -44,8 +59,8 @@ namespace AsunaClient.Application
             _InitEntityManager();
             G.SetupOtherManagers(this);
             
-            _InitGMSystem();
-            G.SetupSystems(this);
+            _InitGameplay();
+            G.SetupGameplay(_GameplayInstance);
             
             _EnterGameplay();
         }
@@ -89,8 +104,8 @@ namespace AsunaClient.Application
             }
 
             _State = ApplicationState.Releasing;
-            _ReleaseGMSystem();
-            G.ResetSystems();
+            _ReleaseGameplay();
+            G.ResetGameplay();
 
             _ReleaseEntityManager();
             _ReleaseUIManager();

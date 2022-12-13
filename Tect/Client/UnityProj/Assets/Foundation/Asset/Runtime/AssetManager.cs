@@ -23,17 +23,16 @@ namespace AsunaClient.Foundation.Asset
         /// <summary>
         /// https://docs.unity3d.com/Packages/com.unity.addressables@1.21/manual/SynchronousAddressables.html
         /// </summary>
-        public T LoadAssetSync<T>(string assetPath) where T : Object
+        public AsyncOperationHandle<T> LoadAssetSync<T>(string assetPath) where T : Object
         {
             var op = Addressables.LoadAssetAsync<T>(assetPath);
-            T asset = op.WaitForCompletion();
-
-            if (op.Status == AsyncOperationStatus.Failed)
+            op.WaitForCompletion();
+            if (op.Status != AsyncOperationStatus.Succeeded)
             {
-                return null;
+                XDebug.Error($"load asset {assetPath} exception {op.Status}!");
             }
             
-            return asset;
+            return op;
         }
 
         public void LoadAssetAsync<T>()
@@ -46,9 +45,9 @@ namespace AsunaClient.Foundation.Asset
             throw new NotImplementedException();
         }
 
-        public void ReleaseAsset(Object asset)
+        public void ReleaseAsset(AsyncOperationHandle handler)
         {
-            Addressables.Release(asset);
+            Addressables.Release(handler);
         }
         
     }

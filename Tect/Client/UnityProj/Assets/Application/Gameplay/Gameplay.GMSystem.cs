@@ -2,18 +2,15 @@
 using AsunaClient.Application.GM;
 using AsunaClient.Foundation;
 
-namespace AsunaClient.Application
+namespace AsunaClient.Application.Gameplay
 {
-    public partial class ApplicationRoot
+    public partial class GameplayInstance
     {
-        private void _InitGMSystem()
+        private void _InitGMSystem(GameplayInitParam param)
         {
             GMSystem = new GMSystem();
-            var assemblyList = new List<string>()
-            {
-            };
-            GMSystem.Init(assemblyList);
-            gameObject.AddComponent<GMTerminal>();
+            GMSystem.Init(param.GameplayAssemblies);
+            param.ApplicationRoot.gameObject.AddComponent<GMTerminal>();
             XDebug.Info("Init GM system Ok!");
         }
 

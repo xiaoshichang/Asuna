@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ef9661d8277429985a70f9552284914, type: 3}
   m_Name: DemoApplicationSetting
   m_EditorClassIdentifier: 
+  GameplayAssemblies:
+  - AsunaDemo
   UIPageRegisterItems:
   - PageID: DemoMainPage
     AssetPath: Assets/Demo/Res/UI/DemoMainPage.prefab

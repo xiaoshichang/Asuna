@@ -8,8 +8,8 @@ namespace AsunaClient.Foundation.UI
     {
         private UIPage _CreatePage(UIPageRegisterItem item)
         {
-            var asset = AssetManager.LoadAssetSync<GameObject>(item.AssetPath);
-            var root = GameObject.Instantiate(asset, _PageRoot.transform);
+            var operationHandle = AssetManager.LoadAssetSync<GameObject>(item.AssetPath);
+            var root = GameObject.Instantiate(operationHandle.Result, _PageRoot.transform);
             
             var page = root.GetComponent<UIPage>();
             if (page == null)
@@ -19,11 +19,27 @@ namespace AsunaClient.Foundation.UI
             }
             
             page.SetPageID(item.PageID);
-            page.SetAsset(asset);
+            page.SetOperationHandler(operationHandle);
             page.SetRoot(root);
             page.SetupController();
             
             return page;
+        }
+
+        private void _TryHideTop()
+        {
+            if (_PageStack.TryPeek(out var top))
+            {
+                top.gameObject.SetActive(false);
+            }
+        }
+
+        private void _TryShowTop()
+        {
+            if (_PageStack.TryPeek(out var top))
+            {
+                top.gameObject.SetActive(true);
+            }
         }
 
         /// <summary>
@@ -68,7 +84,10 @@ namespace AsunaClient.Foundation.UI
                 XDebug.Error($"load page fail! id : {registerItem.PageID}, path: {registerItem.AssetPath}");
                 return;
             }
+            _TryHideTop();
+            
             page.OnShow(param);
+            _PageStack.Push(page);
         }
         
         /// <summary>
@@ -96,9 +115,14 @@ namespace AsunaClient.Foundation.UI
 
             var page = _PageStack.Pop();
             page.OnHide();
+            _ReleasePageAsset(page);
+            _TryShowTop();
+        }
 
-            var asset = page.GetAsset();
-            AssetManager.ReleaseAsset(asset);
+        private void _ReleasePageAsset(UIPage page)
+        {
+            var handler = page.GetOperationHandler();
+            AssetManager.ReleaseAsset(handler);
         }
 
         private void _ReleaseStack()
@@ -107,9 +131,7 @@ namespace AsunaClient.Foundation.UI
             {
                 var page = _PageStack.Pop();
                 page.OnHide();
-                
-                var asset = page.GetAsset();
-                AssetManager.ReleaseAsset(asset);
+                _ReleasePageAsset(page);
             }
         }
 
