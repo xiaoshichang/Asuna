@@ -1,7 +1,10 @@
 {
     "name": "AsunaClient.Foundation.Scene.Editor",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:aeb545b874d89b147a7e892966b454b0",
+        "GUID:b1d8552360d11274681820f5f87d90a8"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

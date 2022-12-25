@@ -35,7 +35,6 @@ namespace AsunaClient.Application
         {
             NetworkManager = root.NetworkManager;
             UIManager = root.UIManager;
-            SceneManager = root._SceneManager;
             EntityManager = root.EntityManager;
         }
 
@@ -73,7 +72,6 @@ namespace AsunaClient.Application
         public static AssetManager AssetManager;
         public static NetworkManager NetworkManager;
         public static UIManager UIManager;
-        public static SceneManager SceneManager;
         public static EntityManager EntityManager;
         public static GameplayInstance GameplayInstance;
         

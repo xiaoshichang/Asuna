@@ -25,6 +25,14 @@ MonoBehaviour:
     m_Address: Assets/Demo/Res/UI
     m_ReadOnly: 0
     m_SerializedLabels: []
+  - m_GUID: 365ac94d881ee374389eca3dd138fcbd
+    m_Address: Assets/Demo/Res/SceneItems/Materials
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: b4e02ee346beabe4da92d914df4df132
+    m_Address: Assets/Demo/Res/SceneItems
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 7679d66ad507e094ebf61f225bc17ee6, type: 2}
   m_SchemaSet:
