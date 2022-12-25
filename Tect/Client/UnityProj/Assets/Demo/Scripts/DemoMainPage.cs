@@ -6,28 +6,32 @@ using UnityEngine;
 
 using UnityEngine.UI;
 
-public class DemoMainPage : UIPage
+namespace Demo
 {
-
-    public override void SetupController()
+    public class DemoMainPage : UIPage
     {
-        _LoadSceneBtn = _Root.transform.Find("LoadSceneBtn").GetComponent<Button>();
-        _LoadSceneBtn.onClick.AddListener(_OnLoadScene);
-    }
 
-    public override void OnShow(ShowPageParam param)
-    {
-    }
+        public override void SetupController()
+        {
+            _LoadSceneBtn = _Root.transform.Find("LoadSceneBtn").GetComponent<Button>();
+            _LoadSceneBtn.onClick.AddListener(_OnLoadScene);
+        }
 
-    public override void OnHide()
-    {
-    }
+        public override void OnShow(ShowPageParam param)
+        {
+        }
 
-    private void _OnLoadScene()
-    {
-        XDebug.Info("load scene");
-    }
+        public override void OnHide()
+        {
+        }
+        
+        private void _OnLoadScene()
+        {
+            XDebug.Info("load scene");
+        }
     
-    private Button _LoadSceneBtn;
+        private Button _LoadSceneBtn;
+        public const string AssetPath = "Assets/Demo/Res/UI/DemoMainPage.prefab";
+    }
 
 }

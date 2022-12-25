@@ -8,7 +8,6 @@ namespace AF.Application
     public class ApplicationSetting : ScriptableObject
     {
         public List<string> GameplayAssemblies;
-        public List<UIPageRegisterItem> UIPageRegisterItems;
     }
     
 }

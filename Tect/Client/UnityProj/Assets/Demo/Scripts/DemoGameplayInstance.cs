@@ -1,12 +1,12 @@
 ﻿using AF.Application;
 
-namespace Demo.Scripts
+namespace Demo
 {
     public class DemoGameplayInstance : GameplayInstance
     {
         public override void EntryGameplay()
         {
-            G.UIManager.ShowPage("DemoMainPage", null);
+            G.UIManager.ShowPage(nameof(DemoMainPage), null);
         }
 
     }

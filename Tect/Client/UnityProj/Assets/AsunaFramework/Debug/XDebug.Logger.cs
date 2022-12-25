@@ -25,16 +25,25 @@ namespace AF.Utils
             _Log(LogLevel.Info, string.Format(format, args));
         }
 
+        /// <summary>
+        /// Warning  代表发生了错误，但是不影响主流程和底层模块，只影响部分业务模块
+        /// </summary>
         public static void Warning(string format, params object[] args)
         {
             _Log(LogLevel.Warning, string.Format(format, args));
         }
 
+        /// <summary>
+        /// Error 代表发生严重错误，正常的流程不允许存在
+        /// </summary>
         public static void Error(string format, params object[] args)
         {
             _Log(LogLevel.Error, string.Format(format, args));
         }
 
+        /// <summary>
+        /// Asset 代表程序员的预期，不符合预期直接抛出异常，避免错误继续
+        /// </summary>
         public static void Asset(bool condition, string message)
         {
             if (!condition)
