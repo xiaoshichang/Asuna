@@ -1,15 +1,16 @@
 {
-    "name": "AsunaDemo",
+    "name": "AsunaFramework",
     "rootNamespace": "",
     "references": [
-        "GUID:3bbac04c02789bd4d82802e3c83a0afb"
+        "GUID:84651a3751eca9349aac36a66bba901b",
+        "GUID:9e24947de15b9834991c9d8411ea37cf"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
-    "autoReferenced": true,
+    "autoReferenced": false,
     "defineConstraints": [],
     "versionDefines": [],
     "noEngineReferences": false

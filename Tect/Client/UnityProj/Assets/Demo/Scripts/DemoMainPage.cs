@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using AsunaClient.Foundation;
-using AsunaClient.Foundation.UI;
+using AF.UI;
+using AF.Utils;
 using UnityEngine;
+
 using UnityEngine.UI;
 
 public class DemoMainPage : UIPage

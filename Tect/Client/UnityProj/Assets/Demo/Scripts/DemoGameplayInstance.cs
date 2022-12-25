@@ -1,5 +1,4 @@
-﻿using AsunaClient.Application;
-using AsunaClient.Application.Gameplay;
+﻿using AF.Application;
 
 namespace Demo.Scripts
 {
