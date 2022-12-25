@@ -64,7 +64,6 @@ namespace AF.Application
             GMSystem = null;
             
         }
-        
 
         public static ApplicationSetting ApplicationSetting;
         public static ApplicationRoot Application;

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: SDK
+  m_Name: Demo
   m_EditorClassIdentifier: 
-  m_GroupName: SDK
+  m_GroupName: Demo
   m_Data:
     m_SerializedData: []
   m_GUID: daa885c622ff49f4b859de5a15e0c4ac
@@ -25,12 +25,12 @@ MonoBehaviour:
     m_Address: Assets/Demo/Res/UI
     m_ReadOnly: 0
     m_SerializedLabels: []
-  - m_GUID: 365ac94d881ee374389eca3dd138fcbd
-    m_Address: Assets/Demo/Res/SceneItems/Materials
-    m_ReadOnly: 0
-    m_SerializedLabels: []
   - m_GUID: b4e02ee346beabe4da92d914df4df132
     m_Address: Assets/Demo/Res/SceneItems
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: cff456a1cfe644148a8ac841d1d7af41
+    m_Address: Assets/Demo/Res/SceneData
     m_ReadOnly: 0
     m_SerializedLabels: []
   m_ReadOnly: 0

@@ -10,13 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: FrameworkBuiltin
+  m_Name: AsunaFramework
   m_EditorClassIdentifier: 
-  m_GroupName: FrameworkBuiltin
+  m_GroupName: AsunaFramework
   m_Data:
     m_SerializedData: []
   m_GUID: e682ab11b23ca214e845f9ef1e6de6e9
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: d8ef71273a1c52040ad6329bae284782
+    m_Address: Assets/AsunaFramework/Res
+    m_ReadOnly: 0
+    m_SerializedLabels: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 7679d66ad507e094ebf61f225bc17ee6, type: 2}
   m_SchemaSet:

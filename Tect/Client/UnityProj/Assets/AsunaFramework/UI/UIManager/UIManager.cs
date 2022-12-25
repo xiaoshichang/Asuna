@@ -27,10 +27,12 @@ namespace AF.UI
             
             _RegisterPages(initParam.PageRegisterItems);
             _InitHierarchy();
+            _InitScreenFadeBlock();
         }
 
         public void Release()
         {
+            _ReleaseScreenFadeBlock();
             _ReleaseStack();
             _UnRegisterPages();
             _ReleaseHierarchy();

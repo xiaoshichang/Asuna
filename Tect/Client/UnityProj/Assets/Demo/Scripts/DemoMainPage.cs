@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using AF.Application;
+using AF.Timer;
 using AF.UI;
 using AF.Utils;
 using UnityEngine;
@@ -28,6 +30,13 @@ namespace Demo
         private void _OnLoadScene()
         {
             XDebug.Info("load scene");
+            G.UIManager.ScreenFadeTo(Color.black);
+            TimerMgr.RegisterTimer(2000, _ResetFade);
+        }
+
+        private void _ResetFade(object param)
+        {
+            G.UIManager.ClearFade();
         }
     
         private Button _LoadSceneBtn;

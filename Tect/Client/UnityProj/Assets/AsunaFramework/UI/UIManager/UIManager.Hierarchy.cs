@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using AF.Utils;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace AF.UI
@@ -10,6 +11,7 @@ namespace AF.UI
         {
             _InitRoot();
             _InitPageRoot();
+            _InitBlockRoot();
             _InitPopupRoot();
         }
 
@@ -44,6 +46,19 @@ namespace AF.UI
             rect.offsetMax = new Vector2(0, 0);
         }
 
+        private void _InitBlockRoot()
+        {
+            _BlockRoot = new GameObject("BlockRoot");
+            _BlockRoot.layer = LayerMask.NameToLayer("UI");
+            var rect = _BlockRoot.AddComponent<RectTransform>();
+            _BlockRoot.transform.SetParent(_Root.transform);
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.anchorMin = new Vector2(0, 0);
+            rect.anchorMax = new Vector2(1, 1);
+            rect.offsetMin = new Vector2(0, 0);
+            rect.offsetMax = new Vector2(0, 0);
+        }
+
         private void _InitPopupRoot()
         {
             _PopupRoot = new GameObject("PopupRoot");
@@ -63,6 +78,7 @@ namespace AF.UI
         private GraphicRaycaster _RootGraphicRaycaster;
         
         private GameObject _PageRoot;
+        private GameObject _BlockRoot;
         private GameObject _PopupRoot;
         
     }
