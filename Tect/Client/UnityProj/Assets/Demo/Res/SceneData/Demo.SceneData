@@ -1,0 +1,80 @@
+{
+  "Items": [
+    {
+      "P": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "R": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      },
+      "S": {
+        "x": 1.0,
+        "y": 1.0,
+        "z": 1.0
+      },
+      "Asset": "Assets/Demo/Res/SceneItems/SceneItem_Ground.prefab"
+    },
+    {
+      "P": {
+        "x": 2.64,
+        "y": 0.0,
+        "z": -0.2706499
+      },
+      "R": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      },
+      "S": {
+        "x": 1.0,
+        "y": 1.0,
+        "z": 1.0
+      },
+      "Asset": "Assets/Demo/Res/SceneItems/SceneItem_Building01.prefab"
+    },
+    {
+      "P": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 4.56
+      },
+      "R": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      },
+      "S": {
+        "x": 1.0,
+        "y": 1.0,
+        "z": 1.0
+      },
+      "Asset": "Assets/Demo/Res/SceneItems/SceneItem_Building02.prefab"
+    },
+    {
+      "P": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 11.32
+      },
+      "R": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 1.0
+      },
+      "S": {
+        "x": 1.0,
+        "y": 1.0,
+        "z": 1.0
+      },
+      "Asset": "Assets/Demo/Res/SceneItems/SceneItem_Building01.prefab"
+    }
+  ]
+}

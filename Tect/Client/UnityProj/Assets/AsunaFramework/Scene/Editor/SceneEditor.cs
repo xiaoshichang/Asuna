@@ -1,41 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using AF.Utils;
+using Newtonsoft.Json;
+using NUnit.Framework;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.SceneManagement;
 
-namespace  AF.Scene.Editor
+namespace AF.Scene.Editor
 {
     
     public class SceneEditor : EditorWindow
     {
-        [MenuItem("AsunaClient/Scene/SceneEditor")]
+        [MenuItem("Asuna/Scene/SceneEditor")]
         static void Init()
         {
             // Get existing open window or if none, make a new one:
             SceneEditor window = (SceneEditor)EditorWindow.GetWindow(typeof(SceneEditor));
-            if (_InitRoot())
-            {
-                _CollectSceneData();
-                window.Show();
-            }
-            else
-            {
-                XDebug.Error("Init root fail!");
-            }
+            _InitScene();
+            _CollectSceneData();
+            window.Show();
         }
 
 
-        private static bool _InitRoot()
+        private static void _InitScene()
         {
-            var root = GameObject.Find(_RootName);
-            if (root != null)
-            {
-                return false;
-            }
-            _Root = new GameObject(_RootName);
-            return true;
+            EditorSceneManager.OpenScene(_SceneEditorScene);
         }
 
 
@@ -53,15 +47,46 @@ namespace  AF.Scene.Editor
 
         #region Export
 
-        private List<SceneItem> _CollectSceneItems()
+        private SceneItem[] _CollectSceneItems()
         {
-            return null;
+            var collection = new List<SceneItem>();
+            foreach (var go in SceneManager.GetActiveScene().GetRootGameObjects())
+            {
+                var items = go.GetComponents<SceneItem>();
+                collection.AddRange(items);
+            }
+            return collection.ToArray();
+        }
+
+        private SceneItemData _ConvertToSceneItemData(SceneItem item)
+        {
+            var data = new SceneItemData();
+            var go = item.gameObject;
+            var transform = go.transform;
+            data.P = SavedVector3.FromVector3(transform.localPosition);
+            data.R = SavedQuaternion.FromQuaternion(transform.localRotation);
+            data.S = SavedVector3.FromVector3(transform.localScale);
+            data.Asset = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(go);
+            return data;
         }
 
         private void _ExportSceneData()
         {
             var items = _CollectSceneItems();
-            
+            var sceneData = new SceneData
+            {
+                Items = new List<SceneItemData>()
+            };
+            foreach (var item in items)
+            {
+                var data = _ConvertToSceneItemData(item);
+                sceneData.Items.Add(data);
+            }
+
+            var content = JsonConvert.SerializeObject(sceneData, Formatting.Indented);
+            var filePath = UnityEngine.Application.dataPath + "/Demo/Res/SceneData/Demo.SceneData";
+            FileUtils.WriteContentToFileSync(filePath, content, true);
+            XDebug.Info($"export scene data OK! {filePath}");
         }
         #endregion
        
@@ -79,25 +104,12 @@ namespace  AF.Scene.Editor
             }
         }
 
-        private void _Clear()
-        {
-            
-        }
-
         private void OnDestroy()
         {
-            if (_Root == null)
-            {
-                XDebug.Error("unknown error!");
-                return;
-            }
-
-            _Clear();
-            DestroyImmediate(_Root);
+            EditorSceneManager.OpenScene(_MainScene);
         }
 
-        private static GameObject _Root;
-        private static SceneData _CurrentScene;
-        private const string _RootName = "SceneEditorRoot";
+        private const string _SceneEditorScene = "Assets/AsunaFramework/Res/Scenes/SceneEditor.unity";
+        private const string _MainScene = "Assets/AsunaFramework/Res/Scenes/Main.unity";
     }
 }

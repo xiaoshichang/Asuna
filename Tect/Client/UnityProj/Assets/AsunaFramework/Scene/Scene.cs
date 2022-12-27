@@ -4,7 +4,9 @@ namespace AF.Scene
 {
     public delegate void OnSceneLoadedCallback(LoadSceneTask task);
     
-    
+    /// <summary>
+    /// 场景的静态部分
+    /// </summary>
     public class Scene
     {
         public void Load(LoadSceneTask task)

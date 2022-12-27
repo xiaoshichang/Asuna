@@ -1,13 +1,17 @@
-﻿namespace AF.Scene
+﻿using System;
+using System.Collections.Generic;
+
+namespace AF.Scene
 {
     public delegate void OnSceneLoaded();
     
     /// <summary>
-    /// 用于描述场景的逻辑数据
+    /// 场景的持久化数据格式
     /// </summary>
+    [Serializable]
     public class SceneData
     {
-        
+        public List<SceneItemData> Items { get; set; }
     }
 
 
