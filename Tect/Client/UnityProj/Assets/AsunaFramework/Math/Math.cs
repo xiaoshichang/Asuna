@@ -1,4 +1,0 @@
-namespace AF.Math
-{
-
-}
