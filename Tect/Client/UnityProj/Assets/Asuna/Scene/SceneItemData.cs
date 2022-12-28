@@ -54,5 +54,8 @@ namespace Asuna.Scene
         public SavedQuaternion R { get; set; }
         public SavedVector3 S { get; set; }
         public string Asset { get; set; }
+        public string Name { get; set; }
+
+        
     }
 }

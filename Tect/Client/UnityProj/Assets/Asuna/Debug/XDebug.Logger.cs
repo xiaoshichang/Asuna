@@ -1,5 +1,4 @@
 ﻿using System;
-using Codice.CM.Common;
 using UnityEngine;
 
 namespace Asuna.Utils
@@ -44,20 +43,14 @@ namespace Asuna.Utils
         /// <summary>
         /// Asset 代表程序员的预期，不符合预期直接抛出异常，避免错误继续
         /// </summary>
-        public static void Asset(bool condition, string message)
+        public static void Assert(bool condition, string message)
         {
-            if (!condition)
-            {
-                throw new Exception(message);
-            }
+            Debug.Assert(condition, message);
         }
 
-        public static void Asset(bool condition)
+        public static void Assert(bool condition)
         {
-            if (!condition)
-            {
-                throw new Exception();
-            }
+            Debug.Assert(condition);
         }
         
         private static void _Log(LogLevel level, string message)

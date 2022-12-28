@@ -13,7 +13,4 @@ MonoBehaviour:
   m_Name: DemoApplicationSetting
   m_EditorClassIdentifier: 
   GameplayAssemblies:
-  - AsunaDemo
-  UIPageRegisterItems:
-  - PageID: DemoMainPage
-    AssetPath: Assets/Demo/Res/UI/DemoMainPage.prefab
+  - Demo

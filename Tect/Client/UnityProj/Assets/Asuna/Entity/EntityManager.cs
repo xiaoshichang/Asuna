@@ -22,9 +22,9 @@ namespace Asuna.Entity
 
         public void Release()
         {
-            XDebug.Asset(_Root != null);
-            XDebug.Asset(_Entities != null);
-            XDebug.Asset(_Entities.Count == 0);
+            XDebug.Assert(_Root != null);
+            XDebug.Assert(_Entities != null);
+            XDebug.Assert(_Entities.Count == 0);
             Object.DestroyImmediate(_Root);
         }
 

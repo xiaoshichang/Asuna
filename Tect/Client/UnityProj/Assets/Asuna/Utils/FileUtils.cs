@@ -27,6 +27,21 @@ namespace Asuna.Utils
             fp.Write(content);
             fp.Close();
         }
-        
+
+        public static byte[] ReadBytesFromFileSync(string filePath)
+        {
+            if (!File.Exists(filePath))
+            {
+                throw new IOException("file path is not exist");
+            }
+
+            return File.ReadAllBytes(filePath);
+        }
+
+        public static string ReadContentFromFileSync(string filePath)
+        {
+            byte[] data = ReadBytesFromFileSync(filePath);
+            return Encoding.ASCII.GetString(data);
+        }
     }
 }

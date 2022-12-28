@@ -10,7 +10,6 @@ namespace Asuna.UI
 {
     public class UIManagerInitParam
     {
-        public AssetManager AssetManager;
         public List<UIPageRegisterItem> PageRegisterItems;
     }
     
@@ -20,10 +19,7 @@ namespace Asuna.UI
         public void Init(object param)
         {
             var initParam = param as UIManagerInitParam;
-            XDebug.Asset(initParam != null);
-            XDebug.Asset(initParam.AssetManager != null);
-            
-            AssetManager = initParam.AssetManager;
+            XDebug.Assert(initParam != null);
             
             _RegisterPages(initParam.PageRegisterItems);
             _InitHierarchy();
@@ -37,9 +33,6 @@ namespace Asuna.UI
             _UnRegisterPages();
             _ReleaseHierarchy();
         }
-
-
-        private AssetManager AssetManager;
     }
 
 }

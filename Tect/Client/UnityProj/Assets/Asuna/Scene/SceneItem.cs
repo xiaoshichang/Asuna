@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using Asuna.Application;
+using Asuna.Utils;
+using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Asuna.Scene
 {
@@ -7,6 +10,15 @@ namespace Asuna.Scene
     /// </summary>
     public class SceneItem : MonoBehaviour
     {
-        
+
+    }
+
+    public static class SceneItemHelper
+    {
+        public static SceneItem LoadFromSceneItemDataSync(SceneItemData sid)
+        {
+            XDebug.Assert(sid != null);
+            return null;
+        }
     }
 }

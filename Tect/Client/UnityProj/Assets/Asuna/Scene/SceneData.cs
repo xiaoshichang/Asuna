@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Asuna.Scene
 {
@@ -12,6 +13,8 @@ namespace Asuna.Scene
     public class SceneData
     {
         public List<SceneItemData> Items { get; set; }
+        
+
     }
 
 

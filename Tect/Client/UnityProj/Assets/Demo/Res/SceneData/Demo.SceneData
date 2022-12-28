@@ -17,13 +17,14 @@
         "y": 1.0,
         "z": 1.0
       },
-      "Asset": "Assets/Demo/Res/SceneItems/SceneItem_Ground.prefab"
+      "Asset": "Assets/Demo/Res/SceneItems/SceneItem_Ground.prefab",
+      "Name": "SceneItem_Ground"
     },
     {
       "P": {
-        "x": 2.64,
+        "x": 0.0,
         "y": 0.0,
-        "z": -0.2706499
+        "z": 6.46
       },
       "R": {
         "x": 0.0,
@@ -36,13 +37,14 @@
         "y": 1.0,
         "z": 1.0
       },
-      "Asset": "Assets/Demo/Res/SceneItems/SceneItem_Building01.prefab"
+      "Asset": "Assets/Demo/Res/SceneItems/SceneItem_Building01.prefab",
+      "Name": "SceneItem_Building01"
     },
     {
       "P": {
         "x": 0.0,
         "y": 0.0,
-        "z": 4.56
+        "z": 0.0
       },
       "R": {
         "x": 0.0,
@@ -55,13 +57,14 @@
         "y": 1.0,
         "z": 1.0
       },
-      "Asset": "Assets/Demo/Res/SceneItems/SceneItem_Building02.prefab"
+      "Asset": "Assets/Demo/Res/SceneItems/SceneItem_Building02.prefab",
+      "Name": "SceneItem_Building02"
     },
     {
       "P": {
-        "x": 0.0,
+        "x": 3.05,
         "y": 0.0,
-        "z": 11.32
+        "z": 0.0
       },
       "R": {
         "x": 0.0,
@@ -74,7 +77,8 @@
         "y": 1.0,
         "z": 1.0
       },
-      "Asset": "Assets/Demo/Res/SceneItems/SceneItem_Building01.prefab"
+      "Asset": "Assets/Demo/Res/SceneItems/SceneItem_Building01.prefab",
+      "Name": "SceneItem_Building01 (1)"
     }
   ]
 }

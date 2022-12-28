@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Asuna.Application;
+using Asuna.Asset;
 using Asuna.Utils;
 using UnityEngine;
 
@@ -9,7 +11,7 @@ namespace Asuna.UI
     {
         private UIPage _CreatePage(UIPageRegisterItem item)
         {
-            var operationHandle = AssetManager.LoadAssetSync<GameObject>(item.AssetPath);
+            var operationHandle = G.AssetManager.LoadAssetSync<GameObject>(item.AssetPath);
             var root = GameObject.Instantiate(operationHandle.Result, _PageRoot.transform);
             
             var page = root.GetComponent<UIPage>();
@@ -123,7 +125,7 @@ namespace Asuna.UI
         private void _ReleasePageAsset(UIPage page)
         {
             var handler = page.GetOperationHandler();
-            AssetManager.ReleaseAsset(handler);
+            G.AssetManager.ReleaseAsset(handler);
         }
 
         private void _ReleaseStack()

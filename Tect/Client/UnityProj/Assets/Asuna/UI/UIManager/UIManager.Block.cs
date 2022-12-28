@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using Asuna.Application;
+using Asuna.Asset;
+using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Asuna.UI
@@ -7,7 +9,7 @@ namespace Asuna.UI
     {
         private void _InitScreenFadeBlock()
         {
-            _ScreenFadeBlockAsset = AssetManager.LoadAssetSync<GameObject>(ScreenFadeBlockAssetPath);
+            _ScreenFadeBlockAsset = G.AssetManager.LoadAssetSync<GameObject>(ScreenFadeBlockAssetPath);
             var o = Object.Instantiate(_ScreenFadeBlockAsset.Result, _BlockRoot.transform);
             _ScreenFadeBlock = o.GetComponent<ScreenFadeBlock>();
         }
@@ -15,7 +17,7 @@ namespace Asuna.UI
 
         private void _ReleaseScreenFadeBlock()
         {
-            AssetManager.ReleaseAsset(_ScreenFadeBlockAsset);
+            G.AssetManager.ReleaseAsset(_ScreenFadeBlockAsset);
         }
 
         public void ScreenFadeTo(Color color, float interval=1)
@@ -30,6 +32,6 @@ namespace Asuna.UI
 
         private AsyncOperationHandle<GameObject> _ScreenFadeBlockAsset;
         private ScreenFadeBlock _ScreenFadeBlock;
-        private const string ScreenFadeBlockAssetPath = "Assets/AsunaFramework/Res/UI/ScreenFadeBlock.prefab";
+        private const string ScreenFadeBlockAssetPath = "Assets/Asuna/Res/UI/ScreenFadeBlock.prefab";
     }
 }

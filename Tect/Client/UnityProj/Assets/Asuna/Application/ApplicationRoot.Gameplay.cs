@@ -28,7 +28,7 @@ namespace Asuna.Application
                 }
             }
             
-            XDebug.Asset(count == 1);
+            XDebug.Assert(count == 1);
             return entryType;
         }
         
