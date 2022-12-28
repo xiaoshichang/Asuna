@@ -1,7 +1,5 @@
-﻿using Asuna.Application;
-using Asuna.Utils;
+﻿using Asuna.Utils;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace Asuna.Scene
 {

@@ -1,9 +1,8 @@
-using System;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 using Asuna.Interface;
-using Asuna.Utils;
-using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using Object = UnityEngine.Object;
 
 
@@ -11,44 +10,52 @@ namespace Asuna.Asset
 {
     public class AssetManager : IManager
     {
+        
+        private void _InitProvider()
+        {
+#if UNITY_EDITOR
+            var mode = EditorPrefs.GetString(AssetProviderEditor.ProviderMode_Key);
+            if (string.IsNullOrEmpty(mode) || mode == AssetProviderEditor.ProviderMode_Value_Editor)
+            {
+                _Provider = new AssetProviderEditor();
+            }
+            else
+            {
+                _Provider = new AssetProviderAssetBundle();
+            }
+#else
+            _Provider = new AssetProviderAssetBundle();
+#endif
+            _Provider.Init();
+        }
+        
+        
         public void Init(object param)
         {
+            _InitProvider();
         }
 
+        private void _ReleaseProvider()
+        {
+            _Provider.Release();
+        }
+        
         public void Release()
         {
+            _ReleaseProvider();
         }
         
-        /// <summary>
-        /// https://docs.unity3d.com/Packages/com.unity.addressables@1.21/manual/SynchronousAddressables.html
-        /// </summary>
-        public AsyncOperationHandle<T> LoadAssetSync<T>(string assetPath) where T : Object
+        public T LoadAssetSync<T>(string assetPath) where T : Object
         {
-            var op = Addressables.LoadAssetAsync<T>(assetPath);
-            op.WaitForCompletion();
-            if (op.Status != AsyncOperationStatus.Succeeded)
-            {
-                XDebug.Error($"load asset {assetPath} exception {op.Status}!");
-            }
-            
-            return op;
+            return _Provider.LoadAssetSync<T>(assetPath);
         }
 
-        public void LoadAssetAsync<T>()
+        public void ReleaseAsset(Object asset)
         {
-            throw new NotImplementedException();
         }
 
-        private void OnLoadDone(UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationHandle<GameObject> obj)
-        {
-            throw new NotImplementedException();
-        }
+        private IAssetProvider _Provider;
 
-        public void ReleaseAsset(AsyncOperationHandle handler)
-        {
-            Addressables.Release(handler);
-        }
-        
     }
 }
 

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Asuna.Application;
-using Asuna.Asset;
 using Asuna.Utils;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Asuna.UI
 {
@@ -11,8 +11,8 @@ namespace Asuna.UI
     {
         private UIPage _CreatePage(UIPageRegisterItem item)
         {
-            var operationHandle = G.AssetManager.LoadAssetSync<GameObject>(item.AssetPath);
-            var root = GameObject.Instantiate(operationHandle.Result, _PageRoot.transform);
+            var asset = G.AssetManager.LoadAssetSync<GameObject>(item.AssetPath);
+            var root = Object.Instantiate(asset, _PageRoot.transform);
             
             var page = root.GetComponent<UIPage>();
             if (page == null)
@@ -22,7 +22,6 @@ namespace Asuna.UI
             }
             
             page.SetPageID(item.PageID);
-            page.SetOperationHandler(operationHandle);
             page.SetRoot(root);
             page.SetupController();
             
@@ -118,15 +117,10 @@ namespace Asuna.UI
 
             var page = _PageStack.Pop();
             page.OnHide();
-            _ReleasePageAsset(page);
             _TryShowTop();
         }
 
-        private void _ReleasePageAsset(UIPage page)
-        {
-            var handler = page.GetOperationHandler();
-            G.AssetManager.ReleaseAsset(handler);
-        }
+      
 
         private void _ReleaseStack()
         {
@@ -134,7 +128,6 @@ namespace Asuna.UI
             {
                 var page = _PageStack.Pop();
                 page.OnHide();
-                _ReleasePageAsset(page);
             }
         }
 
