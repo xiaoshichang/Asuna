@@ -41,6 +41,9 @@
 /Tect/Client/UnityProj/**/*.apk
 /Tect/Client/UnityProj/**/*.unitypackage
 
+# AssetBundle Builds
+/Tect/Client/UnityProj/Assets/StreamingAssets/AssetBundles
+
 # Crashlytics generated file
 /Tect/Client/UnityProj/**/crashlytics-build.properties
 /Tect/Client/UnityProj/UserSettings/

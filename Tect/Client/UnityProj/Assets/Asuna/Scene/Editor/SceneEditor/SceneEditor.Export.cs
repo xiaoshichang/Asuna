@@ -46,7 +46,7 @@ namespace Asuna.Scene.Editor
             }
 
             var content = JsonConvert.SerializeObject(sceneData, Formatting.Indented);
-            var filePath = UnityEngine.Application.dataPath + "/Demo/Res/SceneData/Demo.SceneData";
+            var filePath = UnityEngine.Application.dataPath + "/Demo/Res/SceneData/Demo.SceneData.json";
             FileUtils.WriteContentToFileSync(filePath, content, true);
             XDebug.Info($"export scene data OK! {filePath}");
         }

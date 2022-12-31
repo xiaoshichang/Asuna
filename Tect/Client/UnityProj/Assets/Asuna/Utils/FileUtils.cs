@@ -43,5 +43,16 @@ namespace Asuna.Utils
             byte[] data = ReadBytesFromFileSync(filePath);
             return Encoding.ASCII.GetString(data);
         }
+
+        public static void MakeSureDirectory(string path, bool clean = true)
+        {
+            bool exist = Directory.Exists(path);
+            if (exist && clean)
+            {
+                Directory.Delete(path, true);
+            }
+
+            Directory.CreateDirectory(path);
+        }
     }
 }

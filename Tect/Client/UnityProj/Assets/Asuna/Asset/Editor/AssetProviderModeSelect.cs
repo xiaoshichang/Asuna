@@ -3,7 +3,7 @@ using UnityEditor;
 
 namespace Asuna.Asset
 {
-    public static class AssetProviderMode
+    public static class AssetProviderModeSelect
     {
         private const string _CheckPath = "Asuna/Asset/AssetProviderMode";
         private const string _EditorModePath = "Asuna/Asset/AssetProviderMode/EditorMode";
