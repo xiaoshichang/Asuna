@@ -11,6 +11,7 @@ namespace Asuna.Application
 
         private void _ReleaseTimerManager()
         {
+            TimerManager.Release();
             TimerManager = null;
         }
         

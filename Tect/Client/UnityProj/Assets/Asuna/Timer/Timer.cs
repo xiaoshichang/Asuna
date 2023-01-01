@@ -118,6 +118,12 @@ namespace Asuna.Timer
                 }
             }
         }
+
+        public void Release()
+        {
+            _Timers.Clear();
+            _Tid2Timer.Clear();
+        }
         
 
         private readonly SortedSet<Timer> _Timers = new SortedSet<Timer>(new TimerCompare());
