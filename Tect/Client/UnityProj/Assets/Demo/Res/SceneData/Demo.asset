@@ -12,3 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b6d5db8f0854f8780732c11aac03923, type: 3}
   m_Name: Demo
   m_EditorClassIdentifier: 
+  SceneItems:
+  - P: {x: 0, y: 0, z: 0}
+    S: {x: 1, y: 1, z: 1}
+    R: {x: 0, y: 0, z: 0, w: 1}
+    Asset: Assets/Demo/Res/SceneItems/SceneItem_Ground.prefab
+    Name: SceneItem_Ground
+  - P: {x: 20.31, y: 0, z: 0}
+    S: {x: 1, y: 1, z: 1}
+    R: {x: 0, y: 0, z: 0, w: 1}
+    Asset: Assets/Demo/Res/SceneItems/SceneItem_Building01.prefab
+    Name: SceneItem_Building01
+  - P: {x: 0, y: 0, z: 0}
+    S: {x: 1, y: 1, z: 1}
+    R: {x: 0, y: 0, z: 0, w: 1}
+    Asset: Assets/Demo/Res/SceneItems/SceneItem_Building02.prefab
+    Name: SceneItem_Building02
+  - P: {x: 0, y: 0, z: 19.02}
+    S: {x: 1, y: 1, z: 1}
+    R: {x: 0, y: 0, z: 0, w: 1}
+    Asset: Assets/Demo/Res/SceneItems/SceneItem_Building01.prefab
+    Name: SceneItem_Building01 (1)

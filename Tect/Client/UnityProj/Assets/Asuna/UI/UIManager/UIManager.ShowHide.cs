@@ -88,8 +88,8 @@ namespace Asuna.UI
             }
             _TryHideTop();
             
-            page.OnShow(param);
             _PageStack.Push(page);
+            page.OnShow(param);
         }
         
         /// <summary>
