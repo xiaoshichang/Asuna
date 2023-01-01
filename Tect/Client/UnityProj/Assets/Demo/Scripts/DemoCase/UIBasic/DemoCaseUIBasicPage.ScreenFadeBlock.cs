@@ -20,7 +20,7 @@ namespace Demo.UIBasic
 
         private void _OnScreenFadeStart()
         {
-            TimerMgr.RegisterTimer(2000, _ClearScreenFade);
+            G.TimerManager.RegisterTimer(2000, _ClearScreenFade);
             G.UIManager.ScreenFadeTo(Color.black, 2);
         }
 

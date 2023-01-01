@@ -50,6 +50,7 @@ namespace Asuna.Application
             G.SetupConfig(this);
             
             _InitLogManager();
+            _InitTimerManager();
             _InitAssetManager();
             G.SetupCoreManagers(this);
             
@@ -80,7 +81,7 @@ namespace Asuna.Application
         {
             if (_State == ApplicationState.Running)
             {
-                TimerMgr.Tick();
+                TimerManager.Tick();
                 NetworkManager.Tick();
             }
 
@@ -111,6 +112,7 @@ namespace Asuna.Application
             G.ResetOtherManagers();
             
             _ReleaseAssetManager();
+            _ReleaseTimerManager();
             G.ResetCoreManagers();
             _State = ApplicationState.Released;
         }

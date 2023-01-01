@@ -8,7 +8,7 @@ namespace Asuna.Timer
 {
     public delegate void TimeoutCallback(object? arg);
 
-    public static class TimerMgr
+    public class TimerMgr
     {
         private class TimerCompare : IComparer<Timer>
         {
@@ -67,7 +67,7 @@ namespace Asuna.Timer
             private static ulong GlobalTimerID = 0;
         }
         
-        public static ulong RegisterTimer(bool repeat, ulong delayInMilliSeconds, TimeoutCallback callback, object? arg)
+        public ulong RegisterTimer(bool repeat, ulong delayInMilliSeconds, TimeoutCallback callback, object? arg)
         {
             var timer = new Timer(repeat, delayInMilliSeconds, callback, arg);
             _Timers.Add(timer);
@@ -75,17 +75,17 @@ namespace Asuna.Timer
             return timer.TimerID;
         }
 
-        public static ulong RegisterTimer(ulong delayInMilliSeconds, TimeoutCallback callback)
+        public ulong RegisterTimer(ulong delayInMilliSeconds, TimeoutCallback callback)
         {
             return RegisterTimer(false, delayInMilliSeconds, callback, null);
         }
         
-        public static ulong RegisterTimer(ulong delayInMilliSeconds, TimeoutCallback callback, object? arg)
+        public ulong RegisterTimer(ulong delayInMilliSeconds, TimeoutCallback callback, object? arg)
         {
             return RegisterTimer(false, delayInMilliSeconds, callback, arg);
         }
 
-        public static void UnregisterTimer(ulong tid)
+        public void UnregisterTimer(ulong tid)
         {
             if (_Tid2Timer.TryGetValue(tid, out var timer))
             {
@@ -94,7 +94,7 @@ namespace Asuna.Timer
             }
         }
 
-        public static void Tick()
+        public void Tick()
         {
             var now = TimeUtils.GetTimeStampInMilliseconds();
             while (true)
@@ -120,8 +120,8 @@ namespace Asuna.Timer
         }
         
 
-        private static readonly SortedSet<Timer> _Timers = new SortedSet<Timer>(new TimerCompare());
-        private static readonly Dictionary<ulong, Timer> _Tid2Timer = new Dictionary<ulong, Timer>();
+        private readonly SortedSet<Timer> _Timers = new SortedSet<Timer>(new TimerCompare());
+        private readonly Dictionary<ulong, Timer> _Tid2Timer = new Dictionary<ulong, Timer>();
 
     }
 }
