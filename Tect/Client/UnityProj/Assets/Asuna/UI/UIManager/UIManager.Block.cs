@@ -23,14 +23,14 @@ namespace Asuna.UI
             _ScreenFadeBlockAsset = null;
         }
 
-        public void ScreenFadeTo(Color color, float interval=1)
+        public void ScreenFadeTo(Color color, float intervalIsSecond=1)
         {
-            _ScreenFadeBlock.FadeTo(color, interval);
+            _ScreenFadeBlock.FadeTo(color, intervalIsSecond);
         }
 
-        public void ClearFade()
+        public void ClearFade(float intervalIsSecond=1)
         {
-            _ScreenFadeBlock.Clear();
+            _ScreenFadeBlock.Clear(intervalIsSecond);
         }
 
         private GameObject _ScreenFadeBlockAsset;

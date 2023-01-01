@@ -30,13 +30,13 @@ namespace Asuna.UI
         /// 
         /// </summary>
         /// <param name="color"></param>
-        /// <param name="interval"> fade process will finish in interval seconds </param>
-        public void FadeTo(Color color, float interval = 1)
+        /// <param name="intervalIsSecond"> fade process will finish in interval seconds </param>
+        public void FadeTo(Color color, float intervalIsSecond = 1)
         {
             gameObject.SetActive(true);
             _SourceColor = _Image.color;
             _TargetColor = color;
-            _Interval = interval;
+            _Interval = intervalIsSecond;
             _Process = 0;
         }
 

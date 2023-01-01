@@ -1,4 +1,5 @@
-﻿using Asuna.Utils;
+﻿using Asuna.Application;
+using Asuna.Utils;
 
 namespace Demo.UIBasic
 {
@@ -7,10 +8,12 @@ namespace Demo.UIBasic
         public override void InitDemo()
         {
             XDebug.Info("Init DemoCaseUIBasic");
+            G.UIManager.ShowPage(nameof(DemoCaseUIBasicPage), null);
         }
 
         public override void ReleaseDemo()
         {
+            G.UIManager.HidePage(nameof(DemoCaseUIBasicPage));
         }
 
         public override string GetBtnName()

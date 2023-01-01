@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Asuna.Application;
 using Asuna.Utils;
 using UnityEngine;
@@ -30,18 +31,23 @@ namespace Asuna.UI
 
         private void _TryHideTop()
         {
-            if (_PageStack.TryPeek(out var top))
+            if (_PageStack.Count == 0)
             {
-                top.gameObject.SetActive(false);
+                return;
             }
+
+            var page = _PageStack.Last();
+            page.gameObject.SetActive(false);
         }
 
         private void _TryShowTop()
         {
-            if (_PageStack.TryPeek(out var top))
+            if (_PageStack.Count == 0)
             {
-                top.gameObject.SetActive(true);
+                return;
             }
+            var page = _PageStack.Last();
+            page.gameObject.SetActive(true);
         }
 
         /// <summary>
@@ -86,9 +92,9 @@ namespace Asuna.UI
                 XDebug.Error($"load page fail! id : {registerItem.PageID}, path: {registerItem.AssetPath}");
                 return;
             }
+
             _TryHideTop();
-            
-            _PageStack.Push(page);
+            _PageStack.Add(page);
             page.OnShow(param);
         }
         
@@ -107,30 +113,38 @@ namespace Asuna.UI
             }
         }
 
-        public void HidePage()
+        public void HidePage(string pageID)
         {
-            if (_PageStack.Count == 0)
-            {
-                XDebug.Warning("pop while stack is empty");
-                return;
-            }
-
-            var page = _PageStack.Pop();
+            var page = _GetPageByID(pageID);
             page.OnHide();
+            _PageStack.Remove(page);
+            Object.DestroyImmediate(page.gameObject);
             _TryShowTop();
         }
-
-      
 
         private void _ReleaseStack()
         {
             while (_PageStack.Count != 0)
             {
-                var page = _PageStack.Pop();
+                var page = _PageStack.Last();
                 page.OnHide();
+                _PageStack.RemoveAt(_PageStack.Count - 1);
+                Object.DestroyImmediate(page.gameObject);
             }
         }
 
-        private readonly Stack<UIPage> _PageStack = new Stack<UIPage>();
+        private UIPage _GetPageByID(string pageID)
+        {
+            foreach (var page in _PageStack)
+            {
+                if (page.GetPageID() == pageID)
+                {
+                    return page;
+                }
+            }
+            return null;
+        }
+
+        private readonly List<UIPage> _PageStack = new List<UIPage>();
     }
 }
