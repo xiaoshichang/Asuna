@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using Asuna.Utils;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Asuna.Asset
 {
@@ -121,7 +122,6 @@ namespace Asuna.Asset
         {
             if (_LoadedAssetBundles.ContainsKey(assetBundleName))
             {
-                XDebug.Warning($"AssetBundle[{assetBundleName}] is loaded!");
                 return;
             }
 
@@ -169,6 +169,12 @@ namespace Asuna.Asset
             var bundle = _LoadedAssetBundles[assetBundleName];
             T asset = bundle.LoadAsset<T>(assetName);
             return asset;
+        }
+
+        public override void ReleaseAsset(Object obj)
+        {
+            
+            
         }
 
         /// <summary>

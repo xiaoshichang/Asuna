@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿using System.Collections.Generic;
+using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
@@ -11,36 +12,37 @@ namespace Asuna.Scene.Editor
         static void Init()
         {
             // Get existing open window or if none, make a new one:
-            SceneEditor window = (SceneEditor)EditorWindow.GetWindow(typeof(SceneEditor));
-            _InitScene();
+            SceneEditor window = (SceneEditor)GetWindow(typeof(SceneEditor));
+            _ListAllSceneData();
+            _InitEditorScene();
             window.Show();
         }
 
+        private static void _ListAllSceneData()
+        {
+            var scenes = new List<string>();
+            var guids = AssetDatabase.FindAssets("t:SceneData");
+            foreach (var guid in guids)
+            {
+                var path = AssetDatabase.GUIDToAssetPath(guid);
+                scenes.Add(path);
+            }
 
-        private static void _InitScene()
+            _AllScenes = scenes.ToArray();
+        }
+
+        private static void _InitEditorScene()
         {
             EditorSceneManager.OpenScene(_SceneEditorScene);
         }
 
- 
-        void OnGUI()
-        {
-            if (GUILayout.Button("Load Scene Data"))
-            {
-                _LoadScene();
-            }
-            
-            if (GUILayout.Button("Export Scene Data"))
-            {
-                _ExportScene();
-            }
-        }
 
         private void OnDestroy()
         {
             EditorSceneManager.OpenScene(_MainScene);
         }
 
+        
         private const string _SceneEditorScene = "Assets/Asuna/Res/Scenes/SceneEditor.unity";
         private const string _MainScene = "Assets/Asuna/Res/Scenes/Main.unity";
     }

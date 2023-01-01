@@ -1,6 +1,6 @@
 ﻿using Asuna.Utils;
-using Newtonsoft.Json;
 using UnityEditor;
+using UnityEngine;
 
 namespace Asuna.Scene.Editor
 {
@@ -8,19 +8,33 @@ namespace Asuna.Scene.Editor
     {
         private void _LoadScene()
         {
-            var path = EditorUtility.OpenFilePanel("Select a SceneData", "Assets/Demo/Res/SceneData", "SceneData");
-            var content = FileUtils.ReadContentFromFileSync(path);
-            var sceneData = JsonConvert.DeserializeObject<SceneData>(content);
-            _InitScene();
-            _RecoverSceneDataToEditor(sceneData);
+            var path = _AllScenes[_CurrentSceneIdx];
+            var sceneData = AssetDatabase.LoadAssetAtPath<SceneData>(path);
+            
+            _InitEditorScene();
+            _LoadSceneDataToEditor(sceneData);
         }
 
-        
-        private void _RecoverSceneDataToEditor(SceneData sceneData)
+        private void _LoadSceneItemData(SceneItemData itemData)
         {
-            foreach (var itemData in sceneData.Items)
+            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(itemData.Asset);
+            var go = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
+            if (go == null)
             {
-                var item = SceneItemHelper.LoadFromSceneItemDataSync(itemData);
+                XDebug.Error("unknown prefab");
+                return;
+            }
+            go.transform.position = itemData.P;
+            go.transform.localRotation = itemData.R;
+            go.transform.localScale = itemData.S;
+            go.name = itemData.Name;
+        }
+        
+        private void _LoadSceneDataToEditor(SceneData sceneData)
+        {
+            foreach (var itemData in sceneData.SceneItems)
+            {
+                _LoadSceneItemData(itemData);
             }
         }
     }

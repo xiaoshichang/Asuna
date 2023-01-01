@@ -4,30 +4,13 @@ using UnityEngine;
 
 namespace Asuna.Scene
 {
-    public delegate void OnSceneLoaded();
-    
     /// <summary>
     /// 场景的持久化数据格式
     /// </summary>
-    [Serializable]
-    public class SceneData
+    [CreateAssetMenu(fileName = "Default", menuName = "Asuna/Scene/SceneData", order = 1)]
+    public class SceneData : ScriptableObject
     {
-        public List<SceneItemData> Items { get; set; }
-        
-
+        public List<SceneItemData> SceneItems = new List<SceneItemData>();
     }
-
-
-    /// <summary>
-    /// 用于描述一次加载任务
-    /// </summary>
-    public class LoadSceneTask
-    {
-        public SceneData SceneData;
-        
-        /// <summary>
-        /// 加载完毕回调
-        /// </summary>
-        public OnSceneLoaded OnLoad;
-    }
+    
 }

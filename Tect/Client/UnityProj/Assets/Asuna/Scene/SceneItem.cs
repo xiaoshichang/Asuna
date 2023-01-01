@@ -11,12 +11,4 @@ namespace Asuna.Scene
 
     }
 
-    public static class SceneItemHelper
-    {
-        public static SceneItem LoadFromSceneItemDataSync(SceneItemData sid)
-        {
-            XDebug.Assert(sid != null);
-            return null;
-        }
-    }
 }

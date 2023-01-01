@@ -8,6 +8,7 @@ namespace Asuna.Asset
         public abstract void Init();
         public abstract void Release();
         public abstract T LoadAssetSync<T>(string assetPath) where T : Object;
+        public abstract void ReleaseAsset(Object obj);
     }
 
 }

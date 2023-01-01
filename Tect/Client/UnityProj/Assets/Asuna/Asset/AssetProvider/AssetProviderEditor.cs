@@ -1,6 +1,7 @@
 ﻿#if UNITY_EDITOR
 
 using UnityEditor;
+using UnityEngine;
 
 namespace Asuna.Asset
 {
@@ -21,6 +22,10 @@ namespace Asuna.Asset
         public override T LoadAssetSync<T>(string assetPath)
         {
             return AssetDatabase.LoadAssetAtPath<T>(assetPath);
+        }
+
+        public override void ReleaseAsset(Object obj)
+        {
         }
     }
 }

@@ -2,6 +2,7 @@
 using Asuna.Utils;
 using Newtonsoft.Json;
 using UnityEditor;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Asuna.Scene.Editor
@@ -23,32 +24,31 @@ namespace Asuna.Scene.Editor
         {
             var data = new SceneItemData();
             var go = item.gameObject;
-            var transform = go.transform;
-            data.P = SavedVector3.FromVector3(transform.localPosition);
-            data.R = SavedQuaternion.FromQuaternion(transform.localRotation);
-            data.S = SavedVector3.FromVector3(transform.localScale);
+            data.P = go.transform.position;
+            data.S = go.transform.localScale;
+            data.R = go.transform.localRotation;
             data.Name = go.name;
             data.Asset = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(go);
             return data;
         }
 
-        private void _ExportScene()
+        private void _RebuildSceneItems(SceneData sceneData)
         {
+            sceneData.SceneItems.Clear();
             var items = _CollectSceneItems();
-            var sceneData = new SceneData
-            {
-                Items = new List<SceneItemData>()
-            };
             foreach (var item in items)
             {
                 var data = _ConvertToSceneItemData(item);
-                sceneData.Items.Add(data);
+                sceneData.SceneItems.Add(data);
             }
+        }
 
-            var content = JsonConvert.SerializeObject(sceneData, Formatting.Indented);
-            var filePath = UnityEngine.Application.dataPath + "/Demo/Res/SceneData/Demo.SceneData.json";
-            FileUtils.WriteContentToFileSync(filePath, content, true);
-            XDebug.Info($"export scene data OK! {filePath}");
+        private void _ExportScene()
+        {
+            var sceneData = AssetDatabase.LoadAssetAtPath<SceneData>(_GetCurrentSelectedScenePath());
+            _RebuildSceneItems(sceneData);
+            EditorUtility.SetDirty(sceneData);
+            XDebug.Info("Export Scene OK!");
         }
     }
 }
