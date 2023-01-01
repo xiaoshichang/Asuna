@@ -9,7 +9,7 @@ using Object = UnityEngine.Object;
 
 namespace Asuna.Asset
 {
-    public class AssetProviderAssetBundle : IAssetProvider
+    public partial class AssetProviderAssetBundle : IAssetProvider
     {
         private static readonly string AssetBundleRoot = Path.Join(UnityEngine.Application.streamingAssetsPath, "AssetBundles");
         public static readonly string AssetBundleRootWindows = Path.Join(AssetBundleRoot, "windows");
@@ -113,70 +113,6 @@ namespace Asuna.Asset
             _ReleaseAssetBundleManifest();
         }
 
-        private bool IsAssetBundleLoaded(string assetBundleName)
-        {
-            return _LoadedAssetBundles.ContainsKey(assetBundleName);
-        }
-
-        private void LoadAssetBundle(string assetBundleName)
-        {
-            if (_LoadedAssetBundles.ContainsKey(assetBundleName))
-            {
-                return;
-            }
-
-            var deps = _RootManifest.GetAllDependencies(assetBundleName);
-            if (deps.Length > 0)
-            {
-                foreach (var dep in deps)
-                {
-                    LoadAssetBundle(dep);
-                }
-            }
-
-            var path = _GetAssetBundlePathByName(assetBundleName);
-            var Loaded = AssetBundle.LoadFromFile(path);
-            _LoadedAssetBundles[assetBundleName] = Loaded;
-        }
-
-        private void ReleaseAssetBundle(string assetBundleName)
-        {
-            if (!_LoadedAssetBundles.TryGetValue(assetBundleName, out var assetBundle))
-            {
-                XDebug.Warning($"AssetBundle[{assetBundleName}] is not loaded!");
-                return;
-            }
-            
-            assetBundle.Unload(true);
-            _LoadedAssetBundles.Remove(assetBundleName);
-        }
-
-        public override T LoadAssetSync<T>(string assetPath)
-        {
-            var assetName = assetPath.ToLower();
-            
-            if (!_AssetMap.TryGetValue(assetName, out var assetBundleName))
-            {
-                XDebug.Error($"asset not exist! {assetPath}");
-                return null;
-            }
-
-            if (!IsAssetBundleLoaded(assetBundleName))
-            {
-                LoadAssetBundle(assetBundleName);
-            }
-
-            var bundle = _LoadedAssetBundles[assetBundleName];
-            T asset = bundle.LoadAsset<T>(assetName);
-            return asset;
-        }
-
-        public override void ReleaseAsset(Object obj)
-        {
-            
-            
-        }
-
         /// <summary>
         /// RootManifest AssetBundle
         /// </summary>
@@ -191,11 +127,6 @@ namespace Asuna.Asset
         /// 资源字典 - 记录每一个资源对应的AssetBundle
         /// </summary>
         private readonly Dictionary<string, string> _AssetMap = new Dictionary<string, string>();
-
-        /// <summary>
-        /// 记录所有加载的 AssetBundle
-        /// </summary>
-        private readonly Dictionary<string, AssetBundle> _LoadedAssetBundles = new Dictionary<string, AssetBundle>();
 
     }
 }
