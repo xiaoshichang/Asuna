@@ -52,6 +52,7 @@ namespace Asuna.Asset
 
         public void ReleaseAsset(Object asset)
         {
+            _Provider.ReleaseAsset(asset);
         }
 
         private IAssetProvider _Provider;

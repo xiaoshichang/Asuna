@@ -7,7 +7,7 @@ using Object = UnityEngine.Object;
 
 namespace Asuna.Entity
 {
-    public class EntityManager : IManager
+    public partial class EntityManager : IManager
     {
         public void Init(object param)
         {

@@ -1,6 +1,6 @@
 ﻿namespace Asuna.Entity
 {
-    public class Avatar : Entity
+    public class RenderComponent : Component
     {
         public override void Init()
         {

@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace Asuna.Entity
 {
-    public class Entity
+    public abstract class Entity
     {
-        public Entity(Guid guid)
+        protected Entity(Guid guid)
         {
             Guid = guid;
         }
@@ -15,10 +15,8 @@ namespace Asuna.Entity
             Guid = Guid.NewGuid();
         }
 
-        public virtual void Destroy()
-        {
-            
-        }
+        public abstract void Init();
+        public abstract void Release();
         
         public Guid Guid;
     }
