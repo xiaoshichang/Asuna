@@ -10,7 +10,7 @@ namespace Asuna.Entity
             Guid = guid;
         }
 
-        public Entity()
+        protected Entity()
         {
             Guid = Guid.NewGuid();
         }
