@@ -10,14 +10,14 @@ namespace Asuna.Application
             GMSystem = new GMSystem();
             GMSystem.Init(param.GameplayAssemblies);
             param.ApplicationRoot.gameObject.AddComponent<GMTerminal>();
-            XDebug.Info("Init GM system Ok!");
+            ADebug.Info("Init GM system Ok!");
         }
 
         private void _ReleaseGMSystem()
         {
             GMSystem.Release();
             GMSystem = null;
-            XDebug.Info("Release GM system Ok!");
+            ADebug.Info("Release GM system Ok!");
         }
 
         public GMSystem GMSystem;

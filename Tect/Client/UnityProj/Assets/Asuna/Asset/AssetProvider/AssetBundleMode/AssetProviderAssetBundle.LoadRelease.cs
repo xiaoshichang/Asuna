@@ -21,7 +21,7 @@ namespace Asuna.Asset
             // check if asset exist
             if (!_AssetMap.TryGetValue(assetID, out var assetBundleName))
             {
-                XDebug.Error($"asset not exist! {assetPath}");
+                ADebug.Error($"asset not exist! {assetPath}");
                 return null;
             }
             // check if AssetBundle loaded
@@ -41,7 +41,7 @@ namespace Asuna.Asset
         {
             if (!_LoadAssetMap.TryGetValue(obj, out var rab))
             {
-                XDebug.Warning($"{obj} is not loaded!");
+                ADebug.Warning($"{obj} is not loaded!");
                 return;
             }
 

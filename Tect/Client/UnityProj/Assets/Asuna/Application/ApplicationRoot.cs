@@ -20,7 +20,7 @@ namespace Asuna.Application
         
         private void _InitLogManager()
         {
-            XDebug.Init();
+            ADebug.Init();
         }
         
         

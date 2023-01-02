@@ -37,13 +37,13 @@ namespace Asuna.UI
                 var item = items[i];
                 if (!item.IsValid())
                 {
-                    XDebug.Warning($"the {i} item is invalid!");
+                    ADebug.Warning($"the {i} item is invalid!");
                     continue;
                 }
                 
                 if (_Items.ContainsKey(item.PageID))
                 {
-                    XDebug.Warning("duplicated page id");
+                    ADebug.Warning("duplicated page id");
                     continue;
                 }
 

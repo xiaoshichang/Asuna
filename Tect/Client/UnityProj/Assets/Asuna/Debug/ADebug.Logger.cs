@@ -11,7 +11,7 @@ namespace Asuna.Utils
         Error
     }
     
-    public static partial class XDebug
+    public static partial class ADebug
     {
         private static readonly string _RecordFormat = "[{0}][{1}] - {2}";
        

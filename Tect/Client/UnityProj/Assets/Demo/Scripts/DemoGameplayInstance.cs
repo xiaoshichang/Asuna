@@ -22,7 +22,7 @@ namespace Demo
             }
 
             _CurrentRunningDemo = _AllDemos[demoBtn];
-            XDebug.Info($"enter demo: {_CurrentRunningDemo.GetBtnName()}");
+            ADebug.Info($"enter demo: {_CurrentRunningDemo.GetBtnName()}");
             _CurrentRunningDemo.InitDemo();
 
         }
@@ -33,7 +33,7 @@ namespace Demo
             {
                 return;
             }
-            XDebug.Info($"exit current demo: {_CurrentRunningDemo.GetBtnName()}");
+            ADebug.Info($"exit current demo: {_CurrentRunningDemo.GetBtnName()}");
             _CurrentRunningDemo.ReleaseDemo();
             _CurrentRunningDemo = null;
         }
@@ -48,13 +48,13 @@ namespace Demo
                     var demo = Activator.CreateInstance(type) as DemoCaseBase;
                     if (demo == null)
                     {
-                        XDebug.Warning("unknown error");
+                        ADebug.Warning("unknown error");
                         continue;
                     }
                     _AllDemos[demo.GetBtnName()] = demo;
                 }
             }
-            XDebug.Info($"{_AllDemos.Count} DemoCase found!");
+            ADebug.Info($"{_AllDemos.Count} DemoCase found!");
         }
 
         public Dictionary<string, DemoCaseBase> GetAllDemos()

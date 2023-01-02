@@ -48,7 +48,7 @@ namespace Asuna.Scene.Editor
             var sceneData = AssetDatabase.LoadAssetAtPath<SceneData>(_GetCurrentSelectedScenePath());
             _RebuildSceneItems(sceneData);
             EditorUtility.SetDirty(sceneData);
-            XDebug.Info("Export Scene OK!");
+            ADebug.Info("Export Scene OK!");
         }
     }
 }

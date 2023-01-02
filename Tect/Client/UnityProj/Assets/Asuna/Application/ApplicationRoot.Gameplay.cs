@@ -28,7 +28,7 @@ namespace Asuna.Application
                 }
             }
             
-            XDebug.Assert(count == 1);
+            ADebug.Assert(count == 1);
             return entryType;
         }
         
@@ -46,7 +46,7 @@ namespace Asuna.Application
                 throw new Exception("cannot create gameplay entry type!");
             }
             _GameplayInstance.Init(param);
-            XDebug.Info("Init Gameplay Ok!");
+            ADebug.Info("Init Gameplay Ok!");
         }
 
         private void _ReleaseGameplay()

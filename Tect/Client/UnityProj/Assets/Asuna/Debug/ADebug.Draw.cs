@@ -2,7 +2,7 @@
 
 namespace Asuna.Utils
 {
-    public static partial class XDebug
+    public static partial class ADebug
     {
 
         #region Draw Line

@@ -29,7 +29,7 @@ namespace Asuna.Asset
             FileUtils.MakeSureDirectory(output);
             var manifest = BuildPipeline.BuildAssetBundles(output, allBuilds, options, BuildTarget.StandaloneWindows64);
             var bundles = manifest.GetAllAssetBundles();
-            XDebug.Info($"Build AssetBundle OK! output path: {output}, bundles count: {bundles.Length}!");
+            ADebug.Info($"Build AssetBundle OK! output path: {output}, bundles count: {bundles.Length}!");
         }
 
         [MenuItem(_MenuPath_IOS)]

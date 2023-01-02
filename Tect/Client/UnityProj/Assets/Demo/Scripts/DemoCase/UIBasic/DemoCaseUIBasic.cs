@@ -7,7 +7,7 @@ namespace Demo.UIBasic
     {
         public override void InitDemo()
         {
-            XDebug.Info("Init DemoCaseUIBasic");
+            ADebug.Info("Init DemoCaseUIBasic");
             G.UIManager.ShowPage(nameof(DemoCaseUIBasicPage), null);
         }
 

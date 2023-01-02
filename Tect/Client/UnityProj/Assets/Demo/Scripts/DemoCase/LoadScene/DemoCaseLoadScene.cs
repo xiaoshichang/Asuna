@@ -10,7 +10,7 @@ namespace Demo.LoadScene
     {
         public override void InitDemo()
         {
-            XDebug.Info("Init DemoCaseLoadScene");
+            ADebug.Info("Init DemoCaseLoadScene");
             _StartScreenFade();
         }
 

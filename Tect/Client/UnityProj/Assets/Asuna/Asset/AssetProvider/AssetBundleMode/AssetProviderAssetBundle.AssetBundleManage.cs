@@ -28,7 +28,7 @@ namespace Asuna.Asset
         {
             if (_RuntimeAssetBundles.TryGetValue(assetBundleName, out var rab))
             {
-                XDebug.Warning($"{assetBundleName} is loaded!");
+                ADebug.Warning($"{assetBundleName} is loaded!");
                 return rab;
             }
 

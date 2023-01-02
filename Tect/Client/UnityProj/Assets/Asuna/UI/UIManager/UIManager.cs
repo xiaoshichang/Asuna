@@ -19,7 +19,7 @@ namespace Asuna.UI
         public void Init(object param)
         {
             var initParam = param as UIManagerInitParam;
-            XDebug.Assert(initParam != null);
+            ADebug.Assert(initParam != null);
             
             _RegisterPages(initParam.PageRegisterItems);
             _InitHierarchy();

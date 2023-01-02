@@ -28,7 +28,7 @@ namespace Asuna.Application
                     var field = type.GetField("AssetPath");
                     if (field == null)
                     {
-                        XDebug.Error("UIPage should contains AssetPath field");
+                        ADebug.Error("UIPage should contains AssetPath field");
                         continue;
                     }
 
@@ -52,14 +52,14 @@ namespace Asuna.Application
                 PageRegisterItems = _CollectPageRegisterItemsFromAssemblies()
             };
             UIManager.Init(param);
-            XDebug.Info("Init UI Manager Ok!");
+            ADebug.Info("Init UI Manager Ok!");
         }
 
         private void _ReleaseUIManager()
         {
             UIManager.Release();
             UIManager = null;
-            XDebug.Info("Release UI Manager Ok!");
+            ADebug.Info("Release UI Manager Ok!");
         }
 
         public UIManager UIManager;

@@ -18,7 +18,7 @@ namespace Asuna.UI
             var page = root.GetComponent<UIPage>();
             if (page == null)
             {
-                XDebug.Error("root node must contains a UIPage script!");
+                ADebug.Error("root node must contains a UIPage script!");
                 return null;
             }
             
@@ -82,14 +82,14 @@ namespace Asuna.UI
             var registerItem = _GetRegisterItem(pageID);
             if (registerItem == null)
             {
-                XDebug.Error("page id unknown!");
+                ADebug.Error("page id unknown!");
                 return;
             }
 
             var page = _CreatePage(registerItem);
             if (page == null)
             {
-                XDebug.Error($"load page fail! id : {registerItem.PageID}, path: {registerItem.AssetPath}");
+                ADebug.Error($"load page fail! id : {registerItem.PageID}, path: {registerItem.AssetPath}");
                 return;
             }
 

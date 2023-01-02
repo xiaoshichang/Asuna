@@ -62,7 +62,7 @@ namespace Asuna.Network
         {
             if (_State != NetState.Ready)
             {
-                XDebug.Warning("net state is not ready!");
+                ADebug.Warning("net state is not ready!");
                 return;
             }
 
@@ -76,7 +76,7 @@ namespace Asuna.Network
             }
             catch (Exception e)
             {
-                XDebug.Error(e.Message);
+                ADebug.Error(e.Message);
             }
         }
 
@@ -111,7 +111,7 @@ namespace Asuna.Network
 
         private void Disconnect()
         {
-            XDebug.Info("Disconnect");
+            ADebug.Info("Disconnect");
             _State = NetState.Disconnected;
             _ReceiveThread.Abort();
             _ReceiveThread = null;
@@ -125,7 +125,7 @@ namespace Asuna.Network
         {
             if (_State != NetState.Disconnected)
             {
-                XDebug.Warning("please close network before reset!");
+                ADebug.Warning("please close network before reset!");
                 return;
             }
             _State = NetState.Ready;
@@ -170,12 +170,12 @@ namespace Asuna.Network
                 }
                 else if (e is NetworkEventReceiveException receiveException)
                 {
-                    XDebug.Error(receiveException.Message);
+                    ADebug.Error(receiveException.Message);
                     Disconnect();
                 }
                 else if (e is NetworkEventSendException sendException)
                 {
-                    XDebug.Error(sendException.Message);
+                    ADebug.Error(sendException.Message);
                     Disconnect();
                 }
                 else if (e is NetworkEventOnConnect evtOnConnect)
@@ -189,7 +189,7 @@ namespace Asuna.Network
                     }
                     else if (evtOnConnect.Result == OnConnectResult.Error)
                     {
-                        XDebug.Error(evtOnConnect.Message);
+                        ADebug.Error(evtOnConnect.Message);
                         _OnConnectCallback?.Invoke(OnConnectResult.Error);
                     }
                 }

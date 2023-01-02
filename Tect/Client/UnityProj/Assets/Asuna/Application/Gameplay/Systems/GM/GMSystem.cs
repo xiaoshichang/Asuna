@@ -41,7 +41,7 @@ namespace Asuna.Application.GM
         {
             if (_AllGMCommands.ContainsKey(method.Name))
             {
-                XDebug.Error($"duplicated gm name {method.Name}");
+                ADebug.Error($"duplicated gm name {method.Name}");
                 return;
             }
 
@@ -106,7 +106,7 @@ namespace Asuna.Application.GM
             }
             catch (Exception e)
             {
-                XDebug.Error($"{e.Message}! Content:{item}), Type:{t.Name}");
+                ADebug.Error($"{e.Message}! Content:{item}), Type:{t.Name}");
             }
             return null;
         }
@@ -124,7 +124,7 @@ namespace Asuna.Application.GM
                 }
             }
             sb.Append("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n");
-            XDebug.Info(sb.ToString());
+            ADebug.Info(sb.ToString());
         }
 
         /// <summary>
@@ -135,13 +135,13 @@ namespace Asuna.Application.GM
             var items = input.Split();
             if (items.Length <= 0)
             {
-                XDebug.Error("gm input invalid!");
+                ADebug.Error("gm input invalid!");
                 return false;
             }
             var cmdName = items[0];
             if (!_AllGMCommands.TryGetValue(cmdName, out var cmd))
             {
-                XDebug.Error($"command [{cmdName}] not found!");
+                ADebug.Error($"command [{cmdName}] not found!");
                 _PrintCandidates(cmdName);
                 return false;
             }
@@ -150,7 +150,7 @@ namespace Asuna.Application.GM
             var count = infos.Length;
             if (count != items.Length - 1)
             {
-                XDebug.Error("gm parameter count not match!");
+                ADebug.Error("gm parameter count not match!");
                 return false;
             }
 
@@ -174,7 +174,7 @@ namespace Asuna.Application.GM
             }
             catch (Exception e)
             {
-                XDebug.Error(e.Message);
+                ADebug.Error(e.Message);
                 return false;
             }
         }

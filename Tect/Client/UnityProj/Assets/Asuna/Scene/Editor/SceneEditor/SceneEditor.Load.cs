@@ -21,7 +21,7 @@ namespace Asuna.Scene.Editor
             var go = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
             if (go == null)
             {
-                XDebug.Error("unknown prefab");
+                ADebug.Error("unknown prefab");
                 return;
             }
             go.transform.position = itemData.P;

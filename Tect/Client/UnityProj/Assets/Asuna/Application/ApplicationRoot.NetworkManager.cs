@@ -25,7 +25,7 @@ namespace Asuna.Application
                 OnReceive = _OnReceiveNetworkMessage
             };
             NetworkManager.Init(param);
-            XDebug.Info("Init Network Manager Ok!");
+            ADebug.Info("Init Network Manager Ok!");
         }
 
 
@@ -33,7 +33,7 @@ namespace Asuna.Application
         {
             NetworkManager.Release();
             NetworkManager = null;
-            XDebug.Info("Release Network Manager Ok!");
+            ADebug.Info("Release Network Manager Ok!");
         }
         
         private void _OnReceiveNetworkMessage(object message)
@@ -42,7 +42,7 @@ namespace Asuna.Application
         
         private void OnConnected(OnConnectResult cr)
         {
-            XDebug.Info($"OnConnected {cr}");
+            ADebug.Info($"OnConnected {cr}");
             if (cr == OnConnectResult.OK)
             {
                 StartCoroutine(_PingPongTest());
