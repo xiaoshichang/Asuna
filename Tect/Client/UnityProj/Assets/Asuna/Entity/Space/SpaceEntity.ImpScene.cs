@@ -1,6 +1,10 @@
-﻿using Asuna.Application;
+﻿using System.Collections;
+using System.Collections.Generic;
+using Asuna.Application;
+using Asuna.Asset;
 using Asuna.Scene;
 using Asuna.Utils;
+using UnityEngine;
 
 namespace Asuna.Entity
 {
@@ -14,23 +18,37 @@ namespace Asuna.Entity
         /// <summary>
         /// 加载流程中
         /// </summary>
-        Loading,
+        LoadSceneData,
+        
+        /// <summary>
+        /// 加载流程中
+        /// </summary>
+        LoadSceneItems,
         
         /// <summary>
         /// 加载流程完成
         /// </summary>
         Loaded,
     }
+
+    public enum LoadSceneError
+    {
+        StateInvalid,
+        InvalidScenePath,
+        LoadSceneDataFail,
+    }
     
     public delegate void LoadSceneCallback(LoadSceneRequest request);
+    public delegate void LoadSceneErrorCallback(LoadSceneRequest request, LoadSceneError error);
     
     public class LoadSceneRequest
     {
         public string ScenePath;
         public LoadSceneCallback OnSceneDataLoaded;
         public LoadSceneCallback OnSceneItemsLoaded;
+        public LoadSceneCallback OnSceneLoaded;
+        public LoadSceneErrorCallback OnError;
     }
-
     
     public partial class SpaceEntity
     {
@@ -38,14 +56,67 @@ namespace Asuna.Entity
         {
             if (_LoadSceneState != LoadSceneState.Ready)
             {
-                ADebug.Warning("state is not ready!");
+                _OnLoadSceneError(LoadSceneError.StateInvalid);
+                return;
+            }
+            if (string.IsNullOrEmpty(request.ScenePath))
+            {
+                _OnLoadSceneError(LoadSceneError.LoadSceneDataFail);
                 return;
             }
 
-            _LoadSceneState = LoadSceneState.Loading;
             _LoadSceneRequest = request;
-            
-            
+            _CoroutineManager.StartCoroutine_(_StartLoadScene());
+        }
+
+        private IEnumerator _StartLoadSceneData()
+        {
+            _LoadSceneState = LoadSceneState.LoadSceneData;
+            _SceneDataRequest = G.AssetManager.LoadAssetAsync<SceneData>(_LoadSceneRequest.ScenePath);
+            yield return _SceneDataRequest.Operation;
+        }
+        
+        private IEnumerator _StartLoadSceneItems()
+        {
+            var sceneData = _SceneDataRequest.Asset;
+            _LoadSceneState = LoadSceneState.LoadSceneItems;
+            yield return null;
+            foreach (var item in sceneData.SceneItems)
+            {
+                var sceneItemRequest = G.AssetManager.LoadAssetAsync<GameObject>(item.Asset);
+                yield return sceneItemRequest.Operation;
+                _AllLoadedAssets.Add(sceneItemRequest.Asset);
+                var go = Object.Instantiate(sceneItemRequest.Asset, _Root.transform);
+                var sceneItem = go.GetComponent<SceneItem>();
+                _AllLoadedSceneItems.Add(sceneItem);
+                go.transform.position = item.P;
+                go.transform.localRotation = item.R;
+                go.transform.localScale = item.S;
+                go.name = item.Name;
+            }
+        }
+
+        /// <summary>
+        /// 加载场景的主入口
+        /// </summary>
+        private IEnumerator _StartLoadScene()
+        {
+            yield return _StartLoadSceneData();
+            if (_SceneDataRequest.Asset == null)
+            {
+                _OnLoadSceneError(LoadSceneError.LoadSceneDataFail);
+                yield break;
+            }
+            _OnSceneDataLoaded();
+            yield return _StartLoadSceneItems();
+            _OnSceneItemsLoaded();
+            _OnSceneLoaded();
+        }
+
+        private void _OnLoadSceneError(LoadSceneError error)
+        {
+            ADebug.Error($"_OnLoadSceneError {error}");
+            _LoadSceneRequest.OnError?.Invoke(_LoadSceneRequest, error);
         }
 
         private void _OnSceneDataLoaded()
@@ -55,13 +126,58 @@ namespace Asuna.Entity
 
         private void _OnSceneItemsLoaded()
         {
+            _LoadSceneState = LoadSceneState.Loaded;
             _LoadSceneRequest.OnSceneItemsLoaded?.Invoke(_LoadSceneRequest);
         }
 
+        private void _OnSceneLoaded()
+        {
+            _LoadSceneRequest.OnSceneLoaded?.Invoke(_LoadSceneRequest);
+        }
 
-        private LoadSceneRequest _LoadSceneRequest;
+        private void _DestroyAllLoadSceneItems()
+        {
+            foreach (var item in _AllLoadedSceneItems)
+            {
+                Object.Destroy(item.gameObject);
+            }
+        }
+
+        /// <summary>
+        /// 销毁所有实例后，释放所有相关资源
+        /// </summary>
+        private void _ReleaseAllAssets()
+        {
+            foreach (var asset in _AllLoadedAssets)
+            {
+                G.AssetManager.ReleaseAsset(asset);
+            }
+        }
+
+        /// <summary>
+        /// 状态
+        /// </summary>
         private LoadSceneState _LoadSceneState = LoadSceneState.Ready;
-        private AScene _Scene;
+        
+        /// <summary>
+        /// 场景加载请求
+        /// </summary>
+        private LoadSceneRequest _LoadSceneRequest;
+        
+        /// <summary>
+        /// SceneData 异步请求
+        /// </summary>
+        private AssetRequest<SceneData> _SceneDataRequest;
 
+        /// <summary>
+        /// 场景加载的所有SceneItem
+        /// </summary>
+        private readonly List<SceneItem> _AllLoadedSceneItems = new List<SceneItem>();
+
+        /// <summary>
+        /// 场景关联的所有资源
+        /// </summary>
+        private readonly List<GameObject> _AllLoadedAssets = new List<GameObject>();
+        
     }
 }

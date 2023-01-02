@@ -1,4 +1,5 @@
 ﻿using Asuna.Application;
+using Asuna.Entity;
 using Asuna.Timer;
 using Asuna.Utils;
 using Demo.UIBasic;
@@ -17,6 +18,7 @@ namespace Demo.LoadScene
         public override void ReleaseDemo()
         {
             G.UIManager.HidePage(nameof(DemoCaseLoadScenePage));
+            G.EntityManager.DestroySpace(_Space);
         }
 
         public override string GetBtnName()
@@ -33,13 +35,22 @@ namespace Demo.LoadScene
 
         private void _OnFadeFinish(object arg)
         {
-            
+            _Space = G.EntityManager.CreateSpaceEntity();
+            var request = new LoadSceneRequest()
+            {
+                ScenePath = "Assets/Demo/Res/SceneData/Demo.asset",
+                OnSceneLoaded = _OnLoadFinish
+            };
+            _Space.LoadScene(request);
         }
 
-        private void _OnLoadFinish()
+        private void _OnLoadFinish(LoadSceneRequest request)
         {
             G.UIManager.ShowPage(nameof(DemoCaseLoadScenePage), null);
+            G.UIManager.ClearFade(0.2f);
         }
-        
+
+        private SpaceEntity _Space;
+
     }
 }

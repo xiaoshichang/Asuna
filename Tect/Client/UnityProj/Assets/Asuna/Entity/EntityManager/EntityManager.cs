@@ -22,10 +22,16 @@ namespace Asuna.Entity
 
         public void Release()
         {
+            DestroyAllAvatars();
+            DestroyAllSpace();
+            
             ADebug.Assert(_Root != null);
-            ADebug.Assert(_Entities != null);
-            ADebug.Assert(_Entities.Count == 0);
             Object.DestroyImmediate(_Root);
+        }
+
+        public GameObject GetRoot()
+        {
+            return _Root;
         }
 
         private GameObject _Root;

@@ -21,6 +21,12 @@ namespace Asuna.Asset
             return _AssetBundle.LoadAsset<T>(assetName);
         }
 
+        public AssetRequestAssetBundle<T> LoadAssetAsync<T>(string assetName) where T : Object
+        {
+            var req = _AssetBundle.LoadAssetAsync(assetName);
+            return new AssetRequestAssetBundle<T>(assetName, req);
+        }
+
         public void IncRefCounter()
         {
             _RefCounter += 1;

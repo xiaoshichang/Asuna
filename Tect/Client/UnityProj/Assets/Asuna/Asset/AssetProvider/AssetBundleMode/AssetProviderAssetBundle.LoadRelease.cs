@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Asuna.Utils;
-using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Asuna.Asset
 {
@@ -35,6 +36,11 @@ namespace Asuna.Asset
             _IncRuntimeAssetBundleRef(bundle);
             _LoadAssetMap[asset] = bundle;
             return asset;
+        }
+
+        public override AssetRequest<T> LoadAssetAsync<T>(string assetPath)
+        {
+            throw new NotImplementedException();
         }
 
         public override void ReleaseAsset(Object obj)

@@ -7,9 +7,6 @@ namespace Asuna.Asset
 {
     public class AssetProviderEditor : IAssetProvider
     {
-        public const string ProviderMode_Key = "_Key_ProviderMode";
-        public const string ProviderMode_Value_Editor = "editor";
-        public const string ProviderMode_Value_AB = "ab";
         
         public override void Init()
         {
@@ -22,6 +19,13 @@ namespace Asuna.Asset
         public override T LoadAssetSync<T>(string assetPath)
         {
             return AssetDatabase.LoadAssetAtPath<T>(assetPath);
+        }
+
+        public override AssetRequest<T> LoadAssetAsync<T>(string assetPath)
+        {
+            var asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
+            var request = new AssetRequestEditorSim<T>(assetPath, asset);
+            return request;
         }
 
         public override void ReleaseAsset(Object obj)

@@ -3,6 +3,7 @@ using UnityEditor;
 #endif
 
 using Asuna.Interface;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 
@@ -14,8 +15,8 @@ namespace Asuna.Asset
         private void _InitProvider()
         {
 #if UNITY_EDITOR
-            var mode = EditorPrefs.GetString(AssetProviderEditor.ProviderMode_Key);
-            if (string.IsNullOrEmpty(mode) || mode == AssetProviderEditor.ProviderMode_Value_Editor)
+            var mode = EditorPrefs.GetString(IAssetProvider.ProviderMode_Key);
+            if (string.IsNullOrEmpty(mode) || mode == IAssetProvider.ProviderMode_Value_Editor)
             {
                 _Provider = new AssetProviderEditor();
             }
@@ -50,10 +51,17 @@ namespace Asuna.Asset
             return _Provider.LoadAssetSync<T>(assetPath);
         }
 
+        public AssetRequest<T> LoadAssetAsync<T>(string assetPath) where T : Object
+        {
+            var req = _Provider.LoadAssetAsync<T>(assetPath);
+            return req;
+        }
+        
         public void ReleaseAsset(Object asset)
         {
             _Provider.ReleaseAsset(asset);
         }
+        
 
         private IAssetProvider _Provider;
 

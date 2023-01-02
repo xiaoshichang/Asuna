@@ -2,12 +2,21 @@
 {
     public partial class SpaceEntity : Entity
     {
-        public override void Init()
+        protected override string GetGameObjectName()
         {
+            return $"Space-{Guid:B}";
         }
 
-        public override void Release()
+        public override void Init()
         {
+            base.Init();
+        }
+
+        public override void Destroy()
+        {
+            _DestroyAllLoadSceneItems();
+            _ReleaseAllAssets();
+            base.Destroy();
         }
     }
 }

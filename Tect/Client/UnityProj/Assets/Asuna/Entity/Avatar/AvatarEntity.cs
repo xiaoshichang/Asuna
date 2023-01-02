@@ -1,15 +1,15 @@
 ﻿namespace Asuna.Entity
 {
-    public class Avatar : Entity
+    public abstract class AvatarEntity : Entity
     {
         public override void Init()
         {
-            throw new System.NotImplementedException();
+            base.Init();
         }
 
-        public override void Release()
+        public override void Destroy()
         {
-            throw new System.NotImplementedException();
+            base.Destroy();
         }
     }
 }
