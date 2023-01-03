@@ -1,5 +1,5 @@
 ﻿using AsunaServer.Core;
-using AsunaServer.Logger;
+using AsunaServer.Debug;
 using AsunaServer.Message.Serializer;
 
 namespace AsunaServer.Network

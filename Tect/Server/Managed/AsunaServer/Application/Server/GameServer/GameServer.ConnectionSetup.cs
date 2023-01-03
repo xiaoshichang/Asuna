@@ -1,5 +1,5 @@
 ﻿using AsunaServer.Application;
-using AsunaServer.Logger;
+using AsunaServer.Debug;
 using AsunaServer.Message;
 using AsunaServer.Network;
 using AsunaServer.Timer;

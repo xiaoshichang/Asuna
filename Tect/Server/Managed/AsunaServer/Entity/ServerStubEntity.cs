@@ -1,5 +1,5 @@
 using AsunaServer.Message;
-using AsunaServer.Logger;
+using AsunaServer.Debug;
 using Google.Protobuf;
 
 #pragma warning disable CS8602

@@ -1,5 +1,5 @@
 using System.Reflection;
-using AsunaServer.Logger;
+using AsunaServer.Debug;
 
 namespace AsunaServer.Entity;
 

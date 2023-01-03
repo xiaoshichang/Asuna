@@ -2,7 +2,7 @@
 using AsunaServer.Core;
 using AsunaServer.Application;
 using AsunaServer.Entity;
-using AsunaServer.Logger;
+using AsunaServer.Debug;
 using AsunaServer.Network;
 using AsunaServer.Message;
 using AsunaServer.Message.Serializer;

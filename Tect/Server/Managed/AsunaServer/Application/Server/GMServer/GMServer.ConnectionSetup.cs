@@ -1,6 +1,6 @@
 using AsunaServer.Application;
 using AsunaServer.Message;
-using AsunaServer.Logger;
+using AsunaServer.Debug;
 using AsunaServer.Network;
 
 namespace AsunaServer.Application;

@@ -1,5 +1,5 @@
 ﻿using AsunaServer.Application;
-using AsunaServer.Logger;
+using AsunaServer.Debug;
 
 
 namespace AsunaServer.Application // Note: actual namespace depends on the project name.

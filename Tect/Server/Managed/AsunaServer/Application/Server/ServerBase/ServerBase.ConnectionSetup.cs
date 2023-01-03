@@ -1,4 +1,4 @@
-using AsunaServer.Logger;
+using AsunaServer.Debug;
 using AsunaServer.Network;
 using AsunaServer.Message;
 
