@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Asuna.Application;
 using Asuna.Utils;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -106,11 +107,22 @@ namespace Asuna.Asset
             _InitAssetMap();
         }
 
-        
         public override void Release()
         {
             _ReleaseAssetMap();
             _ReleaseAssetBundleManifest();
+        }
+
+        public override void DebugInfo()
+        {
+            ADebug.Info($"_AssetMap size : {_AssetMap.Count}");
+            ADebug.Info($"_RuntimeAssetBundles size : {_RuntimeAssetBundles.Count}");
+            foreach (var pair in _RuntimeAssetBundles)
+            {
+                var name = pair.Key;
+                var rab = pair.Value;
+                ADebug.Info($"\t name: {name}, ref counter: {rab.RefCounter()}");
+            }
         }
 
         /// <summary>

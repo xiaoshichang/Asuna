@@ -32,10 +32,6 @@ namespace Demo
             }
         }
 
-        public override void OnHide()
-        {
-        }
-
         private void _OnBtnClick(string demo)
         {
             var gameplay = G.GameplayInstance as DemoGameplayInstance;

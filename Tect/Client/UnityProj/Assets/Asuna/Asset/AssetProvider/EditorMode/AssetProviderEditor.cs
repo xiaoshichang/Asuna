@@ -15,20 +15,19 @@ namespace Asuna.Asset
         public override void Release()
         {
         }
+        
 
-        public override T LoadAssetSync<T>(string assetPath)
+        public override AssetRequestHandler<T> LoadAsset<T>(AssetRequest request)
         {
-            return AssetDatabase.LoadAssetAtPath<T>(assetPath);
+            var handler = new AssetRequestHandlerEditorSim<T>(request);
+            return handler;
         }
 
-        public override AssetRequest<T> LoadAssetAsync<T>(string assetPath)
+        public override void ReleaseAsset(AssetRequestHandler handler)
         {
-            var asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
-            var request = new AssetRequestEditorSim<T>(assetPath, asset);
-            return request;
         }
 
-        public override void ReleaseAsset(Object obj)
+        public override void DebugInfo()
         {
         }
     }

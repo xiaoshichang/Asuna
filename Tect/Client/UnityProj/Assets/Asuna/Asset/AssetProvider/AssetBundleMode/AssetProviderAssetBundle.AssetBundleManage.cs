@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Asuna.Utils;
 using UnityEngine;
 
@@ -6,39 +7,75 @@ namespace Asuna.Asset
 {
     public partial class AssetProviderAssetBundle
     {
-        private bool _IsAssetBundleLoaded(string assetBundleName)
+        public bool IsAssetBundleLoaded(string assetBundleName)
         {
             return _RuntimeAssetBundles.ContainsKey(assetBundleName);
         }
 
-        private void _LoadAllDepAssetBundle(string assetBundleName)
+        private void _LoadAllDepAssetBundleSync(string assetBundleName)
         {
             var deps = _RootManifest.GetAllDependencies(assetBundleName);
             if (deps.Length > 0)
             {
                 foreach (var dep in deps)
                 {
-                    var depBundle = _LoadAssetBundle(dep);
-                    _IncRuntimeAssetBundleRef(depBundle);
+                    var depBundle = LoadAssetBundleSync(dep);
+                    depBundle.IncRefCounter();
                 }
             }
         }
         
-        private RuntimeAssetBundle _LoadAssetBundle(string assetBundleName)
+        public RuntimeAssetBundle LoadAssetBundleSync(string assetBundleName)
         {
             if (_RuntimeAssetBundles.TryGetValue(assetBundleName, out var rab))
             {
-                ADebug.Warning($"{assetBundleName} is loaded!");
                 return rab;
             }
-
-            _LoadAllDepAssetBundle(assetBundleName);
+            _LoadAllDepAssetBundleSync(assetBundleName);
 
             var path = _GetAssetBundlePathByName(assetBundleName);
             var ab = AssetBundle.LoadFromFile(path);
-            var bundle = new RuntimeAssetBundle(assetBundleName, ab);
+            var bundle = new RuntimeAssetBundle(this, assetBundleName, ab);
             _RuntimeAssetBundles[assetBundleName] = bundle;
             return bundle;
+        }
+
+        public RuntimeAssetBundle GetRuntimeAssetBundle(string assetBundleName)
+        {
+            if (_RuntimeAssetBundles.TryGetValue(assetBundleName, out var rab))
+            {
+                return rab;
+            }
+            return null;
+        }
+
+        private IEnumerator _LoadAllDepAssetBundleAsync(string assetBundleName)
+        {
+            var deps = _RootManifest.GetAllDependencies(assetBundleName);
+            if (deps.Length > 0)
+            {
+                foreach (var dep in deps)
+                {
+                    yield return LoadAssetBundleAsync(dep);
+                    var rab = GetRuntimeAssetBundle(dep);
+                    rab.IncRefCounter();
+                }
+            }
+        }
+
+        public IEnumerator LoadAssetBundleAsync(string assetBundleName)
+        {
+            if (IsAssetBundleLoaded(assetBundleName))
+            {
+                yield break;
+            }
+            
+            yield return _LoadAllDepAssetBundleAsync(assetBundleName);
+            var path = _GetAssetBundlePathByName(assetBundleName);
+            var request = AssetBundle.LoadFromFileAsync(path);
+            yield return request;
+            var rab = new RuntimeAssetBundle(this, assetBundleName, request.assetBundle);
+            _RuntimeAssetBundles[assetBundleName] = rab;
         }
 
         private void _ReleaseAllDepAssetBundle(string assetBundleName)
@@ -49,12 +86,12 @@ namespace Asuna.Asset
                 foreach (var dep in deps)
                 {
                     var depBundle = _RuntimeAssetBundles[dep];
-                    _DecRuntimeAssetBundleRef(depBundle);
+                    depBundle.DecRefCounter();
                 }
             }
         }
 
-        private void _ReleaseAssetBundle(RuntimeAssetBundle rab)
+        public void ReleaseAssetBundle(RuntimeAssetBundle rab)
         {
             var name = rab.GetAssetBundleName();
             rab.Unload();

@@ -33,10 +33,6 @@ namespace Demo.UIBasic
             _SetupScreenFadeBlock();
         }
 
-        public override void OnHide()
-        {
-        }
-
         private Button _CloseBtn;
         private GameObject _BtnTemplate;
     }

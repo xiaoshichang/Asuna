@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Asuna.Utils;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace Asuna.Asset
@@ -8,70 +10,35 @@ namespace Asuna.Asset
     public partial class AssetProviderAssetBundle
     {
         /// <summary>
-        /// AssetPath - 上层业务对资源ID的描述
-        /// AssetName - AssetBundle对资源ID的描述
+        /// AssetPath - 上层业务对资源ID的描述，一般为资源路径
+        /// AssetID - AssetBundle对资源ID的描述，全小写
         /// </summary>
-        private string _AssetPathToAssetID(string assetPath)
+        public string AssetPathToAssetID(string assetPath)
         {
             return assetPath.ToLower();
         }
-        
-        public override T LoadAssetSync<T>(string assetPath)
+
+        /// <summary>
+        /// 根据 AssetID 获取所属的 AssetBundle
+        /// </summary>
+        public string GetAssetBundleByAssetID(string assetID)
         {
-            var assetID = _AssetPathToAssetID(assetPath);
-            // check if asset exist
             if (!_AssetMap.TryGetValue(assetID, out var assetBundleName))
             {
-                ADebug.Error($"asset not exist! {assetPath}");
-                return null;
+                return "";
             }
-            // check if AssetBundle loaded
-            if (!_IsAssetBundleLoaded(assetBundleName))
-            {
-                _LoadAssetBundle(assetBundleName);
-            }
-
-            var bundle = _RuntimeAssetBundles[assetBundleName];
-            T asset = bundle.LoadAsset<T>(assetID);
-            _IncRuntimeAssetBundleRef(bundle);
-            _LoadAssetMap[asset] = bundle;
-            return asset;
+            return assetBundleName;
         }
 
-        public override AssetRequest<T> LoadAssetAsync<T>(string assetPath)
+        public override AssetRequestHandler<T> LoadAsset<T>(AssetRequest request)
         {
-            throw new NotImplementedException();
+            var handler = new AssetRequestHandlerAssetBundle<T>(request, this);
+            return handler;
         }
 
-        public override void ReleaseAsset(Object obj)
+        public override void ReleaseAsset(AssetRequestHandler handler)
         {
-            if (!_LoadAssetMap.TryGetValue(obj, out var rab))
-            {
-                ADebug.Warning($"{obj} is not loaded!");
-                return;
-            }
-
-            _LoadAssetMap.Remove(obj);
-            _DecRuntimeAssetBundleRef(rab);
+            handler.OnReleaseAsset();
         }
-
-        private void _IncRuntimeAssetBundleRef(RuntimeAssetBundle rab)
-        {
-            rab.IncRefCounter();
-        }
-
-        private void _DecRuntimeAssetBundleRef(RuntimeAssetBundle rab)
-        {
-            rab.DecRefCounter();
-            if (rab.IsNoRef())
-            {
-                _ReleaseAssetBundle(rab);
-            }
-        }
-        
-        /// <summary>
-        /// 记录所有加载的资源和对应的AssetBundle
-        /// </summary>
-        private readonly Dictionary<Object, RuntimeAssetBundle> _LoadAssetMap = new Dictionary<Object, RuntimeAssetBundle>();
     }
 }

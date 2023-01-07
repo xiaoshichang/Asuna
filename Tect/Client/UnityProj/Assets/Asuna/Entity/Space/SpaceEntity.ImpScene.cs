@@ -72,21 +72,21 @@ namespace Asuna.Entity
         private IEnumerator _StartLoadSceneData()
         {
             _LoadSceneState = LoadSceneState.LoadSceneData;
-            _SceneDataRequest = G.AssetManager.LoadAssetAsync<SceneData>(_LoadSceneRequest.ScenePath);
-            yield return _SceneDataRequest.Operation;
+            _sceneDataRequestHandler = G.AssetManager.LoadAsset<SceneData>(_LoadSceneRequest.ScenePath);
+            yield return _sceneDataRequestHandler.AsyncOperation;
         }
         
         private IEnumerator _StartLoadSceneItems()
         {
-            var sceneData = _SceneDataRequest.Asset;
+            var sceneData = _sceneDataRequestHandler.Asset;
             _LoadSceneState = LoadSceneState.LoadSceneItems;
             yield return null;
             foreach (var item in sceneData.SceneItems)
             {
-                var sceneItemRequest = G.AssetManager.LoadAssetAsync<GameObject>(item.Asset);
-                yield return sceneItemRequest.Operation;
-                _AllLoadedAssets.Add(sceneItemRequest.Asset);
-                var go = Object.Instantiate(sceneItemRequest.Asset, _Root.transform);
+                var sceneItemHandler = G.AssetManager.LoadAsset<GameObject>(item.Asset);
+                yield return sceneItemHandler.AsyncOperation;
+                _AllLoadedAssets.Add(sceneItemHandler);
+                var go = Object.Instantiate(sceneItemHandler.Asset, _Root.transform);
                 var sceneItem = go.GetComponent<SceneItem>();
                 _AllLoadedSceneItems.Add(sceneItem);
                 go.transform.position = item.P;
@@ -102,7 +102,7 @@ namespace Asuna.Entity
         private IEnumerator _StartLoadScene()
         {
             yield return _StartLoadSceneData();
-            if (_SceneDataRequest.Asset == null)
+            if (_sceneDataRequestHandler.Asset == null)
             {
                 _OnLoadSceneError(LoadSceneError.LoadSceneDataFail);
                 yield break;
@@ -148,10 +148,17 @@ namespace Asuna.Entity
         /// </summary>
         private void _ReleaseAllAssets()
         {
+            if (_sceneDataRequestHandler != null)
+            {
+                G.AssetManager.ReleaseAsset(_sceneDataRequestHandler);
+                _sceneDataRequestHandler = null;
+            }
+            
             foreach (var asset in _AllLoadedAssets)
             {
                 G.AssetManager.ReleaseAsset(asset);
             }
+            _AllLoadedAssets.Clear();
         }
 
         /// <summary>
@@ -167,7 +174,7 @@ namespace Asuna.Entity
         /// <summary>
         /// SceneData 异步请求
         /// </summary>
-        private AssetRequest<SceneData> _SceneDataRequest;
+        private AssetRequestHandler<SceneData> _sceneDataRequestHandler;
 
         /// <summary>
         /// 场景加载的所有SceneItem
@@ -177,7 +184,7 @@ namespace Asuna.Entity
         /// <summary>
         /// 场景关联的所有资源
         /// </summary>
-        private readonly List<GameObject> _AllLoadedAssets = new List<GameObject>();
+        private readonly HashSet<AssetRequestHandler> _AllLoadedAssets = new HashSet<AssetRequestHandler>();
         
     }
 }

@@ -52,6 +52,7 @@ namespace Asuna.Application
         private void _ReleaseGameplay()
         {
             _GameplayInstance.Release();
+            ADebug.Info("Release Gameplay Ok!");
         }
 
         private GameplayInstance _GameplayInstance;

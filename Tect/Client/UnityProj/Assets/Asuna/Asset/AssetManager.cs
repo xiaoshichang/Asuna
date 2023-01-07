@@ -2,6 +2,8 @@
 using UnityEditor;
 #endif
 
+using Asuna.Application;
+using Asuna.Application.GM;
 using Asuna.Interface;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -45,21 +47,34 @@ namespace Asuna.Asset
         {
             _ReleaseProvider();
         }
-        
-        public T LoadAssetSync<T>(string assetPath) where T : Object
+
+        public AssetRequestHandler<T> LoadAsset<T>(string assetPath) where T : Object
         {
-            return _Provider.LoadAssetSync<T>(assetPath);
+            var request = new AssetRequest()
+            {
+                AssetPath = assetPath
+            };
+            return LoadAsset<T>(request);
+        }
+        
+        public AssetRequestHandler<T> LoadAsset<T>(AssetRequest request) where T : Object
+        {
+            var handler = _Provider.LoadAsset<T>(request);
+            return handler;
+        }
+        
+        /// <summary>
+        /// 释放资源
+        /// </summary>
+        public void ReleaseAsset(AssetRequestHandler handler)
+        {
+            _Provider.ReleaseAsset(handler);
         }
 
-        public AssetRequest<T> LoadAssetAsync<T>(string assetPath) where T : Object
+        [GM("asset.debug", "debug asset manager internal info")]
+        public static void DebugInfo()
         {
-            var req = _Provider.LoadAssetAsync<T>(assetPath);
-            return req;
-        }
-        
-        public void ReleaseAsset(Object asset)
-        {
-            _Provider.ReleaseAsset(asset);
+            G.AssetManager._Provider.DebugInfo();
         }
         
 

@@ -12,11 +12,12 @@ namespace Asuna.UI
     {
         private UIPage _CreatePage(UIPageRegisterItem item)
         {
-            var asset = G.AssetManager.LoadAssetSync<GameObject>(item.AssetPath);
-            var root = Object.Instantiate(asset, _PageRoot.transform);
+            var handler = G.AssetManager.LoadAsset<GameObject>(item.AssetPath);
+            handler.SyncLoad();
+            var root = Object.Instantiate(handler.Asset, _PageRoot.transform);
             
             var page = root.GetComponent<UIPage>();
-            if (page == null)
+            if (page is null)
             {
                 ADebug.Error("root node must contains a UIPage script!");
                 return null;
@@ -24,6 +25,7 @@ namespace Asuna.UI
             
             page.SetPageID(item.PageID);
             page.SetRoot(root);
+            page.SetAssetHandler(handler);
             page.SetupController();
             
             return page;
@@ -87,7 +89,7 @@ namespace Asuna.UI
             }
 
             var page = _CreatePage(registerItem);
-            if (page == null)
+            if (page is null)
             {
                 ADebug.Error($"load page fail! id : {registerItem.PageID}, path: {registerItem.AssetPath}");
                 return;
@@ -116,9 +118,14 @@ namespace Asuna.UI
         public void HidePage(string pageID)
         {
             var page = _GetPageByID(pageID);
+            if (page is null)
+            {
+                ADebug.Warning($"Page {pageID} not found");
+                return;
+            }
+            
             page.OnHide();
             _PageStack.Remove(page);
-            Object.DestroyImmediate(page.gameObject);
             _TryShowTop();
         }
 
@@ -129,7 +136,6 @@ namespace Asuna.UI
                 var page = _PageStack.Last();
                 page.OnHide();
                 _PageStack.RemoveAt(_PageStack.Count - 1);
-                Object.DestroyImmediate(page.gameObject);
             }
         }
 

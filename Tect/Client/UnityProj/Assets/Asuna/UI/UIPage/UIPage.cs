@@ -1,3 +1,5 @@
+using Asuna.Application;
+using Asuna.Asset;
 using UnityEngine;
 
 namespace Asuna.UI
@@ -14,7 +16,13 @@ namespace Asuna.UI
     {
         public abstract void SetupController();
         public abstract void OnShow(ShowPageParam param);
-        public abstract void OnHide();
+
+
+        public virtual void OnHide()
+        {
+            Destroy(gameObject);
+            G.AssetManager.ReleaseAsset(_Asset);
+        }
 
 
         public void SetPageID(string pid)
@@ -32,8 +40,14 @@ namespace Asuna.UI
             _Root = root;
         }
 
+        public void SetAssetHandler(AssetRequestHandler<GameObject> asset)
+        {
+            _Asset = asset;
+        }
+
         private string _PageID;
         protected GameObject _Root;
+        private AssetRequestHandler<GameObject> _Asset;
     }
 
 }

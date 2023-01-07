@@ -19,15 +19,19 @@ namespace Asuna.Application.GM
         /// <param name="param">包含GM指令的Assembly列表</param>
         public void Init(object param)
         {
+            // collect from framework
+            CollectGMCommandsByReflection(Assembly.GetExecutingAssembly());
+            
+            // collect from gameplay
             var assemblyList = param as List<string>;
             if (assemblyList is null)
             {
                 return;
             }
-            
             foreach (var assemblyName in assemblyList)
             {
-                _CollectGMCommandsByReflection(assemblyName);
+                var assembly = Assembly.Load(assemblyName);
+                CollectGMCommandsByReflection(assembly);
             }
         }
         
@@ -39,7 +43,7 @@ namespace Asuna.Application.GM
         
         private void _RegisterGMCommand(GMAttribute attr, MethodInfo method)
         {
-            if (_AllGMCommands.ContainsKey(method.Name))
+            if (_AllGMCommands.ContainsKey(attr.Command))
             {
                 ADebug.Error($"duplicated gm name {method.Name}");
                 return;
@@ -50,15 +54,20 @@ namespace Asuna.Application.GM
                 Attribute = attr,
                 Method = method
             };
-            _AllGMCommands.Add(method.Name, cmd);
+            _AllGMCommands.Add(attr.Command, cmd);
         }
         
         /// <summary>
         /// 从Assembly中搜集GM指令
         /// </summary>
-        private void _CollectGMCommandsByReflection(string assemblyName)
+        public void CollectGMCommandsByReflection(Assembly assembly)
         {
-            var assembly = Assembly.Load(assemblyName);
+            if (assembly == null)
+            {
+                ADebug.Error("assembly is null");
+                return;
+            }
+            
             foreach (var t in assembly.GetTypes())
             {
                 foreach (var method in t.GetMethods())
@@ -141,7 +150,7 @@ namespace Asuna.Application.GM
             var cmdName = items[0];
             if (!_AllGMCommands.TryGetValue(cmdName, out var cmd))
             {
-                ADebug.Error($"command [{cmdName}] not found!");
+                ADebug.Warning($"command [{cmdName}] not found!");
                 _PrintCandidates(cmdName);
                 return false;
             }
@@ -177,6 +186,11 @@ namespace Asuna.Application.GM
                 ADebug.Error(e.Message);
                 return false;
             }
+        }
+
+        public int GetCommandsCount()
+        {
+            return _AllGMCommands.Count;
         }
 
         private readonly Dictionary<string, GMCommand> _AllGMCommands = new();

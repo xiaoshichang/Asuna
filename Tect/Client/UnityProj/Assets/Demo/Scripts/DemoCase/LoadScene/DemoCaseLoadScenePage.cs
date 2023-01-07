@@ -20,10 +20,6 @@ namespace Demo.LoadScene
         {
         }
 
-        public override void OnHide()
-        {
-        }
-
         private void _OnClose()
         {
             var gameplay = G.GameplayInstance as DemoGameplayInstance;

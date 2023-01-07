@@ -5,18 +5,32 @@ namespace Asuna.Asset
 {
     public class AssetBundleBuildCollectorGameplay: IAssetBundleBuildCollector
     {
-        private AssetBundleBuild _CollectGameplayAssetBundleBuild()
+        private AssetBundleBuild _CollectGameplayUIAssetBundleBuild()
         {
             var dirs = new List<string>()
             {
-                "Assets/Demo/Res/SceneData",
-                "Assets/Demo/Res/SceneItems",
                 "Assets/Demo/Res/UI"
             };
             
             var build = new AssetBundleBuild
             {
                 assetBundleName = "Demo",
+                assetNames = AssetBundleBuildHelper.CollectAllAssetFromDirs(dirs)
+            };
+            return build;
+        }
+
+        private AssetBundleBuild _CollectGameplaySceneAssetBundleBuild()
+        {
+            var dirs = new List<string>()
+            {
+                "Assets/Demo/Res/SceneData",
+                "Assets/Demo/Res/SceneItems",
+            };
+            
+            var build = new AssetBundleBuild
+            {
+                assetBundleName = "Demo.Scene",
                 assetNames = AssetBundleBuildHelper.CollectAllAssetFromDirs(dirs)
             };
             return build;
@@ -42,7 +56,8 @@ namespace Asuna.Asset
             var builds = new List<AssetBundleBuild>
             {
                 _CollectGameplayCommonAssetBundleBuild(),
-                _CollectGameplayAssetBundleBuild()
+                _CollectGameplaySceneAssetBundleBuild(),
+                _CollectGameplayUIAssetBundleBuild()
             };
             return builds;
         }

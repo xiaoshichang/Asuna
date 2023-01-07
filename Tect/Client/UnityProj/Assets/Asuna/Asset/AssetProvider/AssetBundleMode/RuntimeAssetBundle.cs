@@ -4,8 +4,9 @@ namespace Asuna.Asset
 {
     public class RuntimeAssetBundle
     {
-        public RuntimeAssetBundle(string assetBundleName, AssetBundle assetBundle)
+        public RuntimeAssetBundle(AssetProviderAssetBundle provider, string assetBundleName, AssetBundle assetBundle)
         {
+            _Provider = provider;
             _AssetBundleName = assetBundleName;
             _AssetBundle = assetBundle;
         }
@@ -16,15 +17,14 @@ namespace Asuna.Asset
             _AssetBundle = null;
         }
 
-        public T LoadAsset<T>(string assetName) where T : Object
+        public T LoadAssetSync<T>(string assetID) where T : Object
         {
-            return _AssetBundle.LoadAsset<T>(assetName);
+            return _AssetBundle.LoadAsset<T>(assetID);
         }
 
-        public AssetRequestAssetBundle<T> LoadAssetAsync<T>(string assetName) where T : Object
+        public AssetBundleRequest LoadAssetAsync<T>(string assetID)
         {
-            var req = _AssetBundle.LoadAssetAsync(assetName);
-            return new AssetRequestAssetBundle<T>(assetName, req);
+            return _AssetBundle.LoadAssetAsync<T>(assetID);
         }
 
         public void IncRefCounter()
@@ -35,11 +35,15 @@ namespace Asuna.Asset
         public void DecRefCounter()
         {
             _RefCounter -= 1;
+            if (_RefCounter == 0)
+            {
+                _Provider.ReleaseAssetBundle(this);
+            }
         }
 
-        public bool IsNoRef()
+        public int RefCounter()
         {
-            return _RefCounter == 0;
+            return _RefCounter;
         }
 
         public string GetAssetBundleName()
@@ -47,7 +51,7 @@ namespace Asuna.Asset
             return _AssetBundleName;
         }
 
-
+        private readonly AssetProviderAssetBundle _Provider;
         private readonly string _AssetBundleName;
         private int _RefCounter = 0;
         private AssetBundle _AssetBundle;

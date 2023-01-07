@@ -8,8 +8,9 @@ namespace Asuna.UI
     {
         private void _InitScreenFadeBlock()
         {
-            _ScreenFadeBlockAsset = G.AssetManager.LoadAssetSync<GameObject>(ScreenFadeBlockAssetPath);
-            var o = Object.Instantiate(_ScreenFadeBlockAsset, _BlockRoot.transform);
+            _ScreenFadeBlockAsset = G.AssetManager.LoadAsset<GameObject>(ScreenFadeBlockAssetPath);
+            _ScreenFadeBlockAsset.SyncLoad();
+            var o = Object.Instantiate(_ScreenFadeBlockAsset.Asset, _BlockRoot.transform);
             _ScreenFadeBlock = o.GetComponent<ScreenFadeBlock>();
         }
 
@@ -33,7 +34,7 @@ namespace Asuna.UI
             _ScreenFadeBlock.Clear(intervalIsSecond);
         }
 
-        private GameObject _ScreenFadeBlockAsset;
+        private AssetRequestHandler<GameObject> _ScreenFadeBlockAsset;
         private ScreenFadeBlock _ScreenFadeBlock;
         private const string ScreenFadeBlockAssetPath = "Assets/Asuna/Res/UI/ScreenFadeBlock.prefab";
     }
