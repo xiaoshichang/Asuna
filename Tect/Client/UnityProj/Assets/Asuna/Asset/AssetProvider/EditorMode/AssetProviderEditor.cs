@@ -1,5 +1,6 @@
 ﻿#if UNITY_EDITOR
 
+using Asuna.Utils;
 using UnityEditor;
 using UnityEngine;
 
@@ -29,6 +30,7 @@ namespace Asuna.Asset
 
         public override void DebugInfo()
         {
+            ADebug.Info("Editor Mode, no message to show.");
         }
     }
 }

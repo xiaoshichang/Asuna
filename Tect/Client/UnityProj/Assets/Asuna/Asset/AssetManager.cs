@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using Asuna.Utils;
 using UnityEditor;
 #endif
 
@@ -21,13 +22,16 @@ namespace Asuna.Asset
             if (string.IsNullOrEmpty(mode) || mode == IAssetProvider.ProviderMode_Value_Editor)
             {
                 _Provider = new AssetProviderEditor();
+                ADebug.Info("Asset Provider using Editor Mode.");
             }
             else
             {
                 _Provider = new AssetProviderAssetBundle();
+                ADebug.Info("Asset Provider using AB Mode.");
             }
 #else
             _Provider = new AssetProviderAssetBundle();
+            ADebug.Info("Asset Provider using AB Mode.");
 #endif
             _Provider.Init();
         }
