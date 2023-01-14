@@ -13,7 +13,8 @@ namespace Asuna.Asset
 
         public override T SyncLoad()
         {
-            return AssetDatabase.LoadAssetAtPath<T>(_Request.AssetPath);
+            Asset = AssetDatabase.LoadAssetAtPath<T>(_Request.AssetPath);
+            return Asset;
         }
         
         private IEnumerator _Sim()

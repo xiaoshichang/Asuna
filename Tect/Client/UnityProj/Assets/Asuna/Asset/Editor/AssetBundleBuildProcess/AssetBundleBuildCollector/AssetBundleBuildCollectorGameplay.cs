@@ -35,6 +35,21 @@ namespace Asuna.Asset
             };
             return build;
         }
+        
+        private AssetBundleBuild _CollectGameplayCharacterAssetBundleBuild()
+        {
+            var dirs = new List<string>()
+            {
+                "Assets/Demo/Res/Character"
+            };
+            
+            var build = new AssetBundleBuild
+            {
+                assetBundleName = "Demo.Character",
+                assetNames = AssetBundleBuildHelper.CollectAllAssetFromDirs(dirs)
+            };
+            return build;
+        }
 
         private AssetBundleBuild _CollectGameplayCommonAssetBundleBuild()
         {
@@ -57,7 +72,8 @@ namespace Asuna.Asset
             {
                 _CollectGameplayCommonAssetBundleBuild(),
                 _CollectGameplaySceneAssetBundleBuild(),
-                _CollectGameplayUIAssetBundleBuild()
+                _CollectGameplayUIAssetBundleBuild(),
+                _CollectGameplayCharacterAssetBundleBuild()
             };
             return builds;
         }

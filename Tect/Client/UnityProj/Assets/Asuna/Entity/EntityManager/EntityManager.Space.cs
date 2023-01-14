@@ -11,7 +11,7 @@ namespace Asuna.Entity
         public SpaceEntity CreateSpaceEntity()
         {
             var space = new SpaceEntity();
-            space.Init();
+            space.Init(null);
             _Entities[space.Guid] = space;
             _SpaceEntities[space.Guid] = space;
             return space;

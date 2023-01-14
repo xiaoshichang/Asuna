@@ -8,10 +8,10 @@ namespace Asuna.Entity
     public partial class EntityManager
     {
         
-        public AvatarEntity CreateAvatarEntity()
+        public AvatarEntity CreateAvatarEntity(AvatarData data)
         {
             var avatar = new AvatarEntity();
-            avatar.Init();
+            avatar.Init(data);
             _Entities[avatar.Guid] = avatar;
             _AvatarEntities[avatar.Guid] = avatar;
             return avatar;

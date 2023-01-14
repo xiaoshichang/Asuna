@@ -52,8 +52,14 @@ namespace Demo.LoadScene
 
         private IEnumerator _LoadPlayer()
         {
-            _Player = G.EntityManager.CreateAvatarEntity();
+            var avatarData = new AvatarData()
+            {
+                ModelAsset = "Assets/Demo/Res/Character/Capsule.prefab"
+            };
+            
+            _Player = G.EntityManager.CreateAvatarEntity(avatarData);
             yield return _Player.LoadAsync();
+            _Player.SetPosition(new Vector3(2, 0, -2));
             G.UIManager.ClearFade(0.2f);
         }
 

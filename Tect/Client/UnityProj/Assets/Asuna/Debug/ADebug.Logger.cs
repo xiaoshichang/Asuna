@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using Asuna.Application;
 using Debug = UnityEngine.Debug;
 
 namespace Asuna.Utils

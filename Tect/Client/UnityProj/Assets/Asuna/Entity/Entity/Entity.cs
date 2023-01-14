@@ -6,7 +6,7 @@ using Object = UnityEngine.Object;
 
 namespace Asuna.Entity
 {
-    public abstract class Entity
+    public abstract partial class Entity
     {
         /// <summary>
         /// 显示在Unity GameObject 上的名称
@@ -26,7 +26,7 @@ namespace Asuna.Entity
         #endregion
 
         
-        public virtual void Init()
+        public virtual void Init(object param)
         {
             // name
             _Root = new GameObject(GetGameObjectName());
@@ -39,6 +39,11 @@ namespace Asuna.Entity
         {
             ADebug.Assert(_Root != null);
             Object.Destroy(_Root);
+        }
+
+        public GameObject GetRoot()
+        {
+            return _Root;
         }
 
         

@@ -7,9 +7,9 @@
             return $"Space-{Guid:B}";
         }
 
-        public override void Init()
+        public override void Init(object param)
         {
-            base.Init();
+            base.Init(param);
         }
 
         public override void Destroy()
