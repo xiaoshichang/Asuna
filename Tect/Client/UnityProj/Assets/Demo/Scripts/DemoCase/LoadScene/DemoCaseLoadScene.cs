@@ -28,12 +28,10 @@ namespace Demo.LoadScene
 
         private void _StartScreenFade()
         {
-            G.UIManager.ScreenFadeTo(Color.black, 0.2f);
-            G.TimerManager.RegisterTimer(200, _OnFadeFinish);
-            
+            G.UIManager.ScreenFadeTo(Color.black, 0.2f, _OnFadeFinish);
         }
 
-        private void _OnFadeFinish(object arg)
+        private void _OnFadeFinish()
         {
             _Space = G.EntityManager.CreateSpaceEntity();
             var request = new LoadSceneRequest()

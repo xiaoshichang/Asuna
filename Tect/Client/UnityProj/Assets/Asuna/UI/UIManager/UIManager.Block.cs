@@ -1,6 +1,8 @@
-﻿using Asuna.Application;
+﻿using System;
+using Asuna.Application;
 using Asuna.Asset;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Asuna.UI
 {
@@ -24,14 +26,14 @@ namespace Asuna.UI
             _ScreenFadeBlockAsset = null;
         }
 
-        public void ScreenFadeTo(Color color, float intervalIsSecond=1)
+        public void ScreenFadeTo(Color color, float intervalIsSecond=1, Action OnFadeFinish=null)
         {
-            _ScreenFadeBlock.FadeTo(color, intervalIsSecond);
+            _ScreenFadeBlock.FadeTo(color, intervalIsSecond, OnFadeFinish);
         }
 
-        public void ClearFade(float intervalIsSecond=1)
+        public void ClearFade(float intervalIsSecond=1, Action OnFadeFinish=null)
         {
-            _ScreenFadeBlock.Clear(intervalIsSecond);
+            _ScreenFadeBlock.Clear(intervalIsSecond, OnFadeFinish);
         }
 
         private AssetRequestHandler<GameObject> _ScreenFadeBlockAsset;
