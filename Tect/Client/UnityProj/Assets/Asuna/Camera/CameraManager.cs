@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Asuna.Camera.CameraModes;
 using Asuna.Interface;
 using Asuna.Utils;
 using UnityEngine;
@@ -31,9 +30,9 @@ namespace Asuna.Camera
             _Current.Enter();
         }
 
-        public void PushTopDownFollowMode(Transform target, Vector3 eyeVector)
+        public void PushFollowMode(Transform target, Vector3 eyeVector)
         {
-            var mode = new CameraModeTopDownFollow()
+            var mode = new FollowMode()
             {
                 Target = target,
                 EyeVector = eyeVector

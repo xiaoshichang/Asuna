@@ -90,6 +90,7 @@ namespace Asuna.Application
             G.SetupConfig(this);
             
             _InitLogManager();
+            _InitInputManager();
             _InitCoroutineManager();
             _InitTimerManager();
             _InitAssetManager();
@@ -127,6 +128,7 @@ namespace Asuna.Application
             _ReleaseAssetManager();
             _ReleaseTimerManager();
             _ReleaseCoroutineManager();
+            _ReleaseInputManager();
             G.ResetCoreManagers();
             _State = ApplicationState.Released;
         }

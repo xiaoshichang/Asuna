@@ -53,7 +53,7 @@ namespace Demo.LoadScene
 
         private void _InitCamera()
         {
-            G.CameraManager.PushTopDownFollowMode(_Player.GetTransform(), new Vector3(10, -10, 10));
+            G.CameraManager.PushFollowMode(_Player.GetTransform(), new Vector3(10, -10, 10));
         }
 
         private IEnumerator _LoadPlayer()
