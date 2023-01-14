@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Asuna.Application;
 using UnityEngine;
 
-namespace Asuna.Application.GM
+namespace Asuna.Gameplay
 {
     public delegate void RunCommandCallback(string command);
 

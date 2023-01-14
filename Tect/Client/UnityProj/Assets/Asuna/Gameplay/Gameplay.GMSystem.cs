@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using Asuna.Application.GM;
-using Asuna.Utils;
+﻿using Asuna.Utils;
 
-namespace Asuna.Application
+namespace Asuna.Gameplay
 {
     public partial class GameplayInstance
     {

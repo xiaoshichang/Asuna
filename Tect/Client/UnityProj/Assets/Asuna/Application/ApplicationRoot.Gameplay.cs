@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using Asuna.Gameplay;
 using Asuna.Utils;
 
 namespace Asuna.Application
@@ -20,7 +21,7 @@ namespace Asuna.Application
                 
                 foreach (var type in assembly.GetTypes())
                 {
-                    if (type.IsSubclassOf(typeof(Application.GameplayInstance)))
+                    if (type.IsSubclassOf(typeof(GameplayInstance)))
                     {
                         count += 1;
                         entryType = type;

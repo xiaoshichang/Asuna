@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Asuna.Application.GM
+namespace Asuna.Gameplay
 {
     [AttributeUsage(AttributeTargets.Method, Inherited = false)]
     public class GMAttribute : Attribute

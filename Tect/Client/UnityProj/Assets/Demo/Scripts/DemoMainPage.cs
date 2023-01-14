@@ -1,6 +1,5 @@
 using Asuna.Application;
 using Asuna.UI;
-using Asuna.Utils;
 using TMPro;
 using UnityEngine;
 

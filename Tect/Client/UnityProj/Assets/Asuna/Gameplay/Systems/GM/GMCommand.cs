@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Asuna.Application.GM
+namespace Asuna.Gameplay
 {
     public class GMCommand
     {

@@ -4,7 +4,7 @@ using UnityEditor;
 
 using Asuna.Utils;
 using Asuna.Application;
-using Asuna.Application.GM;
+using Asuna.Gameplay;
 using Asuna.Interface;
 using Object = UnityEngine.Object;
 

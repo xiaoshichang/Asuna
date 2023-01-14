@@ -8,7 +8,7 @@ using Asuna.Utils;
 using UnityEngine;
 
 
-namespace Asuna.Application.GM
+namespace Asuna.Gameplay
 {
     
     public class GMSystem : ISystem

@@ -18,6 +18,7 @@ namespace Demo.LoadScene
 
         public override void ReleaseDemo()
         {
+            G.CameraManager.PopCameraMode();
             G.UIManager.HidePage(nameof(DemoCaseLoadScenePage));
             G.EntityManager.DestroySpace(_Space);
             G.EntityManager.DestroyAvatar(_Player);
@@ -50,6 +51,11 @@ namespace Demo.LoadScene
             G.CoroutineManager.StartGlobalCoroutine(_LoadPlayer());
         }
 
+        private void _InitCamera()
+        {
+            G.CameraManager.PushTopDownFollowMode(_Player.GetTransform(), new Vector3(10, -10, 10));
+        }
+
         private IEnumerator _LoadPlayer()
         {
             var avatarData = new AvatarData()
@@ -58,6 +64,7 @@ namespace Demo.LoadScene
             };
             
             _Player = G.EntityManager.CreateAvatarEntity(avatarData);
+            _InitCamera();
             yield return _Player.LoadAsync();
             _Player.SetPosition(new Vector3(2, 0, -2));
             G.UIManager.ClearFade(0.2f);

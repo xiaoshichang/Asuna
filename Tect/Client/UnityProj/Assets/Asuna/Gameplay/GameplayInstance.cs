@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
-using Asuna.Entity;
+using Asuna.Application;
 
-namespace Asuna.Application
+
+namespace Asuna.Gameplay
 {
     public class GameplayInitParam
     {

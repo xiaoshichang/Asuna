@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Asuna.Application;
-using Asuna.Application.GM;
+using Asuna.Gameplay;
 using Asuna.Interface;
 using Asuna.Utils;
 using UnityEngine;

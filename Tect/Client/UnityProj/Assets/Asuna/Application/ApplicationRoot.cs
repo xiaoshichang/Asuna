@@ -23,7 +23,47 @@ namespace Asuna.Application
             ADebug.Init();
         }
         
-        
+        void Awake()
+        {
+            _State = ApplicationState.Ready;
+            if (ApplicationSetting == null)
+            {
+                return;
+            }
+            DontDestroyOnLoad(gameObject);
+            _State = ApplicationState.Initializing;
+            _ApplicationStartup();
+        }
+
+        void Update()
+        {
+            var dt = Time.deltaTime;
+            if (_State == ApplicationState.Running)
+            {
+                TimerManager.Tick(dt);
+                NetworkManager.Tick(dt);
+            }
+
+            if (_State == ApplicationState.Initializing)
+            {
+                // todo: check all managers and systems are initialized
+                if (true)
+                {
+                    _State = ApplicationState.Running;
+                }
+            }
+        }
+
+        private void LateUpdate()
+        {
+            var dt = Time.deltaTime;
+            if (_State == ApplicationState.Running)
+            {
+                CameraManager.Tick(dt);
+            }
+        }
+
+
         private void _EnterGameplay()
         {
             //NetworkMgr.ConnectToAsync("127.0.0.1", 50001, OnConnected);
@@ -55,6 +95,7 @@ namespace Asuna.Application
             _InitAssetManager();
             G.SetupCoreManagers(this);
             
+            _InitCameraManager();
             _InitNetwork();
             _InitUIManager();
             _InitEntityManager();
@@ -64,36 +105,6 @@ namespace Asuna.Application
             G.SetupGameplay(_GameplayInstance);
             
             _EnterGameplay();
-        }
-        
-        void Awake()
-        {
-            _State = ApplicationState.Ready;
-            if (ApplicationSetting == null)
-            {
-                return;
-            }
-            DontDestroyOnLoad(gameObject);
-            _State = ApplicationState.Initializing;
-            _ApplicationStartup();
-        }
-
-        void Update()
-        {
-            if (_State == ApplicationState.Running)
-            {
-                TimerManager.Tick();
-                NetworkManager.Tick();
-            }
-
-            if (_State == ApplicationState.Initializing)
-            {
-                // todo: check all managers and systems are initialized
-                if (true)
-                {
-                    _State = ApplicationState.Running;
-                }
-            }
         }
 
         private void OnApplicationQuit()
@@ -110,6 +121,7 @@ namespace Asuna.Application
             _ReleaseEntityManager();
             _ReleaseUIManager();
             _ReleaseNetworkManager();
+            _ReleaseCameraManager();
             G.ResetOtherManagers();
             
             _ReleaseAssetManager();
