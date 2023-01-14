@@ -2,6 +2,7 @@
 using Asuna.Scene;
 using Asuna.Application.GM;
 using Asuna.Asset;
+using Asuna.Coroutine;
 using Asuna.Entity;
 using Asuna.Network;
 using Asuna.Timer;
@@ -24,6 +25,7 @@ namespace Asuna.Application
         /// </summary>
         public static void SetupCoreManagers(ApplicationRoot root)
         {
+            CoroutineManager = root.CoroutineManager;
             TimerManager = root.TimerManager;
             AssetManager = root.AssetManager;
         }
@@ -50,6 +52,7 @@ namespace Asuna.Application
         public static void ResetCoreManagers()
         {
             ApplicationSetting = null;
+            CoroutineManager = null;
             TimerManager = null;
             AssetManager = null;
         }
@@ -69,6 +72,7 @@ namespace Asuna.Application
 
         public static ApplicationSetting ApplicationSetting;
         public static ApplicationRoot Application;
+        public static CoroutineManager CoroutineManager;
         public static TimerMgr TimerManager;
         public static AssetManager AssetManager;
         public static NetworkManager NetworkManager;

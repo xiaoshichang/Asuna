@@ -1,4 +1,5 @@
-﻿using Asuna.Application;
+﻿using System.Collections;
+using Asuna.Application;
 using Asuna.Entity;
 using Asuna.Timer;
 using Asuna.Utils;
@@ -19,6 +20,7 @@ namespace Demo.LoadScene
         {
             G.UIManager.HidePage(nameof(DemoCaseLoadScenePage));
             G.EntityManager.DestroySpace(_Space);
+            G.EntityManager.DestroyAvatar(_Player);
         }
 
         public override string GetBtnName()
@@ -45,10 +47,18 @@ namespace Demo.LoadScene
         private void _OnLoadFinish(LoadSceneRequest request)
         {
             G.UIManager.ShowPage(nameof(DemoCaseLoadScenePage), null);
+            G.CoroutineManager.StartGlobalCoroutine(_LoadPlayer());
+        }
+
+        private IEnumerator _LoadPlayer()
+        {
+            _Player = G.EntityManager.CreateAvatarEntity();
+            yield return _Player.LoadAsync();
             G.UIManager.ClearFade(0.2f);
         }
 
         private SpaceEntity _Space;
+        private AvatarEntity _Player;
 
     }
 }

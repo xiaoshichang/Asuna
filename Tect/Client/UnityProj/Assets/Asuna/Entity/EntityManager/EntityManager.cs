@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Asuna.Application;
+using Asuna.Application.GM;
 using Asuna.Interface;
 using Asuna.Utils;
 using UnityEngine;
@@ -32,6 +34,21 @@ namespace Asuna.Entity
         public GameObject GetRoot()
         {
             return _Root;
+        }
+
+        [GM("entity.debug", "print entity manager debug info")]
+        public static void DebugInfo()
+        {
+            G.Application.EntityManager._DebugInfo();
+        }
+
+        private void _DebugInfo()
+        {
+            string info = "entity count debug info\n";
+            info += $"entity count: {_Entities.Count}\n";
+            info += $"space count: {_SpaceEntities.Count}\n";
+            info += $"avatar count: {_AvatarEntities.Count}\n";
+            ADebug.Info(info);
         }
 
         private GameObject _Root;

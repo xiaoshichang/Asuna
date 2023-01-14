@@ -8,22 +8,22 @@ namespace Asuna.Entity
     public partial class EntityManager
     {
         
-        public SpaceEntity CreateAvatarEntity()
+        public AvatarEntity CreateAvatarEntity()
         {
-            var space = new SpaceEntity();
-            space.Init();
-            _Entities[space.Guid] = space;
-            _SpaceEntities[space.Guid] = space;
-            return space;
+            var avatar = new AvatarEntity();
+            avatar.Init();
+            _Entities[avatar.Guid] = avatar;
+            _AvatarEntities[avatar.Guid] = avatar;
+            return avatar;
         }
 
         public void DestroyAvatar(AvatarEntity avatar)
         {
             ADebug.Assert(_Entities.ContainsKey(avatar.Guid));
-            ADebug.Assert(_SpaceEntities.ContainsKey(avatar.Guid));
+            ADebug.Assert(_AvatarEntities.ContainsKey(avatar.Guid));
             
             avatar.Destroy();
-            _SpaceEntities.Remove(avatar.Guid);
+            _AvatarEntities.Remove(avatar.Guid);
             _Entities.Remove(avatar.Guid);
 
         }

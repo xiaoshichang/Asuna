@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections;
 using Asuna.Application;
-using Asuna.Entity.Mono;
 using Asuna.Utils;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -10,6 +8,9 @@ namespace Asuna.Entity
 {
     public abstract class Entity
     {
+        /// <summary>
+        /// 显示在Unity GameObject 上的名称
+        /// </summary>
         protected abstract string GetGameObjectName();
 
         #region Constructor
@@ -24,14 +25,7 @@ namespace Asuna.Entity
         }
         #endregion
 
-        #region Coroutine
-        private void _InitCoroutineManager()
-        {
-            _CoroutineManager = _Root.AddComponent<CoroutineManager>();
-        }
-        protected CoroutineManager _CoroutineManager;
-        #endregion
-       
+        
         public virtual void Init()
         {
             // name
@@ -39,7 +33,6 @@ namespace Asuna.Entity
             // parent
             _Root.transform.SetParent(G.Application.EntityManager.GetRoot().transform);
 
-            _InitCoroutineManager();
         }
 
         public virtual void Destroy()

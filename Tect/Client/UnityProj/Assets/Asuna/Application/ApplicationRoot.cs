@@ -50,6 +50,7 @@ namespace Asuna.Application
             G.SetupConfig(this);
             
             _InitLogManager();
+            _InitCoroutineManager();
             _InitTimerManager();
             _InitAssetManager();
             G.SetupCoreManagers(this);
@@ -113,6 +114,7 @@ namespace Asuna.Application
             
             _ReleaseAssetManager();
             _ReleaseTimerManager();
+            _ReleaseCoroutineManager();
             G.ResetCoreManagers();
             _State = ApplicationState.Released;
         }

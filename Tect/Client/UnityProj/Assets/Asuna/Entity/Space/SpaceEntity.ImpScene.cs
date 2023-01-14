@@ -66,7 +66,7 @@ namespace Asuna.Entity
             }
 
             _LoadSceneRequest = request;
-            _CoroutineManager.StartCoroutine_(_StartLoadScene());
+            G.CoroutineManager.StartGlobalCoroutine(_StartLoadScene());
         }
 
         private IEnumerator _StartLoadSceneData()
