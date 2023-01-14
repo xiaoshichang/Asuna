@@ -1,5 +1,7 @@
 ﻿using System;
-using UnityEngine;
+using System.Diagnostics;
+using Asuna.Application;
+using Debug = UnityEngine.Debug;
 
 namespace Asuna.Utils
 {
@@ -43,11 +45,13 @@ namespace Asuna.Utils
         /// <summary>
         /// Asset 代表程序员的预期，不符合预期直接抛出异常，避免错误继续
         /// </summary>
+        [Conditional("Asuna_BuildType_Debug")]
         public static void Assert(bool condition, string message)
         {
             Debug.Assert(condition, message);
         }
 
+        [Conditional("Asuna_BuildType_Debug")]
         public static void Assert(bool condition)
         {
             Debug.Assert(condition);
