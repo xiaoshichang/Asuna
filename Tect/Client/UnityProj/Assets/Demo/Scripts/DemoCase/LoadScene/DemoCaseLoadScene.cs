@@ -71,7 +71,7 @@ namespace Demo.LoadScene
 
         private void _InitCamera()
         {
-            G.CameraManager.PushFollowMode(_Player.GetTransform(), new Vector3(10, -10, 10));
+            G.CameraManager.PushFixedMode(new Vector3(10, 0, 10), new Vector3(0, -20, 25));
         }
 
         private void _InitPlayerInput()

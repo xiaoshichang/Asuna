@@ -40,6 +40,16 @@ namespace Asuna.Camera
             PushCameraMode(mode);
         }
 
+        public void PushFixedMode(Vector3 target, Vector3 eyeVector)
+        {
+            var mode = new FixedMode()
+            {
+                Target = target,
+                EyeVector = eyeVector
+            };
+            PushCameraMode(mode);
+        }
+
         public void PopCameraMode()
         {
             if (_CameraModes.Count <= 0)
