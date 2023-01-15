@@ -3,6 +3,7 @@ using Asuna.Camera;
 using Asuna.Coroutine;
 using Asuna.Entity;
 using Asuna.Gameplay;
+using Asuna.Input;
 using Asuna.Network;
 using Asuna.Timer;
 using Asuna.UI;
@@ -24,6 +25,7 @@ namespace Asuna.Application
         /// </summary>
         public static void SetupCoreManagers(ApplicationRoot root)
         {
+            PlayerInputManager = root.PlayerInputManager;
             CoroutineManager = root.CoroutineManager;
             TimerManager = root.TimerManager;
             AssetManager = root.AssetManager;
@@ -51,10 +53,11 @@ namespace Asuna.Application
 
         public static void ResetCoreManagers()
         {
-            ApplicationSetting = null;
-            CoroutineManager = null;
-            TimerManager = null;
             AssetManager = null;
+            TimerManager = null;
+            CoroutineManager = null;
+            PlayerInputManager = null;
+            ApplicationSetting = null;
         }
 
         public static void ResetOtherManagers()
@@ -73,6 +76,7 @@ namespace Asuna.Application
 
         public static ApplicationSetting ApplicationSetting;
         public static ApplicationRoot Application;
+        public static PlayerInputManager PlayerInputManager;
         public static CoroutineManager CoroutineManager;
         public static TimerMgr TimerManager;
         public static AssetManager AssetManager;

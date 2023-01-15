@@ -41,21 +41,21 @@ namespace Asuna.Application
                 GameplayAssemblies = ApplicationSetting.GameplayAssemblies
             };
             var entryType = _SearchGameplayEntry();
-            _GameplayInstance = Activator.CreateInstance(entryType) as GameplayInstance;
-            if (_GameplayInstance == null)
+            GameplayInstance = Activator.CreateInstance(entryType) as GameplayInstance;
+            if (GameplayInstance == null)
             {
                 throw new Exception("cannot create gameplay entry type!");
             }
-            _GameplayInstance.Init(param);
+            GameplayInstance.Init(param);
             ADebug.Info("Init Gameplay Ok!");
         }
 
         private void _ReleaseGameplay()
         {
-            _GameplayInstance.Release();
+            GameplayInstance.Release();
             ADebug.Info("Release Gameplay Ok!");
         }
 
-        private GameplayInstance _GameplayInstance;
+        public GameplayInstance GameplayInstance;
     }
 }

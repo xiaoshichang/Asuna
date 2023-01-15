@@ -24,7 +24,8 @@ namespace Asuna.Gameplay
         {
             _ReleaseGMSystem();
         }
-        
+
+        public abstract void Update(float dt);
         public abstract void EntryGameplay();
         
         

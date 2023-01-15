@@ -26,7 +26,11 @@ namespace Asuna.Entity
             _ModelCmpt.Release();
             base.Destroy();
         }
-        
+
+        public override void Update(float dt)
+        {
+        }
+
         /// <summary>
         /// 异步加载 - 资源部分
         /// </summary>

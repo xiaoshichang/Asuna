@@ -41,6 +41,8 @@ namespace Asuna.Entity
             Object.Destroy(_Root);
         }
 
+        public abstract void Update(float dt);
+
         public GameObject GetRoot()
         {
             return _Root;

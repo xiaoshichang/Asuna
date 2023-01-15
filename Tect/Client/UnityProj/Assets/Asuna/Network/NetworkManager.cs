@@ -145,7 +145,7 @@ namespace Asuna.Network
         #endregion
 
         #region Sync
-        public void Tick(float dt)
+        public void Update(float dt)
         {
             _ProcessEvents();
         }

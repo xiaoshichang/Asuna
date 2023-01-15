@@ -18,7 +18,7 @@ namespace Asuna.Camera
         {
         }
 
-        public void Tick(float dt)
+        public void LateUpdate(float dt)
         {
             _Current?.Tick(dt);
         }
@@ -50,8 +50,12 @@ namespace Asuna.Camera
             _Current = _CameraModes.Last();
             _Current.Leave();
             _CameraModes.Remove(_Current);
-            _Current = _CameraModes.Last();
-            _Current.Enter();
+
+            if (_CameraModes.Count > 0)
+            {
+                _Current = _CameraModes.Last();
+                _Current.Enter();
+            }
         }
 
         public UnityEngine.Camera GetCamera()

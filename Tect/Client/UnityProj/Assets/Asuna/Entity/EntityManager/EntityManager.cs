@@ -31,6 +31,14 @@ namespace Asuna.Entity
             Object.DestroyImmediate(_Root);
         }
 
+        public void Update(float dt)
+        {
+            foreach (var entity in _Entities.Values)
+            {
+                entity.Update(dt);
+            }
+        }
+
         public GameObject GetRoot()
         {
             return _Root;

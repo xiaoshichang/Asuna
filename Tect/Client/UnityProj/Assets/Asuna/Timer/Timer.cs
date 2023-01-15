@@ -94,7 +94,7 @@ namespace Asuna.Timer
             }
         }
 
-        public void Tick(float dt)
+        public void Update(float dt)
         {
             var now = TimeUtils.GetTimeStampInMilliseconds();
             while (true)

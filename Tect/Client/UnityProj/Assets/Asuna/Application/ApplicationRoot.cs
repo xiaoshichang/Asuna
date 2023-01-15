@@ -1,4 +1,5 @@
 using System;
+using Asuna.Gameplay;
 using Asuna.Timer;
 using Asuna.Utils;
 using UnityEngine;
@@ -40,8 +41,11 @@ namespace Asuna.Application
             var dt = Time.deltaTime;
             if (_State == ApplicationState.Running)
             {
-                TimerManager.Tick(dt);
-                NetworkManager.Tick(dt);
+                PlayerInputManager.Update(dt);
+                TimerManager.Update(dt);
+                NetworkManager.Update(dt);
+                EntityManager.Update(dt);
+                GameplayInstance.Update(dt);
             }
 
             if (_State == ApplicationState.Initializing)
@@ -59,7 +63,7 @@ namespace Asuna.Application
             var dt = Time.deltaTime;
             if (_State == ApplicationState.Running)
             {
-                CameraManager.Tick(dt);
+                CameraManager.LateUpdate(dt);
             }
         }
 
@@ -67,7 +71,7 @@ namespace Asuna.Application
         private void _EnterGameplay()
         {
             //NetworkMgr.ConnectToAsync("127.0.0.1", 50001, OnConnected);
-            _GameplayInstance.EntryGameplay();
+            GameplayInstance.EntryGameplay();
         }
 
         private void _CheckConfig()
@@ -103,7 +107,7 @@ namespace Asuna.Application
             G.SetupOtherManagers(this);
             
             _InitGameplay();
-            G.SetupGameplay(_GameplayInstance);
+            G.SetupGameplay(GameplayInstance);
             
             _EnterGameplay();
         }

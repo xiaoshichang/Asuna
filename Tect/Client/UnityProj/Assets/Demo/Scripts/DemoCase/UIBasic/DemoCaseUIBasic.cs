@@ -16,6 +16,11 @@ namespace Demo.UIBasic
             G.UIManager.HidePage(nameof(DemoCaseUIBasicPage));
         }
 
+        public override void Tick(float dt)
+        {
+            
+        }
+
         public override string GetBtnName()
         {
             return "UI Basic";

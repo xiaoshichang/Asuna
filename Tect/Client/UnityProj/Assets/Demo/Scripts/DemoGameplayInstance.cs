@@ -9,6 +9,11 @@ namespace Demo
 {
     public class DemoGameplayInstance : GameplayInstance
     {
+        public override void Update(float dt)
+        {
+            _CurrentRunningDemo?.Tick(dt);
+        }
+
         public override void EntryGameplay()
         {
             _CollectAllDemos();

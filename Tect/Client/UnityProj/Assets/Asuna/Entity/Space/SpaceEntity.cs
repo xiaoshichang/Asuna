@@ -18,5 +18,9 @@
             _ReleaseAllAssets();
             base.Destroy();
         }
+
+        public override void Update(float dt)
+        {
+        }
     }
 }
