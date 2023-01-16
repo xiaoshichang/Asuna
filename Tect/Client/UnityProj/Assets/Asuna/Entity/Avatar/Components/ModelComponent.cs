@@ -17,6 +17,10 @@ namespace Asuna.Entity
         public override void Release()
         {
             _AvatarData = null;
+            if (_AssetRequest != null)
+            {
+                G.AssetManager.ReleaseAsset(_AssetRequest);
+            }
         }
 
         public IEnumerator LoadModelAsync()

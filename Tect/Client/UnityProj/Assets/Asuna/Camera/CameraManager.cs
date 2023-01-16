@@ -8,74 +8,52 @@ namespace Asuna.Camera
 {
     public class CameraManager : IManager
     {
+        private void _InitMainCamera()
+        {
+            var mainCamera = GameObject.Find("Cameras/Main Camera").GetComponent<UnityEngine.Camera>();
+            var runningCamera = new RunningCamera();
+            runningCamera.Init(mainCamera);
+            _RunningCameras.Add(runningCamera);
+        }
+        
         public void Init(object param)
         {
-            _Camera = GameObject.Find("Main Camera").GetComponent<UnityEngine.Camera>();
-            ADebug.Assert(_Camera != null);
+            _InitMainCamera();
+            ADebug.Assert(_RunningCameras.Count == 1);
         }
 
         public void Release()
         {
+            foreach (var runningCamera in _RunningCameras)
+            {
+                runningCamera.Release();
+            }
+            _RunningCameras.Clear();
         }
 
         public void LateUpdate(float dt)
         {
-            _Current?.Tick(dt);
-        }
-
-        public void PushCameraMode(CameraMode mode)
-        {
-            _Current = mode;
-            _CameraModes.Add(mode);
-            _Current.Enter();
-        }
-
-        public void PushFollowMode(Transform target, Vector3 eyeVector)
-        {
-            var mode = new FollowMode()
+            foreach (var runningCamera in _RunningCameras)
             {
-                Target = target,
-                EyeVector = eyeVector
-            };
-            PushCameraMode(mode);
-        }
-
-        public void PushFixedMode(Vector3 target, Vector3 eyeVector)
-        {
-            var mode = new FixedMode()
-            {
-                Target = target,
-                EyeVector = eyeVector
-            };
-            PushCameraMode(mode);
-        }
-
-        public void PopCameraMode()
-        {
-            if (_CameraModes.Count <= 0)
-            {
-                ADebug.Warning("empty");
-                return;
-            }
-            _Current = _CameraModes.Last();
-            _Current.Leave();
-            _CameraModes.Remove(_Current);
-
-            if (_CameraModes.Count > 0)
-            {
-                _Current = _CameraModes.Last();
-                _Current.Enter();
+                runningCamera.Tick(dt);
             }
         }
 
-        public UnityEngine.Camera GetCamera()
+        public RunningCamera GetMainCamera()
         {
-            return _Camera;
+            return GetRunningCamera(0);
         }
 
-        private UnityEngine.Camera _Camera;
-        private CameraMode _Current;
-        private readonly List<CameraMode> _CameraModes = new List<CameraMode>();
+        public RunningCamera GetRunningCamera(int index)
+        {
+            if (_RunningCameras.Count <= index)
+            {
+                return null;
+            }
+            return _RunningCameras[index];
+        }
+
+        private readonly List<RunningCamera> _RunningCameras = new();
 
     }
 }

@@ -1,16 +1,18 @@
-﻿
-using Asuna.Application;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Asuna.Camera
 {
     public class FixedMode : CameraMode
     {
+        public FixedMode(UnityEngine.Camera camera) : base(camera)
+        {
+        }
+        
         public override void Enter()
         {
-            var camera = G.CameraManager.GetCamera();
-            camera.transform.position = Target - EyeVector;
-            camera.transform.forward = EyeVector;
+            var transform = _Camera.transform;
+            transform.position = Target - EyeVector;
+            transform.forward = EyeVector;
         }
 
         public override void Tick(float dt)
@@ -23,5 +25,7 @@ namespace Asuna.Camera
         
         public Vector3 Target;
         public Vector3 EyeVector;
+
+        
     }
 }

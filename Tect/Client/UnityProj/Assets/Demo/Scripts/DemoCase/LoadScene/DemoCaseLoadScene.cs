@@ -19,7 +19,7 @@ namespace Demo.LoadScene
 
         public override void ReleaseDemo()
         {
-            G.CameraManager.PopCameraMode();
+            G.CameraManager.GetMainCamera().PopCameraMode();
             G.UIManager.HidePage(nameof(DemoCaseLoadScenePage));
             G.EntityManager.DestroySpace(_Space);
             G.EntityManager.DestroyAvatar(_Player);
@@ -71,7 +71,7 @@ namespace Demo.LoadScene
 
         private void _InitCamera()
         {
-            G.CameraManager.PushFixedMode(new Vector3(10, 0, 10), new Vector3(0, -20, 25));
+            G.CameraManager.GetMainCamera().PushFixedMode(new Vector3(10, 0, 10), new Vector3(0, -20, 25));
         }
 
         private void _InitPlayerInput()
