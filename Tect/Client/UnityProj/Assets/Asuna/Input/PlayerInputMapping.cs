@@ -5,6 +5,7 @@ namespace Asuna.Input
 {
     /// <summary>
     /// 代表和管理一个玩家的输入
+    /// 包括多个设备，以及每个输入代表的逻辑意义
     /// </summary>
     public class PlayerInputMapping
     {
@@ -15,7 +16,7 @@ namespace Asuna.Input
 
             if (_Device != null)
             {
-                _ActionSet.Device = _Device;
+                _ActionSet.Device = _Device;    // 指定这个ActionSet的输入源
             }
         }
 

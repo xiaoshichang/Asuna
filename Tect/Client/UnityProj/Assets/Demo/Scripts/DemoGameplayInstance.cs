@@ -28,7 +28,7 @@ namespace Demo
             }
 
             _CurrentRunningDemo = _AllDemos[demoBtn];
-            ADebug.Info($"enter demo: {_CurrentRunningDemo.GetBtnName()}");
+            ADebug.Info($"enter demo: {_CurrentRunningDemo.GetDemoName()}");
             _CurrentRunningDemo.InitDemo();
 
         }
@@ -39,7 +39,7 @@ namespace Demo
             {
                 return;
             }
-            ADebug.Info($"exit current demo: {_CurrentRunningDemo.GetBtnName()}");
+            ADebug.Info($"exit current demo: {_CurrentRunningDemo.GetDemoName()}");
             _CurrentRunningDemo.ReleaseDemo();
             _CurrentRunningDemo = null;
         }
@@ -57,7 +57,7 @@ namespace Demo
                         ADebug.Warning("unknown error");
                         continue;
                     }
-                    _AllDemos[demo.GetBtnName()] = demo;
+                    _AllDemos[demo.GetDemoName()] = demo;
                 }
             }
             ADebug.Info($"{_AllDemos.Count} DemoCase found!");

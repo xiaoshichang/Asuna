@@ -86,7 +86,7 @@ namespace Asuna.Entity
                 var sceneItemHandler = G.AssetManager.LoadAsset<GameObject>(item.Asset);
                 yield return sceneItemHandler.AsyncOperation;
                 _AllLoadedAssets.Add(sceneItemHandler);
-                var go = Object.Instantiate(sceneItemHandler.Asset, _Root.transform);
+                var go = Object.Instantiate(sceneItemHandler.Asset, _RootGO.transform);
                 var sceneItem = go.GetComponent<SceneItem>();
                 _AllLoadedSceneItems.Add(sceneItem);
                 go.transform.position = item.P;

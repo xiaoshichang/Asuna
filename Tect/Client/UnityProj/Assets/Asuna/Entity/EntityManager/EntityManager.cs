@@ -39,6 +39,14 @@ namespace Asuna.Entity
             }
         }
 
+        public void LateUpdate(float dt)
+        {
+            foreach (var entity in _Entities.Values)
+            {
+                entity.LateUpdate(dt);
+            }
+        }
+
         public GameObject GetRoot()
         {
             return _Root;

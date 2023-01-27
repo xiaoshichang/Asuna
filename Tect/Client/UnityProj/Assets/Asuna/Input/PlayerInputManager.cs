@@ -111,6 +111,9 @@ namespace Asuna.Input
 
         #region Player Input
 
+        /// <summary>
+        /// 设置输入映射关系
+        /// </summary>
         public void SetupPlayerInputMapping(PlayerType playerType, PlayerInputMapping mapping)
         {
             ADebug.Assert(playerType != PlayerType.Count);
@@ -118,6 +121,9 @@ namespace Asuna.Input
             _AllPlayersInputMapping[playerType] = mapping;
         }
 
+        /// <summary>
+        /// 移除所有输入映射关系
+        /// </summary>
         private void _RemoveAllPlayerInputMapping()
         {
             foreach (var playerType in _AllPlayersInputMapping.Keys)
@@ -127,6 +133,9 @@ namespace Asuna.Input
             _AllPlayersInputMapping.Clear();
         }
         
+        /// <summary>
+        /// 移除出入映射关系
+        /// </summary>
         public void RemovePlayerInputMapping(PlayerType playerType)
         {
             ADebug.Assert(playerType != PlayerType.Count);
@@ -135,6 +144,9 @@ namespace Asuna.Input
             mapping.Release();
         }
 
+        /// <summary>
+        /// 获取输入映射关系
+        /// </summary>
         public PlayerInputMapping GetMapping(PlayerType playerType)
         {
             if (_AllPlayersInputMapping.TryGetValue(playerType, out var mapping))

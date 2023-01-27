@@ -7,37 +7,37 @@ namespace Asuna.Entity
     {
         public void SetPosition(Vector3 position)
         {
-            _Root.transform.position = position;
+            _RootGO.transform.position = position;
         }
 
         public Vector3 GetPosition()
         {
-            return _Root.transform.position;
+            return _RootGO.transform.position;
         }
 
         public void SetRotation(Quaternion rotation)
         {
-            _Root.transform.rotation = rotation;
+            _RootGO.transform.rotation = rotation;
         }
 
         public Quaternion GetRotation()
         {
-            return _Root.transform.rotation;
+            return _RootGO.transform.rotation;
         }
 
         public void SetScale(Vector3 scale)
         {
-            _Root.transform.localScale = scale;
+            _RootGO.transform.localScale = scale;
         }
 
         public Vector3 GetScale()
         {
-            return _Root.transform.localScale;
+            return _RootGO.transform.localScale;
         }
 
         public Transform GetTransform()
         {
-            return _Root.transform;
+            return _RootGO.transform;
         }
     }
 }

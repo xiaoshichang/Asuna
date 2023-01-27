@@ -63,6 +63,7 @@ namespace Asuna.Application
             var dt = Time.deltaTime;
             if (_State == ApplicationState.Running)
             {
+                EntityManager.LateUpdate(dt);
                 CameraManager.LateUpdate(dt);
             }
         }

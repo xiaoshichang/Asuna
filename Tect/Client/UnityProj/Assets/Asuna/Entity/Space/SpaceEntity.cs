@@ -22,5 +22,9 @@
         public override void Update(float dt)
         {
         }
+
+        public override void LateUpdate(float dt)
+        {
+        }
     }
 }

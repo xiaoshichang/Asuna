@@ -29,28 +29,29 @@ namespace Asuna.Entity
         public virtual void Init(object param)
         {
             // name
-            _Root = new GameObject(GetGameObjectName());
+            _RootGO = new GameObject(GetGameObjectName());
             // parent
-            _Root.transform.SetParent(G.Application.EntityManager.GetRoot().transform);
+            _RootGO.transform.SetParent(G.Application.EntityManager.GetRoot().transform);
 
         }
 
         public virtual void Destroy()
         {
-            ADebug.Assert(_Root != null);
-            Object.Destroy(_Root);
+            ADebug.Assert(_RootGO is not null);
+            Object.Destroy(_RootGO);
         }
 
         public abstract void Update(float dt);
+        public abstract void LateUpdate(float dt);
 
-        public GameObject GetRoot()
+        public GameObject GetRootGO()
         {
-            return _Root;
+            return _RootGO;
         }
 
         
         public Guid Guid;
-        protected GameObject _Root;
+        protected GameObject _RootGO;
 
     }
 }

@@ -13,43 +13,25 @@ namespace Demo.LoadScene
     {
         public override void InitDemo()
         {
-            ADebug.Info("Init DemoCaseLoadScene");
-            _StartScreenFade();
+            G.CameraManager.GetMainCamera().PushFixedMode(new Vector3(10, 0, 10), new Vector3(0, -20, 25));
+            G.UIManager.ScreenFadeTo(Color.black, 0.2f, _OnFadeFinish);
         }
 
         public override void ReleaseDemo()
         {
-            G.CameraManager.GetMainCamera().PopCameraMode();
             G.UIManager.HidePage(nameof(DemoCaseLoadScenePage));
             G.EntityManager.DestroySpace(_Space);
-            G.EntityManager.DestroyAvatar(_Player);
-            G.PlayerInputManager.RemovePlayerInputMapping(PlayerType.Player1);
+            G.EntityManager.DestroyAvatar(_MainPlayer);
+            G.CameraManager.GetMainCamera().PopCameraMode();
         }
 
         public override void Tick(float dt)
         {
-            if (_ActionSet != null)
-            {
-                if (_ActionSet.Fire.IsPressed)
-                {
-                    ADebug.Info($"fire is pressed!");
-                }
-
-                if (_ActionSet.Jump.IsPressed)
-                {
-                    ADebug.Info("jump is pressed!");
-                }
-            }
         }
 
-        public override string GetBtnName()
+        public override string GetDemoName()
         {
             return "Load Scene";
-        }
-
-        private void _StartScreenFade()
-        {
-            G.UIManager.ScreenFadeTo(Color.black, 0.2f, _OnFadeFinish);
         }
 
         private void _OnFadeFinish()
@@ -58,55 +40,43 @@ namespace Demo.LoadScene
             var request = new LoadSceneRequest()
             {
                 ScenePath = "Assets/Demo/Res/SceneData/Demo.asset",
-                OnSceneLoaded = _OnLoadFinish
+                OnSceneLoaded = _OnSceneLoadFinish
             };
             _Space.LoadScene(request);
         }
 
-        private void _OnLoadFinish(LoadSceneRequest request)
+        private void _OnSceneLoadFinish(LoadSceneRequest request)
         {
             G.UIManager.ShowPage(nameof(DemoCaseLoadScenePage), null);
             G.CoroutineManager.StartGlobalCoroutine(_LoadPlayer());
         }
 
-        private void _InitCamera()
-        {
-            G.CameraManager.GetMainCamera().PushFixedMode(new Vector3(10, 0, 10), new Vector3(0, -20, 25));
-        }
-
-        private void _InitPlayerInput()
-        {
-            var device = G.PlayerInputManager.GetAvailableDevice();
-            if (device == null)
-            {
-                ADebug.Warning("no available device found!");
-                return;
-            }
-            var actionSet = new DefaultPlayerActionSet();
-            var mapping = new PlayerInputMapping(device, actionSet);
-            G.PlayerInputManager.SetupPlayerInputMapping(PlayerType.Player1, mapping);
-
-            _ActionSet = mapping.GetActionSet() as DefaultPlayerActionSet;
-        }
-
         private IEnumerator _LoadPlayer()
         {
-            var avatarData = new AvatarData()
+            var avatarInitParam = new AvatarInitParam
             {
-                ModelAsset = "Assets/Demo/Res/Character/Capsule.prefab"
+                ModelComponentInitParam =
+                {
+                    ModelAssetPath = "Assets/Demo/Res/Character/Capsule.prefab"
+                },
+                CharacterControllerComponentInitParam =
+                {
+                    ControllerMode = ControllerMode.NativeAnimator
+                },
+                PlayerInputComponentInitParam =
+                {
+                    PlayerInputCandidate = true
+                }
             };
-            
-            _Player = G.EntityManager.CreateAvatarEntity(avatarData);
-            _InitPlayerInput();
-            _InitCamera();
-            yield return _Player.LoadAsync();
-            _Player.SetPosition(new Vector3(2, 0, -2));
+
+            _MainPlayer = G.EntityManager.CreateAvatarEntity(avatarInitParam);
+            yield return _MainPlayer.LoadAsync();
+            _MainPlayer.SetPosition(new Vector3(2, 0, -2));
             G.UIManager.ClearFade(0.2f);
         }
 
-        private DefaultPlayerActionSet _ActionSet;
-        private SpaceEntity _Space;
-        private AvatarEntity _Player;
+        protected SpaceEntity _Space;
+        protected AvatarEntity _MainPlayer;
 
     }
 }

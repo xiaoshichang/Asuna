@@ -7,7 +7,6 @@ namespace Demo.UIBasic
     {
         public override void InitDemo()
         {
-            ADebug.Info("Init DemoCaseUIBasic");
             G.UIManager.ShowPage(nameof(DemoCaseUIBasicPage), null);
         }
 
@@ -21,7 +20,7 @@ namespace Demo.UIBasic
             
         }
 
-        public override string GetBtnName()
+        public override string GetDemoName()
         {
             return "UI Basic";
         }

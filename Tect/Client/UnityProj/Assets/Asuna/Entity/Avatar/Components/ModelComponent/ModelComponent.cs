@@ -6,34 +6,40 @@ using UnityEngine;
 
 namespace Asuna.Entity
 {
+    public class ModelComponentInitParam
+    {
+        public string ModelAssetPath;
+    }
+    
+    
     public class ModelComponent : Component
     {
         public override void Init(Entity owner, object param)
         {
-            _Owner = owner;
-            _AvatarData = param as AvatarData;
+            _Owner = owner as AvatarEntity;
+            _InitParam = param as ModelComponentInitParam;
+            ADebug.Assert(_Owner != null);
         }
 
         public override void Release()
         {
-            _AvatarData = null;
             if (_AssetRequest != null)
             {
                 G.AssetManager.ReleaseAsset(_AssetRequest);
             }
         }
-
+        
         public IEnumerator LoadModelAsync()
         {
             ADebug.Assert(_AssetRequest == null);
-            _AssetRequest = G.AssetManager.LoadAsset<GameObject>(_AvatarData.ModelAsset);
+            _AssetRequest = G.AssetManager.LoadAsset<GameObject>(_Owner.AvatarInitParam.ModelComponentInitParam.ModelAssetPath);
             yield return _AssetRequest.AsyncOperation;
-            _Model = Object.Instantiate(_AssetRequest.Asset, _Owner.GetRoot().transform);
+            _Model = Object.Instantiate(_AssetRequest.Asset, _Owner.GetRootGO().transform);
             _Model.name = "Model";
         }
 
-        private Entity _Owner;
-        private AvatarData _AvatarData;
+        private AvatarEntity _Owner;
+        private ModelComponentInitParam _InitParam;
         private AssetRequestHandler<GameObject> _AssetRequest;
         private GameObject _Model;
     }
