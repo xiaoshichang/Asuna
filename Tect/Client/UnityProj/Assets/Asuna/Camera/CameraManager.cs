@@ -11,49 +11,52 @@ namespace Asuna.Camera
         private void _InitMainCamera()
         {
             var mainCamera = GameObject.Find("Cameras/Main Camera").GetComponent<UnityEngine.Camera>();
-            var runningCamera = new RunningCamera();
-            runningCamera.Init(mainCamera);
-            _RunningCameras.Add(runningCamera);
+            var playerCamera = new PlayerCamera();
+            playerCamera.Init(mainCamera);
+            _PlayerCameras.Add(playerCamera);
         }
         
         public void Init(object param)
         {
             _InitMainCamera();
-            ADebug.Assert(_RunningCameras.Count == 1);
+            ADebug.Assert(_PlayerCameras.Count == 1);
         }
 
         public void Release()
         {
-            foreach (var runningCamera in _RunningCameras)
+            foreach (var runningCamera in _PlayerCameras)
             {
                 runningCamera.Release();
             }
-            _RunningCameras.Clear();
+            _PlayerCameras.Clear();
         }
 
         public void LateUpdate(float dt)
         {
-            foreach (var runningCamera in _RunningCameras)
+            foreach (var runningCamera in _PlayerCameras)
             {
                 runningCamera.Tick(dt);
             }
         }
 
-        public RunningCamera GetMainCamera()
+        public PlayerCamera GetMainCamera()
         {
-            return GetRunningCamera(0);
+            return GetPlayerCamera(0);
         }
 
-        public RunningCamera GetRunningCamera(int index)
+        /// <summary>
+        /// Get PlayerCamera by player index.
+        /// </summary>
+        public PlayerCamera GetPlayerCamera(int index)
         {
-            if (_RunningCameras.Count <= index)
+            if (_PlayerCameras.Count <= index)
             {
                 return null;
             }
-            return _RunningCameras[index];
+            return _PlayerCameras[index];
         }
 
-        private readonly List<RunningCamera> _RunningCameras = new();
+        private readonly List<PlayerCamera> _PlayerCameras = new();
 
     }
 }

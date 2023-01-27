@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Asuna.Camera
 {
-    public class RunningCamera
+    public class PlayerCamera
     {
         public void Init(UnityEngine.Camera camera)
         {
