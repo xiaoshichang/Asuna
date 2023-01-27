@@ -23,7 +23,7 @@ namespace Asuna.Entity
 
         private void _InitModelComponent()
         {
-            ModelComponent.Init(this, AvatarInitParam);
+            ModelComponent.Init(this, AvatarInitParam.ModelComponentInitParam);
         }
 
         private void _InitPlayerInputComponent()
@@ -31,25 +31,27 @@ namespace Asuna.Entity
             if (AvatarInitParam.PlayerInputComponentInitParam.PlayerInputCandidate)
             {
                 PlayerInputComponent = new PlayerInputComponent();
-                PlayerInputComponent.Init(this, AvatarInitParam);
+                PlayerInputComponent.Init(this, AvatarInitParam.PlayerInputComponentInitParam);
             }
         }
 
         private void _InitAnimatorComponent()
         {
+            var initParam = AvatarInitParam.CharacterControllerComponentInitParam;
             var mode = AvatarInitParam.CharacterControllerComponentInitParam.ControllerMode;
+
             if (mode == ControllerMode.None)
             {
             }
             else if (mode == ControllerMode.NativeAnimator)
             {
                 CharacterControllerComponent = new AnimatorCharacterControllerComponent();
-                CharacterControllerComponent.Init(this, AvatarInitParam);
+                CharacterControllerComponent.Init(this, initParam);
             }
             else if (mode == ControllerMode.SimpleFSM)
             {
                 CharacterControllerComponent = new SimpleFSMCharacterControllerComponent();
-                CharacterControllerComponent.Init(this, AvatarInitParam);
+                CharacterControllerComponent.Init(this, initParam);
             }
         }
         

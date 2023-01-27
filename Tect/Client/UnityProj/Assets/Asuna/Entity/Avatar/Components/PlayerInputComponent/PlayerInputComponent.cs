@@ -15,7 +15,9 @@ namespace Asuna.Entity
         public override void Init(Entity owner, object param)
         {
             _Owner = owner as AvatarEntity;
+            _PlayerInputComponentInitParam = param as PlayerInputComponentInitParam;
             ADebug.Assert(_Owner != null);
+            ADebug.Assert(_PlayerInputComponentInitParam != null);
         }
 
         public override void Release()
@@ -44,6 +46,7 @@ namespace Asuna.Entity
             _CurrentMapping = null;
         }
 
+        private PlayerInputComponentInitParam _PlayerInputComponentInitParam;
         private PlayerInputMapping _CurrentMapping;
         private AvatarEntity _Owner;
     }

@@ -19,6 +19,7 @@ namespace Asuna.Entity
             _Owner = owner as AvatarEntity;
             _InitParam = param as ModelComponentInitParam;
             ADebug.Assert(_Owner != null);
+            ADebug.Assert(_InitParam != null);
         }
 
         public override void Release()
@@ -32,7 +33,7 @@ namespace Asuna.Entity
         public IEnumerator LoadModelAsync()
         {
             ADebug.Assert(_AssetRequest == null);
-            _AssetRequest = G.AssetManager.LoadAsset<GameObject>(_Owner.AvatarInitParam.ModelComponentInitParam.ModelAssetPath);
+            _AssetRequest = G.AssetManager.LoadAsset<GameObject>(_InitParam.ModelAssetPath);
             yield return _AssetRequest.AsyncOperation;
             _Model = Object.Instantiate(_AssetRequest.Asset, _Owner.GetRootGO().transform);
             _Model.name = "Model";

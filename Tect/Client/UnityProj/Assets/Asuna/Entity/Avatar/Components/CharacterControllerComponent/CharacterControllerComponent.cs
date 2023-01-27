@@ -22,6 +22,7 @@ namespace Asuna.Entity
             _Owner = owner as AvatarEntity;
             _InitParam = param as CharacterControllerComponentInitParam;
             ADebug.Assert(_Owner != null);
+            ADebug.Assert(_InitParam != null);
         }
 
         public override void Release()

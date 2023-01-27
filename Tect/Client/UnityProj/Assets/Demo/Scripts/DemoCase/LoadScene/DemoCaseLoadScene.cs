@@ -1,10 +1,6 @@
 ﻿using System.Collections;
 using Asuna.Application;
 using Asuna.Entity;
-using Asuna.Input;
-using Asuna.Timer;
-using Asuna.Utils;
-using Demo.UIBasic;
 using UnityEngine;
 
 namespace Demo.LoadScene
