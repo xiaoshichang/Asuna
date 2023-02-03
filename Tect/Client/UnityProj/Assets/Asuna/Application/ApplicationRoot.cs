@@ -64,7 +64,6 @@ namespace Asuna.Application
             if (_State == ApplicationState.Running)
             {
                 EntityManager.LateUpdate(dt);
-                CameraManager.LateUpdate(dt);
             }
         }
 
@@ -101,7 +100,6 @@ namespace Asuna.Application
             _InitAssetManager();
             G.SetupCoreManagers(this);
             
-            _InitCameraManager();
             _InitNetwork();
             _InitUIManager();
             _InitEntityManager();
@@ -127,7 +125,6 @@ namespace Asuna.Application
             _ReleaseEntityManager();
             _ReleaseUIManager();
             _ReleaseNetworkManager();
-            _ReleaseCameraManager();
             G.ResetOtherManagers();
             
             _ReleaseAssetManager();

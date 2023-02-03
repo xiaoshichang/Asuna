@@ -9,7 +9,7 @@ namespace Demo.LoadScene
     {
         public override void InitDemo()
         {
-            G.CameraManager.GetMainCamera().PushFixedMode(new Vector3(10, 0, 10), new Vector3(0, -20, 25));
+            G.GameplayInstance.CameraSystem.GetMainCamera().PushFixedMode(new Vector3(10, 0, 10), new Vector3(0, -20, 25));
             G.UIManager.ScreenFadeTo(Color.black, 0.2f, _OnFadeFinish);
         }
 
@@ -18,7 +18,7 @@ namespace Demo.LoadScene
             G.UIManager.HidePage(nameof(DemoCaseLoadScenePage));
             G.EntityManager.DestroySpace(_Space);
             G.EntityManager.DestroyAvatar(_MainPlayer);
-            G.CameraManager.GetMainCamera().PopCameraMode();
+            G.GameplayInstance.CameraSystem.GetMainCamera().PopCameraMode();
         }
 
         public override void Tick(float dt)

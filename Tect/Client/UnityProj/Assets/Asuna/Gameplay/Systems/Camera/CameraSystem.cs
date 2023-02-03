@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Asuna.Camera
 {
-    public class CameraManager : IManager
+    public class CameraSystem : ISystem
     {
         private void _InitMainCamera()
         {
