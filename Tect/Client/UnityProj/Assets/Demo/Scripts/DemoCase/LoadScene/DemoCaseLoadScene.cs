@@ -57,18 +57,19 @@ namespace Demo.LoadScene
                 },
                 CharacterControllerComponentInitParam =
                 {
-                    ControllerMode = ControllerMode.NativeAnimator
-                },
-                PlayerInputComponentInitParam =
-                {
-                    PlayerInputCandidate = true
+                    ControllerType = ControllerType.NativeAnimator
                 }
             };
 
             _MainPlayer = G.EntityManager.CreateAvatarEntity(avatarInitParam);
             yield return _MainPlayer.LoadAsync();
+            _OnPlayerLoaded();
             _MainPlayer.SetPosition(new Vector3(2, 0, -2));
             G.UIManager.ClearFade(0.2f);
+        }
+
+        protected virtual void _OnPlayerLoaded()
+        {
         }
 
         protected SpaceEntity _Space;

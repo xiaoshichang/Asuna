@@ -10,7 +10,6 @@ namespace Asuna.Entity
     {
         public readonly ModelComponentInitParam ModelComponentInitParam = new ();
         public readonly CharacterControllerComponentInitParam CharacterControllerComponentInitParam = new ();
-        public readonly PlayerInputComponentInitParam PlayerInputComponentInitParam = new ();
     }
     
     
@@ -26,29 +25,20 @@ namespace Asuna.Entity
             ModelComponent.Init(this, AvatarInitParam.ModelComponentInitParam);
         }
 
-        private void _InitPlayerInputComponent()
-        {
-            if (AvatarInitParam.PlayerInputComponentInitParam.PlayerInputCandidate)
-            {
-                PlayerInputComponent = new PlayerInputComponent();
-                PlayerInputComponent.Init(this, AvatarInitParam.PlayerInputComponentInitParam);
-            }
-        }
-
         private void _InitAnimatorComponent()
         {
             var initParam = AvatarInitParam.CharacterControllerComponentInitParam;
-            var mode = AvatarInitParam.CharacterControllerComponentInitParam.ControllerMode;
+            var mode = AvatarInitParam.CharacterControllerComponentInitParam.ControllerType;
 
-            if (mode == ControllerMode.None)
+            if (mode == ControllerType.None)
             {
             }
-            else if (mode == ControllerMode.NativeAnimator)
+            else if (mode == ControllerType.NativeAnimator)
             {
                 CharacterControllerComponent = new AnimatorCharacterControllerComponent();
                 CharacterControllerComponent.Init(this, initParam);
             }
-            else if (mode == ControllerMode.SimpleFSM)
+            else if (mode == ControllerType.SimpleFSM)
             {
                 CharacterControllerComponent = new SimpleFSMCharacterControllerComponent();
                 CharacterControllerComponent.Init(this, initParam);
@@ -63,7 +53,6 @@ namespace Asuna.Entity
             base.Init(null);
             AvatarInitParam = param as AvatarInitParam;
             _InitModelComponent();
-            _InitPlayerInputComponent();
             _InitAnimatorComponent();
            
         }
@@ -71,14 +60,13 @@ namespace Asuna.Entity
         public override void Destroy()
         {
             CharacterControllerComponent?.Release();
-            PlayerInputComponent?.Release();
             ModelComponent.Release();
             base.Destroy();
         }
 
         public override void Update(float dt)
         {
-            PlayerInputComponent?.Update(dt);
+            CharacterControllerComponent?.Update(dt);
         }
 
         public override void LateUpdate(float dt)
@@ -100,10 +88,19 @@ namespace Asuna.Entity
             CharacterControllerComponent?.AfterModelLoaded();
         }
 
+        public void OnBindToPlayerInput(PlayerType player)
+        {
+            CharacterControllerComponent?.OnBindToPlayerInput(player);   
+        }
+
+        public void OnUnbindFromPlayerInput()
+        {
+            CharacterControllerComponent?.OnUnbindFromPlayerInput();
+        }
+
 
         public AvatarInitParam AvatarInitParam;
         public readonly ModelComponent ModelComponent = new();
-        public PlayerInputComponent PlayerInputComponent;
         public CharacterControllerComponent CharacterControllerComponent;
 
 

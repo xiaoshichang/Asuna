@@ -5,7 +5,7 @@ namespace Asuna.Input
 {
     /// <summary>
     /// 代表和管理一个玩家的输入
-    /// 包括多个设备，以及每个输入代表的逻辑意义
+    /// 可能包括多个输入设备，以及每个输入设备上各个输入行为代表的逻辑意义
     /// </summary>
     public class PlayerInputMapping
     {
@@ -35,7 +35,14 @@ namespace Asuna.Input
             return _ActionSet;
         }
 
+        /// <summary>
+        /// 相关的输入设备
+        /// </summary>
         private readonly InputDevice _Device;
+        
+        /// <summary>
+        /// 相关的输入行为
+        /// </summary>
         private readonly PlayerActionSet _ActionSet;
 
 

@@ -18,10 +18,12 @@ namespace Asuna.Gameplay
         public virtual void Init(GameplayInitParam param)
         {
             _InitGMSystem(param);
+            _InitInputMappingSystem();
         }
 
         public virtual void Release()
         {
+            _ReleaseInputMappingSystem();
             _ReleaseGMSystem();
         }
 

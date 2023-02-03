@@ -10,11 +10,11 @@ namespace Asuna.Input
     /// </summary>
     public enum PlayerType
     {
-        Player1 = 0,
+        None  = 0,
+        Player1,
         Player2,
         Player3,
         Player4,
-        Count
     }
     
     /// <summary>
@@ -116,7 +116,7 @@ namespace Asuna.Input
         /// </summary>
         public void SetupPlayerInputMapping(PlayerType playerType, PlayerInputMapping mapping)
         {
-            ADebug.Assert(playerType != PlayerType.Count);
+            ADebug.Assert(playerType != PlayerType.None);
             ADebug.Assert(!_AllPlayersInputMapping.ContainsKey(playerType));
             _AllPlayersInputMapping[playerType] = mapping;
         }
@@ -138,7 +138,7 @@ namespace Asuna.Input
         /// </summary>
         public void RemovePlayerInputMapping(PlayerType playerType)
         {
-            ADebug.Assert(playerType != PlayerType.Count);
+            ADebug.Assert(playerType != PlayerType.None);
             ADebug.Assert(_AllPlayersInputMapping.ContainsKey(playerType));
             _AllPlayersInputMapping.Remove(playerType, out var mapping);
             mapping.Release();
