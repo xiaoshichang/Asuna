@@ -14,6 +14,7 @@ namespace Demo.LoadScene
 
         public override void ReleaseDemo()
         {
+            G.GameplayInstance.InputMappingSystem.UnBindPlayerInputByPlayerType(PlayerType.Player1);
             _ReleaseMainPlayerInput();
             base.ReleaseDemo();
         }

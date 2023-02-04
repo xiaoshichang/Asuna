@@ -1,6 +1,7 @@
 ﻿using System;
 using Asuna.Application;
 using Asuna.Input;
+using Asuna.Math;
 using Asuna.Utils;
 using InControl;
 using UnityEngine;
@@ -89,8 +90,16 @@ namespace Asuna.Entity
         {
             if (_InputData.IsMoving)
             {
-                var rotation = Quaternion.LookRotation(_InputData.NormalizeMoveDirection, Vector3.up);
-                _Owner.SetRotation(rotation);
+                // 当前的yaw
+                var curYawAngle = _Owner.GetRotation().eulerAngles.y;
+                // 目标的yaw
+                var targetYawAngle = Quaternion.LookRotation(_InputData.NormalizeMoveDirection.ToX0Z(), Vector3.up).eulerAngles.y;
+                // 差值可正负，绝对值小于180
+                var diff = Mathf.DeltaAngle(curYawAngle, targetYawAngle);
+                var t = (dt * _AngelSpeed) / Mathf.Abs(diff);
+                var expectedYawAngle = Mathf.LerpAngle(curYawAngle, targetYawAngle, t);
+                var expectedQuaternion = Quaternion.Euler(0, expectedYawAngle, 0);
+                _Owner.SetRotation(expectedQuaternion);
             }
         }
 
@@ -99,7 +108,16 @@ namespace Asuna.Entity
             _ApplyMovement(dt);
             _ApplyRotation(dt);
         }
+        
+        /// <summary>
+        /// N unit per second
+        /// </summary>
         private readonly float _Speed = 10;
+        
+        /// <summary>
+        /// N degree per second
+        /// </summary>
+        private readonly float _AngelSpeed = 720;
         #endregion
 
         public override void AfterModelLoaded()
