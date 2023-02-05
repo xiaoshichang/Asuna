@@ -8,7 +8,7 @@ using System.Text;
 
 namespace UnityCodeAnalyzer.Rules
 {
-    public class PropertyNamingRule
+    public static class PropertyNamingRule
     {
         public static void Init(AnalysisContext context)
         {

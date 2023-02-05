@@ -16,7 +16,7 @@ namespace AsunaServer.Timer
                 IsRepeat = false;
                 _TimeoutCallback = callback;
                 _Param = param;
-                TimerID = Interface.Timer_AddTimer(delayMS, OnTimeout);
+                TimerID = Interface.Timer_AddTimer(delayMS, _OnTimeout);
             }
 
             public Timer(uint delayMS, uint intervalMS, TimeoutCallback callback, object? param)
@@ -24,10 +24,10 @@ namespace AsunaServer.Timer
                 IsRepeat = true;
                 _TimeoutCallback = callback;
                 _Param = param;
-                TimerID = Interface.Timer_AddRepeatTimer(delayMS, intervalMS, OnTimeout);
+                TimerID = Interface.Timer_AddRepeatTimer(delayMS, intervalMS, _OnTimeout);
             }
 
-            private void OnTimeout()
+            private void _OnTimeout()
             {
                 _TimeoutCallback.Invoke(_Param);
                 TimerMgr.OnTimeout(this);

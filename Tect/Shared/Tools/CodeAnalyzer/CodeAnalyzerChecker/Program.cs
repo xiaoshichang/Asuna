@@ -27,9 +27,26 @@ internal class Program
 
     static int Main(string[] args)
     {
-        var solutionPath = @"C:\Users\xiao\Documents\GitHub\Asuna\Tect\Client\UnityProj\UnityProj.sln";
-        var analyzerPath = @"C:\Users\xiao\Documents\GitHub\Asuna\Tect\Shared\Tools\CodeSpecification\UnityCodeAnalyzer\bin\Debug\netstandard2.0\UnityCodeAnalyzer.dll";
-        var projectName = "Demo";
+        if (args.Length != 3)
+        {
+            Console.Error.WriteLine("args mismatch");
+            return 1;
+        }
+
+        var solutionPath = args[0];
+        if (!File.Exists(solutionPath))
+        {
+            Console.Error.WriteLine($"solutionPath does not exist!{solutionPath}");
+            return 1;
+        }
+        var projectName = args[1];
+
+        var analyzerPath = args[2];
+        if (!File.Exists(analyzerPath))
+        {
+            Console.Error.WriteLine($"analyzerPath does not exist!{analyzerPath}");
+            return 1;
+        }
 
         // Attempt to set the version of MSBuild.
         var visualStudioInstances = MSBuildLocator.QueryVisualStudioInstances().ToArray();
@@ -90,7 +107,7 @@ internal class Program
         var compilationWithAnalyzers = compilation.WithAnalyzers(ImmutableArray.Create(analyzers));
         var reports = compilationWithAnalyzers.GetAnalyzerDiagnosticsAsync().Result;
 
-        foreach(var report in reports)
+        foreach (var report in reports)
         {
             var message = report.ToString();
             Console.Out.WriteLine(message);

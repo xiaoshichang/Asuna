@@ -4,8 +4,8 @@
 
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
-    <RootNamespace>UnityCodeAnalyzer.Vsix</RootNamespace>
-    <AssemblyName>UnityCodeAnalyzer.Vsix</AssemblyName>
+    <RootNamespace>CodeAnalyzer.Vsix</RootNamespace>
+    <AssemblyName>CodeAnalyzer.Vsix</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -33,7 +33,7 @@
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="Exists('$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets')" />
 
   <ItemGroup>
-    <ProjectReference Include="..\UnityCodeAnalyzer\UnityCodeAnalyzer.csproj" />
+    <ProjectReference Include="..\CodeAnalyzer\CodeAnalyzer.csproj" />
   </ItemGroup>
 
   <ItemGroup>

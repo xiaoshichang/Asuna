@@ -8,7 +8,7 @@ using System.Text;
 
 namespace UnityCodeAnalyzer.Rules
 {
-    public class MethodComplexityRule
+    public static class MethodComplexityRule
     {
         public static void Init(AnalysisContext context)
         {

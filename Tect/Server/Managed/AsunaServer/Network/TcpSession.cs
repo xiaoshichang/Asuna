@@ -12,8 +12,8 @@ namespace AsunaServer.Network
         {
             _Connection = connection;
             _InnerNetwork = innerNetwork;
-            _SendBuffer = Marshal.AllocHGlobal(SEND_BUFFER_SIZE);
-            _ReceiveBuffer = new byte[RECEIVE_BUFFER_SIZE];
+            _SendBuffer = Marshal.AllocHGlobal(_SEND_BUFFER_SIZE);
+            _ReceiveBuffer = new byte[_RECEIVE_BUFFER_SIZE];
             _OnReceiveHandler = onReceive;
             
             Interface.Connection_SetReceiveCallback(_Connection, OnReceive);
@@ -90,8 +90,8 @@ namespace AsunaServer.Network
 
         private readonly ReceiveMessageHandler _OnReceiveHandler;
         
-        private const int RECEIVE_BUFFER_SIZE = 2048;
-        private const int SEND_BUFFER_SIZE = 2048;
+        private const int _RECEIVE_BUFFER_SIZE = 2048;
+        private const int _SEND_BUFFER_SIZE = 2048;
     }
 }
 

@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>UnityCodeAnalyzer</PackageId>
+    <PackageId>CodeAnalyzer</PackageId>
     <PackageVersion>1.0.0.0</PackageVersion>
     <Authors>xiao</Authors>
     <PackageLicenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</PackageLicenseUrl>
@@ -16,10 +16,10 @@
     <PackageIconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</PackageIconUrl>
     <RepositoryUrl>http://REPOSITORY_URL_HERE_OR_DELETE_THIS_LINE</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Description>UnityCodeAnalyzer</Description>
+    <Description>CodeAnalyzer</Description>
     <PackageReleaseNotes>Summary of changes made in this release of the package.</PackageReleaseNotes>
     <Copyright>Copyright</Copyright>
-    <PackageTags>UnityCodeAnalyzer, analyzers</PackageTags>
+    <PackageTags>CodeAnalyzer, analyzers</PackageTags>
     <DevelopmentDependency>true</DevelopmentDependency>
     <NoPackageAnalysis>true</NoPackageAnalysis>
 
@@ -27,7 +27,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\UnityCodeAnalyzer\UnityCodeAnalyzer.csproj" />
+    <ProjectReference Include="..\CodeAnalyzer\CodeAnalyzer.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,7 +36,7 @@
 
   <Target Name="_AddAnalyzersToOutput">
     <ItemGroup>
-      <TfmSpecificPackageFile Include="$(OutputPath)\UnityCodeAnalyzer.dll" PackagePath="analyzers/dotnet/cs" />
+      <TfmSpecificPackageFile Include="$(OutputPath)\CodeAnalyzer.dll" PackagePath="analyzers/dotnet/cs" />
     </ItemGroup>
   </Target>
 

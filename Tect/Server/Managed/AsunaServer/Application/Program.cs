@@ -8,7 +8,7 @@ namespace AsunaServer.Application // Note: actual namespace depends on the proje
     public static class Program
     {
         
-        private static ServerBase CreateServerByServerConfig(ServerGroupConfig groupConfig, ServerConfigBase serverConfig)
+        private static ServerBase _CreateServerByServerConfig(ServerGroupConfig groupConfig, ServerConfigBase serverConfig)
         {
             ServerBase server;
             if (serverConfig is GMServerConfig gmServerConfig)
@@ -30,7 +30,7 @@ namespace AsunaServer.Application // Note: actual namespace depends on the proje
             return server;
         }
 
-        static (ServerGroupConfig, ServerConfigBase) LoadConfig()
+        static (ServerGroupConfig, ServerConfigBase) _LoadConfig()
         {
             var configPath = Environment.GetEnvironmentVariable("ConfigPath");
             if (configPath == null)
@@ -55,15 +55,15 @@ namespace AsunaServer.Application // Note: actual namespace depends on the proje
             return (groupConfig, serverConfig);
         }
         
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            var (groupConfig, serverConfig) = LoadConfig();
+            var (groupConfig, serverConfig) = _LoadConfig();
             
             var logTarget = groupConfig.Common.LogPath;
             var logFile = $"{groupConfig.Common.LogPath}/{serverConfig.Name}.log";
             Logger.Init(logTarget, logFile);
             
-            var server = CreateServerByServerConfig(groupConfig, serverConfig);
+            var server = _CreateServerByServerConfig(groupConfig, serverConfig);
             server.Init();
             server.Run();
             server.Release();

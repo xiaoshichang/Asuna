@@ -7,7 +7,7 @@ public static partial class EntityMgr
 {
     public static void DebugPrint()
     {
-        foreach (var item in _RegisteredServerStubsTypes)
+        foreach (var item in RegisteredServerStubsTypes)
         {
             Logger.Debug($"register stub {item.Key}");
         }
@@ -22,12 +22,12 @@ public static partial class EntityMgr
             {
                 if (type.IsSubclassOf(typeof(ServerStubEntity)))
                 {
-                    if (_RegisteredServerStubsTypes.ContainsKey(type.Name))
+                    if (RegisteredServerStubsTypes.ContainsKey(type.Name))
                     {
                         Logger.Error($"stub name conflict! name: {type.Name}, namespace: {type.Namespace}");
                         continue;
                     }
-                    _RegisteredServerStubsTypes.Add(type.Name, type);
+                    RegisteredServerStubsTypes.Add(type.Name, type);
                 }
             }
         }
@@ -35,7 +35,7 @@ public static partial class EntityMgr
 
     public static Type? GetStubByName(string stubName)
     {
-        if (_RegisteredServerStubsTypes.TryGetValue(stubName, out var type))
+        if (RegisteredServerStubsTypes.TryGetValue(stubName, out var type))
         {
             return type;
         }
@@ -45,8 +45,8 @@ public static partial class EntityMgr
 
     public static IReadOnlyDictionary<string, Type> GetRegisteredServerStubs()
     {
-        return _RegisteredServerStubsTypes;
+        return RegisteredServerStubsTypes;
     }
 
-    public static Dictionary<string, Type> _RegisteredServerStubsTypes = new();
+    public static Dictionary<string, Type> RegisteredServerStubsTypes = new();
 }

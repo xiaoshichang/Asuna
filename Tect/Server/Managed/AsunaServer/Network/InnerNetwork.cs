@@ -17,13 +17,13 @@ namespace AsunaServer.Network
             OnConnectCallback? onConnect, 
             OnReceiveCallback? onReceive)
         {
-            _onAcceptCallback = onAccept;
+            _OnAcceptCallback = onAccept;
             _OnConnectCallback = onConnect;
-            _onReceiveCallback = onReceive;
-            Interface.InnerNetwork_Init(ip, port, OnAccept, OnDisconnect);
+            _OnReceiveCallback = onReceive;
+            Interface.InnerNetwork_Init(ip, port, _OnAccept, _OnDisconnect);
         }
         
-        private static void OnAccept(IntPtr connection)
+        private static void _OnAccept(IntPtr connection)
         {
             Logger.Debug($"Inner Network OnAccept {connection}");
             if (_Sessions.ContainsKey(connection))
@@ -32,22 +32,22 @@ namespace AsunaServer.Network
                 return;
             }
             
-            var session = new TcpSession(connection, true, OnReceiveMessage);
+            var session = new TcpSession(connection, true, _OnReceiveMessage);
             _Sessions.Add(connection, session);
-            _onAcceptCallback?.Invoke(session);
+            _OnAcceptCallback?.Invoke(session);
         }
 
-        private static void OnReceiveMessage(IntPtr connection, object message)
+        private static void _OnReceiveMessage(IntPtr connection, object message)
         {
             if (_Sessions.TryGetValue(connection, out var session))
             {
-                _onReceiveCallback?.Invoke(session, message);
+                _OnReceiveCallback?.Invoke(session, message);
                 return;
             }
             Logger.Warning("OnReceiveMessage connection does not exist!");
         }
         
-        private static void OnDisconnect(IntPtr connection)
+        private static void _OnDisconnect(IntPtr connection)
         {
             Logger.Debug($"Inner Network OnDisconnect {connection}");
             if (_Sessions.TryGetValue(connection, out var session))
@@ -64,12 +64,12 @@ namespace AsunaServer.Network
         public static void ConnectTo(string ip, int port)
         {
             Logger.Info($"connect to {ip} {port}");
-            Interface.InnerNetwork_ConnectTo(ip, port, OnConnect);
+            Interface.InnerNetwork_ConnectTo(ip, port, _OnConnect);
         }
 
-        private static void OnConnect(IntPtr connection)
+        private static void _OnConnect(IntPtr connection)
         {
-            var session = new TcpSession(connection, true, OnReceiveMessage);
+            var session = new TcpSession(connection, true, _OnReceiveMessage);
             _Sessions.Add(connection, session);
             _OnConnectCallback?.Invoke(session);
         }
@@ -82,12 +82,12 @@ namespace AsunaServer.Network
         /// <summary>
         /// onAccept上层业务回调
         /// </summary>
-        private static OnAcceptCallback? _onAcceptCallback;
+        private static OnAcceptCallback? _OnAcceptCallback;
 
         /// <summary>
         /// onReceive上层业务回调
         /// </summary>
-        private static OnReceiveCallback? _onReceiveCallback;
+        private static OnReceiveCallback? _OnReceiveCallback;
 
         /// <summary>
         /// onConnect上层业务回调

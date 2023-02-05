@@ -53,12 +53,12 @@ public partial class GameServer : ServerBase
             _ConnectedGates += 1;
             if (_ConnectedGates == _GroupConfig.GateServers.Count)
             {
-                OnAllGatesConnected();
+                _OnAllGatesConnected();
             }
         }
     }
 
-    private void OnAllGatesConnected()
+    private void _OnAllGatesConnected()
     {
         Logger.Info($"game is ready! {_ServerConfig.Name}");
         var ntf = new ServerReadyNtf()

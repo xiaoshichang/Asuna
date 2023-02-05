@@ -18,18 +18,23 @@ namespace Asuna.Check
 
         private bool _CodeSpecificationCheck()
         {
+            var checkToolPath = Path.Join(UnityEngine.Application.dataPath, "../../../Shared/Tools/CodeAnalyzer/CodeAnalyzerChecker/bin/Debug/net6.0/CodeAnalyzerChecker.exe");
             var solutionPath = Path.Join(UnityEngine.Application.dataPath, "../UnityProj.sln");
             var project = "Demo";
-            var checkToolPath = Path.Join(UnityEngine.Application.dataPath, "../../../Shared/Tools/CodeSpecification/CodeSpecificationChecker/bin/Debug/net6.0/CodeSpecificationChecker.exe");
+            var analyzerPath = Path.Join(UnityEngine.Application.dataPath, "../../../Shared/Tools/CodeAnalyzer/CodeAnalyzer/CodeAnalyzer/bin/Debug/netstandard2.0/CodeAnalyzer.dll");
             if (!File.Exists(solutionPath))
             {
                 ADebug.Error($"{solutionPath} is not exist");
                 return false;
             }
-
             if (!File.Exists(checkToolPath))
             {
                 ADebug.Error($"{checkToolPath} is not exist");
+                return false;
+            }
+            if (!File.Exists(analyzerPath))
+            {
+                ADebug.Error($"{analyzerPath} is not exist");
                 return false;
             }
             
@@ -37,7 +42,7 @@ namespace Asuna.Check
             using(System.Diagnostics.Process pProcess = new System.Diagnostics.Process())
             {
                 pProcess.StartInfo.FileName = $"{checkToolPath}";
-                pProcess.StartInfo.Arguments = $"{solutionPath} {project}";
+                pProcess.StartInfo.Arguments = $"{solutionPath} {project} {analyzerPath}";
                 pProcess.StartInfo.UseShellExecute = false;
                 pProcess.StartInfo.RedirectStandardOutput = true;
                 pProcess.StartInfo.RedirectStandardError = true;

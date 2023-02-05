@@ -22,7 +22,7 @@ public abstract class ServerStubEntity : ServerEntity
     /// 准备继续。
     /// 初始化完毕后主动调用。
     /// </summary>
-    protected void OnStubReady()
+    protected void _OnStubReady()
     {
         Logger.Info($"OnStubReady {GetType().Name}");
         var ntf = new StubReadyNtf()
@@ -37,6 +37,6 @@ public abstract class ServerStubEntity : ServerEntity
         _GMDelegate = gm;
     }
 
-    public NetworkDelegate? _GMDelegate;
+    private NetworkDelegate? _GMDelegate;
 
 }

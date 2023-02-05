@@ -9,6 +9,6 @@ public class HallStub : ServerStubEntity
 
     public override void Init()
     {
-        OnStubReady();
+        _OnStubReady();
     }
 }

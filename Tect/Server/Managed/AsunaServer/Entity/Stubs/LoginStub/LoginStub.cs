@@ -14,7 +14,7 @@ public class LoginStub : ServerStubEntity
     
     private void _SomeLogicFinish(object? param)
     {
-        OnStubReady();
+        _OnStubReady();
     }
 
 

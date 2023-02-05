@@ -13,6 +13,6 @@ public abstract class ServerEntity
         Guid = guid;
         EntityMgr.AddEntity(Guid, this);
     }
-    
+
     public Guid Guid;
 }
