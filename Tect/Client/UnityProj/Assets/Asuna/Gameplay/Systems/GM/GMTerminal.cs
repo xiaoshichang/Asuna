@@ -53,21 +53,34 @@ namespace Asuna.Gameplay
             _InitGeometry();
             _InitStyles();
             _state = TerminalState.Close;
-            
-            UnityEngine.Application.logMessageReceived += _OnUnityMessage;
 
+            // https://docs.unity3d.com/Manual/DomainReloading.html
+            StopListening();
+            StartListening();
         }
 
-        [RuntimeInitializeOnLoadMethod]
-        private static void InitOnLoad()
+        private void StartListening()
         {
-            UnityEngine.Application.logMessageReceived -= _OnUnityMessage;
-            _items.Clear();
+            if (!_Listening)
+            {
+                _Listening = true;
+                UnityEngine.Application.logMessageReceived += _OnUnityMessage;
+            }
         }
 
+        private void StopListening()
+        {
+            if (_Listening)
+            {
+                _Listening = false;
+                UnityEngine.Application.logMessageReceived -= _OnUnityMessage;
+                _items.Clear();
+            }
+        }
+        
         private void OnDisable()
         {
-            UnityEngine.Application.logMessageReceived -= _OnUnityMessage;
+            StopListening();
         }
 
         void OnGUI()
@@ -322,7 +335,7 @@ namespace Asuna.Gameplay
             _AppendLog(TerminalLogItemType.Shell, $"executing [{_CommandText}]");
             if (!string.IsNullOrEmpty(_CommandText))
             {
-                if (G.GMSystem.Execute(_CommandText))
+                if (G.GameplayInstance.GMSystem.Execute(_CommandText))
                 {
                     _AppendHistoryCmd(_CommandText);
                     _ResetHistoryCmdIndexToLast();
@@ -423,6 +436,11 @@ namespace Asuna.Gameplay
         /// 所以日志条目
         /// </summary>
         private static readonly List<TerminalLogItem> _items = new();
+
+        /// <summary>
+        /// 消息监听中
+        /// </summary>
+        private static bool _Listening = false;
 
         /// <summary>
         /// 显示日志的scroll view当前的位置

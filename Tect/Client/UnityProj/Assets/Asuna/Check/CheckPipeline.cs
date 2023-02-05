@@ -20,7 +20,7 @@ namespace Asuna.Check
         public string Name;
         public CheckTaskAction Action;
         public CheckTaskResult Result;
-        public float Duration;
+        public double Duration;
 
         public void Run()
         {
@@ -31,7 +31,7 @@ namespace Asuna.Check
             stopWatch.Start();
             Result = Action.Invoke() ? CheckTaskResult.Success : CheckTaskResult.Fail;
             stopWatch.Stop();
-            Duration = stopWatch.Elapsed.Seconds;
+            Duration = stopWatch.Elapsed.TotalSeconds;
         }
     }
     

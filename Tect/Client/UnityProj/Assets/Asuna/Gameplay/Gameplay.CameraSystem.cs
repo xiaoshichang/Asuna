@@ -9,14 +9,14 @@ namespace Asuna.Gameplay
         {
             CameraSystem = new CameraSystem();
             CameraSystem.Init(null);
-            ADebug.Info("Init CameraManager Ok!");
+            ADebug.Info("Init Camera System Ok!");
         }
 
         private void _ReleaseCameraSystem()
         {
             CameraSystem.Release();
             CameraSystem = null;
-            ADebug.Info("Release CameraManager Ok!");
+            ADebug.Info("Release Camera System Ok!");
         }
         
         public CameraSystem CameraSystem;

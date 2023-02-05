@@ -8,7 +8,6 @@ namespace Asuna.Gameplay
         {
             GMSystem = new GMSystem();
             GMSystem.Init(param.GameplayAssemblies);
-            param.ApplicationRoot.gameObject.AddComponent<GMTerminal>();
             ADebug.Info($"Init GM system Ok! {GMSystem.GetCommandsCount()} commands found!");
         }
 

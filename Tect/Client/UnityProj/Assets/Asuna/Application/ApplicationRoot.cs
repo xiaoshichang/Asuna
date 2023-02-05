@@ -24,7 +24,7 @@ namespace Asuna.Application
             ADebug.Init();
         }
         
-        void Awake()
+        void Start()
         {
             _State = ApplicationState.Ready;
             if (ApplicationSetting == null)
@@ -87,12 +87,18 @@ namespace Asuna.Application
             }
             
         }
+
+        private void _InitGMTerminal()
+        {
+            gameObject.AddComponent<GMTerminal>();
+        }
         
         private void _ApplicationStartup()
         {
             _CheckConfig();
             G.SetupConfig(this);
-            
+
+            _InitGMTerminal();
             _InitLogManager();
             _InitInputManager();
             _InitCoroutineManager();

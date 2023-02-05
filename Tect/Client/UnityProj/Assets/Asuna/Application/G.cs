@@ -81,7 +81,6 @@ namespace Asuna.Application
         public static EntityManager EntityManager;
         public static GameplayInstance GameplayInstance;
         
-        public static GMSystem GMSystem;
 
     }
 }
