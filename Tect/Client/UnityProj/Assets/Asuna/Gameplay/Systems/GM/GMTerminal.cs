@@ -45,7 +45,7 @@ namespace Asuna.Gameplay
 
     public class GMTerminal : MonoBehaviour
     {
-        #if DEBUG
+#if ASUNA_BUILDTYPE_DEBUG
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
@@ -476,7 +476,6 @@ namespace Asuna.Gameplay
         /// 历史命令列表
         /// </summary>
         private readonly List<string> _HistoryCmdList = new();
-
 
 #endif
     }

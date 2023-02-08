@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using UnityEngine;
 using Debug = UnityEngine.Debug;
 
 namespace Asuna.Utils
@@ -15,9 +16,47 @@ namespace Asuna.Utils
     public static partial class ADebug
     {
         private static readonly string _RecordFormat = "[{0}][{1}] - {2}";
-       
+
+        private static void _PrintBuildType()
+        {
+#if ASUNA_BUILDTYPE_DEBUG
+            Info("BuildType: Debug");
+#endif
+            
+#if ASUNA_BUILDTYPE_RELEASE
+            Info("BuildType: Release");
+#endif
+        }
+
+        private static void _PrintRuntimePlatform()
+        {
+            var platform = UnityEngine.Application.platform;
+            if (platform == RuntimePlatform.WindowsPlayer)
+            {
+                Info("RuntimePlatform: WindowsPlayer");
+            }
+            else if (platform == RuntimePlatform.WindowsEditor)
+            {
+                Info("RuntimePlatform: WindowsEditor");
+            }
+            else if (platform == RuntimePlatform.Android)
+            {
+                Info("RuntimePlatform: Android");
+            }
+            else if (platform == RuntimePlatform.IPhonePlayer)
+            {
+                Info("RuntimePlatform: IPhonePlayer");
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public static void Init()
         {
+            _PrintRuntimePlatform();
+            _PrintBuildType();
         }
 
         public static void Info(string format, params object[] args)

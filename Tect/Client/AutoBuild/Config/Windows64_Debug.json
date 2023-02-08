@@ -1,0 +1,5 @@
+{
+  "OutputDir": "Build/Windows64/Debug",
+  "BuildTarget": 19,
+  "ScriptingDefineSymbols":["ASUNA_BUILDTYPE_DEBUG"]
+}

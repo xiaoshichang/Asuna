@@ -771,12 +771,12 @@ PlayerSettings:
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
   scriptingDefineSymbols:
-    Standalone: Asuna_BuildType_Debug
+    Standalone: ASUNA_BUILDTYPE_DEBUG
   additionalCompilerArguments:
     Standalone: []
   platformArchitecture: {}
   scriptingBackend:
-    Standalone: 1
+    Standalone: 0
   il2cppCompilerConfiguration: {}
   managedStrippingLevel: {}
   incrementalIl2cppBuild: {}
