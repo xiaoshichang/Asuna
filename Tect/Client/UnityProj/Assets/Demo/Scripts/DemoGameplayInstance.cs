@@ -68,6 +68,11 @@ namespace Demo
             return _AllDemos;
         }
 
+        public DemoCaseBase GetCurrentRunningDemo()
+        {
+            return _CurrentRunningDemo;
+        }
+
         private readonly Dictionary<string, DemoCaseBase> _AllDemos = new Dictionary<string, DemoCaseBase>();
         private DemoCaseBase _CurrentRunningDemo;
 

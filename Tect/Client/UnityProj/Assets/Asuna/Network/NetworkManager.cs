@@ -28,23 +28,12 @@ namespace Asuna.Network
         Error
     }
 
-    public class NetworkManagerInitParam
-    {
-        public OnReceiveNetworkMessageDelegate OnReceive;
-    }
-
     public class NetworkManager : IManager
     {
         #region State
 
         public void Init(object param)
         {
-            var initParam = param as NetworkManagerInitParam;
-            if (initParam is null)
-            {
-                throw new Exception("init param is null");
-            }
-            
             _Socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
             {
                 Blocking = true
@@ -52,7 +41,6 @@ namespace Asuna.Network
             _State = NetState.Ready;
             _ReceiveThread = new Thread(_Receiving);
             _SendThread = new Thread(_Sending);
-            _OnReceiveNetworkMessageCallback = initParam.OnReceive;
         }
 
         public void ConnectToAsync(
@@ -166,7 +154,10 @@ namespace Asuna.Network
 
                 if (e is NetworkEventReceiveMessage evt)
                 {
-                    _OnReceiveNetworkMessageCallback?.Invoke(evt.Message);
+                    if (_Handlers.TryGetValue(evt.Message.GetType(), out var handler))
+                    {
+                        handler.Invoke(evt.Message);
+                    }
                 }
                 else if (e is NetworkEventReceiveException receiveException)
                 {
@@ -198,10 +189,33 @@ namespace Asuna.Network
                     throw new Exception();
                 }
             }
-            
+        }
+
+        public void RegisterMessageHandler(Type t, OnReceiveNetworkMessageDelegate handler)
+        {
+            if (_Handlers.ContainsKey(t))
+            {
+                _Handlers[t] += handler;
+            }
+            else
+            {
+                _Handlers[t] = handler;
+            }
+        }
+
+        public void UnRegisterMessageHandler(Type t, OnReceiveNetworkMessageDelegate handler)
+        {
+            if (_Handlers.ContainsKey(t))
+            {
+                _Handlers[t] -= handler;
+                if (_Handlers[t] == null)
+                {
+                    _Handlers.Remove(t);
+                }
+            }
         }
         
-        private readonly Queue<NetworkEvent> _Events = new Queue<NetworkEvent>();
+        private readonly Queue<NetworkEvent> _Events = new();
         #endregion
 
         #region Receiving
@@ -293,7 +307,7 @@ namespace Asuna.Network
         private const int HeaderSize = 8;
         private const int BodySize = 2048;
         private Thread _ReceiveThread;
-        private OnReceiveNetworkMessageDelegate _OnReceiveNetworkMessageCallback;
+        private readonly Dictionary<Type, OnReceiveNetworkMessageDelegate> _Handlers = new Dictionary<Type, OnReceiveNetworkMessageDelegate>();
         private int _BodySize;
         private uint _BodyType;
         private readonly byte[] _HeaderBuffer = new byte[HeaderSize];

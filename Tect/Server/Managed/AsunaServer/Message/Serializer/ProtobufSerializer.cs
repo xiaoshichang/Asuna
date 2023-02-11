@@ -38,7 +38,7 @@ public class ProtobufSerializer : SerializerBase
         return parser as MessageParser;
     }
     
-    public override void Collect(List<Assembly> assemblies)
+    public override void Collect(List<Assembly> assemblies, string ns)
     {
         var baseType = typeof(IMessage);
         foreach (var assembly in assemblies)
@@ -46,6 +46,10 @@ public class ProtobufSerializer : SerializerBase
             var types = assembly.GetTypes();
             foreach (var type in types)
             {
+                if (type.Namespace != ns)
+                {
+                    continue;
+                }
                 if (type.GetInterface(baseType.Name) != null)
                 {
                     _Register(type);

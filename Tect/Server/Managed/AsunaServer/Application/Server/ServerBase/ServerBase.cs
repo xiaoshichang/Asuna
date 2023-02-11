@@ -20,7 +20,7 @@ namespace AsunaServer.Application
         private void _RegisterNetworkMessage()
         {
             var assemblyList = new List<Assembly> { Assembly.GetExecutingAssembly() };
-            InnerNetwork.Serializer.Collect(assemblyList);
+            InnerNetwork.Serializer.Collect(assemblyList, "AsunaServer.Message");
             InnerNetwork.Serializer.DebugPrint();
         }
 

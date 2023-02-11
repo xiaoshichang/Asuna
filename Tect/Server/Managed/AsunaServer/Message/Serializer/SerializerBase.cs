@@ -8,7 +8,7 @@ namespace AsunaServer.Message.Serializer
     {
         public abstract byte[] Serialize(object obj);
         public abstract object Deserialize(byte[] data, int length, uint typeIndex);
-        public abstract void Collect(List<Assembly> assemblies);
+        public abstract void Collect(List<Assembly> assemblies, string ns);
 
         protected uint _ConvertTypeToHash(Type type)
         {

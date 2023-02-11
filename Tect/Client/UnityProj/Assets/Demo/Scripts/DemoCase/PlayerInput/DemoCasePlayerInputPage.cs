@@ -3,7 +3,7 @@ using Asuna.UI;
 using TMPro;
 using UnityEngine.UI;
 
-namespace Demo.LoadScene
+namespace Demo.PlayerInput
 {
     public class DemoCasePlayerInputPage : UIPage
     {
@@ -11,8 +11,8 @@ namespace Demo.LoadScene
         
         public override void SetupController()
         {
-            _FramerateText = _Root.transform.Find("FrameRateText").GetComponent<TMP_Text>();
-            _CloseBtn = _Root.transform.Find("CloseBtn").GetComponent<Button>();
+            _FramerateText = _Seek<TMP_Text>("FrameRateText");
+            _CloseBtn = _Seek<Button>("CloseBtn");
             _CloseBtn.onClick.AddListener(_OnClose);
         }
         

@@ -30,17 +30,17 @@ namespace AsunaShared.Message {
             "ZS5wcm90b2J1Zi5UaW1lc3RhbXAiagoJT3V0ZXJQb25nEiwKCFNlbmRUaW1l",
             "GAEgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcBIvCgtSZWNlaXZl",
             "VGltZRgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAiLgoITG9n",
-            "aW5SZXESEAoIdXNlcm5hbWUYASABKAkSEAoIcGFzc3dvcmQYAiABKAkiKgoI",
-            "TG9naW5Sc3ASHgoHUmV0Q29kZRgBIAEoDjINLkxvZ2luUmV0Q29kZSogCgxM",
-            "b2dpblJldENvZGUSBgoCT0sQABIICgRGYWlsEAFCFqoCE0FzdW5hU2hhcmVk",
-            "Lk1lc3NhZ2ViBnByb3RvMw=="));
+            "aW5SZXESEAoIdXNlcm5hbWUYASABKAkSEAoIcGFzc3dvcmQYAiABKAkiPAoI",
+            "TG9naW5Sc3ASEAoIdXNlcm5hbWUYASABKAkSHgoHUmV0Q29kZRgCIAEoDjIN",
+            "LkxvZ2luUmV0Q29kZSogCgxMb2dpblJldENvZGUSBgoCT0sQABIICgRGYWls",
+            "EAFCFqoCE0FzdW5hU2hhcmVkLk1lc3NhZ2ViBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::AsunaShared.Message.LoginRetCode), }, null, new pbr::GeneratedClrTypeInfo[] {
             new pbr::GeneratedClrTypeInfo(typeof(global::AsunaShared.Message.OuterPing), global::AsunaShared.Message.OuterPing.Parser, new[]{ "SendTime" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AsunaShared.Message.OuterPong), global::AsunaShared.Message.OuterPong.Parser, new[]{ "SendTime", "ReceiveTime" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AsunaShared.Message.LoginReq), global::AsunaShared.Message.LoginReq.Parser, new[]{ "Username", "Password" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AsunaShared.Message.LoginRsp), global::AsunaShared.Message.LoginRsp.Parser, new[]{ "RetCode" }, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AsunaShared.Message.LoginRsp), global::AsunaShared.Message.LoginRsp.Parser, new[]{ "Username", "RetCode" }, null, null, null, null)
           }));
     }
     #endregion
@@ -757,6 +757,7 @@ namespace AsunaShared.Message {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public LoginRsp(LoginRsp other) : this() {
+      username_ = other.username_;
       retCode_ = other.retCode_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
@@ -767,8 +768,20 @@ namespace AsunaShared.Message {
       return new LoginRsp(this);
     }
 
+    /// <summary>Field number for the "username" field.</summary>
+    public const int UsernameFieldNumber = 1;
+    private string username_ = "";
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string Username {
+      get { return username_; }
+      set {
+        username_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+
     /// <summary>Field number for the "RetCode" field.</summary>
-    public const int RetCodeFieldNumber = 1;
+    public const int RetCodeFieldNumber = 2;
     private global::AsunaShared.Message.LoginRetCode retCode_ = global::AsunaShared.Message.LoginRetCode.Ok;
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -794,6 +807,7 @@ namespace AsunaShared.Message {
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (Username != other.Username) return false;
       if (RetCode != other.RetCode) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
@@ -802,6 +816,7 @@ namespace AsunaShared.Message {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
+      if (Username.Length != 0) hash ^= Username.GetHashCode();
       if (RetCode != global::AsunaShared.Message.LoginRetCode.Ok) hash ^= RetCode.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
@@ -821,8 +836,12 @@ namespace AsunaShared.Message {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
+      if (Username.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Username);
+      }
       if (RetCode != global::AsunaShared.Message.LoginRetCode.Ok) {
-        output.WriteRawTag(8);
+        output.WriteRawTag(16);
         output.WriteEnum((int) RetCode);
       }
       if (_unknownFields != null) {
@@ -835,8 +854,12 @@ namespace AsunaShared.Message {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (Username.Length != 0) {
+        output.WriteRawTag(10);
+        output.WriteString(Username);
+      }
       if (RetCode != global::AsunaShared.Message.LoginRetCode.Ok) {
-        output.WriteRawTag(8);
+        output.WriteRawTag(16);
         output.WriteEnum((int) RetCode);
       }
       if (_unknownFields != null) {
@@ -849,6 +872,9 @@ namespace AsunaShared.Message {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
+      if (Username.Length != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Username);
+      }
       if (RetCode != global::AsunaShared.Message.LoginRetCode.Ok) {
         size += 1 + pb::CodedOutputStream.ComputeEnumSize((int) RetCode);
       }
@@ -863,6 +889,9 @@ namespace AsunaShared.Message {
     public void MergeFrom(LoginRsp other) {
       if (other == null) {
         return;
+      }
+      if (other.Username.Length != 0) {
+        Username = other.Username;
       }
       if (other.RetCode != global::AsunaShared.Message.LoginRetCode.Ok) {
         RetCode = other.RetCode;
@@ -882,7 +911,11 @@ namespace AsunaShared.Message {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
-          case 8: {
+          case 10: {
+            Username = input.ReadString();
+            break;
+          }
+          case 16: {
             RetCode = (global::AsunaShared.Message.LoginRetCode) input.ReadEnum();
             break;
           }
@@ -901,7 +934,11 @@ namespace AsunaShared.Message {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
-          case 8: {
+          case 10: {
+            Username = input.ReadString();
+            break;
+          }
+          case 16: {
             RetCode = (global::AsunaShared.Message.LoginRetCode) input.ReadEnum();
             break;
           }

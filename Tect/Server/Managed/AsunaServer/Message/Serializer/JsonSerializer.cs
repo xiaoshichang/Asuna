@@ -24,7 +24,7 @@ namespace AsunaServer.Message.Serializer
             return obj;
         }
 
-        public override void Collect(List<Assembly> assemblies)
+        public override void Collect(List<Assembly> assemblies, string ns)
         {
             var baseType = typeof(NetworkMessage);
             foreach (var assembly in assemblies)
@@ -32,6 +32,10 @@ namespace AsunaServer.Message.Serializer
                 var types = assembly.GetTypes();
                 foreach (var type in types)
                 {
+                    if (type.Namespace != ns)
+                    {
+                        continue;
+                    }
                     if (type.IsSubclassOf(baseType))
                     {
                         _Register(type);

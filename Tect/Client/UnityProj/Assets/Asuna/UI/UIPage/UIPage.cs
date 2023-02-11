@@ -24,7 +24,9 @@ namespace Asuna.UI
             G.AssetManager.ReleaseAsset(_Asset);
         }
 
-
+        /// <summary>
+        /// called by UIManager
+        /// </summary>
         public void SetPageID(string pid)
         {
             _PageID = pid;
@@ -35,14 +37,37 @@ namespace Asuna.UI
             return _PageID;
         }
         
+        /// <summary>
+        /// called by UIManager
+        /// </summary>
         public void SetRoot(GameObject root)
         {
             _Root = root;
         }
 
+        /// <summary>
+        /// called by UIManager
+        /// </summary>
         public void SetAssetHandler(AssetRequestHandler<GameObject> asset)
         {
             _Asset = asset;
+        }
+
+        protected T _Seek<T>(string path) where T : class
+        {
+            var node = _Root.transform.Find(path);
+            if (node == null)
+            {
+                return null;
+            }
+
+            var cmpt = node.GetComponent<T>();
+            if (cmpt == null)
+            {
+                return null;
+            }
+
+            return cmpt;
         }
 
         private string _PageID;

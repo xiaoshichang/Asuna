@@ -83,13 +83,13 @@ namespace Asuna.Utils
         /// <summary>
         /// Asset 代表程序员的预期，不符合预期直接抛出异常，避免错误继续
         /// </summary>
-        [Conditional("Asuna_BuildType_Debug")]
+        [Conditional("ASUNA_BUILDTYPE_DEBUG")]
         public static void Assert(bool condition, string message)
         {
             Debug.Assert(condition, message);
         }
 
-        [Conditional("Asuna_BuildType_Debug")]
+        [Conditional("ASUNA_BUILDTYPE_DEBUG")]
         public static void Assert(bool condition)
         {
             Debug.Assert(condition);

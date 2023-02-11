@@ -20,11 +20,7 @@ namespace Asuna.Application
                 Assembly.GetExecutingAssembly()
             };
             NetworkManager.Serializer.Collect(assemblies);
-            var param = new NetworkManagerInitParam()
-            {
-                OnReceive = _OnReceiveNetworkMessage
-            };
-            NetworkManager.Init(param);
+            NetworkManager.Init(null);
             ADebug.Info("Init Network Manager Ok!");
         }
 

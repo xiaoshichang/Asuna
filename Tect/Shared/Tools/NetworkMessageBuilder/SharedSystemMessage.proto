@@ -29,5 +29,6 @@ enum LoginRetCode
 
 message LoginRsp
 {
-  LoginRetCode RetCode = 1;
+  string username = 1;
+  LoginRetCode RetCode = 2;
 }

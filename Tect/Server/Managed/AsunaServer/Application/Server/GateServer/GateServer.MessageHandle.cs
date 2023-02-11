@@ -1,5 +1,6 @@
 ﻿using AsunaServer.Message;
 using AsunaServer.Network;
+using AsunaShared.Message;
 
 #pragma warning disable CS8604
 
@@ -14,10 +15,15 @@ public partial class GateServer : ServerBase
             return true;
         }
 
-        if (message.GetType() == typeof(OpenGateNtf))
+        if (message is OpenGateNtf ntf)
         {
-            var ntf = message as OpenGateNtf;
             _OnOpenGateNtf(session, ntf);
+            return true;
+        }
+
+        if (message is LoginReq req)
+        {
+            _OnLoginReq(session, req);
             return true;
         }
 

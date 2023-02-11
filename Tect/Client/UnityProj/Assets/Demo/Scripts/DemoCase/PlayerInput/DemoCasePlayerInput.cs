@@ -1,8 +1,9 @@
 ﻿
 using Asuna.Application;
 using Asuna.Input;
+using Demo.LoadScene;
 
-namespace Demo.LoadScene
+namespace Demo.PlayerInput
 {
     public class DemoCasePlayerInput : DemoCaseLoadScene
     {
