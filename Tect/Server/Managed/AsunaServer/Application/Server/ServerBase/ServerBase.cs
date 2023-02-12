@@ -33,7 +33,7 @@ namespace AsunaServer.Application
         private void _InitCoreAndNetwork()
         {
             Interface.Server_Init();
-            InnerNetwork.Init(_ServerConfig.InnerIp, _ServerConfig.InnerPort, null, _OnConnect, _OnReceiveMessage);
+            InnerNetwork.Init(_ServerConfig.InnerIp, _ServerConfig.InnerPort, _OnNodeAccept, _OnNodeConnect, _OnNodeReceiveMessage, _OnNodeDisconnect);
             Logger.Info($"{_ServerConfig.Name} listen at {_ServerConfig.InnerIp}:{_ServerConfig.InnerPort}");
         }
         

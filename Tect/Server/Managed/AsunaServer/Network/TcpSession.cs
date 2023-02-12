@@ -32,13 +32,13 @@ namespace AsunaServer.Network
             if (_InnerNetwork)
             {
                 var message = InnerNetwork.Serializer.Deserialize(_ReceiveBuffer, length, index);
-                _onSessionReceiveHandler?.Invoke(connection, message);
+                _onSessionReceiveHandler.Invoke(connection, message);
 
             }
             else
             {
                 var message = OuterNetwork.Serializer.Deserialize(_ReceiveBuffer, length, index);
-                _onSessionReceiveHandler?.Invoke(connection, message);
+                _onSessionReceiveHandler.Invoke(connection, message);
             }
         }
 
@@ -79,7 +79,6 @@ namespace AsunaServer.Network
 
         public void OnDisconnect()
         {
-            OnDisconnectHandler.Invoke(this);
         }
         
         private readonly IntPtr _Connection;
@@ -94,7 +93,6 @@ namespace AsunaServer.Network
         private const int _RECEIVE_BUFFER_SIZE = 2048;
         private const int _SEND_BUFFER_SIZE = 2048;
 
-        public SessionOnDisconnectHandler OnDisconnectHandler;
     }
 }
 

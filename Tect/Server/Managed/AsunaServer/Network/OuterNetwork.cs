@@ -6,11 +6,12 @@ namespace AsunaServer.Network
 {
     public static class OuterNetwork
     {
-        public static void Init(string ip, int port, OnAcceptCallback? onAccept, OnConnectCallback? onConnect, OnReceiveCallback? onReceive)
+        public static void Init(string ip, int port, OnAcceptCallback? onAccept, OnConnectCallback? onConnect, OnReceiveCallback? onReceive, OnDisconnectCallback onDisconnect)
         {
             _OnAcceptCallback = onAccept;
             _OnConnectCallback = onConnect;
             _OnReceiveCallback = onReceive;
+            _OnDisconnectCallback = onDisconnect;
             Interface.OuterNetwork_Init(ip, port, _OnAccept, _OnDisconnect);
         }
         
@@ -38,11 +39,16 @@ namespace AsunaServer.Network
             _OnAcceptCallback?.Invoke(session);
         }
 
+        
+        /// <summary>
+        /// 来自core的回调 - 链接断开
+        /// </summary>
         private static void _OnDisconnect(IntPtr connection)
         {
             Logger.Debug($"Outer Network OnDisconnect {connection}");
             if (_Sessions.TryGetValue(connection, out var session))
             {
+                _OnDisconnectCallback?.Invoke(session);
                 session.OnDisconnect();
                 _Sessions.Remove(connection);
             }
@@ -66,6 +72,11 @@ namespace AsunaServer.Network
         /// onConnect上层业务回调
         /// </summary>
         private static OnConnectCallback? _OnConnectCallback;
+
+        /// <summary>
+        /// onDisconnect 上层业务回调
+        /// </summary>
+        private static OnDisconnectCallback? _OnDisconnectCallback;
         
         /// <summary>
         /// 维护所有有效链接

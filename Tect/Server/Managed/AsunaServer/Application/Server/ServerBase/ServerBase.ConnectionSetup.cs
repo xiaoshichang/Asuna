@@ -8,14 +8,29 @@ namespace AsunaServer.Application;
 
 public abstract partial class ServerBase
 {
+    protected virtual void _OnNodeAccept(TcpSession session)
+    {
+    }
     
-    protected virtual void _OnConnect(TcpSession session)
+    protected virtual void _OnNodeConnect(TcpSession session)
     {
         var message = new InnerPingReq()
         {
             ServerName = _ServerConfig.Name
         };
         session.Send(message);
+    }
+
+    protected virtual void _OnNodeDisconnect(TcpSession session)
+    {
+        if (!_SessionToServer.TryGetValue(session, out var serverName))
+        {
+            Logger.Error("unknown state");
+            return;
+        }
+
+        _ServerToSession.Remove(serverName);
+        _SessionToServer.Remove(session);
     }
 
     protected virtual void _OnInnerPing(TcpSession session, InnerPingReq req)
@@ -26,6 +41,7 @@ public abstract partial class ServerBase
             return;
         }
         _ServerToSession[req.ServerName] = session;
+        _SessionToServer[session] = req.ServerName;
         var pong = new InnerPongRsp()
         {
             ServerName = _ServerConfig.Name
@@ -41,8 +57,10 @@ public abstract partial class ServerBase
             return;
         }
         _ServerToSession[rsp.ServerName] = session;
+        _SessionToServer[session] = rsp.ServerName;
     }
     
     protected readonly Dictionary<string, TcpSession> _ServerToSession = new();
-    
+    protected readonly Dictionary<TcpSession, string> _SessionToServer = new();
+
 }

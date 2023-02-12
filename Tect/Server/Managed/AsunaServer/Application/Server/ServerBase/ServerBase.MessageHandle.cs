@@ -13,7 +13,7 @@ namespace AsunaServer.Application
         /// </summary>
         /// <param name="session"> the session </param>
         /// <param name="message"> the message </param>
-        private void _OnReceiveMessage(TcpSession session, object message)
+        private void _OnNodeReceiveMessage(TcpSession session, object message)
         {
             if (!_HandleMessage(session, message))
             {

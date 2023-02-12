@@ -17,7 +17,7 @@ public partial class GateServer : ServerBase
             Logger.Error("unknown config type!");
             return;
         }
-        OuterNetwork.Init(gateConfig.OuterIp, gateConfig.OuterPort, _OnAcceptClientConnection, null, _OnReceiveClientMessage);
+        OuterNetwork.Init(gateConfig.OuterIp, gateConfig.OuterPort, _OnAcceptClientConnection, null, _OnReceiveClientMessage, _OnClientDisconnect);
         Logger.Info($"open gate at {gateConfig.OuterIp} {gateConfig.OuterPort}");
     }
 
@@ -37,14 +37,12 @@ public partial class GateServer : ServerBase
 
     private void _OnLoginReq(TcpSession session, LoginReq req)
     {
-        session.OnDisconnectHandler += _OnAccountDisconnect;
-        
-        var account = new Account.Account(req.Username, req.Password, session);
+        var account = new Account.Account(session);
         _Accounts[session] = account;
-        account.Auth(_OnAuthResult);
+        account.Auth(req.Username, req.Password, _OnAuthResult);
     }
 
-    private void _OnAccountDisconnect(TcpSession session)
+    private void _OnClientDisconnect(TcpSession session)
     {
         if (!_Accounts.ContainsKey(session))
         {
@@ -53,7 +51,7 @@ public partial class GateServer : ServerBase
         }
 
         var account = _Accounts[session];
-        Logger.Info($"_OnAccountDisconnect {account.GetUsername()} {session.GetConnectionID()}");
+        Logger.Info($"_OnAccountDisconnect {account.Username} {session.GetConnectionID()}");
         _Accounts.Remove(session);
     }
 
@@ -63,7 +61,7 @@ public partial class GateServer : ServerBase
         {
             var rsp = new LoginRsp()
             {
-                Username = account.GetUsername(),
+                Username = account.Username,
                 RetCode = LoginRetCode.Ok,
             };
             account.Send(rsp);
@@ -72,7 +70,7 @@ public partial class GateServer : ServerBase
         {
             var rsp = new LoginRsp()
             {
-                Username = account.GetUsername(),
+                Username = account.Username,
                 RetCode = LoginRetCode.Fail,
             };
             account.Send(rsp);

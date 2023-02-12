@@ -17,28 +17,27 @@ namespace AsunaServer.Account
     
     public class Account
     {
-        public Account(string username, string password, TcpSession session)
+        public Account(TcpSession session)
         {
-            _Username = username;
-            _Password = password;
+            _AuthState = AuthState.NotAuth;
             _Session = session;
-            _Session.OnDisconnectHandler += _OnSessionDisconnect;
         }
 
-        public void Auth(OnAuthResultCallback callback)
+        public void Auth(string username, string password, OnAuthResultCallback callback)
         {
             if (_AuthState != AuthState.NotAuth)
             {
                 Logger.Error("unknown state");
                 return;
             }
+            Username = username;
             _Callback = callback;
             TimerMgr.AddTimer(1000, OnAuth);
         }
 
         private void OnAuth(object? param)
         {
-            if (_Username == "xiao")
+            if (Username == "xiao")
             {
                 _AuthState = AuthState.AuthSuccess;
                 _Callback?.Invoke(this);
@@ -57,24 +56,14 @@ namespace AsunaServer.Account
             return _AuthState;
         }
 
-        public string GetUsername()
-        {
-            return _Username;
-        }
-
         public void Send(object message)
         {
-            _Session.Send(message);
+            _Session?.Send(message);
         }
 
-        private void _OnSessionDisconnect(TcpSession session)
-        {
-        }
-
+        public string? Username;
         private AuthState _AuthState;
-        private readonly string _Username;
-        private readonly string _Password;
-        private  TcpSession _Session;
+        private readonly TcpSession _Session;
         private OnAuthResultCallback? _Callback;
     }
 }

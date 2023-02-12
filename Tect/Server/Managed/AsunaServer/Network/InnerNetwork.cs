@@ -9,17 +9,20 @@ namespace AsunaServer.Network
     public delegate void OnAcceptCallback(TcpSession session);
     public delegate void OnConnectCallback(TcpSession session);
     public delegate void OnReceiveCallback(TcpSession session, object message);
+    public delegate void OnDisconnectCallback(TcpSession session);
     
     public static class InnerNetwork
     {
         public static void Init(string ip, int port, 
             OnAcceptCallback? onAccept, 
             OnConnectCallback? onConnect, 
-            OnReceiveCallback? onReceive)
+            OnReceiveCallback? onReceive,
+            OnDisconnectCallback onDisconnect)
         {
             _OnAcceptCallback = onAccept;
             _OnConnectCallback = onConnect;
             _OnReceiveCallback = onReceive;
+            _OnDisconnectCallback = onDisconnect;
             Interface.InnerNetwork_Init(ip, port, _OnAccept, _OnDisconnect);
         }
         
@@ -47,11 +50,15 @@ namespace AsunaServer.Network
             Logger.Warning("OnReceiveMessage connection does not exist!");
         }
         
+        /// <summary>
+        /// 来自core的回调 - 链接断开
+        /// </summary>
         private static void _OnDisconnect(IntPtr connection)
         {
             Logger.Debug($"Inner Network OnDisconnect {connection}");
             if (_Sessions.TryGetValue(connection, out var session))
             {
+                _OnDisconnectCallback?.Invoke(session);
                 session.OnDisconnect();
                 _Sessions.Remove(connection);
             }
@@ -93,6 +100,11 @@ namespace AsunaServer.Network
         /// onConnect上层业务回调
         /// </summary>
         private static OnConnectCallback? _OnConnectCallback;
+        
+        /// <summary>
+        /// onDisconnect 上层业务回调
+        /// </summary>
+        private static OnDisconnectCallback? _OnDisconnectCallback;
         
         /// <summary>
         /// 维护所有有效链接
