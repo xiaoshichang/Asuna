@@ -42,9 +42,7 @@ namespace Asuna.Entity
         
         private void _CollectAnimatorInputFromPlayerInput()
         {
-            ADebug.Assert(_CurrentBindPlayerType != PlayerType.None);
-            
-            var playerInputMapping = G.Application.PlayerInputManager.GetMapping(_CurrentBindPlayerType);
+            var playerInputMapping = G.Application.PlayerInputManager.GetPlayerInputMapping();
             if (playerInputMapping == null)
             {
                 ADebug.Error("mapping not found ");

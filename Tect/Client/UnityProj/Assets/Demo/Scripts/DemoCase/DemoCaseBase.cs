@@ -22,12 +22,12 @@ namespace Demo
             }
             var actionSet = new DefaultPlayerActionSet();
             var mapping = new PlayerInputMapping(device, actionSet);
-            G.PlayerInputManager.SetupPlayerInputMapping(PlayerType.Player1, mapping);
+            G.PlayerInputManager.SetupPlayerInputMapping(mapping);
         }
 
         protected void _ReleaseMainPlayerInput()
         {
-            G.PlayerInputManager.RemovePlayerInputMapping(PlayerType.Player1);
+            G.PlayerInputManager.ClearPlayerInputMapping();
         }
     }
 }

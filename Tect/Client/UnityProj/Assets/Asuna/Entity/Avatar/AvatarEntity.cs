@@ -37,11 +37,13 @@ namespace Asuna.Entity
             {
                 CharacterControllerComponent = new AnimatorCharacterControllerComponent();
                 CharacterControllerComponent.Init(this, initParam);
+                CharacterControllerComponent.SetInputSource(ControllerInputSource.PlayerInput);
             }
             else if (mode == ControllerType.SimpleFSM)
             {
                 CharacterControllerComponent = new SimpleFSMCharacterControllerComponent();
                 CharacterControllerComponent.Init(this, initParam);
+                CharacterControllerComponent.SetInputSource(ControllerInputSource.PlayerInput);
             }
         }
         
@@ -86,16 +88,6 @@ namespace Asuna.Entity
         protected virtual void _AfterModelLoaded()
         {
             CharacterControllerComponent?.AfterModelLoaded();
-        }
-
-        public void OnBindToPlayerInput(PlayerType player)
-        {
-            CharacterControllerComponent?.OnBindToPlayerInput(player);   
-        }
-
-        public void OnUnbindFromPlayerInput()
-        {
-            CharacterControllerComponent?.OnUnbindFromPlayerInput();
         }
 
 

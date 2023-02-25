@@ -53,31 +53,14 @@ namespace Asuna.Entity
             _InitParam = null;
         }
 
+        public void SetInputSource(ControllerInputSource source)
+        {
+            _InputSource = source;
+        }
+
         public abstract void AfterModelLoaded();
         public abstract void Update(float dt);
         public abstract void LateUpdate(float dt);
-
-        #region Player Input
-
-        public void OnBindToPlayerInput(PlayerType player)
-        {
-            ADebug.Assert(_CurrentBindPlayerType == PlayerType.None);
-            
-            _InputSource = ControllerInputSource.PlayerInput;
-            _CurrentBindPlayerType = player;
-        }
-
-        public void OnUnbindFromPlayerInput()
-        {
-            ADebug.Assert(_InputSource == ControllerInputSource.PlayerInput);
-            ADebug.Assert(_CurrentBindPlayerType != PlayerType.None);
-            
-            _InputSource = ControllerInputSource.None;
-            _CurrentBindPlayerType = PlayerType.None;
-        }
-
-        protected PlayerType _CurrentBindPlayerType = PlayerType.None;
-        #endregion
 
         protected AvatarEntity _Owner;
         protected CharacterControllerComponentInitParam _InitParam;
