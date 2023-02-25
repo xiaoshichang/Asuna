@@ -1,80 +1,96 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
+﻿
 using Asuna.Application;
 using Asuna.Gameplay;
+using Asuna.Network;
 using Asuna.Utils;
+using AsunaShared.Message;
 
 namespace Demo
 {
+    public delegate void OnConnectToServerResult(string result);
+
+    
     public class DemoGameplayInstance : GameplayInstance
     {
         public override void Update(float dt)
         {
-            _CurrentRunningDemo?.Tick(dt);
         }
 
         public override void EntryGameplay()
         {
-            _CollectAllDemos();
-            G.UIManager.ShowPage(nameof(DemoMainPage), null);
+            G.UIManager.ShowPage(nameof(LoginPage), null);
         }
 
-        public void EnterDemo(string demoBtn)
+         public void LoginToServer(string username, string password, string server, OnConnectToServerResult callback)
         {
-            if (_CurrentRunningDemo != null)
+            ADebug.Assert(_OnConnectToServerResult == null);
+
+            var endpoint = NetworkHelper.ParseIPEndPoint(server);
+            
+            _OnConnectToServerResult = callback;
+            _Username = username;
+            _Password = password;
+            G.NetworkManager.ConnectToAsync(endpoint.Address.ToString(), endpoint.Port, _OnConnectCallback);
+        }
+
+        private void _OnConnectCallback(OnConnectResult cr)
+        {
+            ADebug.Assert(_OnConnectToServerResult != null);
+            
+            if (cr == OnConnectResult.OK)
             {
-                ExitCurrentRunningDemo();
+                _LoginToServer();
             }
-
-            _CurrentRunningDemo = _AllDemos[demoBtn];
-            ADebug.Info($"enter demo: {_CurrentRunningDemo.GetDemoName()}");
-            _CurrentRunningDemo.InitDemo();
-
+            else
+            {
+                _OnConnectToServerResult.Invoke("connect to server fail");
+                _OnConnectToServerResult = null;
+            }
         }
 
-        public void ExitCurrentRunningDemo()
+        private void _LoginToServer()
         {
-            if (_CurrentRunningDemo == null)
+            ADebug.Assert(_OnConnectToServerResult != null);
+            
+            G.NetworkManager.RegisterMessageHandler(typeof(LoginRsp), _OnLoginToServer);
+            var loginReq = new LoginReq()
             {
+                Password = _Password,
+                Username = _Username
+            };
+            G.NetworkManager.Send(loginReq);
+        }
+
+        private void _OnLoginToServer(object message)
+        {
+            G.NetworkManager.UnRegisterMessageHandler(typeof(LoginRsp), _OnLoginToServer);
+            var rsp = message as LoginRsp;
+            if (rsp.Username != _Username)
+            {
+                _OnConnectToServerResult.Invoke("unknown error");
+                _Username = null;
+                _Password = null;
                 return;
             }
-            ADebug.Info($"exit current demo: {_CurrentRunningDemo.GetDemoName()}");
-            _CurrentRunningDemo.ReleaseDemo();
-            _CurrentRunningDemo = null;
-        }
-
-        private void _CollectAllDemos()
-        {
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            foreach (var type in assembly.GetTypes())
+            
+            
+            if (rsp.RetCode == LoginRetCode.Ok)
             {
-                if (type.IsSubclassOf(typeof(DemoCaseBase)))
-                {
-                    var demo = Activator.CreateInstance(type) as DemoCaseBase;
-                    if (demo == null)
-                    {
-                        ADebug.Warning("unknown error");
-                        continue;
-                    }
-                    _AllDemos[demo.GetDemoName()] = demo;
-                }
+                _OnConnectToServerResult.Invoke("Login Result: OK");
             }
-            ADebug.Info($"{_AllDemos.Count} DemoCase found!");
+            else
+            {
+                _OnConnectToServerResult.Invoke("Login Result: Fail");
+            }
+
+            _OnConnectToServerResult = null;
+            _Username = null;
+            _Password = null;
         }
 
-        public Dictionary<string, DemoCaseBase> GetAllDemos()
-        {
-            return _AllDemos;
-        }
-
-        public DemoCaseBase GetCurrentRunningDemo()
-        {
-            return _CurrentRunningDemo;
-        }
-
-        private readonly Dictionary<string, DemoCaseBase> _AllDemos = new Dictionary<string, DemoCaseBase>();
-        private DemoCaseBase _CurrentRunningDemo;
+        private string _Username;
+        private string _Password;
+        private OnConnectToServerResult _OnConnectToServerResult;
 
     }
 }

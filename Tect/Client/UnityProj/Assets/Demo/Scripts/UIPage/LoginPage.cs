@@ -7,9 +7,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-namespace Demo.Moba
+namespace Demo
 {
-    public class NetworkConnectPage : UIPage
+    public class LoginPage : UIPage
     {
         public const string AssetPath = "Assets/Demo/Res/UI/MobaLoginPage.prefab";
     
@@ -35,9 +35,8 @@ namespace Demo.Moba
         private void _OnLoginButtonClick()
         {
             var gameplay = G.GameplayInstance as DemoGameplayInstance;
-            var demo = gameplay.GetCurrentRunningDemo() as DemoCaseNetworkConnect;
             _LoginResult.text = string.Empty;
-            demo.LoginToServer(_UsernameInput.text, _PasswordInput.text, _ServerInput.text, _OnLoginToServerResult);
+            gameplay.LoginToServer(_UsernameInput.text, _PasswordInput.text, _ServerInput.text, _OnLoginToServerResult);
         }
 
         private void _OnLoginToServerResult(string result)
@@ -47,8 +46,6 @@ namespace Demo.Moba
 
         private void _OnCloseButtonClick()
         {
-            var gameplay = G.GameplayInstance as DemoGameplayInstance;
-            gameplay.ExitCurrentRunningDemo();
         }
 
         private TMP_InputField _UsernameInput;
