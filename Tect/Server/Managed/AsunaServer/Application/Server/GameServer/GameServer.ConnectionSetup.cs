@@ -34,9 +34,10 @@ public partial class GameServer : ServerBase
         }
     }
     
-    protected override void _OnInnerPong(TcpSession session, InnerPongRsp rsp)
+    protected override void _OnInnerPong(TcpSession session, object message)
     {
-        base._OnInnerPong(session, rsp);
+        base._OnInnerPong(session, message);
+        var rsp = message as InnerPongRsp;
         var config = _GroupConfig.GetServerConfigByName(rsp.ServerName);
         if (config == null)
         {

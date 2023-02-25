@@ -21,9 +21,10 @@ public partial class GateServer : ServerBase
         InnerNetwork.ConnectTo(config.InnerIp, config.InnerPort);
     }
     
-    protected override void _OnInnerPing(TcpSession session, InnerPingReq req)
+    protected override void _OnInnerPing(TcpSession session, object message)
     {
-        base._OnInnerPing(session, req);
+        base._OnInnerPing(session, message);
+        var req = message as InnerPingReq;
         var config = _GroupConfig.GetServerConfigByName(req.ServerName);
         if (config == null)
         {
@@ -37,9 +38,10 @@ public partial class GateServer : ServerBase
         }
     }
 
-    protected override void _OnInnerPong(TcpSession session, InnerPongRsp rsp)
+    protected override void _OnInnerPong(TcpSession session, object message)
     {
-        base._OnInnerPong(session, rsp);
+        base._OnInnerPong(session, message);
+        var rsp = message as InnerPongRsp;
         var config = _GroupConfig.GetServerConfigByName(rsp.ServerName);
         if (config == null)
         {

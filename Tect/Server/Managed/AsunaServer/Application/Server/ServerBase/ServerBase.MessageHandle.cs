@@ -1,13 +1,35 @@
-﻿using AsunaServer.Message;
-using AsunaServer.Debug;
+﻿using AsunaServer.Debug;
+using AsunaServer.Message;
 using AsunaServer.Network;
 
 #pragma warning disable CS8604
 
 namespace AsunaServer.Application
 {
+    public delegate void MessageHandler(TcpSession session, object message);
+    
     public abstract partial class ServerBase
     {
+        protected void _RegisterMessageHandler(Type type, MessageHandler handler)
+        {
+            if (_Handlers.ContainsKey(type))
+            {
+                Logger.Error("_RegisterMessageHandler duplicated");
+                return;
+            }
+
+            _Handlers[type] = handler;
+        }
+
+        protected MessageHandler? _GetMessageHandler(Type type)
+        {
+            if (_Handlers.TryGetValue(type, out var handler))
+            {
+                return handler;
+            }
+            return null;
+        }
+
         /// <summary>
         /// callback when server receive a message
         /// </summary>
@@ -15,32 +37,17 @@ namespace AsunaServer.Application
         /// <param name="message"> the message </param>
         private void _OnNodeReceiveMessage(TcpSession session, object message)
         {
-            if (!_HandleMessage(session, message))
-            {
-                Logger.Error($"message unhandled! {message.GetType()}");
-            }
+            var handler = _GetMessageHandler(message.GetType());
+            handler?.Invoke(session, message);
+        }
+        
+        protected virtual void _RegisterMessageHandlers()
+        {
+            _RegisterMessageHandler(typeof(InnerPongRsp), _OnInnerPong);
+            _RegisterMessageHandler(typeof(InnerPingReq), _OnInnerPing);
         }
 
-        protected virtual bool _HandleMessage(TcpSession session, object message)
-        {
-            var type = message.GetType();
-            if (type == typeof(InnerPingReq))
-            {
-                var req = message as InnerPingReq;
-                _OnInnerPing(session, req);
-                return true;
-            }
-            else if (type == typeof(InnerPongRsp))
-            {
-                var rsp = message as InnerPongRsp;
-                _OnInnerPong(session, rsp);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        protected readonly Dictionary<Type, MessageHandler> _Handlers = new();
     }
 }
 

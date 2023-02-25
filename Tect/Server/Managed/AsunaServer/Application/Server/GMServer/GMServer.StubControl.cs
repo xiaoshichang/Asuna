@@ -42,8 +42,9 @@ public partial class GMServer  : ServerBase
         }
     }
 
-    private void _OnStubReady(TcpSession session, StubReadyNtf notify)
+    private void _OnStubReady(TcpSession session, object message)
     {
+        var ntf = message as StubReadyNtf;
         _ReadyStubs += 1;
         if (_StubsDistributeTable == null)
         {

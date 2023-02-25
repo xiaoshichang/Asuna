@@ -11,8 +11,9 @@ namespace AsunaServer.Application;
 public partial class GameServer : ServerBase
 {
     
-    private void _OnStubsDistributeNtf(TcpSession session, StubsDistributeNtf ntf)
+    private void _OnStubsDistributeNtf(TcpSession session, object message)
     {
+        var ntf = message as StubsDistributeNtf;
         _StubsDistributeTable = ntf.StubsDistributeTable;
         foreach (var item in _StubsDistributeTable)
         {

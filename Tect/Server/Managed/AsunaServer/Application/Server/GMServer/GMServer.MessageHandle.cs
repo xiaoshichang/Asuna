@@ -7,29 +7,10 @@ namespace AsunaServer.Application;
 
 public partial class GMServer  : ServerBase
 {
-    protected override bool _HandleMessage(TcpSession session, object message)
+    protected override void _RegisterMessageHandlers()
     {
-        if (base._HandleMessage(session, message))
-        {
-            return true;
-        }
-
-        var type = message.GetType();
-        if (type == typeof(ServerReadyNtf))
-        {
-            var ntf = message as ServerReadyNtf;
-            _OnServerReadyNtf(session, ntf);
-            return true;
-        }
-
-        if (type == typeof(StubReadyNtf))
-        {
-            var ntf = message as StubReadyNtf;
-            _OnStubReady(session, ntf);
-            return true;
-        }
-
-        return false;
-
+        base._RegisterMessageHandlers();
+        _RegisterMessageHandler(typeof(ServerReadyNtf), _OnServerReadyNtf);
+        _RegisterMessageHandler(typeof(StubReadyNtf), _OnStubReady);
     }
 }

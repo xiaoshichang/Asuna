@@ -7,22 +7,9 @@ namespace AsunaServer.Application;
 
 public partial class GameServer : ServerBase
 {
-    protected override bool _HandleMessage(TcpSession session, object message)
+    protected override void _RegisterMessageHandlers()
     {
-        if (base._HandleMessage(session, message))
-        {
-            return true;
-        }
-
-        var type = message.GetType();
-        if (type == typeof(StubsDistributeNtf))
-        {
-            var ntf = message as StubsDistributeNtf;
-            _OnStubsDistributeNtf(session, ntf);
-            return true;
-        }
-
-        return false;
-
+        base._RegisterMessageHandlers();
+        _RegisterMessageHandler(typeof(StubsDistributeNtf), _OnStubsDistributeNtf);
     }
 }

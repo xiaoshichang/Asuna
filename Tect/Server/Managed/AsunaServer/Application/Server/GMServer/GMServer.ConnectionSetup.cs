@@ -8,9 +8,14 @@ namespace AsunaServer.Application;
 public partial class GMServer  : ServerBase
 {
     
-    protected override void _OnInnerPing(TcpSession session, InnerPingReq req)
+    protected override void _OnInnerPing(TcpSession session, object message)
     {
-        base._OnInnerPing(session, req);
+        base._OnInnerPing(session, message);
+        var req = message as InnerPingReq;
+        if (req == null)
+        {
+            throw new ArgumentException();
+        }
         var config = _GroupConfig.GetServerConfigByName(req.ServerName);
         if (config == null)
         {
@@ -29,8 +34,9 @@ public partial class GMServer  : ServerBase
     }
     
     
-    private void _OnServerReadyNtf(TcpSession session, ServerReadyNtf ntf)
+    private void _OnServerReadyNtf(TcpSession session, object message)
     {
+        var ntf = message as ServerReadyNtf;
         _ReadyServerCount += 1;
         if (_ReadyServerCount == _GroupConfig.GetServerGroupNodesCount() - 1)
         {

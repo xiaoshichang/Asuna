@@ -33,8 +33,13 @@ public abstract partial class ServerBase
         _SessionToServer.Remove(session);
     }
 
-    protected virtual void _OnInnerPing(TcpSession session, InnerPingReq req)
+    protected virtual void _OnInnerPing(TcpSession session, object message)
     {
+        var req = message as InnerPingReq;
+        if (req == null)
+        {
+            throw new ArgumentException();
+        }
         if (_ServerToSession.ContainsKey(req.ServerName))
         {
             Logger.Error($"server {req.ServerName} exist!");
@@ -49,8 +54,13 @@ public abstract partial class ServerBase
         session.Send(pong);
     }
 
-    protected virtual void _OnInnerPong(TcpSession session, InnerPongRsp rsp)
+    protected virtual void _OnInnerPong(TcpSession session, object message)
     {
+        var rsp = message as InnerPongRsp;
+        if (rsp == null)
+        {
+            throw new ArgumentException();
+        }
         if (_ServerToSession.ContainsKey(rsp.ServerName))
         {
             Logger.Error($"server {rsp.ServerName} exist!");

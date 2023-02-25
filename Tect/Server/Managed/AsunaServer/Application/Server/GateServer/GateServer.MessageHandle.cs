@@ -8,25 +8,10 @@ namespace AsunaServer.Application;
 
 public partial class GateServer : ServerBase
 {
-    protected override bool _HandleMessage(TcpSession session, object message)
+    protected override void _RegisterMessageHandlers()
     {
-        if (base._HandleMessage(session, message))
-        {
-            return true;
-        }
-
-        if (message is OpenGateNtf ntf)
-        {
-            _OnOpenGateNtf(session, ntf);
-            return true;
-        }
-
-        if (message is LoginReq req)
-        {
-            _OnLoginReq(session, req);
-            return true;
-        }
-
-        return false;
+        base._RegisterMessageHandlers();
+        _RegisterMessageHandler(typeof(OpenGateNtf), _OnOpenGateNtf);
+        _RegisterMessageHandler(typeof(LoginReq), _OnLoginReq);
     }
 }

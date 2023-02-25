@@ -9,7 +9,7 @@ namespace AsunaServer.Application;
 
 public partial class GateServer : ServerBase
 {
-    private void _OnOpenGateNtf(TcpSession session, OpenGateNtf message)
+    private void _OnOpenGateNtf(TcpSession session, object message)
     {
         var gateConfig = _ServerConfig as GateServerConfig;
         if (gateConfig == null)
@@ -29,14 +29,17 @@ public partial class GateServer : ServerBase
     
     private void _OnReceiveClientMessage(TcpSession session, object message)
     {
-        if (!_HandleMessage(session, message))
-        {
-            Logger.Error($"message unhandled! {message.GetType()}");
-        }
+        var handler = _GetMessageHandler(message.GetType());
+        handler?.Invoke(session, message);
     }
 
-    private void _OnLoginReq(TcpSession session, LoginReq req)
+    private void _OnLoginReq(TcpSession session, object message)
     {
+        var req = message as LoginReq;
+        if (req == null)
+        {
+            throw new ArgumentException();
+        }
         var account = new Account.Account(session);
         _Accounts[session] = account;
         account.Auth(req.Username, req.Password, _OnAuthResult);

@@ -40,6 +40,7 @@ namespace AsunaServer.Application
         public virtual void Init()
         {
             _RegisterNetworkMessage();
+            _RegisterMessageHandlers();
             _InitCoreAndNetwork();
         }
 
