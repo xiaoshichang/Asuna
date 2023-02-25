@@ -8,16 +8,16 @@ namespace Demo.Moba
     public delegate void OnConnectToServerResult(string result);
     
     
-    public class DemoCaseMoba : DemoCaseBase
+    public class DemoCaseNetworkConnect : DemoCaseBase
     {
         public override void InitDemo()
         {
-            G.UIManager.ShowPage(nameof(MobaLoginPage), null);
+            G.UIManager.ShowPage(nameof(NetworkConnectPage), null);
         }
 
         public override void ReleaseDemo()
         {
-            G.UIManager.HidePage(nameof(MobaLoginPage));
+            G.UIManager.HidePage(nameof(NetworkConnectPage));
         }
 
         public override void Tick(float dt)
@@ -26,7 +26,7 @@ namespace Demo.Moba
 
         public override string GetDemoName()
         {
-            return "Moba";
+            return "Network Connect";
         }
 
         public void LoginToServer(string username, string password, string server, OnConnectToServerResult callback)

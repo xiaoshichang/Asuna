@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 namespace Demo.Moba
 {
-    public class MobaLoginPage : UIPage
+    public class NetworkConnectPage : UIPage
     {
         public const string AssetPath = "Assets/Demo/Res/UI/MobaLoginPage.prefab";
     
@@ -35,7 +35,7 @@ namespace Demo.Moba
         private void _OnLoginButtonClick()
         {
             var gameplay = G.GameplayInstance as DemoGameplayInstance;
-            var demo = gameplay.GetCurrentRunningDemo() as DemoCaseMoba;
+            var demo = gameplay.GetCurrentRunningDemo() as DemoCaseNetworkConnect;
             _LoginResult.text = string.Empty;
             demo.LoginToServer(_UsernameInput.text, _PasswordInput.text, _ServerInput.text, _OnLoginToServerResult);
         }

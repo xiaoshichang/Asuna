@@ -19,7 +19,7 @@ public abstract class ServerStubEntity : ServerEntity
         
     
     /// <summary>
-    /// 准备继续。
+    /// 准备就绪。
     /// 初始化完毕后主动调用。
     /// </summary>
     protected void _OnStubReady()
