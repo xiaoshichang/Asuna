@@ -6,16 +6,16 @@ public abstract partial class ServerBase
 {
     public bool IsGMServer()
     {
-        return _ServerConfig is GMServerConfig;
+        return G.ServerConfig is GMServerConfig;
     }
 
     public bool IsGameServer()
     {
-        return _ServerConfig is GameServerConfig;
+        return G.ServerConfig is GameServerConfig;
     }
 
     public bool IsGateServer()
     {
-        return _ServerConfig is GateServerConfig;
+        return G.ServerConfig is GateServerConfig;
     }
 }

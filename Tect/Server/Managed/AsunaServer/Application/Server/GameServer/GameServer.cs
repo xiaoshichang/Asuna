@@ -7,15 +7,13 @@ namespace AsunaServer.Application
 {
     public partial class GameServer : ServerBase
     {
-        public GameServer(ServerGroupConfig groupConfig, GameServerConfig serverConfig) : base(groupConfig, serverConfig)
-        {
-        }
         
         public override void Init()
         {
-            base.Init();
-            _ServerStubsRegister();
-
+            _RegisterInnerNetworkMessage();
+            _RegisterMessageHandlers();
+            _RegisterServerStubs();
+            _InitCoreAndNetwork();
             _TryConnectGMSever();
         }
 

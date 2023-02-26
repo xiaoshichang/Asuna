@@ -17,7 +17,7 @@ public partial class GameServer : ServerBase
 
     private void _DoConnectGMServer(object? param)
     {
-        var config = _GroupConfig.GetGMConfig();
+        var config = G.GroupConfig.GetGMConfig();
         InnerNetwork.ConnectTo(config.InnerIp, config.InnerPort);
     }
     
@@ -28,7 +28,7 @@ public partial class GameServer : ServerBase
         
     private void _DoConnectGateServer(object? param)
     {
-        foreach (var gate in _GroupConfig.GateServers)
+        foreach (var gate in G.GroupConfig.GateServers)
         {
             InnerNetwork.ConnectTo(gate.InnerIp, gate.InnerPort);
         }
@@ -38,7 +38,7 @@ public partial class GameServer : ServerBase
     {
         base._OnInnerPong(session, message);
         var rsp = message as InnerPongRsp;
-        var config = _GroupConfig.GetServerConfigByName(rsp.ServerName);
+        var config = G.GroupConfig.GetServerConfigByName(rsp.ServerName);
         if (config == null)
         {
             Logger.Warning("unknown server name");
@@ -46,13 +46,12 @@ public partial class GameServer : ServerBase
         }
         if (config is GMServerConfig)
         {
-            _GMSession = session;
             _TryConnectGateServer();
         }
         if (config is GateServerConfig)
         {
             _ConnectedGates += 1;
-            if (_ConnectedGates == _GroupConfig.GateServers.Count)
+            if (_ConnectedGates == G.GroupConfig.GateServers.Count)
             {
                 _OnAllGatesConnected();
             }
@@ -61,20 +60,14 @@ public partial class GameServer : ServerBase
 
     private void _OnAllGatesConnected()
     {
-        Logger.Info($"game is ready! {_ServerConfig.Name}");
+        Logger.Info($"game is ready! {G.ServerConfig.Name}");
         var ntf = new ServerReadyNtf()
         {
-            ServerName = _ServerConfig.Name
+            ServerName = G.ServerConfig.Name
         };
-        _GMSession.Send(ntf);
+        G.GM.Send(ntf);
     }
     
-    private void _CallGM(object message)
-    {
-        _GMSession.Send(message);
-    }
-    
-    private TcpSession? _GMSession;
     private int _ConnectedGates = 0;
 
 }

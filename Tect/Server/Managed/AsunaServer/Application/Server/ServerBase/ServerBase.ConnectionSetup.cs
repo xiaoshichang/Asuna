@@ -12,25 +12,25 @@ public abstract partial class ServerBase
     {
     }
     
+    /// <summary>
+    /// 由主动connect方发起ping
+    /// </summary>
     protected virtual void _OnNodeConnect(TcpSession session)
     {
         var message = new InnerPingReq()
         {
-            ServerName = _ServerConfig.Name
+            ServerName = G.ServerConfig.Name
         };
         session.Send(message);
     }
 
     protected virtual void _OnNodeDisconnect(TcpSession session)
     {
-        if (!_SessionToServer.TryGetValue(session, out var serverName))
+        if (!G.UnRegisterSession(session))
         {
-            Logger.Error("unknown state");
+            Logger.Error("UnRegisterSession fail! unknown state.");
             return;
         }
-
-        _ServerToSession.Remove(serverName);
-        _SessionToServer.Remove(session);
     }
 
     protected virtual void _OnInnerPing(TcpSession session, object message)
@@ -40,16 +40,14 @@ public abstract partial class ServerBase
         {
             throw new ArgumentException();
         }
-        if (_ServerToSession.ContainsKey(req.ServerName))
+        if (!G.RegisterSession(req.ServerName, session))
         {
-            Logger.Error($"server {req.ServerName} exist!");
+            Logger.Error($"Register Session fail!");
             return;
         }
-        _ServerToSession[req.ServerName] = session;
-        _SessionToServer[session] = req.ServerName;
         var pong = new InnerPongRsp()
         {
-            ServerName = _ServerConfig.Name
+            ServerName = G.ServerConfig.Name
         };
         session.Send(pong);
     }
@@ -61,16 +59,13 @@ public abstract partial class ServerBase
         {
             throw new ArgumentException();
         }
-        if (_ServerToSession.ContainsKey(rsp.ServerName))
+        if (!G.RegisterSession(rsp.ServerName, session))
         {
-            Logger.Error($"server {rsp.ServerName} exist!");
+            Logger.Error($"Register Session fail!");
             return;
         }
-        _ServerToSession[rsp.ServerName] = session;
-        _SessionToServer[session] = rsp.ServerName;
     }
     
-    protected readonly Dictionary<string, TcpSession> _ServerToSession = new();
-    protected readonly Dictionary<TcpSession, string> _SessionToServer = new();
+    
 
 }

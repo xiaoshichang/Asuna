@@ -23,7 +23,7 @@ public partial class GameServer : ServerBase
                 Logger.Error("unknown stub name");
                 continue;
             }
-            if (item.Value == _ServerConfig.Name)
+            if (item.Value == G.ServerConfig.Name)
             {
                 try
                 {
@@ -33,7 +33,6 @@ public partial class GameServer : ServerBase
                         Logger.Error("not a server stub!");
                         continue;
                     }
-                    stub.SetCallGMDelegate(_CallGM);
                     stub.Init();
                 }
                 catch (Exception e)

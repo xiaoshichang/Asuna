@@ -1,4 +1,5 @@
-﻿namespace AsunaServer.Debug
+﻿
+namespace AsunaServer.Debug
 {
     public static class Logger
     {
@@ -25,6 +26,22 @@
         public static void Error(string format, params object[] args)
         {
             Core.Interface.Logger_Error(string.Format(format, args));
+        }
+
+        public static void Assert(bool condition)
+        {
+            if (!condition)
+            {
+                throw new Exception();
+            }
+        }
+
+        public static void Assert(bool condition, string message)
+        {
+            if (!condition)
+            {
+                throw new Exception(message);
+            }
         }
     }
 }

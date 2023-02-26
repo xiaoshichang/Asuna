@@ -17,7 +17,7 @@ public partial class GateServer : ServerBase
 
     private void _DoConnectGMServer(object? param)
     {
-        var config = _GroupConfig.GetGMConfig();
+        var config = G.GroupConfig.GetGMConfig();
         InnerNetwork.ConnectTo(config.InnerIp, config.InnerPort);
     }
     
@@ -25,12 +25,7 @@ public partial class GateServer : ServerBase
     {
         base._OnInnerPing(session, message);
         var req = message as InnerPingReq;
-        var config = _GroupConfig.GetServerConfigByName(req.ServerName);
-        if (config == null)
-        {
-            Logger.Warning("unknown server name");
-            return;
-        }
+        var config = G.GroupConfig.GetServerConfigByName(req.ServerName);
         if (config is GameServerConfig)
         {
             _ConnectedGames += 1;
@@ -42,46 +37,32 @@ public partial class GateServer : ServerBase
     {
         base._OnInnerPong(session, message);
         var rsp = message as InnerPongRsp;
-        var config = _GroupConfig.GetServerConfigByName(rsp.ServerName);
-        if (config == null)
-        {
-            Logger.Warning("unknown server name");
-            return;
-        }
-
+        var config = G.GroupConfig.GetServerConfigByName(rsp.ServerName);
         if (config is GMServerConfig)
         {
-            _GMSession = session;
             _CheckServerReady();
         }
     }
 
+    /// <summary>
+    /// 对于Gate而言，Ready条件为
+    ///     -   所有Game连接成功
+    /// </summary>
     private void _CheckServerReady()
     {
-        if (_GMSession == null)
-        {
-            return;
-        }
-
-        if (_ConnectedGames < _GroupConfig.GameServers.Count)
+        if (_ConnectedGames < G.GroupConfig.GameServers.Count)
         {
             return;
         }
         
-        Logger.Info($"gate is ready! {_ServerConfig.Name}");
+        Logger.Info($"gate is ready! {G.ServerConfig.Name}");
         var ntf = new ServerReadyNtf()
         {
-            ServerName = _ServerConfig.Name
+            ServerName = G.ServerConfig.Name
         };
-        _GMSession.Send(ntf);
+        G.GM.Send(ntf);
     }
-    
-    private void _CallGM(object message)
-    {
-        _GMSession.Send(message);
-    }
-    
+
     private int _ConnectedGames = 0;
-    private TcpSession? _GMSession;
 
 }

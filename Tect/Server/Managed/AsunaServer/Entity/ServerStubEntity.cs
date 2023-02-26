@@ -1,12 +1,10 @@
+using AsunaServer.Application;
 using AsunaServer.Message;
 using AsunaServer.Debug;
-using Google.Protobuf;
 
 #pragma warning disable CS8602
 
 namespace AsunaServer.Entity;
-
-public delegate void NetworkDelegate(IMessage message);
 
 public abstract class ServerStubEntity : ServerEntity
 {
@@ -29,14 +27,7 @@ public abstract class ServerStubEntity : ServerEntity
         {
             StubName = GetType().Name
         };
-        _GMDelegate.Invoke(ntf);
+        G.GM.Send(ntf);
     }
-
-    public void SetCallGMDelegate(NetworkDelegate gm)
-    {
-        _GMDelegate = gm;
-    }
-
-    private NetworkDelegate? _GMDelegate;
 
 }

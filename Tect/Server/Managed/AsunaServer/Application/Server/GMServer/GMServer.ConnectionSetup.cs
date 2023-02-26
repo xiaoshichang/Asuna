@@ -16,20 +16,11 @@ public partial class GMServer  : ServerBase
         {
             throw new ArgumentException();
         }
-        var config = _GroupConfig.GetServerConfigByName(req.ServerName);
+        var config = G.GroupConfig.GetServerConfigByName(req.ServerName);
         if (config == null)
         {
             Logger.Warning("unknown server name");
             return;
-        }
-        if (config is GameServerConfig)
-        {
-            _AllGames.Add(session);
-        }
-
-        if (config is GateServerConfig)
-        {
-            _AllGates.Add(session);
         }
     }
     
@@ -38,7 +29,7 @@ public partial class GMServer  : ServerBase
     {
         var ntf = message as ServerReadyNtf;
         _ReadyServerCount += 1;
-        if (_ReadyServerCount == _GroupConfig.GetServerGroupNodesCount() - 1)
+        if (_ReadyServerCount == G.GroupConfig.GetServerGroupNodesCount() - 1)
         {
             _OnAllServerReady();
         }
@@ -46,11 +37,9 @@ public partial class GMServer  : ServerBase
 
     private void _OnAllServerReady()
     {
-        Logger.Info($"_OnAllServerReady. games: {_AllGames.Count}, gates: {_AllGates.Count}");
+        Logger.Info($"_OnAllServerReady. games: {G.Games.Count}, gates: {G.Gates.Count}");
         _SendStubsDistributeNotifyToGames();
     }
 
     private int _ReadyServerCount = 0;
-    private readonly List<TcpSession> _AllGames = new();
-    private readonly List<TcpSession> _AllGates = new();
 }

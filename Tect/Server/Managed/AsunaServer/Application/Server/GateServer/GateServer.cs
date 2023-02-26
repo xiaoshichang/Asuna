@@ -8,9 +8,6 @@ namespace AsunaServer.Application
 {
     public partial class GateServer : ServerBase
     {
-        public GateServer(ServerGroupConfig groupConfig, GateServerConfig serverConfig) : base(groupConfig, serverConfig)
-        {
-        }
 
         private void _RegisterClientNetworkMessage()
         {
@@ -21,8 +18,11 @@ namespace AsunaServer.Application
         
         public override void Init()
         {
-            base.Init();
+            _RegisterInnerNetworkMessage();
             _RegisterClientNetworkMessage();
+            _RegisterMessageHandlers();
+            _RegisterServerStubs();
+            _InitCoreAndNetwork();
             _TryConnectGMSever();
         }
 

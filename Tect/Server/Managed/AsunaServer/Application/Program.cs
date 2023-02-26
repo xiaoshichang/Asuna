@@ -10,18 +10,20 @@ namespace AsunaServer.Application // Note: actual namespace depends on the proje
         
         private static ServerBase _CreateServerByServerConfig(ServerGroupConfig groupConfig, ServerConfigBase serverConfig)
         {
+            G.GroupConfig = groupConfig;
+            G.ServerConfig = serverConfig;
             ServerBase server;
-            if (serverConfig is GMServerConfig gmServerConfig)
+            if (serverConfig is GMServerConfig)
             {
-                server = new GMServer(groupConfig, gmServerConfig);
+                server = new GMServer();
             }
-            else if (serverConfig is GameServerConfig gameServerConfig)
+            else if (serverConfig is GameServerConfig)
             {
-                server = new GameServer(groupConfig, gameServerConfig);
+                server = new GameServer();
             }
-            else if (serverConfig is GateServerConfig gateServerConfig)
+            else if (serverConfig is GateServerConfig)
             {
-                server = new GateServer(groupConfig, gateServerConfig);
+                server = new GateServer();
             }
             else
             {

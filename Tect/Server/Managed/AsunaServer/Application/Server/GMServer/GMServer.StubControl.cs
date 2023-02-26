@@ -13,7 +13,7 @@ public partial class GMServer  : ServerBase
     {
         var ntf = new StubsDistributeNtf();
         var allStubs = EntityMgr.GetRegisteredServerStubs();
-        var allGames = _GroupConfig.GameServers;
+        var allGames = G.GroupConfig.GameServers;
         var gameIndex = 0;
         
         foreach (var item in allStubs)
@@ -35,7 +35,7 @@ public partial class GMServer  : ServerBase
 
     private void _SendStubsDistributeNotifyToGames()
     {
-        foreach (var game in _AllGames)
+        foreach (var game in G.Games.Values)
         {
             var ntf = _GenStubsDistributeNotify();
             game.Send(ntf);
@@ -64,7 +64,7 @@ public partial class GMServer  : ServerBase
     private void _OnAllStubReady()
     {
         var ntf = new OpenGateNtf();
-        foreach (var gate in _AllGates)
+        foreach (var gate in G.Gates.Values)
         {
             gate.Send(ntf);
         }

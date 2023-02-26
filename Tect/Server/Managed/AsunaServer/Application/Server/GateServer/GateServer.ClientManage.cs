@@ -11,7 +11,7 @@ public partial class GateServer : ServerBase
 {
     private void _OnOpenGateNtf(TcpSession session, object message)
     {
-        var gateConfig = _ServerConfig as GateServerConfig;
+        var gateConfig = G.ServerConfig as GateServerConfig;
         if (gateConfig == null)
         {
             Logger.Error("unknown config type!");
