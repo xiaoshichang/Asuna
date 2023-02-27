@@ -1,6 +1,7 @@
 using System.Reflection;
+using AsunaServer.Message;
 
-namespace AsunaServer.Message.Serializer
+namespace AsunaServer.Network
 {
     public class JsonSerializer : SerializerBase
     {

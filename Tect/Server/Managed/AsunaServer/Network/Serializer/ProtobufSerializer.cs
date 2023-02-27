@@ -1,7 +1,8 @@
 using System.Reflection;
+using AsunaServer.Utils;
 using Google.Protobuf;
 
-namespace AsunaServer.Message.Serializer;
+namespace AsunaServer.Network;
 
 public class ProtobufSerializer : SerializerBase
 {
@@ -60,7 +61,7 @@ public class ProtobufSerializer : SerializerBase
     
     protected override void _Register(Type type)
     {
-        uint index = _ConvertTypeToHash(type);
+        uint index = HashFunction.StringToUint(type.Name);
         if (_Index2Type.ContainsKey(index))
         {
             throw new Exception($"duplicated index register. {type.Name}");

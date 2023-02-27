@@ -1,8 +1,8 @@
-using AsunaServer.Entity;
+using AsunaServer.Debug;
 using AsunaServer.Network;
 using AsunaServer.Timer;
 
-namespace AsunaServer.Application.SystemStubs.LoginStub;
+namespace AsunaServer.Entity;
 
 public class LoginStub : ServerStubEntity
 {
@@ -17,5 +17,11 @@ public class LoginStub : ServerStubEntity
         _OnStubReady();
     }
 
+    [Rpc]
+    private void _OnCheckAccountLogin(int num, string message)
+    {
+        Logger.Info($"num : {num}");
+        Logger.Info($"message : {message}");
+    }
 
 }

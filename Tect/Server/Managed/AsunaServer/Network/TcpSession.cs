@@ -1,11 +1,11 @@
 ﻿using System.Runtime.InteropServices;
+using AsunaServer.Application;
 using AsunaServer.Core;
-using AsunaServer.Debug;
+
 
 namespace AsunaServer.Network
 {
     public delegate void SessionReceiveMessageHandler(IntPtr connection, object message);
-    public delegate void SessionOnDisconnectHandler(TcpSession session);
     
     public class TcpSession
     {
@@ -31,13 +31,13 @@ namespace AsunaServer.Network
             Marshal.Copy(rawData, _ReceiveBuffer, 0, length);
             if (_InnerNetwork)
             {
-                var message = InnerNetwork.Serializer.Deserialize(_ReceiveBuffer, length, index);
+                var message = G.MessageSerializer.Deserialize(_ReceiveBuffer, length, index);
                 _onSessionReceiveHandler.Invoke(connection, message);
 
             }
             else
             {
-                var message = OuterNetwork.Serializer.Deserialize(_ReceiveBuffer, length, index);
+                var message = G.MessageSerializer.Deserialize(_ReceiveBuffer, length, index);
                 _onSessionReceiveHandler.Invoke(connection, message);
             }
         }
@@ -63,16 +63,16 @@ namespace AsunaServer.Network
             
             if (_InnerNetwork)
             {
-                var data = InnerNetwork.Serializer.Serialize(message);
+                var data = G.MessageSerializer.Serialize(message);
                 Marshal.Copy(data, 0, _SendBuffer, data.Length);
-                var index = InnerNetwork.Serializer.GetIndexByType(message.GetType());
+                var index = G.MessageSerializer.GetIndexByType(message.GetType());
                 Interface.InnerNetwork_Send(_Connection, _SendBuffer, data.Length, index);
             }
             else
             {
-                var data = OuterNetwork.Serializer.Serialize(message);
+                var data = G.MessageSerializer.Serialize(message);
                 Marshal.Copy(data, 0, _SendBuffer, data.Length);
-                var index = OuterNetwork.Serializer.GetIndexByType(message.GetType());
+                var index = G.MessageSerializer.GetIndexByType(message.GetType());
                 Interface.OuterNetwork_Send(_Connection, _SendBuffer, data.Length, index);
             }
         }

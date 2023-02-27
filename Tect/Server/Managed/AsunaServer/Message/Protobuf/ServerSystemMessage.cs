@@ -31,8 +31,14 @@ namespace AsunaServer.Message {
             "YWJsZRgBIAMoCzItLlN0dWJzRGlzdHJpYnV0ZU50Zi5TdHVic0Rpc3RyaWJ1",
             "dGVUYWJsZUVudHJ5GjsKGVN0dWJzRGlzdHJpYnV0ZVRhYmxlRW50cnkSCwoD",
             "a2V5GAEgASgJEg0KBXZhbHVlGAIgASgJOgI4ASIgCgxTdHViUmVhZHlOdGYS",
-            "EAoIU3R1Yk5hbWUYASABKAkiDQoLT3BlbkdhdGVOdGZCFqoCE0FzdW5hU2Vy",
-            "dmVyLk1lc3NhZ2ViBnByb3RvMw=="));
+            "EAoIU3R1Yk5hbWUYASABKAkikAEKC09wZW5HYXRlTnRmEkQKFFN0dWJzRGlz",
+            "dHJpYnV0ZVRhYmxlGAEgAygLMiYuT3BlbkdhdGVOdGYuU3R1YnNEaXN0cmli",
+            "dXRlVGFibGVFbnRyeRo7ChlTdHVic0Rpc3RyaWJ1dGVUYWJsZUVudHJ5EgsK",
+            "A2tleRgBIAEoCRINCgV2YWx1ZRgCIAEoCToCOAEikAEKBlJwY050ZhIVCghT",
+            "dHViTmFtZRgBIAEoCUgAiAEBEhEKBEd1aWQYAiABKARIAYgBARIOCgZNZXRo",
+            "b2QYAyABKA0SEQoJQXJnc0NvdW50GAQgASgNEhUKDUFyZ3NUeXBlSW5kZXgY",
+            "BSADKA0SDAoEQXJncxgGIAMoDEILCglfU3R1Yk5hbWVCBwoFX0d1aWRCFqoC",
+            "E0FzdW5hU2VydmVyLk1lc3NhZ2ViBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -41,7 +47,8 @@ namespace AsunaServer.Message {
             new pbr::GeneratedClrTypeInfo(typeof(global::AsunaServer.Message.ServerReadyNtf), global::AsunaServer.Message.ServerReadyNtf.Parser, new[]{ "ServerName" }, null, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::AsunaServer.Message.StubsDistributeNtf), global::AsunaServer.Message.StubsDistributeNtf.Parser, new[]{ "StubsDistributeTable" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, }),
             new pbr::GeneratedClrTypeInfo(typeof(global::AsunaServer.Message.StubReadyNtf), global::AsunaServer.Message.StubReadyNtf.Parser, new[]{ "StubName" }, null, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::AsunaServer.Message.OpenGateNtf), global::AsunaServer.Message.OpenGateNtf.Parser, null, null, null, null, null)
+            new pbr::GeneratedClrTypeInfo(typeof(global::AsunaServer.Message.OpenGateNtf), global::AsunaServer.Message.OpenGateNtf.Parser, new[]{ "StubsDistributeTable" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, }),
+            new pbr::GeneratedClrTypeInfo(typeof(global::AsunaServer.Message.RpcNtf), global::AsunaServer.Message.RpcNtf.Parser, new[]{ "StubName", "Guid", "Method", "ArgsCount", "ArgsTypeIndex", "Args" }, new[]{ "StubName", "Guid" }, null, null, null)
           }));
     }
     #endregion
@@ -1016,6 +1023,7 @@ namespace AsunaServer.Message {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public OpenGateNtf(OpenGateNtf other) : this() {
+      stubsDistributeTable_ = other.stubsDistributeTable_.Clone();
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
     }
 
@@ -1023,6 +1031,17 @@ namespace AsunaServer.Message {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public OpenGateNtf Clone() {
       return new OpenGateNtf(this);
+    }
+
+    /// <summary>Field number for the "StubsDistributeTable" field.</summary>
+    public const int StubsDistributeTableFieldNumber = 1;
+    private static readonly pbc::MapField<string, string>.Codec _map_stubsDistributeTable_codec
+        = new pbc::MapField<string, string>.Codec(pb::FieldCodec.ForString(10, ""), pb::FieldCodec.ForString(18, ""), 10);
+    private readonly pbc::MapField<string, string> stubsDistributeTable_ = new pbc::MapField<string, string>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::MapField<string, string> StubsDistributeTable {
+      get { return stubsDistributeTable_; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -1040,6 +1059,7 @@ namespace AsunaServer.Message {
       if (ReferenceEquals(other, this)) {
         return true;
       }
+      if (!StubsDistributeTable.Equals(other.StubsDistributeTable)) return false;
       return Equals(_unknownFields, other._unknownFields);
     }
 
@@ -1047,6 +1067,7 @@ namespace AsunaServer.Message {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public override int GetHashCode() {
       int hash = 1;
+      hash ^= StubsDistributeTable.GetHashCode();
       if (_unknownFields != null) {
         hash ^= _unknownFields.GetHashCode();
       }
@@ -1065,6 +1086,7 @@ namespace AsunaServer.Message {
     #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
       output.WriteRawMessage(this);
     #else
+      stubsDistributeTable_.WriteTo(output, _map_stubsDistributeTable_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
       }
@@ -1075,6 +1097,7 @@ namespace AsunaServer.Message {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      stubsDistributeTable_.WriteTo(ref output, _map_stubsDistributeTable_codec);
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
       }
@@ -1085,6 +1108,7 @@ namespace AsunaServer.Message {
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public int CalculateSize() {
       int size = 0;
+      size += stubsDistributeTable_.CalculateSize(_map_stubsDistributeTable_codec);
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
       }
@@ -1097,6 +1121,7 @@ namespace AsunaServer.Message {
       if (other == null) {
         return;
       }
+      stubsDistributeTable_.Add(other.stubsDistributeTable_);
       _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
     }
 
@@ -1112,6 +1137,10 @@ namespace AsunaServer.Message {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
+          case 10: {
+            stubsDistributeTable_.AddEntriesFrom(input, _map_stubsDistributeTable_codec);
+            break;
+          }
         }
       }
     #endif
@@ -1127,6 +1156,391 @@ namespace AsunaServer.Message {
           default:
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
+          case 10: {
+            stubsDistributeTable_.AddEntriesFrom(ref input, _map_stubsDistributeTable_codec);
+            break;
+          }
+        }
+      }
+    }
+    #endif
+
+  }
+
+  public sealed partial class RpcNtf : pb::IMessage<RpcNtf>
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      , pb::IBufferMessage
+  #endif
+  {
+    private static readonly pb::MessageParser<RpcNtf> _parser = new pb::MessageParser<RpcNtf>(() => new RpcNtf());
+    private pb::UnknownFieldSet _unknownFields;
+    private int _hasBits0;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pb::MessageParser<RpcNtf> Parser { get { return _parser; } }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public static pbr::MessageDescriptor Descriptor {
+      get { return global::AsunaServer.Message.ServerSystemMessageReflection.Descriptor.MessageTypes[6]; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    pbr::MessageDescriptor pb::IMessage.Descriptor {
+      get { return Descriptor; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public RpcNtf() {
+      OnConstruction();
+    }
+
+    partial void OnConstruction();
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public RpcNtf(RpcNtf other) : this() {
+      _hasBits0 = other._hasBits0;
+      stubName_ = other.stubName_;
+      guid_ = other.guid_;
+      method_ = other.method_;
+      argsCount_ = other.argsCount_;
+      argsTypeIndex_ = other.argsTypeIndex_.Clone();
+      args_ = other.args_.Clone();
+      _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public RpcNtf Clone() {
+      return new RpcNtf(this);
+    }
+
+    /// <summary>Field number for the "StubName" field.</summary>
+    public const int StubNameFieldNumber = 1;
+    private string stubName_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public string StubName {
+      get { return stubName_ ?? ""; }
+      set {
+        stubName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      }
+    }
+    /// <summary>Gets whether the "StubName" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasStubName {
+      get { return stubName_ != null; }
+    }
+    /// <summary>Clears the value of the "StubName" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearStubName() {
+      stubName_ = null;
+    }
+
+    /// <summary>Field number for the "Guid" field.</summary>
+    public const int GuidFieldNumber = 2;
+    private ulong guid_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public ulong Guid {
+      get { if ((_hasBits0 & 1) != 0) { return guid_; } else { return 0UL; } }
+      set {
+        _hasBits0 |= 1;
+        guid_ = value;
+      }
+    }
+    /// <summary>Gets whether the "Guid" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasGuid {
+      get { return (_hasBits0 & 1) != 0; }
+    }
+    /// <summary>Clears the value of the "Guid" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearGuid() {
+      _hasBits0 &= ~1;
+    }
+
+    /// <summary>Field number for the "Method" field.</summary>
+    public const int MethodFieldNumber = 3;
+    private uint method_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint Method {
+      get { return method_; }
+      set {
+        method_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "ArgsCount" field.</summary>
+    public const int ArgsCountFieldNumber = 4;
+    private uint argsCount_;
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public uint ArgsCount {
+      get { return argsCount_; }
+      set {
+        argsCount_ = value;
+      }
+    }
+
+    /// <summary>Field number for the "ArgsTypeIndex" field.</summary>
+    public const int ArgsTypeIndexFieldNumber = 5;
+    private static readonly pb::FieldCodec<uint> _repeated_argsTypeIndex_codec
+        = pb::FieldCodec.ForUInt32(42);
+    private readonly pbc::RepeatedField<uint> argsTypeIndex_ = new pbc::RepeatedField<uint>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<uint> ArgsTypeIndex {
+      get { return argsTypeIndex_; }
+    }
+
+    /// <summary>Field number for the "Args" field.</summary>
+    public const int ArgsFieldNumber = 6;
+    private static readonly pb::FieldCodec<pb::ByteString> _repeated_args_codec
+        = pb::FieldCodec.ForBytes(50);
+    private readonly pbc::RepeatedField<pb::ByteString> args_ = new pbc::RepeatedField<pb::ByteString>();
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public pbc::RepeatedField<pb::ByteString> Args {
+      get { return args_; }
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override bool Equals(object other) {
+      return Equals(other as RpcNtf);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool Equals(RpcNtf other) {
+      if (ReferenceEquals(other, null)) {
+        return false;
+      }
+      if (ReferenceEquals(other, this)) {
+        return true;
+      }
+      if (StubName != other.StubName) return false;
+      if (Guid != other.Guid) return false;
+      if (Method != other.Method) return false;
+      if (ArgsCount != other.ArgsCount) return false;
+      if(!argsTypeIndex_.Equals(other.argsTypeIndex_)) return false;
+      if(!args_.Equals(other.args_)) return false;
+      return Equals(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override int GetHashCode() {
+      int hash = 1;
+      if (HasStubName) hash ^= StubName.GetHashCode();
+      if (HasGuid) hash ^= Guid.GetHashCode();
+      if (Method != 0) hash ^= Method.GetHashCode();
+      if (ArgsCount != 0) hash ^= ArgsCount.GetHashCode();
+      hash ^= argsTypeIndex_.GetHashCode();
+      hash ^= args_.GetHashCode();
+      if (_unknownFields != null) {
+        hash ^= _unknownFields.GetHashCode();
+      }
+      return hash;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public override string ToString() {
+      return pb::JsonFormatter.ToDiagnosticString(this);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void WriteTo(pb::CodedOutputStream output) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      output.WriteRawMessage(this);
+    #else
+      if (HasStubName) {
+        output.WriteRawTag(10);
+        output.WriteString(StubName);
+      }
+      if (HasGuid) {
+        output.WriteRawTag(16);
+        output.WriteUInt64(Guid);
+      }
+      if (Method != 0) {
+        output.WriteRawTag(24);
+        output.WriteUInt32(Method);
+      }
+      if (ArgsCount != 0) {
+        output.WriteRawTag(32);
+        output.WriteUInt32(ArgsCount);
+      }
+      argsTypeIndex_.WriteTo(output, _repeated_argsTypeIndex_codec);
+      args_.WriteTo(output, _repeated_args_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(output);
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+      if (HasStubName) {
+        output.WriteRawTag(10);
+        output.WriteString(StubName);
+      }
+      if (HasGuid) {
+        output.WriteRawTag(16);
+        output.WriteUInt64(Guid);
+      }
+      if (Method != 0) {
+        output.WriteRawTag(24);
+        output.WriteUInt32(Method);
+      }
+      if (ArgsCount != 0) {
+        output.WriteRawTag(32);
+        output.WriteUInt32(ArgsCount);
+      }
+      argsTypeIndex_.WriteTo(ref output, _repeated_argsTypeIndex_codec);
+      args_.WriteTo(ref output, _repeated_args_codec);
+      if (_unknownFields != null) {
+        _unknownFields.WriteTo(ref output);
+      }
+    }
+    #endif
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public int CalculateSize() {
+      int size = 0;
+      if (HasStubName) {
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(StubName);
+      }
+      if (HasGuid) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt64Size(Guid);
+      }
+      if (Method != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(Method);
+      }
+      if (ArgsCount != 0) {
+        size += 1 + pb::CodedOutputStream.ComputeUInt32Size(ArgsCount);
+      }
+      size += argsTypeIndex_.CalculateSize(_repeated_argsTypeIndex_codec);
+      size += args_.CalculateSize(_repeated_args_codec);
+      if (_unknownFields != null) {
+        size += _unknownFields.CalculateSize();
+      }
+      return size;
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(RpcNtf other) {
+      if (other == null) {
+        return;
+      }
+      if (other.HasStubName) {
+        StubName = other.StubName;
+      }
+      if (other.HasGuid) {
+        Guid = other.Guid;
+      }
+      if (other.Method != 0) {
+        Method = other.Method;
+      }
+      if (other.ArgsCount != 0) {
+        ArgsCount = other.ArgsCount;
+      }
+      argsTypeIndex_.Add(other.argsTypeIndex_);
+      args_.Add(other.args_);
+      _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+    }
+
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void MergeFrom(pb::CodedInputStream input) {
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+      input.ReadRawMessage(this);
+    #else
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+            break;
+          case 10: {
+            StubName = input.ReadString();
+            break;
+          }
+          case 16: {
+            Guid = input.ReadUInt64();
+            break;
+          }
+          case 24: {
+            Method = input.ReadUInt32();
+            break;
+          }
+          case 32: {
+            ArgsCount = input.ReadUInt32();
+            break;
+          }
+          case 42:
+          case 40: {
+            argsTypeIndex_.AddEntriesFrom(input, _repeated_argsTypeIndex_codec);
+            break;
+          }
+          case 50: {
+            args_.AddEntriesFrom(input, _repeated_args_codec);
+            break;
+          }
+        }
+      }
+    #endif
+    }
+
+    #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+      uint tag;
+      while ((tag = input.ReadTag()) != 0) {
+        switch(tag) {
+          default:
+            _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+            break;
+          case 10: {
+            StubName = input.ReadString();
+            break;
+          }
+          case 16: {
+            Guid = input.ReadUInt64();
+            break;
+          }
+          case 24: {
+            Method = input.ReadUInt32();
+            break;
+          }
+          case 32: {
+            ArgsCount = input.ReadUInt32();
+            break;
+          }
+          case 42:
+          case 40: {
+            argsTypeIndex_.AddEntriesFrom(ref input, _repeated_argsTypeIndex_codec);
+            break;
+          }
+          case 50: {
+            args_.AddEntriesFrom(ref input, _repeated_args_codec);
+            break;
+          }
         }
       }
     }

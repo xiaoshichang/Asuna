@@ -12,6 +12,7 @@ namespace AsunaServer.Application
         {
             _RegisterInnerNetworkMessage();
             _RegisterMessageHandlers();
+            _RegisterRPC();
             _RegisterServerStubs();
             _InitCoreAndNetwork();
             _TryConnectGMSever();

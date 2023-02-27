@@ -1,8 +1,5 @@
-using AsunaServer.Entity;
-using AsunaServer.Network;
-using AsunaServer.Timer;
 
-namespace AsunaServer.Application.SystemStubs.HallStub;
+namespace AsunaServer.Entity;
 
 public class HallStub : ServerStubEntity
 {

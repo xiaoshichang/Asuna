@@ -24,7 +24,7 @@ message LoginReq
 enum LoginRetCode
 {
   OK = 0;
-  Fail = 1;
+  NotExit = 1;
 }
 
 message LoginRsp

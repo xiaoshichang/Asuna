@@ -1,6 +1,5 @@
 ﻿using AsunaServer.Core;
 using AsunaServer.Debug;
-using AsunaServer.Message.Serializer;
 
 namespace AsunaServer.Network
 {
@@ -83,10 +82,6 @@ namespace AsunaServer.Network
         /// </summary>
         private static readonly Dictionary<IntPtr, TcpSession> _Sessions = new();
 
-        /// <summary>
-        /// 使用的序列化器
-        /// </summary>
-        public static SerializerBase Serializer = new ProtobufSerializer();
     }
 }
 

@@ -29,7 +29,7 @@ public partial class GMServer  : ServerBase
             }
         }
         
-        _StubsDistributeTable = ntf.StubsDistributeTable;
+        G.StubsDistributeTable = ntf.StubsDistributeTable;
         return ntf;
     }
 
@@ -45,32 +45,32 @@ public partial class GMServer  : ServerBase
     private void _OnStubReady(TcpSession session, object message)
     {
         var ntf = message as StubReadyNtf;
-        _ReadyStubs += 1;
-        if (_StubsDistributeTable == null)
+        if (ntf == null)
         {
-            Logger.Warning("stub distribute table is not generated.");
+            throw new ArgumentException();
+        }
+        Logger.Assert(!_ReadyStubs.Contains(ntf.StubName));
+        _ReadyStubs.Add(ntf.StubName);
+        if (_ReadyStubs.Count != G.StubsDistributeTable.Count)
+        {
             return;
         }
-        if (_ReadyStubs != _StubsDistributeTable.Count)
-        {
-            return;
-        }
-        
-        Logger.Info($"All Stubs is Ready! count: {_ReadyStubs}");
+        Logger.Info($"All Stubs is Ready! count: {_ReadyStubs.Count}");
         _OnAllStubReady();
-
     }
 
     private void _OnAllStubReady()
     {
-        var ntf = new OpenGateNtf();
+        var ntf = new OpenGateNtf()
+        {
+            StubsDistributeTable = { G.StubsDistributeTable }
+        };
         foreach (var gate in G.Gates.Values)
         {
             gate.Send(ntf);
         }
     }
 
-    private MapField<string, string>? _StubsDistributeTable;
-    private int _ReadyStubs = 0;
+    private readonly HashSet<string> _ReadyStubs = new();
 
 }

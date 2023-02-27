@@ -12,8 +12,7 @@ namespace AsunaServer.Application
         private void _RegisterClientNetworkMessage()
         {
             var assemblyList = new List<Assembly> { Assembly.GetExecutingAssembly() };
-            OuterNetwork.Serializer.Collect(assemblyList, "AsunaShared.Message");
-            OuterNetwork.Serializer.DebugPrint();
+            G.MessageSerializer.Collect(assemblyList, "AsunaShared.Message");
         }
         
         public override void Init()
@@ -21,6 +20,7 @@ namespace AsunaServer.Application
             _RegisterInnerNetworkMessage();
             _RegisterClientNetworkMessage();
             _RegisterMessageHandlers();
+            _RegisterRPC();
             _RegisterServerStubs();
             _InitCoreAndNetwork();
             _TryConnectGMSever();

@@ -8,18 +8,22 @@ namespace AsunaServer.Application
 {
     public abstract partial class ServerBase
     {
-
         protected void _RegisterInnerNetworkMessage()
         {
             var assemblyList = new List<Assembly> { Assembly.GetExecutingAssembly() };
-            InnerNetwork.Serializer.Collect(assemblyList, "AsunaServer.Message");
-            InnerNetwork.Serializer.DebugPrint();
+            G.MessageSerializer.Collect(assemblyList, "AsunaServer.Message");
+        }
+
+        protected void _RegisterRPC()
+        {
+            var assemblyList = new List<Assembly> { Assembly.GetExecutingAssembly() };
+            G.RPCTable.Register(assemblyList);
         }
 
         protected void _RegisterServerStubs()
         {
             var assemblyList = new List<Assembly> { Assembly.GetExecutingAssembly() };
-            EntityMgr.RegisterStubs(assemblyList);
+            EntityMgr.RegisterStubTypes(assemblyList);
         }
 
         protected void _InitCoreAndNetwork()

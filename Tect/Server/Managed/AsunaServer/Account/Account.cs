@@ -1,70 +1,73 @@
+using AsunaServer.Application;
 using AsunaServer.Debug;
 using AsunaServer.Network;
 using AsunaServer.Timer;
+using AsunaShared.Message;
 
 namespace AsunaServer.Account
 {
     public enum AuthState
     {
-        NotAuth,
-        AuthSuccess,
-        AuthFail
+        Ready,
+        FindAccount,
+        CheckOnline,
+        Finish,
     }
-    
-    
-    public delegate void OnAuthResultCallback(Account account);
-    
+
+    public delegate void AuthCallback(Account account);
     
     public class Account
     {
-        public Account(TcpSession session)
+        public Account(LoginReq req, TcpSession session, AuthCallback callback)
         {
-            _AuthState = AuthState.NotAuth;
+            _Request = req;
             _Session = session;
+            _Callback = callback;
+            _AuthState = AuthState.Ready;
         }
 
-        public void Auth(string username, string password, OnAuthResultCallback callback)
+        public void Auth()
         {
-            if (_AuthState != AuthState.NotAuth)
+            if (_AuthState != AuthState.Ready)
             {
                 Logger.Error("unknown state");
                 return;
             }
-            Username = username;
-            _Callback = callback;
-            TimerMgr.AddTimer(1000, OnAuth);
+
+            _AuthState = AuthState.FindAccount;
+            TimerMgr.AddTimer(1000, OnFindAccount);
         }
 
-        private void OnAuth(object? param)
+        private void OnFindAccount(object? param)
         {
-            if (Username == "xiao")
+            if (_Request.Username != "xiao")
             {
-                _AuthState = AuthState.AuthSuccess;
+                _AuthState = AuthState.Finish;
+                _LoginResult = LoginRetCode.NotExit;
                 _Callback?.Invoke(this);
+                _Callback = null;
+                return;
             }
-            else
-            {
-                _AuthState = AuthState.AuthFail;
-                _Callback?.Invoke(this);
-            }
-
-            _Callback = null;
-        }
-
-        public AuthState GetAuthState()
-        {
-            return _AuthState;
+            _AuthState = AuthState.CheckOnline;
+            G.CallStub("LoginStub", "_OnCheckAccountLogin", new object[]{1, "hello"});
         }
 
         public void Send(object message)
         {
-            _Session?.Send(message);
+            _Session.Send(message);
         }
 
-        public string? Username;
-        private AuthState _AuthState;
+        private readonly LoginReq _Request;
+        public string Username => _Request.Username;
         private readonly TcpSession _Session;
-        private OnAuthResultCallback? _Callback;
+        private AuthCallback? _Callback;
+
+        private AuthState _AuthState;
+        public AuthState AuthState => _AuthState;
+        private LoginRetCode _LoginResult;
+        public LoginRetCode LoginResult => _LoginResult;
+        
+        
     }
 }
 

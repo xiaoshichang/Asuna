@@ -2,7 +2,6 @@ using AsunaServer.Message;
 using AsunaServer.Entity;
 using AsunaServer.Debug;
 using AsunaServer.Network;
-using Google.Protobuf.Collections;
 
 #pragma warning disable CS8602
 
@@ -14,10 +13,10 @@ public partial class GameServer : ServerBase
     private void _OnStubsDistributeNtf(TcpSession session, object message)
     {
         var ntf = message as StubsDistributeNtf;
-        _StubsDistributeTable = ntf.StubsDistributeTable;
-        foreach (var item in _StubsDistributeTable)
+        G.StubsDistributeTable = ntf.StubsDistributeTable;
+        foreach (var item in G.StubsDistributeTable)
         {
-            var stubType = EntityMgr.GetStubByName(item.Key);
+            var stubType = EntityMgr.GetStubTypeByName(item.Key);
             if (stubType == null)
             {
                 Logger.Error("unknown stub name");
@@ -34,6 +33,7 @@ public partial class GameServer : ServerBase
                         continue;
                     }
                     stub.Init();
+                    EntityMgr.RegisterStub(item.Key, stub);
                 }
                 catch (Exception e)
                 {
@@ -42,6 +42,5 @@ public partial class GameServer : ServerBase
             }
         }
     }
-
-    private MapField<string, string> _StubsDistributeTable = new();
+    
 }

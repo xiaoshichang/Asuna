@@ -1,5 +1,12 @@
+using System.Reflection;
+using System.Text.Json.Serialization;
 using AsunaServer.Debug;
+using AsunaServer.Entity;
+using AsunaServer.Message;
 using AsunaServer.Network;
+using AsunaServer.Utils;
+using Google.Protobuf;
+using Google.Protobuf.Collections;
 
 #pragma warning disable CS8618
 
@@ -89,6 +96,69 @@ namespace AsunaServer.Application
         }
         # endregion
 
+        #region RPC
+        /// <summary>
+        /// 网络消息序列化器
+        /// </summary>
+        public static SerializerBase MessageSerializer = new ProtobufSerializer();
+
+        /// <summary>
+        /// RPC 索引表
+        /// </summary>
+        public static RpcTable RPCTable = new();
+        
+        #endregion
+        
+        #region Stub Table
+        public static MapField<string, string> StubsDistributeTable = new();
+        
+        /// <summary>
+        /// 对 ServerStub 发起 RPC 调用
+        /// </summary>
+        /// <param name="stubName"></param>
+        /// <param name="methodName"></param>
+        /// <param name="args"></param>
+        public static void CallStub(string stubName, string methodName, object[] args)
+        {
+            var stub = EntityMgr.GetStubTypeByName(stubName);
+            if (stub == null)
+            {
+                Logger.Error($"stub {stubName} not exist");
+                return;
+            }
+            var method = stub.GetMethod(methodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            if (method == null)
+            {
+                Logger.Error($"method {stubName}.{methodName} not exist");
+                return;
+            }
+            if (!StubsDistributeTable.TryGetValue(stubName, out var server))
+            {
+                Logger.Error($"stub {stubName} not exist in StubsDistributeTable");
+                return;
+            }
+            if (!ServerToSession.TryGetValue(server, out var session))
+            {
+                Logger.Error($"session {server} not exist");
+                return;
+            }
+            var rpc = new RpcNtf
+            {
+                StubName = stubName,
+                Method = HashFunction.MethodToUint(method),
+                ArgsCount = (uint)args.Length,
+            };
+            foreach (var arg in args)
+            {
+                var index = HashFunction.StringToUint(arg.GetType().Name);
+                rpc.ArgsTypeIndex.Add(index);
+                var str = System.Text.Json.JsonSerializer.Serialize(arg);
+                var bin = System.Text.Encoding.UTF8.GetBytes(str);
+                rpc.Args.Add(ByteString.CopyFrom(bin));
+            }
+            session.Send(rpc);
+        }
+        #endregion
 
     }
 }

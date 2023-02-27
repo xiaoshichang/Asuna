@@ -11,6 +11,12 @@ public partial class GateServer : ServerBase
 {
     private void _OnOpenGateNtf(TcpSession session, object message)
     {
+        var ntf = message as OpenGateNtf;
+        if (ntf == null)
+        {
+            throw new ArgumentException();
+        }
+        G.StubsDistributeTable = ntf.StubsDistributeTable;
         var gateConfig = G.ServerConfig as GateServerConfig;
         if (gateConfig == null)
         {
@@ -40,9 +46,9 @@ public partial class GateServer : ServerBase
         {
             throw new ArgumentException();
         }
-        var account = new Account.Account(session);
+        var account = new Account.Account(req, session, _OnAuthResult);
         _Accounts[session] = account;
-        account.Auth(req.Username, req.Password, _OnAuthResult);
+        account.Auth();
     }
 
     private void _OnClientDisconnect(TcpSession session)
@@ -60,29 +66,15 @@ public partial class GateServer : ServerBase
 
     private void _OnAuthResult(Account.Account account)
     {
-        if (account.GetAuthState() == AuthState.AuthSuccess)
+        Logger.Assert(account.AuthState == AuthState.Finish);
+        var rsp = new LoginRsp()
         {
-            var rsp = new LoginRsp()
-            {
-                Username = account.Username,
-                RetCode = LoginRetCode.Ok,
-            };
-            account.Send(rsp);
-        }
-        else if (account.GetAuthState() == AuthState.AuthFail)
-        {
-            var rsp = new LoginRsp()
-            {
-                Username = account.Username,
-                RetCode = LoginRetCode.Fail,
-            };
-            account.Send(rsp);
-        }
-        else
-        {
-            Logger.Error("unknown state");
-        }
+            Username = account.Username,
+            RetCode = account.LoginResult,
+        };
+        
+        account.Send(rsp);
     }
 
-    private readonly Dictionary<TcpSession, Account.Account> _Accounts = new Dictionary<TcpSession, Account.Account>();
+    private readonly Dictionary<TcpSession, Account.Account> _Accounts = new();
 }

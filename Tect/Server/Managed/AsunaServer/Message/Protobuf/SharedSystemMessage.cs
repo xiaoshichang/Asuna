@@ -32,8 +32,8 @@ namespace AsunaShared.Message {
             "VGltZRgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXAiLgoITG9n",
             "aW5SZXESEAoIdXNlcm5hbWUYASABKAkSEAoIcGFzc3dvcmQYAiABKAkiPAoI",
             "TG9naW5Sc3ASEAoIdXNlcm5hbWUYASABKAkSHgoHUmV0Q29kZRgCIAEoDjIN",
-            "LkxvZ2luUmV0Q29kZSogCgxMb2dpblJldENvZGUSBgoCT0sQABIICgRGYWls",
-            "EAFCFqoCE0FzdW5hU2hhcmVkLk1lc3NhZ2ViBnByb3RvMw=="));
+            "LkxvZ2luUmV0Q29kZSojCgxMb2dpblJldENvZGUSBgoCT0sQABILCgdOb3RF",
+            "eGl0EAFCFqoCE0FzdW5hU2hhcmVkLk1lc3NhZ2ViBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::Google.Protobuf.WellKnownTypes.TimestampReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(new[] {typeof(global::AsunaShared.Message.LoginRetCode), }, null, new pbr::GeneratedClrTypeInfo[] {
@@ -49,7 +49,7 @@ namespace AsunaShared.Message {
   #region Enums
   public enum LoginRetCode {
     [pbr::OriginalName("OK")] Ok = 0,
-    [pbr::OriginalName("Fail")] Fail = 1,
+    [pbr::OriginalName("NotExit")] NotExit = 1,
   }
 
   #endregion
