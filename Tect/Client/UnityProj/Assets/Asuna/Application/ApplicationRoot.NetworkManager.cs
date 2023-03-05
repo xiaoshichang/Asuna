@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using Asuna.Foundation.Debug;
 using Asuna.Network;
-using Asuna.Utils;
 using AsunaShared.Message;
 using Google.Protobuf.WellKnownTypes;
 using UnityEngine;

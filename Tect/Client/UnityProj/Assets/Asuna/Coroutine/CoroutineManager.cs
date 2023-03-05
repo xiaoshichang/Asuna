@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using Asuna.Application;
-using Asuna.Interface;
+using Asuna.Foundation.Interface;
 
 namespace Asuna.Coroutine
 {

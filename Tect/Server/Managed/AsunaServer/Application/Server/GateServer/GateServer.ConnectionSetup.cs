@@ -1,6 +1,6 @@
 ﻿using AsunaServer.Application;
 using AsunaServer.Message;
-using AsunaServer.Debug;
+using AsunaServer.Foundation.Debug;
 using AsunaServer.Network;
 using AsunaServer.Timer;
 
@@ -55,12 +55,12 @@ public partial class GateServer : ServerBase
             return;
         }
         
-        Logger.Info($"gate is ready! {G.ServerConfig.Name}");
+        ADebug.Info($"gate is ready! {G.ServerConfig.Name}");
         var ntf = new ServerReadyNtf()
         {
             ServerName = G.ServerConfig.Name
         };
-        G.GM.Send(ntf);
+        Sessions.GM.Send(ntf);
     }
 
     private int _ConnectedGames = 0;

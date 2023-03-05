@@ -1,6 +1,6 @@
-using AsunaServer.Application;
 using AsunaServer.Message;
-using AsunaServer.Debug;
+using AsunaServer.Foundation.Debug;
+using AsunaServer.Network;
 
 #pragma warning disable CS8602
 
@@ -22,12 +22,12 @@ public abstract class ServerStubEntity : ServerEntity
     /// </summary>
     protected void _OnStubReady()
     {
-        Logger.Info($"OnStubReady {GetType().Name}");
+        ADebug.Info($"OnStubReady {GetType().Name}");
         var ntf = new StubReadyNtf()
         {
             StubName = GetType().Name
         };
-        G.GM.Send(ntf);
+        Sessions.GM.Send(ntf);
     }
 
 }

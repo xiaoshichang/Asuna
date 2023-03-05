@@ -1,5 +1,5 @@
 ﻿using Asuna.Camera;
-using Asuna.Utils;
+using Asuna.Foundation.Debug;
 
 namespace Asuna.Gameplay
 {

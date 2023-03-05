@@ -1,8 +1,8 @@
 ﻿using System;
 using Asuna.Application;
+using Asuna.Foundation.Debug;
+using Asuna.Foundation.Math;
 using Asuna.Input;
-using Asuna.Math;
-using Asuna.Utils;
 using InControl;
 using UnityEngine;
 

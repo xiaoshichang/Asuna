@@ -1,5 +1,6 @@
 ﻿#if UNITY_EDITOR
 
+using Asuna.Foundation.Debug;
 using Asuna.Utils;
 using UnityEditor;
 using UnityEngine;

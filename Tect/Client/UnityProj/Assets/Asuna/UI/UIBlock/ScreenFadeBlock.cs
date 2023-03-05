@@ -1,5 +1,5 @@
 ﻿using System;
-using Asuna.Utils;
+using Asuna.Foundation.Debug;
 using UnityEngine;
 using UnityEngine.UI;
 

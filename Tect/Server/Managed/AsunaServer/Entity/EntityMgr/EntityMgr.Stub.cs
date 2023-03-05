@@ -1,5 +1,5 @@
 using System.Reflection;
-using AsunaServer.Debug;
+using AsunaServer.Foundation.Debug;
 
 namespace AsunaServer.Entity;
 
@@ -9,7 +9,7 @@ public static partial class EntityMgr
     {
         foreach (var item in _RegisteredServerStubsTypes)
         {
-            Logger.Debug($"register stub {item.Key}");
+            ADebug.Info($"register stub {item.Key}");
         }
     }
     
@@ -24,7 +24,7 @@ public static partial class EntityMgr
                 {
                     if (_RegisteredServerStubsTypes.ContainsKey(type.Name))
                     {
-                        Logger.Error($"stub name conflict! name: {type.Name}, namespace: {type.Namespace}");
+                        ADebug.Error($"stub name conflict! name: {type.Name}, namespace: {type.Namespace}");
                         continue;
                     }
                     _RegisteredServerStubsTypes.Add(type.Name, type);
@@ -53,13 +53,14 @@ public static partial class EntityMgr
         _Stubs.Add(name, stub);
     }
 
-    public static ServerStubEntity GetStub(string name)
+    public static ServerStubEntity? GetStub(string name)
     {
         if (_Stubs.TryGetValue(name, out var stub))
         {
             return stub;
         }
-        throw new KeyNotFoundException();
+
+        return null;
     }
     
     private static readonly Dictionary<string, ServerStubEntity> _Stubs = new();

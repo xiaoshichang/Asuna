@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Asuna.Application;
+using Asuna.Foundation.Debug;
+using Asuna.Foundation.Interface;
 using Asuna.Gameplay;
-using Asuna.Interface;
-using Asuna.Utils;
 using UnityEngine;
 using Object = UnityEngine.Object;
 

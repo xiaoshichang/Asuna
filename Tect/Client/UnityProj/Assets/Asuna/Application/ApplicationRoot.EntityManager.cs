@@ -1,5 +1,5 @@
 ﻿using Asuna.Entity;
-using Asuna.Utils;
+using Asuna.Foundation.Debug;
 
 namespace Asuna.Application
 {

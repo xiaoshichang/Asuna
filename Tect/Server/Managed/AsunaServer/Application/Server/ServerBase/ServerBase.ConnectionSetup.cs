@@ -1,4 +1,4 @@
-using AsunaServer.Debug;
+using AsunaServer.Foundation.Debug;
 using AsunaServer.Network;
 using AsunaServer.Message;
 
@@ -26,9 +26,9 @@ public abstract partial class ServerBase
 
     protected virtual void _OnNodeDisconnect(TcpSession session)
     {
-        if (!G.UnRegisterSession(session))
+        if (!Sessions.UnRegisterSession(session))
         {
-            Logger.Error("UnRegisterSession fail! unknown state.");
+            ADebug.Error("UnRegisterSession fail! unknown state.");
             return;
         }
     }
@@ -40,9 +40,9 @@ public abstract partial class ServerBase
         {
             throw new ArgumentException();
         }
-        if (!G.RegisterSession(req.ServerName, session))
+        if (!Sessions.RegisterSession(req.ServerName, session))
         {
-            Logger.Error($"Register Session fail!");
+            ADebug.Error($"Register Session fail!");
             return;
         }
         var pong = new InnerPongRsp()
@@ -59,9 +59,9 @@ public abstract partial class ServerBase
         {
             throw new ArgumentException();
         }
-        if (!G.RegisterSession(rsp.ServerName, session))
+        if (!Sessions.RegisterSession(rsp.ServerName, session))
         {
-            Logger.Error($"Register Session fail!");
+            ADebug.Error($"Register Session fail!");
             return;
         }
     }

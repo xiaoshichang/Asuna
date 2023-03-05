@@ -32,14 +32,13 @@ message OpenGateNtf
   map<string, string> StubsDistributeTable = 1;
 }
 
-message RpcNtf
+message StubRpc
 {
   optional string StubName = 1;
-  optional uint64 Guid = 2;
-  uint32 Method = 3;
-  uint32 ArgsCount = 4;
-  repeated uint32 ArgsTypeIndex = 5;
-  repeated bytes Args = 6;
+  uint32 Method = 2;
+  uint32 ArgsCount = 3;
+  repeated uint32 ArgsTypeIndex = 4;
+  repeated bytes Args = 5;
 }
 
 

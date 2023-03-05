@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using Asuna.Utils;
+using Asuna.Foundation.Debug;
 using UnityEngine;
 
 

@@ -1,7 +1,6 @@
-﻿using AsunaServer.Account;
-using AsunaServer.Application;
+﻿using AsunaServer.Auth;
 using AsunaServer.Message;
-using AsunaServer.Debug;
+using AsunaServer.Foundation.Debug;
 using AsunaServer.Network;
 using AsunaShared.Message;
 
@@ -16,21 +15,21 @@ public partial class GateServer : ServerBase
         {
             throw new ArgumentException();
         }
-        G.StubsDistributeTable = ntf.StubsDistributeTable;
+        RpcCaller.StubsDistributeTable = ntf.StubsDistributeTable;
         var gateConfig = G.ServerConfig as GateServerConfig;
         if (gateConfig == null)
         {
-            Logger.Error("unknown config type!");
+            ADebug.Error("unknown config type!");
             return;
         }
         OuterNetwork.Init(gateConfig.OuterIp, gateConfig.OuterPort, _OnAcceptClientConnection, null, _OnReceiveClientMessage, _OnClientDisconnect);
-        Logger.Info($"open gate at {gateConfig.OuterIp} {gateConfig.OuterPort}");
+        ADebug.Info($"open gate at {gateConfig.OuterIp} {gateConfig.OuterPort}");
     }
 
     private void _OnAcceptClientConnection(TcpSession session)
     {
         // todo: remove client if timeout without login
-        Logger.Debug($"on client connected! {session.GetConnectionID()}");
+        ADebug.Info($"on client connected! {session.GetConnectionID()}");
     }
     
     private void _OnReceiveClientMessage(TcpSession session, object message)
@@ -41,40 +40,44 @@ public partial class GateServer : ServerBase
 
     private void _OnLoginReq(TcpSession session, object message)
     {
-        var req = message as LoginReq;
+        var req = message as AuthReq;
         if (req == null)
         {
             throw new ArgumentException();
         }
-        var account = new Account.Account(req, session, _OnAuthResult);
-        _Accounts[session] = account;
+        var account = new Account(req, session, _OnAuthResult);
+        _SessionToAccount[session] = account;
+        _GuidToAccount[account.Guid] = account;
         account.Auth();
     }
 
     private void _OnClientDisconnect(TcpSession session)
     {
-        if (!_Accounts.ContainsKey(session))
+        if (!_SessionToAccount.ContainsKey(session))
         {
-            Logger.Warning($"should contain session {session}");
+            ADebug.Warning($"should contain session {session}");
             return;
         }
 
-        var account = _Accounts[session];
-        Logger.Info($"_OnAccountDisconnect {account.Username} {session.GetConnectionID()}");
-        _Accounts.Remove(session);
+        var account = _SessionToAccount[session];
+        ADebug.Info($"_OnAccountDisconnect {account.Username} {session.GetConnectionID()}");
+        _SessionToAccount.Remove(session);
+        _GuidToAccount.Remove(account.Guid);
     }
 
-    private void _OnAuthResult(Account.Account account)
+    private void _OnAuthResult(Account account)
     {
-        Logger.Assert(account.AuthState == AuthState.Finish);
-        var rsp = new LoginRsp()
+        ADebug.Assert(account.AuthState == AuthState.Finish);
+        if (account.AuthResult != AuthRetCode.Ok)
         {
-            Username = account.Username,
-            RetCode = account.LoginResult,
-        };
-        
-        account.Send(rsp);
+            if (_GuidToAccount.ContainsKey(account.Guid))
+            {
+                _GuidToAccount.Remove(account.Guid);
+                _SessionToAccount.Remove(account.Session);
+            }
+        }
     }
 
-    private readonly Dictionary<TcpSession, Account.Account> _Accounts = new();
+    private readonly Dictionary<TcpSession, Account> _SessionToAccount = new();
+    private readonly Dictionary<Guid, Account> _GuidToAccount = new();
 }

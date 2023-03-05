@@ -1,10 +1,6 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Asuna.Asset;
-using Asuna.Interface;
-using Asuna.Utils;
-using UnityEngine;
+using Asuna.Foundation.Debug;
+using Asuna.Foundation.Interface;
 
 namespace Asuna.UI
 {

@@ -70,6 +70,17 @@ namespace Asuna.UI
             return cmpt;
         }
 
+        protected GameObject _Seek(string path)
+        {
+            var node = _Root.transform.Find(path);
+            if (node == null)
+            {
+                return null;
+            }
+
+            return node.gameObject;
+        }
+
         private string _PageID;
         protected GameObject _Root;
         private AssetRequestHandler<GameObject> _Asset;

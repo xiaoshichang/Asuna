@@ -1,6 +1,6 @@
 using AsunaServer.Application;
 using AsunaServer.Message;
-using AsunaServer.Debug;
+using AsunaServer.Foundation.Debug;
 using AsunaServer.Network;
 
 namespace AsunaServer.Application;
@@ -19,7 +19,7 @@ public partial class GMServer  : ServerBase
         var config = G.GroupConfig.GetServerConfigByName(req.ServerName);
         if (config == null)
         {
-            Logger.Warning("unknown server name");
+            ADebug.Warning("unknown server name");
             return;
         }
     }
@@ -37,7 +37,7 @@ public partial class GMServer  : ServerBase
 
     private void _OnAllServerReady()
     {
-        Logger.Info($"_OnAllServerReady. games: {G.Games.Count}, gates: {G.Gates.Count}");
+        ADebug.Info($"_OnAllServerReady. games: {Sessions.Games.Count}, gates: {Sessions.Gates.Count}");
         _SendStubsDistributeNotifyToGames();
     }
 

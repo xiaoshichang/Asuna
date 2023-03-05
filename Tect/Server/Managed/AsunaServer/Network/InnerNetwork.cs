@@ -1,6 +1,6 @@
 ﻿
 using AsunaServer.Core;
-using AsunaServer.Debug;
+using AsunaServer.Foundation.Debug;
 
 
 namespace AsunaServer.Network
@@ -27,10 +27,10 @@ namespace AsunaServer.Network
         
         private static void _OnAccept(IntPtr connection)
         {
-            Logger.Debug($"Inner Network OnAccept {connection}");
+            ADebug.Info($"Inner Network OnAccept {connection}");
             if (_Sessions.ContainsKey(connection))
             {
-                Logger.Error($"session({connection}) already exist.");
+                ADebug.Error($"session({connection}) already exist.");
                 return;
             }
             
@@ -46,7 +46,7 @@ namespace AsunaServer.Network
                 _OnReceiveCallback?.Invoke(session, message);
                 return;
             }
-            Logger.Warning("OnReceiveMessage connection does not exist!");
+            ADebug.Warning("OnReceiveMessage connection does not exist!");
         }
         
         /// <summary>
@@ -54,7 +54,7 @@ namespace AsunaServer.Network
         /// </summary>
         private static void _OnDisconnect(IntPtr connection)
         {
-            Logger.Debug($"Inner Network OnDisconnect {connection}");
+            ADebug.Info($"Inner Network OnDisconnect {connection}");
             if (_Sessions.TryGetValue(connection, out var session))
             {
                 _OnDisconnectCallback?.Invoke(session);
@@ -63,13 +63,13 @@ namespace AsunaServer.Network
             }
             else
             {
-                Logger.Warning("session not exist.");
+                ADebug.Warning("session not exist.");
             }
         }
 
         public static void ConnectTo(string ip, int port)
         {
-            Logger.Info($"connect to {ip} {port}");
+            ADebug.Info($"connect to {ip} {port}");
             Interface.InnerNetwork_ConnectTo(ip, port, _OnConnect);
         }
 

@@ -1,4 +1,4 @@
-﻿using AsunaServer.Debug;
+﻿using AsunaServer.Foundation.Debug;
 using AsunaServer.Message;
 using AsunaServer.Network;
 
@@ -14,7 +14,7 @@ namespace AsunaServer.Application
         {
             if (_Handlers.ContainsKey(type))
             {
-                Logger.Error("_RegisterMessageHandler duplicated");
+                ADebug.Error("_RegisterMessageHandler duplicated");
                 return;
             }
 

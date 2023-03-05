@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Asuna.Application;
-using Asuna.Utils;
+using Asuna.Foundation.Debug;
 using UnityEngine;
-using Object = UnityEngine.Object;
+
 
 namespace Asuna.UI
 {
@@ -14,7 +14,7 @@ namespace Asuna.UI
         {
             var handler = G.AssetManager.LoadAsset<GameObject>(item.AssetPath);
             handler.SyncLoad();
-            var root = Object.Instantiate(handler.Asset, _PageRoot.transform);
+            var root = UnityEngine.Object.Instantiate(handler.Asset, _PageRoot.transform);
             
             var page = root.GetComponent<UIPage>();
             if (page is null)

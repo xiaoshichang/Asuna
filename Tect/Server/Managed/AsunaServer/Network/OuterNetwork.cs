@@ -1,5 +1,5 @@
 ﻿using AsunaServer.Core;
-using AsunaServer.Debug;
+using AsunaServer.Foundation.Debug;
 
 namespace AsunaServer.Network
 {
@@ -21,15 +21,15 @@ namespace AsunaServer.Network
                 _OnReceiveCallback?.Invoke(session, message);
                 return;
             }
-            Logger.Warning("OnReceiveMessage connection does not exist!");
+            ADebug.Warning("OnReceiveMessage connection does not exist!");
         }
         
         private static void _OnAccept(IntPtr connection)
         {
-            Logger.Debug($"Outer Network OnAccept {connection}");
+            ADebug.Info($"Outer Network OnAccept {connection}");
             if (_Sessions.ContainsKey(connection))
             {
-                Logger.Error($"session({connection}) already exist.");
+                ADebug.Error($"session({connection}) already exist.");
                 return;
             }
             
@@ -44,7 +44,7 @@ namespace AsunaServer.Network
         /// </summary>
         private static void _OnDisconnect(IntPtr connection)
         {
-            Logger.Debug($"Outer Network OnDisconnect {connection}");
+            ADebug.Info($"Outer Network OnDisconnect {connection}");
             if (_Sessions.TryGetValue(connection, out var session))
             {
                 _OnDisconnectCallback?.Invoke(session);
@@ -53,7 +53,7 @@ namespace AsunaServer.Network
             }
             else
             {
-                Logger.Warning("session not exist.");
+                ADebug.Warning("session not exist.");
             }
         }
 

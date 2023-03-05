@@ -20,4 +20,8 @@
       <PackageReference Include="Google.Protobuf" Version="3.21.10" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Foundation" />
+    </ItemGroup>
+
 </Project>

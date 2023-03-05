@@ -1,13 +1,14 @@
 ﻿
 using Asuna.Application;
+using Asuna.Auth;
+using Asuna.Foundation.Debug;
 using Asuna.Gameplay;
 using Asuna.Network;
-using Asuna.Utils;
 using AsunaShared.Message;
 
 namespace Demo
 {
-    public delegate void OnConnectToServerResult(string result);
+    public delegate void OnAccountAuthResult(AuthRsp rsp);
 
     
     public class DemoGameplayInstance : GameplayInstance
@@ -21,21 +22,25 @@ namespace Demo
             G.UIManager.ShowPage(nameof(LoginPage), null);
         }
 
-         public void LoginToServer(string username, string password, string server, OnConnectToServerResult callback)
+         public void LoginToServer(string username, string password, string server, OnAccountAuthResult callback)
         {
-            ADebug.Assert(_OnConnectToServerResult == null);
+            ADebug.Assert(_OnAccountAuthResult == null);
+            ADebug.Assert(_AuthReq == null);
 
             var endpoint = NetworkHelper.ParseIPEndPoint(server);
             
-            _OnConnectToServerResult = callback;
-            _Username = username;
-            _Password = password;
+            _OnAccountAuthResult = callback;
+            _AuthReq = new AuthReq()
+            {
+                Username = username,
+                Password = password
+            };
             G.NetworkManager.ConnectToAsync(endpoint.Address.ToString(), endpoint.Port, _OnConnectCallback);
         }
 
         private void _OnConnectCallback(OnConnectResult cr)
         {
-            ADebug.Assert(_OnConnectToServerResult != null);
+            ADebug.Assert(_OnAccountAuthResult != null);
             
             if (cr == OnConnectResult.OK)
             {
@@ -43,54 +48,30 @@ namespace Demo
             }
             else
             {
-                _OnConnectToServerResult.Invoke("connect to server fail");
-                _OnConnectToServerResult = null;
+                _OnAccountAuthResult.Invoke(null);
+                _OnAccountAuthResult = null;
             }
         }
 
         private void _LoginToServer()
         {
-            ADebug.Assert(_OnConnectToServerResult != null);
-            
-            G.NetworkManager.RegisterMessageHandler(typeof(LoginRsp), _OnLoginToServer);
-            var loginReq = new LoginReq()
-            {
-                Password = _Password,
-                Username = _Username
-            };
-            G.NetworkManager.Send(loginReq);
+            ADebug.Assert(_OnAccountAuthResult != null);
+            G.NetworkManager.RegisterMessageHandler(typeof(AuthRsp), _OnLoginToServer);
+            G.NetworkManager.Send(_AuthReq);
         }
 
+        
         private void _OnLoginToServer(object message)
         {
-            G.NetworkManager.UnRegisterMessageHandler(typeof(LoginRsp), _OnLoginToServer);
-            var rsp = message as LoginRsp;
-            if (rsp.Username != _Username)
-            {
-                _OnConnectToServerResult.Invoke("unknown error");
-                _Username = null;
-                _Password = null;
-                return;
-            }
-            
-            
-            if (rsp.RetCode == LoginRetCode.Ok)
-            {
-                _OnConnectToServerResult.Invoke("Login Result: OK");
-            }
-            else
-            {
-                _OnConnectToServerResult.Invoke("Login Result: Fail");
-            }
-
-            _OnConnectToServerResult = null;
-            _Username = null;
-            _Password = null;
+            G.NetworkManager.UnRegisterMessageHandler(typeof(AuthRsp), _OnLoginToServer);
+            var rsp = message as AuthRsp;
+            _OnAccountAuthResult.Invoke(rsp);
+            _OnAccountAuthResult = null;
+            _AuthReq = null;
         }
 
-        private string _Username;
-        private string _Password;
-        private OnConnectToServerResult _OnConnectToServerResult;
+        private AuthReq _AuthReq;
+        private OnAccountAuthResult _OnAccountAuthResult;
 
     }
 }

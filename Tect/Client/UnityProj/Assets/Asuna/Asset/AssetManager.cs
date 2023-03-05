@@ -2,11 +2,11 @@
 using UnityEditor;
 #endif
 
-using Asuna.Utils;
 using Asuna.Application;
+using Asuna.Foundation.Debug;
+using Asuna.Foundation.Interface;
 using Asuna.Gameplay;
-using Asuna.Interface;
-using Object = UnityEngine.Object;
+
 
 
 namespace Asuna.Asset
@@ -51,7 +51,7 @@ namespace Asuna.Asset
             _ReleaseProvider();
         }
 
-        public AssetRequestHandler<T> LoadAsset<T>(string assetPath) where T : Object
+        public AssetRequestHandler<T> LoadAsset<T>(string assetPath) where T : UnityEngine.Object
         {
             var request = new AssetRequest()
             {
@@ -60,7 +60,7 @@ namespace Asuna.Asset
             return LoadAsset<T>(request);
         }
         
-        public AssetRequestHandler<T> LoadAsset<T>(AssetRequest request) where T : Object
+        public AssetRequestHandler<T> LoadAsset<T>(AssetRequest request) where T : UnityEngine.Object
         {
             var handler = _Provider.LoadAsset<T>(request);
             return handler;

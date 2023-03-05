@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using Asuna.Utils;
+using Asuna.Foundation.Debug;
 using UnityEditor;
 
 namespace Asuna.Check

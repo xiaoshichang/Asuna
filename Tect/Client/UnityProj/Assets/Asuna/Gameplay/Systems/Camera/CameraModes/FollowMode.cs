@@ -1,5 +1,4 @@
-﻿using Asuna.Application;
-using Asuna.Utils;
+﻿using Asuna.Foundation.Debug;
 using UnityEngine;
 
 namespace Asuna.Camera

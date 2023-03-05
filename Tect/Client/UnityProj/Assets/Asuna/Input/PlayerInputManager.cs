@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using Asuna.Interface;
-using Asuna.Utils;
+﻿using Asuna.Foundation.Debug;
+using Asuna.Foundation.Interface;
 using InControl;
 
 namespace Asuna.Input

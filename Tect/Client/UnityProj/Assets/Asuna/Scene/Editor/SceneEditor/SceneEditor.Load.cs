@@ -1,4 +1,5 @@
-﻿using Asuna.Utils;
+﻿using Asuna.Foundation.Debug;
+using Asuna.Utils;
 using UnityEditor;
 using UnityEngine;
 

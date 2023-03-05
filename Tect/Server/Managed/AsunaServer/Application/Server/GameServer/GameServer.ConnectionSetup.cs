@@ -1,5 +1,5 @@
 ﻿using AsunaServer.Application;
-using AsunaServer.Debug;
+using AsunaServer.Foundation.Debug;
 using AsunaServer.Message;
 using AsunaServer.Network;
 using AsunaServer.Timer;
@@ -41,7 +41,7 @@ public partial class GameServer : ServerBase
         var config = G.GroupConfig.GetServerConfigByName(rsp.ServerName);
         if (config == null)
         {
-            Logger.Warning("unknown server name");
+            ADebug.Warning("unknown server name");
             return;
         }
         if (config is GMServerConfig)
@@ -60,12 +60,12 @@ public partial class GameServer : ServerBase
 
     private void _OnAllGatesConnected()
     {
-        Logger.Info($"game is ready! {G.ServerConfig.Name}");
+        ADebug.Info($"game is ready! {G.ServerConfig.Name}");
         var ntf = new ServerReadyNtf()
         {
             ServerName = G.ServerConfig.Name
         };
-        G.GM.Send(ntf);
+        Sessions.GM.Send(ntf);
     }
     
     private int _ConnectedGates = 0;

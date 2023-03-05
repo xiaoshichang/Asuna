@@ -1,5 +1,5 @@
 ﻿using Asuna.Asset;
-using Asuna.Camera;
+using Asuna.Auth;
 using Asuna.Coroutine;
 using Asuna.Entity;
 using Asuna.Gameplay;
@@ -80,7 +80,8 @@ namespace Asuna.Application
         public static UIManager UIManager;
         public static EntityManager EntityManager;
         public static GameplayInstance GameplayInstance;
-        
+        public static Account Account;
+
 
     }
 }

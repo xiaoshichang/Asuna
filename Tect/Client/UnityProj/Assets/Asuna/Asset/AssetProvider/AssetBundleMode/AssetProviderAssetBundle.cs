@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Asuna.Application;
+using Asuna.Foundation.Debug;
 using Asuna.Utils;
 using UnityEngine;
 using Object = UnityEngine.Object;

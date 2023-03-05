@@ -1,5 +1,5 @@
 using System.Reflection;
-using AsunaServer.Debug;
+using AsunaServer.Foundation.Debug;
 using AsunaServer.Entity;
 using AsunaServer.Message;
 using AsunaServer.Network;
@@ -8,68 +8,31 @@ namespace AsunaServer.Application;
 
 public abstract partial class ServerBase
 {
-    private ServerEntity? _FindCaller(RpcNtf rpc)
-    {
-        if (rpc.HasStubName)
-        {
-            return EntityMgr.GetStub(rpc.StubName);
-        }
-        else if (rpc.HasGuid)
-        {
-            throw new NotImplementedException();
-        }
-        else
-        {
-            throw new NotImplementedException();
-        }
-    }
 
-    private MethodInfo? _FindMethod(RpcNtf rpc)
-    {
-        var method = G.RPCTable.GetMethodByIndex(rpc.Method);
-        if (method == null)
-        {
-            Logger.Error($"_OnRpcCall index {rpc.Method} not found.");
-            return null;
-        }
-        return method;
-    }
-
-    private bool _CheckBeforeConvert(RpcNtf rpc)
-    {
-        if (rpc.Args.Count > 8)
-        {
-            Logger.Error("too much args");
-            return false;
-        }
-
-        return true;
-    }
-
-    private bool _CheckBeforeInvoke(MethodInfo method, RpcNtf rpc)
+    private bool _CheckBeforeInvoke(MethodInfo method, StubRpc rpc)
     {
         var parameterCount = method.GetParameters().Length;
         if (parameterCount != rpc.ArgsCount)
         {
-            Logger.Error($"_OnRpcCall method {method} arg count not match. {parameterCount} != {rpc.ArgsCount}");
+            ADebug.Error($"_OnRpcCall method {method} arg count not match. {parameterCount} != {rpc.ArgsCount}");
             return false;
         }
 
         return true;
     }
 
-    private bool _ConvertArgs(RpcNtf rpc, out object[] args)
+    private bool _ConvertArgs(StubRpc rpc, out object[] args)
     {
         args = new object[rpc.ArgsCount];
         for (var i = 0; i < rpc.ArgsCount; i++)
         {
             var str = rpc.Args[i].ToStringUtf8();
-            var type = G.RPCTable.GetTypeByIndex(rpc.ArgsTypeIndex[i]);
+            var type = RpcCaller.RPCTable.GetTypeByIndex(rpc.ArgsTypeIndex[i]);
             var obj = System.Text.Json.JsonSerializer.Deserialize(str, type);
             
             if (obj == null)
             {
-                Logger.Error($"_OnRpcCall {i}-th arg is null, do not supported.");
+                ADebug.Error($"_OnRpcCall {i}-th arg is null, do not supported.");
                 return false;
             }
             else
@@ -80,25 +43,23 @@ public abstract partial class ServerBase
         return true;
     }
     
-    protected void _OnRpcCall(TcpSession session, object message)
+    protected void _OnStubRpc(TcpSession session, object message)
     {
-        if (message is not RpcNtf rpc)
+        if (message is not StubRpc rpc)
         {
-            Logger.Error($"unknown error.");
+            ADebug.Error($"unknown error.");
             return;
         }
-        ServerEntity? caller = _FindCaller(rpc);
-        if (caller == null)
+        var stub = EntityMgr.GetStub(rpc.StubName);
+        if (stub == null)
         {
+            ADebug.Warning($"Stub not found {rpc.StubName}");
             return;
         }
-        MethodInfo? method = _FindMethod(rpc);
+        var method = RpcCaller.RPCTable.GetMethodByIndex(rpc.Method);
         if (method == null)
         {
-            return;
-        }
-        if (!_CheckBeforeConvert(rpc))
-        {
+            ADebug.Warning($"method not found {rpc.Method}");
             return;
         }
         var ok = _ConvertArgs(rpc, out var args);
@@ -110,7 +71,7 @@ public abstract partial class ServerBase
         {
             return;
         }
-        method.Invoke(caller, args);
+        method.Invoke(stub, args);
     }
     
 }

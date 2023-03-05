@@ -1,6 +1,6 @@
 ﻿
 using System.Reflection;
-using AsunaServer.Debug;
+using AsunaServer.Foundation.Debug;
 using AsunaServer.Application;
 using AsunaServer.Network;
 

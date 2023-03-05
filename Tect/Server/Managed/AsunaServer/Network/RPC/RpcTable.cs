@@ -1,5 +1,5 @@
 using System.Reflection;
-using AsunaServer.Debug;
+using AsunaServer.Foundation.Debug;
 using AsunaServer.Utils;
 
 namespace AsunaServer.Network;
@@ -16,8 +16,8 @@ public class RpcTable
 
     private void _PrintDebugInfo()
     {
-        Logger.Debug($"RPC Methods Count: {_Index2Method.Count}");
-        Logger.Debug($"RPC Type Count: {_Index2Type.Count}");
+        ADebug.Info($"RPC Methods Count: {_Index2Method.Count}");
+        ADebug.Info($"RPC Type Count: {_Index2Type.Count}");
     }
     
     private void _RegisterRPCMethods(List<Assembly> assemblies)
@@ -41,7 +41,13 @@ public class RpcTable
 
     private void _RegisterBuiltinRPCType()
     {
-        var builtinType = new List<Type>() { typeof(int), typeof(float), typeof(string) };
+        var builtinType = new List<Type>()
+        {
+            typeof(int), 
+            typeof(float), 
+            typeof(string),
+            typeof(Guid),
+        };
         foreach (var type in builtinType)
         {
             var index = HashFunction.StringToUint(type.Name);

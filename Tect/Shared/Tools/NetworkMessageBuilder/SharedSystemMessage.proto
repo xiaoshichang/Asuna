@@ -15,20 +15,28 @@ message OuterPong
   google.protobuf.Timestamp ReceiveTime = 2;
 }
 
-message LoginReq
+message AuthReq
 {
   string username = 1;
   string password = 2;
 }
 
-enum LoginRetCode
+enum AuthRetCode
 {
   OK = 0;
   NotExit = 1;
 }
 
-message LoginRsp
+message AccountData
 {
-  string username = 1;
-  LoginRetCode RetCode = 2;
+  bytes guid = 1;
+  string username = 2;
+  repeated bytes avatarList = 3;
 }
+
+message AuthRsp
+{
+  AuthRetCode ret = 1;
+  AccountData data = 2;
+}
+

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Asuna.Utils;
+using Asuna.Foundation.Debug;
 using UnityEngine;
 
 namespace Asuna.Camera

@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
-using Asuna.Utils;
-using Newtonsoft.Json;
+using Asuna.Foundation.Debug;
 using UnityEditor;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Asuna.Scene.Editor

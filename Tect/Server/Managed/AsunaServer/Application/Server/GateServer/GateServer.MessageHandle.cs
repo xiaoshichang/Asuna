@@ -12,6 +12,6 @@ public partial class GateServer : ServerBase
     {
         base._RegisterMessageHandlers();
         _RegisterMessageHandler(typeof(OpenGateNtf), _OnOpenGateNtf);
-        _RegisterMessageHandler(typeof(LoginReq), _OnLoginReq);
+        _RegisterMessageHandler(typeof(AuthReq), _OnLoginReq);
     }
 }

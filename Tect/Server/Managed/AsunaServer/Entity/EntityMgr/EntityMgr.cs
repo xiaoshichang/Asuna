@@ -1,5 +1,5 @@
 
-using AsunaServer.Debug;
+using AsunaServer.Foundation.Debug;
 
 namespace AsunaServer.Entity
 {
@@ -9,7 +9,7 @@ namespace AsunaServer.Entity
         {
             if (_Entities.ContainsKey(guid))
             {
-                Logger.Error($"entity already exist! guid:{guid}");
+                ADebug.Error($"entity already exist! guid:{guid}");
                 return;
             }
             _Entities.Add(guid, entity);

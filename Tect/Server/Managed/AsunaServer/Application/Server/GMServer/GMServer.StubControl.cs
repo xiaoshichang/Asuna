@@ -1,6 +1,6 @@
 using AsunaServer.Message;
 using AsunaServer.Entity;
-using AsunaServer.Debug;
+using AsunaServer.Foundation.Debug;
 using AsunaServer.Network;
 using Google.Protobuf.Collections;
 
@@ -29,13 +29,13 @@ public partial class GMServer  : ServerBase
             }
         }
         
-        G.StubsDistributeTable = ntf.StubsDistributeTable;
+        RpcCaller.StubsDistributeTable = ntf.StubsDistributeTable;
         return ntf;
     }
 
     private void _SendStubsDistributeNotifyToGames()
     {
-        foreach (var game in G.Games.Values)
+        foreach (var game in Sessions.Games.Values)
         {
             var ntf = _GenStubsDistributeNotify();
             game.Send(ntf);
@@ -49,13 +49,13 @@ public partial class GMServer  : ServerBase
         {
             throw new ArgumentException();
         }
-        Logger.Assert(!_ReadyStubs.Contains(ntf.StubName));
+        ADebug.Assert(!_ReadyStubs.Contains(ntf.StubName));
         _ReadyStubs.Add(ntf.StubName);
-        if (_ReadyStubs.Count != G.StubsDistributeTable.Count)
+        if (_ReadyStubs.Count != RpcCaller.StubsDistributeTable.Count)
         {
             return;
         }
-        Logger.Info($"All Stubs is Ready! count: {_ReadyStubs.Count}");
+        ADebug.Info($"All Stubs is Ready! count: {_ReadyStubs.Count}");
         _OnAllStubReady();
     }
 
@@ -63,9 +63,9 @@ public partial class GMServer  : ServerBase
     {
         var ntf = new OpenGateNtf()
         {
-            StubsDistributeTable = { G.StubsDistributeTable }
+            StubsDistributeTable = { RpcCaller.StubsDistributeTable }
         };
-        foreach (var gate in G.Gates.Values)
+        foreach (var gate in Sessions.Gates.Values)
         {
             gate.Send(ntf);
         }

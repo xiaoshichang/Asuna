@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using AsunaServer.Core;
 using AsunaServer.Entity;
-using AsunaServer.Debug;
+using AsunaServer.Foundation.Debug;
 using AsunaServer.Network;
 
 namespace AsunaServer.Application
@@ -17,7 +17,7 @@ namespace AsunaServer.Application
         protected void _RegisterRPC()
         {
             var assemblyList = new List<Assembly> { Assembly.GetExecutingAssembly() };
-            G.RPCTable.Register(assemblyList);
+            RpcCaller.RPCTable.Register(assemblyList);
         }
 
         protected void _RegisterServerStubs()
@@ -30,7 +30,7 @@ namespace AsunaServer.Application
         {
             Interface.Server_Init();
             InnerNetwork.Init(G.ServerConfig.InnerIp, G.ServerConfig.InnerPort, _OnNodeAccept, _OnNodeConnect, _OnNodeReceiveMessage, _OnNodeDisconnect);
-            Logger.Info($"{G.ServerConfig.Name} listen at {G.ServerConfig.InnerIp}:{G.ServerConfig.InnerPort}");
+            ADebug.Info($"{G.ServerConfig.Name} listen at {G.ServerConfig.InnerIp}:{G.ServerConfig.InnerPort}");
         }
 
         public abstract void Init();

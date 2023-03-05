@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
+using Asuna.Foundation.Debug;
 using Asuna.UI;
-using Asuna.Utils;
 
 namespace Asuna.Application
 {

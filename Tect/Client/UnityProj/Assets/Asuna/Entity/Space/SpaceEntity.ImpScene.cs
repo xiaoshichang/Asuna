@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Asuna.Application;
 using Asuna.Asset;
+using Asuna.Foundation.Debug;
 using Asuna.Scene;
 using Asuna.Utils;
 using UnityEngine;

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using Asuna.Utils;
-using NUnit.Framework;
-using UnityEditor;
-using UnityEngine;
+using Asuna.Foundation.Debug;
+
 
 namespace Asuna.Check
 {

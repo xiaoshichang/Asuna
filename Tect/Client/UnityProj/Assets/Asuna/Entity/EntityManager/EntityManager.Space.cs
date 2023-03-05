@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Asuna.Utils;
-using UnityEngine;
+using Asuna.Foundation.Debug;
 
 namespace Asuna.Entity
 {

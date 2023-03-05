@@ -1,5 +1,5 @@
 ﻿using AsunaServer.Core;
-using AsunaServer.Debug;
+using AsunaServer.Foundation.Debug;
 
 
 namespace AsunaServer.Timer
@@ -71,7 +71,7 @@ namespace AsunaServer.Timer
         {
             if (!_Timers.TryGetValue(tid, out var timer))
             {
-                Logger.Warning($"timer({tid}) not exist");
+                ADebug.Warning($"timer({tid}) not exist");
                 return false;
             }
     
@@ -93,7 +93,7 @@ namespace AsunaServer.Timer
             var internalTimersCount = Interface.Timer_GetTimersCount();
             if (internalTimersCount != _Timers.Count)
             {
-                Logger.Error("timers count not match");
+                ADebug.Error("timers count not match");
             }
             
             return _Timers.Count;

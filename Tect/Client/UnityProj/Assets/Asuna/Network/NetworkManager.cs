@@ -4,9 +4,9 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using Asuna.Interface;
+using Asuna.Foundation.Debug;
+using Asuna.Foundation.Interface;
 using Asuna.Message;
-using Asuna.Utils;
 
 namespace Asuna.Network
 {

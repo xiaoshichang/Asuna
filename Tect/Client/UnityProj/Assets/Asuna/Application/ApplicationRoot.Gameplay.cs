@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
+using Asuna.Foundation.Debug;
 using Asuna.Gameplay;
-using Asuna.Utils;
 
 namespace Asuna.Application
 {

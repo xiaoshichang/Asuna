@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using AsunaServer.Application;
-using AsunaServer.Debug;
+using AsunaServer.Foundation.Debug;
 
 
 namespace AsunaServer.Application // Note: actual namespace depends on the project name.
@@ -60,7 +60,7 @@ namespace AsunaServer.Application // Note: actual namespace depends on the proje
 
         private static void _PrintPid()
         {
-            Logger.Info($"Pid: {Process.GetCurrentProcess().Id}");
+            ADebug.Info($"Pid: {Process.GetCurrentProcess().Id}");
         }
         
         public static void Main(string[] args)
@@ -69,7 +69,7 @@ namespace AsunaServer.Application // Note: actual namespace depends on the proje
             
             var logTarget = groupConfig.Common.LogPath;
             var logFile = $"{groupConfig.Common.LogPath}/{serverConfig.Name}.log";
-            Logger.Init(logTarget, logFile);
+            ADebug.Init(logTarget, logFile);
             
             _PrintPid();
             

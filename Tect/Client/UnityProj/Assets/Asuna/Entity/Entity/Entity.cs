@@ -1,8 +1,8 @@
 ﻿using System;
 using Asuna.Application;
-using Asuna.Utils;
+using Asuna.Foundation.Debug;
 using UnityEngine;
-using Object = UnityEngine.Object;
+
 
 namespace Asuna.Entity
 {
@@ -38,7 +38,7 @@ namespace Asuna.Entity
         public virtual void Destroy()
         {
             ADebug.Assert(_RootGO is not null);
-            Object.Destroy(_RootGO);
+            UnityEngine.Object.Destroy(_RootGO);
         }
 
         public abstract void Update(float dt);

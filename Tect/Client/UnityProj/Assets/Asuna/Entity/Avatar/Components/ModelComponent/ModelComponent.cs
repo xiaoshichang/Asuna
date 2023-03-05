@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using Asuna.Application;
 using Asuna.Asset;
-using Asuna.Utils;
+using Asuna.Foundation.Debug;
 using UnityEngine;
 
 namespace Asuna.Entity

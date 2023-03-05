@@ -11,6 +11,6 @@ public partial class GameServer : ServerBase
     {
         base._RegisterMessageHandlers();
         _RegisterMessageHandler(typeof(StubsDistributeNtf), _OnStubsDistributeNtf);
-        _RegisterMessageHandler(typeof(RpcNtf), _OnRpcCall);
+        _RegisterMessageHandler(typeof(StubRpc), _OnStubRpc);
     }
 }
