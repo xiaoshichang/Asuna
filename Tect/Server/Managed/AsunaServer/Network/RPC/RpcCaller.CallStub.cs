@@ -17,11 +17,6 @@ namespace AsunaServer.Network
         public static MapField<string, string> StubsDistributeTable = new();
 
         /// <summary>
-        /// RPC 索引表
-        /// </summary>
-        public static RpcTable RPCTable = new();
-        
-        /// <summary>
         /// 对 ServerStub 发起 RPC 调用
         /// </summary>
         /// <param name="stubName"></param>
@@ -33,12 +28,6 @@ namespace AsunaServer.Network
             if (stub == null)
             {
                 ADebug.Error($"stub {stubName} not exist");
-                return;
-            }
-            var method = stub.GetMethod(methodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-            if (method == null)
-            {
-                ADebug.Error($"method {stubName}.{methodName} not exist");
                 return;
             }
             if (!StubsDistributeTable.TryGetValue(stubName, out var server))
@@ -54,7 +43,7 @@ namespace AsunaServer.Network
             var rpc = new StubRpc()
             {
                 StubName = stubName,
-                Method = HashFunction.MethodToUint(method),
+                Method = HashFunction.RpcToUint(stubName, methodName),
                 ArgsCount = (uint)args.Length,
             };
             foreach (var arg in args)

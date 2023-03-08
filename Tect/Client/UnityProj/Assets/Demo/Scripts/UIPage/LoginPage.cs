@@ -1,6 +1,7 @@
 using System;
 using Asuna.Application;
 using Asuna.Auth;
+using Asuna.Foundation.Debug;
 using Asuna.UI;
 using AsunaShared.Message;
 using TMPro;
@@ -106,14 +107,20 @@ namespace Demo
 
         private void _OnSelectAvatarItemCallback(ListviewItemView i)
         {
-            var avatar = i.GetModel();
-            var detail = avatar is Guid ? (Guid)avatar : default;
+            var detail = (Guid)i.GetModel();
             _SelectedAvatar.text = detail.ToString();
         }
 
         private void _OnSelectAvatarBtn()
         {
-            
+            ADebug.Assert(G.Account != null);
+            if (_AvatarList.CurrentSelectedItem == null)
+            {
+                return;
+            }
+
+            var avatar = (Guid)_AvatarList.CurrentSelectedItem.GetModel();
+            G.Account.CallServer("SelectAvatar", new object[]{avatar});
         }
 
         private TMP_InputField _UsernameInput;

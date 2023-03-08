@@ -1,10 +1,7 @@
-using System.Reflection;
+﻿using System.Reflection;
 
-#pragma warning disable
-
-namespace AsunaServer.Utils
+namespace Asuna.Utils
 {
-    
     public static class HashFunction
     {
     

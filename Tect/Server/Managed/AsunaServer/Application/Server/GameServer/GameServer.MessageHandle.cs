@@ -7,9 +7,9 @@ namespace AsunaServer.Application;
 
 public partial class GameServer : ServerBase
 {
-    protected override void _RegisterMessageHandlers()
+    protected override void _RegisterBasicMessageHandlers()
     {
-        base._RegisterMessageHandlers();
+        base._RegisterBasicMessageHandlers();
         _RegisterMessageHandler(typeof(StubsDistributeNtf), _OnStubsDistributeNtf);
         _RegisterMessageHandler(typeof(StubRpc), _OnStubRpc);
     }

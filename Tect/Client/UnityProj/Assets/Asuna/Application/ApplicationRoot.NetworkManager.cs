@@ -1,61 +1,61 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
+using Asuna.Auth;
 using Asuna.Foundation.Debug;
 using Asuna.Network;
 using AsunaShared.Message;
-using Google.Protobuf.WellKnownTypes;
-using UnityEngine;
+using Newtonsoft.Json;
 
 namespace Asuna.Application
 {
     public partial class ApplicationRoot
     {
-        private void _InitNetwork()
+        private void _RegisterNetworkMessageType()
         {
-            NetworkManager = new NetworkManager();
+            // Message 目前都定义在框架层面
             List<Assembly> assemblies = new List<Assembly>()
             {
                 Assembly.GetExecutingAssembly()
             };
-            NetworkManager.Serializer.Collect(assemblies);
+            NetworkManager.MessageSerializer.Collect(assemblies);
+        }
+        
+        private void _RegisterRpcType()
+        {
+            // Rpc 可能定义在框架和Gameplay
+            List<Assembly> assemblies = new List<Assembly>()
+            {
+                Assembly.GetExecutingAssembly(),
+            };
+            foreach (var assemblyName in ApplicationSetting.GameplayAssemblies)
+            {
+                assemblies.Add(Assembly.Load(assemblyName));
+            }
+            RpcTable.Register(assemblies);
+        }
+        
+        private void _RegisterPersistentMessageHandlers()
+        {
+            NetworkManager.RegisterMessageHandler(typeof(AccountRpc), Account._OnAccountRpc);
+        }
+        
+        private void _InitNetwork()
+        {
+            NetworkManager = new NetworkManager();
+
+            _RegisterNetworkMessageType();
+            _RegisterRpcType();
+            _RegisterPersistentMessageHandlers();
+
             NetworkManager.Init(null);
             ADebug.Info("Init Network Manager Ok!");
         }
-
 
         private void _ReleaseNetworkManager()
         {
             NetworkManager.Release();
             NetworkManager = null;
             ADebug.Info("Release Network Manager Ok!");
-        }
-        
-        private void _OnReceiveNetworkMessage(object message)
-        {
-        }
-        
-        private void OnConnected(OnConnectResult cr)
-        {
-            ADebug.Info($"OnConnected {cr}");
-            if (cr == OnConnectResult.OK)
-            {
-                StartCoroutine(_PingPongTest());
-            }
-        }
-        
-        private IEnumerator _PingPongTest()
-        {
-            while (true)
-            {
-                yield return new WaitForSeconds(3);
-                var ping = new OuterPing()
-                {
-                    SendTime = Timestamp.FromDateTime(DateTime.UtcNow)
-                };
-                NetworkManager.Send(ping);
-            }
         }
 
         public NetworkManager NetworkManager;

@@ -4,9 +4,9 @@ using AsunaServer.Utils;
 
 namespace AsunaServer.Network;
 
-public class RpcTable
+public static class RpcTable
 {
-    public void Register(List<Assembly> assemblies)
+    public static void Register(List<Assembly> assemblies)
     {
         _RegisterRPCMethods(assemblies);
         _RegisterBuiltinRPCType();
@@ -14,13 +14,13 @@ public class RpcTable
         _PrintDebugInfo();
     }
 
-    private void _PrintDebugInfo()
+    private static void _PrintDebugInfo()
     {
         ADebug.Info($"RPC Methods Count: {_Index2Method.Count}");
         ADebug.Info($"RPC Type Count: {_Index2Type.Count}");
     }
     
-    private void _RegisterRPCMethods(List<Assembly> assemblies)
+    private static void _RegisterRPCMethods(List<Assembly> assemblies)
     {
         foreach (var assembly in assemblies)
         {
@@ -31,7 +31,7 @@ public class RpcTable
                     var rpc = method.GetCustomAttribute<RpcAttribute>();
                     if (rpc != null)
                     {
-                        var index = HashFunction.MethodToUint(method);
+                        var index = HashFunction.RpcToUint(type.Name, method.Name);
                         _Index2Method[index] = method;
                     }
                 }
@@ -39,7 +39,7 @@ public class RpcTable
         }
     }
 
-    private void _RegisterBuiltinRPCType()
+    private static void _RegisterBuiltinRPCType()
     {
         var builtinType = new List<Type>()
         {
@@ -55,7 +55,7 @@ public class RpcTable
         }
     }
 
-    private void _RegisterRPCType(List<Assembly> assemblies)
+    private static void _RegisterRPCType(List<Assembly> assemblies)
     {
         foreach (var assembly in assemblies)
         {
@@ -71,7 +71,7 @@ public class RpcTable
         }
     }
 
-    public Type GetTypeByIndex(uint index)
+    public static Type GetTypeByIndex(uint index)
     {
         if (_Index2Type.TryGetValue(index, out var type))
         {
@@ -80,7 +80,7 @@ public class RpcTable
         throw new ArgumentException();
     }
 
-    public MethodInfo? GetMethodByIndex(uint index)
+    public static MethodInfo? GetMethodByIndex(uint index)
     {
         if (_Index2Method.TryGetValue(index, out var method))
         {

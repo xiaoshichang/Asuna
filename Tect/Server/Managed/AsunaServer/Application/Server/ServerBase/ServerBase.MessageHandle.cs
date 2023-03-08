@@ -41,7 +41,7 @@ namespace AsunaServer.Application
             handler?.Invoke(session, message);
         }
         
-        protected virtual void _RegisterMessageHandlers()
+        protected virtual void _RegisterBasicMessageHandlers()
         {
             _RegisterMessageHandler(typeof(InnerPongRsp), _OnInnerPong);
             _RegisterMessageHandler(typeof(InnerPingReq), _OnInnerPing);

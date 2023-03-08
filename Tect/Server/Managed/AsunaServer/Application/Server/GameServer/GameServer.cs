@@ -11,8 +11,8 @@ namespace AsunaServer.Application
         public override void Init()
         {
             _RegisterInnerNetworkMessage();
-            _RegisterMessageHandlers();
-            _RegisterRPC();
+            _RegisterBasicMessageHandlers();
+            _RegisterRpcIndex();
             _RegisterServerStubs();
             _InitCoreAndNetwork();
             _TryConnectGMSever();

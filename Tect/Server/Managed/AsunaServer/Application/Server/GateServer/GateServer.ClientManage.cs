@@ -1,4 +1,5 @@
-﻿using AsunaServer.Auth;
+﻿using System.Reflection;
+using AsunaServer.Auth;
 using AsunaServer.Message;
 using AsunaServer.Foundation.Debug;
 using AsunaServer.Network;
@@ -76,6 +77,72 @@ public partial class GateServer : ServerBase
                 _SessionToAccount.Remove(account.Session);
             }
         }
+    }
+    
+    private static bool _ConvertArgs(AccountRpc rpc, out object[] args)
+    {
+        args = new object[rpc.ArgsCount];
+        for (var i = 0; i < rpc.ArgsCount; i++)
+        {
+            var str = rpc.Args[i].ToStringUtf8();
+            var type = RpcTable.GetTypeByIndex(rpc.ArgsTypeIndex[i]);
+            var obj = System.Text.Json.JsonSerializer.Deserialize(str, type);
+            
+            if (obj == null)
+            {
+                ADebug.Error($"_ConvertArgs {i}-th arg is null, do not supported.");
+                return false;
+            }
+            else
+            {
+                args[i] = obj;
+            }
+        }
+        return true;
+    }
+    
+    private static bool _CheckBeforeInvoke(MethodInfo method, AccountRpc rpc)
+    {
+        var parameterCount = method.GetParameters().Length;
+        if (parameterCount != rpc.ArgsCount)
+        {
+            ADebug.Error($"_OnRpcCall method {method} arg count not match. {parameterCount} != {rpc.ArgsCount}");
+            return false;
+        }
+        return true;
+    }
+    
+    public void _OnAccountRpc(TcpSession session, object ntf)
+    {
+        var rpc = ntf as AccountRpc;
+        if (rpc == null)
+        {
+            ADebug.Error("_OnAccountRpc unknown error");
+            return;
+        }
+
+        var accountID = rpc.Guid.ToGuid();
+        if (!_GuidToAccount.TryGetValue(accountID, out var account))
+        {
+            ADebug.Error($"_OnAccountRpc account not found. {accountID}");
+            return;
+        }
+        
+        var method = RpcTable.GetMethodByIndex(rpc.Method);
+        if (method == null)
+        {
+            ADebug.Error($"method not found {rpc.Method}");
+            return;
+        }
+        if (!_ConvertArgs(rpc, out var args))
+        {
+            return;
+        }
+        if (!_CheckBeforeInvoke(method, rpc))
+        {
+            return;
+        }
+        method.Invoke(account, args);
     }
 
     private readonly Dictionary<TcpSession, Account> _SessionToAccount = new();

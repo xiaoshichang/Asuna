@@ -8,10 +8,11 @@ namespace AsunaServer.Application;
 
 public partial class GateServer : ServerBase
 {
-    protected override void _RegisterMessageHandlers()
+    protected override void _RegisterBasicMessageHandlers()
     {
-        base._RegisterMessageHandlers();
+        base._RegisterBasicMessageHandlers();
         _RegisterMessageHandler(typeof(OpenGateNtf), _OnOpenGateNtf);
         _RegisterMessageHandler(typeof(AuthReq), _OnLoginReq);
+        _RegisterMessageHandler(typeof(AccountRpc), _OnAccountRpc);
     }
 }

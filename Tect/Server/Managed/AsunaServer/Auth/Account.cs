@@ -1,11 +1,7 @@
-using AsunaServer.Application;
 using AsunaServer.Foundation.Debug;
-using AsunaServer.Entity;
 using AsunaServer.Network;
 using AsunaServer.Timer;
 using AsunaShared.Message;
-using Google.Protobuf;
-using Google.Protobuf.Collections;
 
 namespace AsunaServer.Auth
 {
@@ -18,7 +14,7 @@ namespace AsunaServer.Auth
 
     public delegate void AuthCallback(Account account);
     
-    public class Account
+    public partial class Account
     {
         public Account(AuthReq req, TcpSession session, AuthCallback callback)
         {

@@ -43,10 +43,7 @@ namespace Asuna.Network
             _SendThread = new Thread(_Sending);
         }
 
-        public void ConnectToAsync(
-            string ip, 
-            int port, 
-            OnConnectCallbackDelegate onConnect)
+        public void ConnectToAsync(string ip, int port, OnConnectCallbackDelegate onConnect)
         {
             if (_State != NetState.Ready)
             {
@@ -276,7 +273,7 @@ namespace Asuna.Network
                 return null;
             }
 
-            var message = Serializer.Deserialize(_BodyBuffer, _BodySize, _BodyType);
+            var message = MessageSerializer.Deserialize(_BodyBuffer, _BodySize, _BodyType);
             return message;
         }
 
@@ -339,10 +336,10 @@ namespace Asuna.Network
 
         private void _DoSend(object message)
         {
-            var data = Serializer.Serialize(message);
+            var data = MessageSerializer.Serialize(message);
             var buffer = new byte[data.Length + HeaderSize];
             var bodySize = data.Length;
-            var typeIndex = Serializer.GetIndexByType(message.GetType());
+            var typeIndex = MessageSerializer.GetIndexByType(message.GetType());
             BitConverter.GetBytes(bodySize).CopyTo(buffer, 0);
             BitConverter.GetBytes(typeIndex).CopyTo(buffer, 4);
             data.CopyTo(buffer, HeaderSize);
@@ -391,7 +388,7 @@ namespace Asuna.Network
             }
         }
 
-        public readonly SerializerBase Serializer = new ProtobufSerializer();
+        public readonly SerializerBase MessageSerializer = new ProtobufSerializer();
     }
 }
 

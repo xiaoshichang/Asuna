@@ -17,8 +17,8 @@ message OuterPong
 
 message AuthReq
 {
-  string username = 1;
-  string password = 2;
+  string Username = 1;
+  string Password = 2;
 }
 
 enum AuthRetCode
@@ -29,9 +29,9 @@ enum AuthRetCode
 
 message AccountData
 {
-  bytes guid = 1;
-  string username = 2;
-  repeated bytes avatarList = 3;
+  bytes Guid = 1;
+  string Username = 2;
+  repeated bytes AvatarList = 3;
 }
 
 message AuthRsp
@@ -40,3 +40,11 @@ message AuthRsp
   AccountData data = 2;
 }
 
+message AccountRpc
+{
+  bytes Guid = 1;
+  uint32 Method = 2;
+  int32 ArgsCount = 3;
+  repeated uint32 ArgsTypeIndex = 4;
+  repeated bytes Args = 5;
+}

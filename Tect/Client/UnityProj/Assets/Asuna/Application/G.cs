@@ -4,6 +4,7 @@ using Asuna.Coroutine;
 using Asuna.Entity;
 using Asuna.Gameplay;
 using Asuna.Input;
+using Asuna.Message;
 using Asuna.Network;
 using Asuna.Timer;
 using Asuna.UI;

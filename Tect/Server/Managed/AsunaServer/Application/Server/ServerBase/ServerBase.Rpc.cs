@@ -27,7 +27,7 @@ public abstract partial class ServerBase
         for (var i = 0; i < rpc.ArgsCount; i++)
         {
             var str = rpc.Args[i].ToStringUtf8();
-            var type = RpcCaller.RPCTable.GetTypeByIndex(rpc.ArgsTypeIndex[i]);
+            var type = RpcTable.GetTypeByIndex(rpc.ArgsTypeIndex[i]);
             var obj = System.Text.Json.JsonSerializer.Deserialize(str, type);
             
             if (obj == null)
@@ -56,7 +56,7 @@ public abstract partial class ServerBase
             ADebug.Warning($"Stub not found {rpc.StubName}");
             return;
         }
-        var method = RpcCaller.RPCTable.GetMethodByIndex(rpc.Method);
+        var method = RpcTable.GetMethodByIndex(rpc.Method);
         if (method == null)
         {
             ADebug.Warning($"method not found {rpc.Method}");

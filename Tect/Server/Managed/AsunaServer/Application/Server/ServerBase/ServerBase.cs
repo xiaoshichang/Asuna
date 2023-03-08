@@ -14,10 +14,10 @@ namespace AsunaServer.Application
             G.MessageSerializer.Collect(assemblyList, "AsunaServer.Message");
         }
 
-        protected void _RegisterRPC()
+        protected void _RegisterRpcIndex()
         {
             var assemblyList = new List<Assembly> { Assembly.GetExecutingAssembly() };
-            RpcCaller.RPCTable.Register(assemblyList);
+            RpcTable.Register(assemblyList);
         }
 
         protected void _RegisterServerStubs()

@@ -5,7 +5,7 @@ using AsunaShared.Message;
 
 namespace Asuna.Auth
 {
-    public class Account
+    public partial class Account
     {
         public Guid Guid;
         public List<Guid> AvatarList = new List<Guid>();

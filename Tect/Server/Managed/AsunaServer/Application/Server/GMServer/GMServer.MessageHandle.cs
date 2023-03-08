@@ -7,9 +7,9 @@ namespace AsunaServer.Application;
 
 public partial class GMServer  : ServerBase
 {
-    protected override void _RegisterMessageHandlers()
+    protected override void _RegisterBasicMessageHandlers()
     {
-        base._RegisterMessageHandlers();
+        base._RegisterBasicMessageHandlers();
         _RegisterMessageHandler(typeof(ServerReadyNtf), _OnServerReadyNtf);
         _RegisterMessageHandler(typeof(StubReadyNtf), _OnStubReady);
     }
