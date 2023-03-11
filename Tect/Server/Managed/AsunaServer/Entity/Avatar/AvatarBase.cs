@@ -1,6 +1,6 @@
 namespace AsunaServer.Entity;
 
-public class Avatar
+public class AvatarBase
 {
     
 }

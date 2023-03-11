@@ -9,6 +9,7 @@ namespace AsunaServer.Application;
 
 public class CommonConfig
 {
+    public string GameplayAssembly { get; set; } = string.Empty;
     public string LogPath { get; set; } = string.Empty;
 }
 

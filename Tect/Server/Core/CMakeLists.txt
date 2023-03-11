@@ -36,4 +36,6 @@ else()
 endif()
 
 target_include_directories(AsunaServer PRIVATE ${Boost_INCLUDE_DIRS})
+set_target_properties(AsunaServer PROPERTIES OUTPUT_NAME "AsunaServer.Core.Native")
+
 install(TARGETS AsunaServer DESTINATION ${CMAKE_SOURCE_DIR}/../Bin)

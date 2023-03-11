@@ -26,6 +26,27 @@ namespace AsunaServer.Application
             EntityMgr.RegisterStubTypes(assemblyList);
         }
 
+        protected void _RegisterAvatarType()
+        {
+            var assemblyList = new List<Assembly>();
+            if (string.IsNullOrEmpty(G.GroupConfig.Common.GameplayAssembly))
+            {
+                ADebug.Error("GameplayAssembly is null");
+                return;
+            }
+
+            try
+            {
+                var path = Path.Join(Environment.CurrentDirectory, G.GroupConfig.Common.GameplayAssembly);
+                assemblyList.Add(Assembly.LoadFrom(path));
+                EntityMgr.RegisterStubTypes(assemblyList);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+            }
+        }
+
         protected void _InitCoreAndNetwork()
         {
             Interface.Server_Init();

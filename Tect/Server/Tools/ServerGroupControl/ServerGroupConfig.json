@@ -1,6 +1,7 @@
 {
   "Common":
   {
+    "GameplayAssembly": "../../Bin/net6.0/Demo.dll",
     "LogPath": "Logs"
   },
   "GMServer": {

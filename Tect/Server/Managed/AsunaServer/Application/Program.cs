@@ -58,10 +58,16 @@ namespace AsunaServer.Application // Note: actual namespace depends on the proje
             return (groupConfig, serverConfig);
         }
 
-        private static void _PrintPid()
+        private static void _LogPid()
         {
             ADebug.Info($"Pid: {Process.GetCurrentProcess().Id}");
         }
+
+        private static void _LogPwd()
+        {
+            ADebug.Info($"CurrentDirectory: {Environment.CurrentDirectory}");
+        }
+        
         
         public static void Main(string[] args)
         {
@@ -71,7 +77,8 @@ namespace AsunaServer.Application // Note: actual namespace depends on the proje
             var logFile = $"{groupConfig.Common.LogPath}/{serverConfig.Name}.log";
             ADebug.Init(logTarget, logFile);
             
-            _PrintPid();
+            _LogPid();
+            _LogPwd();
             
             var server = _CreateServerByServerConfig(groupConfig, serverConfig);
             server.Init();
