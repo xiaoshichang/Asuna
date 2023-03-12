@@ -61,7 +61,7 @@ public class ProtobufSerializer : SerializerBase
     
     protected override void _Register(Type type)
     {
-        uint index = HashFunction.StringToUint(type.Name);
+        uint index = HashFunction.StringToUint(type.Namespace + type.Name);
         if (_Index2Type.ContainsKey(index))
         {
             throw new Exception($"duplicated index register. {type.Name}");

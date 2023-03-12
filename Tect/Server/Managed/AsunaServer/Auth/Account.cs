@@ -1,3 +1,4 @@
+using AsunaServer.Application;
 using AsunaServer.Foundation.Debug;
 using AsunaServer.Network;
 using AsunaServer.Timer;
@@ -18,6 +19,12 @@ namespace AsunaServer.Auth
     {
         public Account(AuthReq req, TcpSession session, AuthCallback callback)
         {
+            Guid = Guid.NewGuid();
+            Proxy = new AccountProxy()
+            {
+                AccountID = Guid,
+                Gate = G.ServerConfig.Name
+            };
             _Request = req;
             _Session = session;
             _Callback = callback;
@@ -66,7 +73,8 @@ namespace AsunaServer.Auth
             _Callback = null;
         }
 
-        public Guid Guid = Guid.NewGuid();
+        public Guid Guid;
+        public AccountProxy Proxy;
 
         private readonly AuthReq _Request;
         public string Username => _Request.Username;

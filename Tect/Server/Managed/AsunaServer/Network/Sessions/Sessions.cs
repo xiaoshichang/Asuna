@@ -74,5 +74,15 @@ namespace AsunaServer.Network
             SessionToServer.Remove(session);
             return true;
         }
+
+        public static TcpSession? GetSessionByName(string name)
+        {
+            if (ServerToSession.TryGetValue(name, out var session))
+            {
+                return session;
+            }
+
+            return null;
+        }
     }
 }

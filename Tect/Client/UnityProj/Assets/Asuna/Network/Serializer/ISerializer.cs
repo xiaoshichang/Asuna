@@ -13,7 +13,7 @@ namespace Asuna.Message
 
         protected uint _ConvertTypeToHash(Type type)
         {
-            var name = type.Name;
+            var name = type.Namespace + type.Name;
             uint hashedValue = 0;
             uint multiplier = 1;
             int i = 0;

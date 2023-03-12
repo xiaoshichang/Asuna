@@ -26,10 +26,7 @@ public abstract partial class ServerBase
         args = new object[rpc.ArgsCount];
         for (var i = 0; i < rpc.ArgsCount; i++)
         {
-            var str = rpc.Args[i].ToStringUtf8();
-            var type = RpcTable.GetTypeByIndex(rpc.ArgsTypeIndex[i]);
-            var obj = System.Text.Json.JsonSerializer.Deserialize(str, type);
-            
+            var obj = RpcHelper.DeserializeRpcArg(rpc.Args[i], rpc.ArgsTypeIndex[i]);
             if (obj == null)
             {
                 ADebug.Error($"_OnRpcCall {i}-th arg is null, do not supported.");

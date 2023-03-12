@@ -9,7 +9,7 @@ using Google.Protobuf.Collections;
 
 namespace AsunaServer.Network
 {
-    public static class RpcCaller
+    public static partial class RpcCaller
     {
         /// <summary>
         /// Stub分布表
@@ -48,11 +48,9 @@ namespace AsunaServer.Network
             };
             foreach (var arg in args)
             {
-                var index = HashFunction.StringToUint(arg.GetType().Name);
+                RpcHelper.SerializeRpcArg(arg, out var data, out var index);
                 rpc.ArgsTypeIndex.Add(index);
-                var str = System.Text.Json.JsonSerializer.Serialize(arg);
-                var bin = System.Text.Encoding.UTF8.GetBytes(str);
-                rpc.Args.Add(ByteString.CopyFrom(bin));
+                rpc.Args.Add(ByteString.CopyFrom(data));
             }
             session.Send(rpc);
         }

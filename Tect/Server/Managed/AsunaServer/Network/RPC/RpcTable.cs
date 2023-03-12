@@ -47,6 +47,7 @@ public static class RpcTable
             typeof(float), 
             typeof(string),
             typeof(Guid),
+            typeof(AccountProxy),
         };
         foreach (var type in builtinType)
         {

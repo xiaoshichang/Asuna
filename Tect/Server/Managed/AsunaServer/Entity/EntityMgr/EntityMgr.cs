@@ -5,19 +5,19 @@ namespace AsunaServer.Entity
 {
     public static partial class EntityMgr
     {
-        public static void AddEntity(Guid guid, ServerEntity entity)
+        public static void CreateEntityLocal(Type entityType)
         {
-            if (_Entities.ContainsKey(guid))
-            {
-                ADebug.Error($"entity already exist! guid:{guid}");
-                return;
-            }
-            _Entities.Add(guid, entity);
+            
         }
-
-        public static void RemoveEntity(Guid guid)
+        
+        public static void CreateEntityRemote(Type entityType)
         {
-            _Entities.Remove(guid);
+            
+        }
+        
+        public static void CreateEntityRemote(Type entityType, string game)
+        {
+            
         }
         
         private static readonly Dictionary<Guid, ServerEntity> _Entities = new();

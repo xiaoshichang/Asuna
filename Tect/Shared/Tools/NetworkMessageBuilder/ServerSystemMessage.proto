@@ -41,6 +41,15 @@ message StubRpc
   repeated bytes Args = 5;
 }
 
+message AccountRpc
+{
+  bytes Guid = 1;
+  uint32 Method = 2;
+  int32 ArgsCount = 3;
+  repeated uint32 ArgsTypeIndex = 4;
+  repeated bytes Args = 5;
+}
+
 
 
 
