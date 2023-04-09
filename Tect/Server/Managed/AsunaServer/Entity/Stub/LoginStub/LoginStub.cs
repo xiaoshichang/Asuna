@@ -30,27 +30,20 @@ public class LoginStub : ServerStubEntity
         ADebug.Info($"AvatarLogin {proxy.AccountID} {proxy.Gate} {avatarID}");
         if (_OnlineAvatar.ContainsKey(avatarID) || _CreatingAvatar.ContainsKey(avatarID))
         {
-            _OnAvatarLogin(proxy, avatarID, AvatarLoginResult.AlreadyLogin);
+            _OnAvatarLoginError(proxy, avatarID, AvatarLoginResult.AlreadyLogin);
             return;
         }
 
-        _OnAvatarLogin(proxy, avatarID, AvatarLoginResult.OK);
+        _CreateAvatarOnGameServer(proxy, avatarID);
     }
 
-    private void _OnAvatarLogin(AccountProxy proxy, Guid avatarID, AvatarLoginResult result)
+    private void _OnAvatarLoginError(AccountProxy proxy, Guid avatarID, AvatarLoginResult result)
     {
         switch (result)
         {
-            case AvatarLoginResult.OK:
-            {
-                _CreatingAvatar[avatarID] = proxy;
-                RpcCaller.CallProxy(proxy, "OnSelectAvatarResult", result);
-                break;
-            }
             case AvatarLoginResult.AlreadyLogin:
             {
-                RpcCaller.CallProxy(proxy, "OnSelectAvatarResult", result);
-                break;
+                throw new NotImplementedException();
             }
             default:
             {
@@ -59,8 +52,39 @@ public class LoginStub : ServerStubEntity
         }
     }
 
+    /// <summary>
+    /// 创建 Avatar 实体
+    /// </summary>
+    private void _CreateAvatarOnGameServer(AccountProxy proxy, Guid avatarID)
+    {
+        _CreatingAvatar[avatarID] = proxy;
+        var avatarType = EntityMgr.GetAvatarType();
+        if (avatarType == null)
+        {
+            ADebug.Error("avatar type not found!");
+            return;
+        }
+        
+        EntityMgr.CreateEntityRemote(avatarType, avatarID);
+    }
+
+    /// <summary>
+    /// Avatar 实体创建完毕回调
+    /// </summary>
+    [Rpc]
+    private void OnAvatarCreated(AvatarProxy proxy)
+    {
+        ADebug.Assert(_CreatingAvatar.ContainsKey(proxy.AvatarID));
+        var accountProxy = _CreatingAvatar[proxy.AvatarID];
+        _CreatingAvatar.Remove(proxy.AvatarID);
+        _OnlineAvatar[proxy.AvatarID] = proxy;
+        RpcCaller.CallProxy(accountProxy, "OnSelectAvatarResult", AvatarLoginResult.OK, proxy);
+        
+        ADebug.Info($"OnAvatarCreated - Avatar {proxy.AvatarID} created on {proxy.Game}");
+    }
+
     private readonly Dictionary<Guid, AccountProxy> _CreatingAvatar = new();
-    private readonly Dictionary<Guid, AccountProxy> _OnlineAvatar = new();
+    private readonly Dictionary<Guid, AvatarProxy> _OnlineAvatar = new();
 
 
 }

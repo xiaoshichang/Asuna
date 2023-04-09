@@ -12,7 +12,7 @@ public static partial class RpcCaller
         var rpc = new AccountRpc()
         {
             Guid = proxy.AccountID.ToProto(),
-            Method = HashFunction.RpcToUint("Account", method),
+            Method = HashUtils.RpcToUint("Account", method),
             ArgsCount = args.Length
         };
 

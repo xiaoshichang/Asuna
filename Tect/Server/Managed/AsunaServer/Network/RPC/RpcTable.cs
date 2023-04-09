@@ -31,7 +31,7 @@ public static class RpcTable
                     var rpc = method.GetCustomAttribute<RpcAttribute>();
                     if (rpc != null)
                     {
-                        var index = HashFunction.RpcToUint(type.Name, method.Name);
+                        var index = HashUtils.RpcToUint(type.Name, method.Name);
                         _Index2Method[index] = method;
                     }
                 }
@@ -47,11 +47,10 @@ public static class RpcTable
             typeof(float), 
             typeof(string),
             typeof(Guid),
-            typeof(AccountProxy),
         };
         foreach (var type in builtinType)
         {
-            var index = HashFunction.StringToUint(type.Name);
+            var index = HashUtils.StringToUint(type.Name);
             _Index2Type[index] = type;
         }
     }
@@ -65,7 +64,7 @@ public static class RpcTable
                 var rpc = type.GetCustomAttribute<RpcAttribute>();
                 if (rpc != null)
                 {
-                    var index = HashFunction.StringToUint(type.Name);
+                    var index = HashUtils.StringToUint(type.Name);
                     _Index2Type[index] = type;
                 }
             }

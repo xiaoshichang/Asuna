@@ -12,5 +12,6 @@ public partial class GameServer : ServerBase
         base._RegisterBasicMessageHandlers();
         _RegisterMessageHandler(typeof(StubsDistributeNtf), _OnStubsDistributeNtf);
         _RegisterMessageHandler(typeof(StubRpc), _OnStubRpc);
+        _RegisterMessageHandler(typeof(CreateServerEntityNtf), _OnCreateServerEntity);
     }
 }

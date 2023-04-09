@@ -81,30 +81,7 @@ public partial class GateServer : ServerBase
         }
     }
     
-    private static bool _ConvertArgs(int argCount,  RepeatedField<ByteString> args,  RepeatedField<uint> typeIndexes, out object[] outArgs)
-    {
-        outArgs = new object[argCount];
-        for (var i = 0; i < argCount; i++)
-        {
-            var str = args[i].ToStringUtf8();
-            var type = RpcTable.GetTypeByIndex(typeIndexes[i]);
-            var obj = System.Text.Json.JsonSerializer.Deserialize(str, type);
-            
-            if (obj == null)
-            {
-                ADebug.Error($"_ConvertArgs {i}-th arg is null, do not supported.");
-                return false;
-            }
-            else
-            {
-                outArgs[i] = obj;
-            }
-        }
-        return true;
-    }
-    
-    
-    public void _OnAccountRpcFromClient(TcpSession session, object ntf)
+    private void _OnAccountRpcFromClient(TcpSession session, object ntf)
     {
         var rpc = ntf as AsunaShared.Message.AccountRpc;
         if (rpc == null)
@@ -126,14 +103,15 @@ public partial class GateServer : ServerBase
             ADebug.Error($"method not found {rpc.Method}");
             return;
         }
-        if (!_ConvertArgs(rpc.ArgsCount, rpc.Args, rpc.ArgsTypeIndex, out var args))
+
+        if (!RpcHelper.ConvertRpcArgs(rpc.ArgsCount, rpc.Args, rpc.ArgsTypeIndex, out var args))
         {
             return;
         }
         method.Invoke(account, args);
     }
     
-    public void _OnAccountRpcFromGame(TcpSession session, object ntf)
+    private void _OnAccountRpcFromGame(TcpSession session, object ntf)
     {
         var rpc = ntf as AsunaServer.Message.AccountRpc;
         if (rpc == null)
@@ -155,7 +133,7 @@ public partial class GateServer : ServerBase
             ADebug.Error($"method not found {rpc.Method}");
             return;
         }
-        if (!_ConvertArgs(rpc.ArgsCount, rpc.Args, rpc.ArgsTypeIndex, out var args))
+        if (!RpcHelper.ConvertRpcArgs(rpc.ArgsCount, rpc.Args, rpc.ArgsTypeIndex, out var args))
         {
             return;
         }

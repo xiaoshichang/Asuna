@@ -39,6 +39,7 @@ message StubRpc
   uint32 ArgsCount = 3;
   repeated uint32 ArgsTypeIndex = 4;
   repeated bytes Args = 5;
+  string Server = 6;
 }
 
 message AccountRpc
@@ -48,6 +49,14 @@ message AccountRpc
   int32 ArgsCount = 3;
   repeated uint32 ArgsTypeIndex = 4;
   repeated bytes Args = 5;
+}
+
+message CreateServerEntityNtf
+{
+  uint32 TypeIndex = 1;
+  int32 ArgsCount = 2;
+  repeated uint32 ArgsTypeIndex = 3;
+  repeated bytes Args = 4;
 }
 
 

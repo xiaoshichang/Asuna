@@ -14,7 +14,7 @@ namespace AsunaServer.Application
             _RegisterBasicMessageHandlers();
             _RegisterRpcIndex();
             _RegisterServerStubs();
-            _RegisterAvatarType();
+            _RegisterServerEntityTypes();
             _InitCoreAndNetwork();
             _TryConnectGMSever();
         }

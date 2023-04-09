@@ -43,4 +43,35 @@ public partial class GameServer : ServerBase
         }
     }
     
+    protected void _OnStubRpc(TcpSession session, object message)
+    {
+        if (message is not StubRpc rpc)
+        {
+            ADebug.Error($"unknown error.");
+            return;
+        }
+        var stub = EntityMgr.GetStub(rpc.StubName);
+        if (stub == null)
+        {
+            ADebug.Warning($"Stub not found {rpc.StubName}");
+            return;
+        }
+        var method = RpcTable.GetMethodByIndex(rpc.Method);
+        if (method == null)
+        {
+            ADebug.Warning($"method not found {rpc.Method}");
+            return;
+        }
+        var ok = _ConvertArgs(rpc, out var args);
+        if (!ok)
+        {
+            return;
+        }
+        if (!_CheckBeforeInvoke(method, rpc))
+        {
+            return;
+        }
+        method.Invoke(stub, args);
+    }
+    
 }

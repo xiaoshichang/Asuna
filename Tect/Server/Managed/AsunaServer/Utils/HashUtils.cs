@@ -5,7 +5,7 @@ using System.Reflection;
 namespace AsunaServer.Utils
 {
     
-    public static class HashFunction
+    public static class HashUtils
     {
     
         public static uint StringToUint(string str)
@@ -25,6 +25,12 @@ namespace AsunaServer.Utils
         public static uint RpcToUint(string typeName, string methodName)
         {
             var full = $"{typeName}.{methodName}";
+            return StringToUint(full);
+        }
+
+        public static uint ClassToUint(Type t)
+        {
+            var full = $"{t.Namespace}.{t.Name}";
             return StringToUint(full);
         }
         

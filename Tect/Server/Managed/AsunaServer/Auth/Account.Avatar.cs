@@ -17,8 +17,11 @@ public partial class Account
     }
 
     [Rpc]
-    private void OnSelectAvatarResult(AvatarLoginResult result)
+    private void OnSelectAvatarResult(AvatarLoginResult result, AvatarProxy proxy)
     {
         ADebug.Info($"OnSelectAvatar {result}");
+        _AvatarProxy = proxy;
     }
+
+    private AvatarProxy _AvatarProxy;
 }
